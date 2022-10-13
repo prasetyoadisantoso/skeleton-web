@@ -6,11 +6,11 @@ use App\Models\User;
 use App\Services\Generator;
 use Tests\TestCase;
 
-class A_PreparationTest extends TestCase
+class A_CRUDTest extends TestCase
 {
     public function testAccessHomePage()
     {
-        $this->getJson(route('test'))->assertStatus(200);
+        $this->getJson(route('test.home'))->assertStatus(200);
     }
 
     public function testAccessCreatePage()

@@ -8,9 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Sanctum\HasApiTokens;
-use Webpatser\Uuid\Uuid;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Sanctum\HasApiTokens;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Webpatser\Uuid\Uuid;
 
 class User extends Authenticatable
 {
@@ -19,6 +21,7 @@ class User extends Authenticatable
     use Notifiable;
     use SoftDeletes;
     use Notifiable;
+    use LogsActivity;
 
     public $incrementing = false;
 
@@ -111,5 +114,10 @@ class User extends Authenticatable
         Storage::delete('/public' . '/' . $delete_user->image);
 
         $this->where('id', '=', $delete_user->id)->delete();
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
     }
 }
