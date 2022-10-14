@@ -20,6 +20,18 @@ class TestAuthController extends Controller
 
     public function register($type)
     {
+        switch ($type) {
+            case 'administrator':
+                # code...
+                break;
 
+                case 'client':
+                    # code...
+                    break;
+
+            default:
+                # code...
+                break;
+        }
     }
 }
