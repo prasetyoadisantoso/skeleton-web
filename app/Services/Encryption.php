@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Crypt;
+
 class Encryption
 {
     // Encrypt Token

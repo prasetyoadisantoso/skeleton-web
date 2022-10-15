@@ -82,6 +82,11 @@ class User extends Authenticatable
         return $this->where('id', '=', $id)->first();
     }
 
+    public function GetUserByEmail($email)
+    {
+        return $this->where('email', '=', $email)->first();
+    }
+
     public function StoreUser($data = null, $role = null)
     {
         $user = $this->create([
@@ -94,6 +99,8 @@ class User extends Authenticatable
 
         $user->assignRole($role);
         $user->save();
+
+        return $user;
 
     }
 

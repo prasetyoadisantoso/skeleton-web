@@ -20,34 +20,42 @@ class PermissionSeeder extends Seeder
             [
                 'id' => '1',
                 'name' => 'dashboard',
+                'guard_name' => 'web'
             ],
             [
                 'id' => '2',
                 'name' => 'user-index',
+                'guard_name' => 'web'
             ],
             [
                 'id' => '3',
                 'name' => 'user-create',
+                'guard_name' => 'web'
             ],
             [
                 'id' => '4',
                 'name' => 'user-store',
+                'guard_name' => 'web'
             ],
             [
                 'id' => '5',
                 'name' => 'user-show',
+                'guard_name' => 'web'
             ],
             [
                 'id' => '6',
                 'name' => 'user-edit',
+                'guard_name' => 'web'
             ],
             [
                 'id' => '7',
                 'name' => 'user-update',
+                'guard_name' => 'web'
             ],
             [
                 'id' => '8',
                 'name' => 'user-delete',
+                'guard_name' => 'web'
             ],
 
         ]);

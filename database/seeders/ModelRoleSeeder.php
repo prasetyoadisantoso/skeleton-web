@@ -20,7 +20,7 @@ class ModelRoleSeeder extends Seeder
             // Administrator to Role
             [
                 'role_id' => '1',
-                'model_type' => 'App\Model\User',
+                'model_type' => 'App\Models\User',
 
                 // Administrator Department
                 'model_id' => 'c41833ee-2d65-400e-97f1-a47647326ab4'
@@ -29,7 +29,7 @@ class ModelRoleSeeder extends Seeder
             // Client to Role
             [
                 'role_id' => '2',
-                'model_type' => 'App\Model\User',
+                'model_type' => 'App\Models\User',
 
                 // Best Client
                 'model_id' => 'b11833ee-2d65-400e-97f1-a47647326ac2'

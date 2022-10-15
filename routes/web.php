@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\TestAuthController;
 use App\Http\Controllers\TestCRUDController;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use App\Mail\SendVerification;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +44,16 @@ Route::group([
         Route::prefix('auth')->group(function () {
             Route::get('register/page', [TestAuthController::class, 'index'])->name('test.register.home');
             Route::post('register/{type}', [TestAuthController::class, 'register'])->name('test.client.register');
+            Route::post('verify', [TestAuthController::class, 'verify'])->name('test.client.verify');
+            Route::post('resend/verification', [TestAuthController::class, 'resend_verification'])->name('test.client.resend');
+        });
+
+        /**
+         *  Send Email Verification via Browser
+         *  test it via `php artisan serve`, open url/test/verification in your browser
+         **/
+        Route::get('verification', function(){
+            Mail::to("example@gmail.com")->send(new SendVerification("Encrypted Token"));
         });
 
     });
