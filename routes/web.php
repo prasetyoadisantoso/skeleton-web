@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\TestAuthController;
 use App\Http\Controllers\TestCRUDController;
+use App\Http\Requests\TestAuthFormRequest;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Mail\SendVerification;
@@ -44,7 +45,8 @@ Route::group([
         Route::prefix('auth')->group(function () {
 
             // Page
-            Route::get('login/page', [TestAuthController::class, 'login_page'])->name('test.login.home');
+            Route::get('login/admin/page', [TestAuthController::class, 'admin_login_page'])->name('test.login.admin.home');
+            Route::get('login/client/page', [TestAuthController::class, 'client_login_page'])->name('test.login.client.home');
             Route::get('register/page', [TestAuthController::class, 'register_page'])->name('test.register.home');
             Route::get('verify/page', [TestAuthController::class, 'register_page'])->name('test.verify.home');
             Route::get('reset/page', [TestAuthController::class, 'reset_password_page'])->name('test.reset.home');
@@ -57,6 +59,8 @@ Route::group([
             Route::post('resend/reset-password', [TestAuthController::class, 'resend_reset_password'])->name('test.client.resend.reset');
             Route::post('check/reset-password', [TestAuthController::class, 'check_reset_password'])->name('test.client.check.reset');
             Route::post('reset-password', [TestAuthController::class, 'reset_password'])->name('test.client.reset');
+            Route::post('login/client', [TestAuthController::class, 'client_login'])->name('test.client.login');
+            Route::post('login/administrator', [TestAuthController::class, 'admin_login'])->name('test.admin.login');
 
         });
 

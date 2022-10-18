@@ -12,6 +12,8 @@ use App\Services\Generator;
 use App\Services\ResponseFormatter;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Exception;
 
 class TestAuthController extends Controller
 {
@@ -35,13 +37,74 @@ class TestAuthController extends Controller
         $this->email = $email;
     }
 
-    public function login_page()
+    public function admin_login_page()
     {
         $this->fileManagement->Logging($this->responseFormatter->successResponse([
             "Email" => "Email...",
             "Password" => "Password...",
             "Remember Me" => "Checkbox",
         ]));
+    }
+
+    public function client_login_page()
+    {
+        $this->fileManagement->Logging($this->responseFormatter->successResponse([
+            "Email" => "Email...",
+            "Password" => "Password...",
+            "Remember Me" => "Checkbox",
+        ]));
+    }
+
+    public function admin_login(TestAuthFormRequest $test)
+    {
+        $test->validated();
+        $user = $test->only(['email', 'password']);
+
+        try {
+            Auth::attempt($user, isset($user['remember']) ? 'true' : 'false');
+            $auth = Auth::user();
+            if ($auth != null) {
+                if ($auth->hasRole('Administrator')) {
+                    $this->fileManagement->Logging($this->responseFormatter->successResponse("Go to Dashboard"));
+                } else {
+                    Auth::logout();
+                    throw new Exception("Please check user credential", 1);
+
+                }
+            } else {
+                throw new Exception("User not found");
+            }
+        } catch (\Throwable$th) {
+            $this->fileManagement->Logging($this->responseFormatter->errorResponse(null, $th->getMessage()));
+        }
+
+    }
+
+    public function client_login(TestAuthFormRequest $test)
+    {
+        $test->validated();
+        $user = $test->only(['email', 'password']);
+        try {
+            Auth::attempt($user, isset($user['remember']) ? 'true' : 'false');
+            $auth = Auth::user();
+            if ($auth != null) {
+                if ($auth->hasRole('Client')) {
+                    if ($auth->email_verified_at != null) {
+                        $this->fileManagement->Logging($this->responseFormatter->successResponse("Go to Dashboard"));
+                    } else {
+                        Auth::logout();
+                        throw new Exception("Email not verified", 1);
+                    }
+                } else {
+                    Auth::logout();
+                    throw new Exception("User hasn't registered as client", 1);
+                }
+            } else {
+                throw new Exception("User not found");
+            }
+        } catch (\Throwable$th) {
+            $this->fileManagement->Logging($this->responseFormatter->errorResponse(null, $th->getMessage()));
+        }
     }
 
     public function register_page()
@@ -66,7 +129,7 @@ class TestAuthController extends Controller
         try {
             switch ($type) {
                 case 'client':
-                    $user_result = $this->user->StoreUser($client);
+                    $user_result = $this->user->StoreUser($client, 'Client');
                     $token_data = $this->token->StoreToken($user_result->id, $this->generator->GenerateWord());
                     $this->email->EmailVerification($user_result->email, $this->encryption->EncryptToken($token_data->token));
                     $this->fileManagement->Logging($this->responseFormatter->successResponse("Success"));
@@ -205,7 +268,7 @@ class TestAuthController extends Controller
             $data_token = $this->token->GetUUIDByToken($this->encryption->DecryptToken($data["token"]));
             $dataUser = $this->user->GetUserByID($data_token->user_id);
             $match_password = Hash::check($data['old_password'], $dataUser->password);
-            if($match_password == true) {
+            if ($match_password == true) {
                 $dataUser->password = $data['password'];
                 $dataUser->save();
                 DB::commit();
@@ -217,6 +280,6 @@ class TestAuthController extends Controller
             DB::rollBack();
             $this->fileManagement->Logging($this->responseFormatter->errorResponse($th->getMessage()));
         }
-
     }
+
 }

@@ -10,10 +10,6 @@ use Tests\TestCase;
 
 class B_AuthTest extends TestCase
 {
-    public function testAccessLoginPage()
-    {
-        $this->getJson(route('test.login.home'))->assertStatus(200);
-    }
 
     public function testAccessRegisterPage()
     {
@@ -104,6 +100,32 @@ class B_AuthTest extends TestCase
             "old_password" => $old_password,
             "password" => $new_password,
             "password_confirmation" => $confirm_new_password
+        ])->assertStatus(200);
+    }
+
+    public function testAccessAdminLoginPage()
+    {
+        $this->getJson(route('test.login.admin.home'))->assertStatus(200);
+    }
+
+    public function testAccessClientLoginPage()
+    {
+        $this->getJson(route('test.login.client.home'))->assertStatus(200);
+    }
+
+    public function testAdminLogin()
+    {
+        $this->postJson(route('test.admin.login'), [
+            "email" => "admin@email.com",
+            "password" => "123456",
+        ])->assertStatus(200);
+    }
+
+    public function testClientLogin()
+    {
+        $this->postJson(route('test.client.login'), [
+            "email" => "client@email.com",
+            "password" => "123456",
         ])->assertStatus(200);
     }
 

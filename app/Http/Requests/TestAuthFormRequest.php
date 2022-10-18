@@ -51,35 +51,45 @@ class TestAuthFormRequest extends FormRequest
                     'email' => 'required|email',
                 ];
 
-                case 'test.client.resend.reset':
-                    return [
-                        'email' => 'required|email',
-                    ];
+            case 'test.client.resend.reset':
+                return [
+                    'email' => 'required|email',
+                ];
 
-                    case 'test.client.check.reset':
-                        return [
-                            'token' => 'required',
-                        ];
-                        break;
+            case 'test.client.check.reset':
+                return [
+                    'token' => 'required',
+                ];
+                break;
 
-                        case 'test.client.reset':
-                            return [
-                                'old_password' => 'required',
-                                'password' => 'required|same:password_confirmation',
-                            ];
-                            break;
+            case 'test.client.reset':
+                return [
+                    'old_password' => 'required',
+                    'password' => 'required|same:password_confirmation',
+                ];
+                break;
 
-                            case 'test.reset.form':
-                                if (is_null($this->header('token'))) {
-                                    throw new Exception("Token is null");
-                                }
-                                return [
-                                ];
-                                break;
+            case 'test.reset.form':
+                if (is_null($this->header('token'))) {
+                    throw new Exception("Token is null");
+                }
+                return [
+                ];
+                break;
 
-                                case 'test.client.reset':
-                                    # code...
-                                    break;
+            case 'test.client.login':
+                return [
+                    "email" => "required|email",
+                    "password" => "required",
+                ];
+                break;
+
+            case 'test.admin.login':
+                return [
+                    "email" => "required|email",
+                    "password" => "required",
+                ];
+                break;
 
                 break;
 
