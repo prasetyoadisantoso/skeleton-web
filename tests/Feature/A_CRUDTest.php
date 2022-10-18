@@ -21,7 +21,9 @@ class A_CRUDTest extends TestCase
     public function testStoreUser()
     {
         $generator = new Generator();
-        $this->postJson(route('test.store'), $generator->GenerateFakeUser())->assertStatus(200);
+        for ($i = 0; $i < 2; $i++) {
+            $this->postJson(route('test.store'), $generator->GenerateFakeUser())->assertStatus(200);
+        }
     }
 
     public function testGetDetailUser()
@@ -44,13 +46,13 @@ class A_CRUDTest extends TestCase
         $new_data = $generator->GenerateFakeUser();
 
         $this->putJson(route('test.update', $get_user_id),
-  [
-            'name' => $new_data['name'],
-            'email' => $new_data['email'],
-            'image' => $new_data['image'],
-            'password' => '',
-            'password_confirmation' => '',
-        ]
+            [
+                'name' => $new_data['name'],
+                'email' => $new_data['email'],
+                'image' => $new_data['image'],
+                'password' => '',
+                'password_confirmation' => '',
+            ]
         )->assertStatus(200);
     }
 

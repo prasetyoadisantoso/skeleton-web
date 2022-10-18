@@ -11,19 +11,29 @@ use Illuminate\Support\Facades\DB;
 
 class TestCRUDController extends Controller
 {
-    public function index(
-        User $user,
-        FileManagement $filemanagement,
-        ResponseFormatter $response)
-    {
-        $filemanagement->Logging($response->successResponse($user->GetAllUser(), 'Get all user data'));
+
+    protected $fileManagement, $responseFormatter, $user, $upload;
+
+    public function __construct(
+        ResponseFormatter $responseFormatter,
+        FileManagement $fileManagement,
+        Upload $upload,
+        User $user
+    ) {
+        $this->responseFormatter = $responseFormatter;
+        $this->fileManagement = $fileManagement;
+        $this->upload = $upload;
+        $this->user = $user;
     }
 
-    public function create(
-        FileManagement $filemanagement,
-        ResponseFormatter $response)
+    public function index()
     {
-        $filemanagement->Logging($response->successResponse([
+        $this->fileManagement->Logging($this->responseFormatter->successResponse($this->user->GetAllUser(), 'Get all user data'));
+    }
+
+    public function create()
+    {
+        $this->fileManagement->Logging($this->responseFormatter->successResponse([
             'type' => 'form',
             'name' => 'Andy Reztyan',
             'email' => 'andy@email.com',
@@ -32,12 +42,7 @@ class TestCRUDController extends Controller
         ], 'Get form input'));
     }
 
-    public function store(
-        TestFormRequest $test,
-        User $user,
-        FileManagement $filemanagement,
-        Upload $upload,
-        ResponseFormatter $response)
+    public function store(TestFormRequest $test)
     {
         $test->validated();
         $validated_data = $test->only(['name', 'email', 'password', 'image', 'phone']);
@@ -45,35 +50,27 @@ class TestCRUDController extends Controller
         DB::beginTransaction();
         try {
             if ($test->file('image')) {
-                $image = $upload->UploadImageUserToStorage($validated_data['image']);
+                $image = $this->upload->UploadImageUserToStorage($validated_data['image']);
                 $validated_data['image'] = $image;
             }
-            $result = $user->StoreUser($validated_data);
-            $filemanagement->Logging($response->successResponse($result, 'Data stored successfully'));
+            $result = $this->user->StoreUser($validated_data);
+            $this->fileManagement->Logging($this->responseFormatter->successResponse($result, 'Data stored successfully'));
             DB::commit();
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             DB::rollback();
-            $filemanagement->Logging($response->errorResponse($th->getMessage()));
+            $this->fileManagement->Logging($this->responseFormatter->errorResponse($th->getMessage()));
         }
     }
 
-    public function show(
-        FileManagement $fileManagement,
-        ResponseFormatter $responseFormatter,
-        User $user,
-        $id)
+    public function show($id)
     {
-        $fileManagement->Logging($responseFormatter->successResponse($user->GetUserByID($id), 'Get user detail by id'));
+        $this->fileManagement->Logging($this->responseFormatter->successResponse($this->user->GetUserByID($id), 'Get user detail by id'));
     }
 
-    public function edit(
-        FileManagement $fileManagement,
-        ResponseFormatter $responseFormatter,
-        User $user,
-        $id)
+    public function edit($id)
     {
-        $data_user = $user->GetUserByID($id);
-        $fileManagement->Logging($responseFormatter->successResponse([
+        $data_user = $this->user->GetUserByID($id);
+        $this->fileManagement->Logging($this->responseFormatter->successResponse([
             'Input ID (hidden)' => $data_user->id,
             'Input Name' => $data_user->name,
             'Input Email' => $data_user->email,
@@ -81,13 +78,7 @@ class TestCRUDController extends Controller
         ], 'Get user detail by id to place into each form field'));
     }
 
-    public function update(
-        TestFormRequest $test,
-        FileManagement $fileManagement,
-        ResponseFormatter $responseFormatter,
-        User $user,
-        Upload $upload,
-        $id)
+    public function update(TestFormRequest $test, $id)
     {
         $test->validated();
         $new_user_data = $test->only([
@@ -97,39 +88,35 @@ class TestCRUDController extends Controller
         DB::beginTransaction();
         try {
             if ($test->file('image')) {
-                $image = $upload->UploadImageUserToStorage($new_user_data['image']);
+                $image = $this->upload->UploadImageUserToStorage($new_user_data['image']);
                 $new_user_data['image'] = $image;
             }
-            $result = $user->UpdateUser($new_user_data, $id);
-            $fileManagement->Logging($responseFormatter->successResponse([
+            $result = $this->user->UpdateUser($new_user_data, $id);
+            $this->fileManagement->Logging($this->responseFormatter->successResponse([
                 'ID' => $id,
                 'New Data' => $new_user_data,
                 'Result' => $result,
             ], 'Update old user into new user'));
             DB::commit();
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             DB::rollback();
-            $fileManagement->Logging($responseFormatter->errorResponse($th->getMessage()));
+            $this->fileManagement->Logging($this->responseFormatter->errorResponse($th->getMessage()));
         }
     }
 
-    public function delete(
-        FileManagement $fileManagement,
-        ResponseFormatter $responseFormatter,
-        User $user,
-        $id)
+    public function delete($id)
     {
         DB::beginTransaction();
         try {
-            $delete = $user->DeleteUser($id);
+            $delete = $this->user->DeleteUser($id);
             DB::commit();
 
-            $fileManagement->Logging($responseFormatter->successResponse([
+            $this->fileManagement->Logging($this->responseFormatter->successResponse([
                 'status' => $delete,
             ], 'Data deleted successfully'));
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             DB::rollback();
-            $fileManagement->Logging($responseFormatter->errorResponse($th->getMessage()));
+            $this->fileManagement->Logging($this->responseFormatter->errorResponse($th->getMessage()));
         }
     }
 }

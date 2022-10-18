@@ -42,10 +42,22 @@ Route::group([
 
         // Auth Test
         Route::prefix('auth')->group(function () {
-            Route::get('register/page', [TestAuthController::class, 'index'])->name('test.register.home');
+
+            // Page
+            Route::get('login/page', [TestAuthController::class, 'login_page'])->name('test.login.home');
+            Route::get('register/page', [TestAuthController::class, 'register_page'])->name('test.register.home');
+            Route::get('verify/page', [TestAuthController::class, 'register_page'])->name('test.verify.home');
+            Route::get('reset/page', [TestAuthController::class, 'reset_password_page'])->name('test.reset.home');
+            Route::get('reset/form', [TestAuthController::class, 'reset_password_form'])->name('test.reset.form');
+
+            // Logic
             Route::post('register/{type}', [TestAuthController::class, 'register'])->name('test.client.register');
             Route::post('verify', [TestAuthController::class, 'verify'])->name('test.client.verify');
             Route::post('resend/verification', [TestAuthController::class, 'resend_verification'])->name('test.client.resend');
+            Route::post('resend/reset-password', [TestAuthController::class, 'resend_reset_password'])->name('test.client.resend.reset');
+            Route::post('check/reset-password', [TestAuthController::class, 'check_reset_password'])->name('test.client.check.reset');
+            Route::post('reset-password', [TestAuthController::class, 'reset_password'])->name('test.client.reset');
+
         });
 
         /**
