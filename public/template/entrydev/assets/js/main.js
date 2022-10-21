@@ -136,3 +136,56 @@ $('#register-submit').click(function () {
     }
 
 });
+
+// Verification
+$("#verification-form").validate({
+    rules: {
+        email: {
+            required: true,
+            email: true,
+        },
+    },
+    messages: {
+        email: {
+            required: "<small style='color: red;'>email is required</small>",
+            email: "<small style='color: red;'>must be contains email</small>"
+        },
+    },
+    highlight: function (element) {
+        $(element).closest('.form-control').addClass('is-invalid');
+    },
+    unhighlight: function (element) {
+        $(element).closest('.form-control').removeClass('is-invalid');
+    },
+    errorPlacement: function (error, element) {
+
+        if (element.attr("name") == "email") {
+            error.appendTo(".error-email");
+        }
+
+    },
+});
+
+$('#verification-submit').click(function () {
+    let a = $("#verification-form").valid();
+    if (a === true) {
+        $("#verification-form").submit();
+        Swal.fire({
+            title:"Email Sent",
+            text:"Email verification has been sent",
+            icon:'success',
+            customClass: {
+                popup: "rad-25",
+                confirmButton: "btn btn-success px-5 rad-25",
+            },
+            buttonsStyling: false,
+    });
+    } else {
+        Swal.fire({
+            title: "Email Not Sent",
+            text: "Exception Message",
+            icon: 'error'
+        });
+    }
+
+});
