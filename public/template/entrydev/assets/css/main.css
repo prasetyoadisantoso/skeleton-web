@@ -1,0 +1,16 @@
+a {
+    color: #06283d;
+    text-decoration: none;
+}
+
+.card {
+    border-radius:8px;
+    border: none;
+    background: #ffffff;
+    box-shadow: 5px 5px 8px #6d797d;
+}
+
+.login {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
