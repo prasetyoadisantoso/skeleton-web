@@ -75,5 +75,6 @@ class Kernel extends HttpKernel
 
         'lscache' => \Litespeed\LSCache\LSCacheMiddleware::class,
         'lstags' => \Litespeed\LSCache\LSTagsMiddleware::class,
+
     ];
 }
