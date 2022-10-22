@@ -1,3 +1,7 @@
+html, body {
+    height: 100%;
+  }
+
 a {
     color: #06283d;
     text-decoration: none;
@@ -27,3 +31,9 @@ a {
 {
     color: #0F044C;
 }
+.footer {
+    position: relative;
+    margin-top: -50px; /* negative value of footer height */
+    clear:both;
+
+  }
