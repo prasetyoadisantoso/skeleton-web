@@ -37,3 +37,15 @@ a {
     clear:both;
 
   }
+
+  @media(max-width: 768px) {
+    .hide {
+        display: none;
+    }
+    .footer {
+        position: relative;
+        margin-top: 0px; /* negative value of footer height */
+        clear:both;
+
+      }
+  }
