@@ -87,8 +87,18 @@ class User extends Authenticatable
         return $this->where('email', '=', $email)->first();
     }
 
+    public function isUserVerified($email = null)
+    {
+        return $this->where('email', '=', $email)->get('email_verified_at');
+    }
+
     public function StoreUser($data = null, $role = null)
     {
+        if (isset($data['image']) == false || isset($data['phone']) == false) {
+            $data['image'] = null;
+            $data['phone'] = null;
+        }
+
         $user = $this->create([
             'name' => $data['name'],
             'email' => $data['email'],

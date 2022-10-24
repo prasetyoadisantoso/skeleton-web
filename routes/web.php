@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\TestAuthController;
 use App\Http\Controllers\TestCRUDController;
-use App\Http\Requests\TestAuthFormRequest;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Mail\SendVerification;
@@ -20,6 +20,7 @@ use App\Mail\SendVerification;
 
 Route::group([
     'prefix' => LaravelLocalization::setlocale(),
+    'middleware' => ['localeSessionRedirect', 'localizationRedirect'],
 ], function () {
     // Home Page
     Route::get('/', function () {
@@ -72,6 +73,24 @@ Route::group([
             Mail::to("example@gmail.com")->send(new SendVerification("Encrypted Token"));
         });
 
+    });
+
+    Route::get('/demo', function () {
+        return new App\Mail\SendVerification("1111");
+    });
+
+    Route::prefix('authentication')->group(function(){
+        Route::get('login/page', [AuthController::class, 'login_page'])->name('login.page');
+        Route::get('register/page', [AuthController::class, 'register_page'])->name('register.page');
+        Route::get('forgot_password/page', [AuthController::class, 'forgot_password_page'])->name('forgot.password.page');
+        Route::get('reset_password/page/{token}', [AuthController::class, 'reset_password_page'])->name('reset.password.page');
+        Route::post('register/{type}', [AuthController::class, 'register_client'])->name('register');
+        Route::get('resend_verification/page', [AuthController::class, 'resend_verification_page'])->name('resend.verification.page');
+        Route::post('resend_verification', [AuthController::class, 'resend_verification'])->name('resend.verification');
+        Route::get('verify/{token}', [AuthController::class, 'verify'])->name('verify');
+        Route::post('forgot_password', [AuthController::class, 'forgot_password'])->name('forgot.password');
+        Route::post('reset_password', [AuthController::class, 'reset_password'])->name('reset.password');
+        Route::post('login', [AuthController::class, 'login'])->name('login');
     });
 
 });

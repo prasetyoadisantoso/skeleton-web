@@ -33,15 +33,15 @@ $('#login-submit').click(function () {
     if (a === true) {
         $("#login-form").submit();
         Swal.fire({
-            title:"Login Success",
-            text:"Redirect to dashboard",
-            icon:'success',
+            title: "Login Success",
+            text: "Redirect to dashboard",
+            icon: 'success',
             customClass: {
                 popup: "rad-25",
                 confirmButton: "btn btn-success px-5 rad-25",
             },
             buttonsStyling: false,
-    });
+        });
     } else {
         Swal.fire({
             title: "Login Failed",
@@ -108,16 +108,16 @@ $('#register-submit').click(function () {
     let a = $("#register-form").valid();
     if (a === true) {
         $("#register-form").submit();
-        Swal.fire({
-            title:"Register Success",
-            text:"Email verification has been sent",
-            icon:'success',
-            customClass: {
-                popup: "rad-25",
-                confirmButton: "btn btn-success px-5 rad-25",
-            },
-            buttonsStyling: false,
-    });
+        // Swal.fire({
+        //     title: "Register Success",
+        //     text: "Email verification has been sent",
+        //     icon: 'success',
+        //     customClass: {
+        //         popup: "rad-25",
+        //         confirmButton: "btn btn-success px-5 rad-25",
+        //     },
+        //     buttonsStyling: false,
+        // });
     } else {
         Swal.fire({
             title: "Register Failed",
@@ -156,15 +156,15 @@ $('#verification-submit').click(function () {
     if (a === true) {
         $("#verification-form").submit();
         Swal.fire({
-            title:"Email Sent",
-            text:"Email verification has been sent",
-            icon:'success',
+            title: "Email Sent",
+            text: "Email verification has been sent",
+            icon: 'success',
             customClass: {
                 popup: "rad-25",
                 confirmButton: "btn btn-success px-5 rad-25",
             },
             buttonsStyling: false,
-    });
+        });
     } else {
         Swal.fire({
             title: "Email Not Sent",
@@ -203,15 +203,15 @@ $('#forgot-password-submit').click(function () {
     if (a === true) {
         $("#forgot-password-form").submit();
         Swal.fire({
-            title:"Email Sent",
-            text:"Email reset password has been sent",
-            icon:'success',
+            title: "Email Sent",
+            text: "Email reset password has been sent",
+            icon: 'success',
             customClass: {
                 popup: "rad-25",
                 confirmButton: "btn btn-success px-5 rad-25",
             },
             buttonsStyling: false,
-    });
+        });
     } else {
         Swal.fire({
             title: "Email Not Sent",
@@ -266,15 +266,15 @@ $('#reset-password-submit').click(function () {
     if (a === true) {
         $("#reset-password-form").submit();
         Swal.fire({
-            title:"Password Updated",
-            text:"Password update successfully",
-            icon:'success',
+            title: "Password Updated",
+            text: "Password update successfully",
+            icon: 'success',
             customClass: {
                 popup: "rad-25",
                 confirmButton: "btn btn-success px-5 rad-25",
             },
             buttonsStyling: false,
-    });
+        });
     } else {
         Swal.fire({
             title: "Password Update Failed",
