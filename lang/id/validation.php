@@ -13,9 +13,9 @@ return [
     |
     */
 
-    'accepted' => 'The :attribute must be accepted.',
-    'accepted_if' => 'The :attribute must be accepted when :other is :value.',
-    'active_url' => 'The :attribute is not a valid URL.',
+    'accepted' => ':attribute harus disetujui.',
+    'accepted_if' => ':attribute harus disetujui ketika :other adalah :value.',
+    'active_url' => ':attribute bukan URL yang valid',
     'after' => 'The :attribute must be a date after :date.',
     'after_or_equal' => 'The :attribute must be a date after or equal to :date.',
     'alpha' => 'The :attribute must only contain letters.',
@@ -123,12 +123,12 @@ return [
         'string' => 'The :attribute must be :size characters.',
     ],
     'starts_with' => 'The :attribute must start with one of the following: :values.',
-    'string' => 'The :attribute must be a string.',
-    'timezone' => 'The :attribute must be a valid timezone.',
-    'unique' => 'The :attribute has already been taken.',
-    'uploaded' => 'The :attribute failed to upload.',
-    'url' => 'The :attribute must be a valid URL.',
-    'uuid' => 'The :attribute must be a valid UUID.',
+    'string' => ':attribute harus menggunakan kalimat.',
+    'timezone' => ':attribute harus menggunakan zona waktu yang valid',
+    'unique' => ':attribute telah ada di database.',
+    'uploaded' => ':attribute gagal untuk mengunggah.',
+    'url' => ':attribute harus menggunakan URL yang valid',
+    'uuid' => ':attribute harus menggunakan UUID yang valid',
 
     /*
     |--------------------------------------------------------------------------
@@ -160,6 +160,6 @@ return [
 
     'attributes' => [],
 
-    'phone' => 'The :attribute field contains an invalid number.',
+    'phone' => ':attribute form berisi angka yang tidak valid.',
 
 ];

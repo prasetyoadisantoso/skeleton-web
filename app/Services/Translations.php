@@ -13,6 +13,7 @@ class Translations {
         $this->authResetPassword = __('auth.reset_password');
         $this->authMessages = __('auth.messages');
         $this->authVerification = __('auth.verification');
+        $this->authValidation = __('auth.validation');
 
         // Email
         $this->emailVerification = __('mail.verification');

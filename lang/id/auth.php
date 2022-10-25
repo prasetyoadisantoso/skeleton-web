@@ -25,10 +25,19 @@ return [
         'user_not_registered' => 'User tidak terdaftar',
         'user_not_found' => 'User tidak ditemukan',
         'user_verified' => 'User terverifikasi',
-        'email_sent' => 'Email terikirim',
+        'email_sent' => 'Email terkirim',
         'token_invalid' => 'Token Tidak Terdaftar',
         'password_change' => 'Password telah diganti',
         'password_not_match' => 'Password tidak cocok',
+    ],
+
+    'validation' => [
+        'fullname_required' => 'wajib menggunakan nama lengkap',
+        'email_required' => 'wajib memasukkan email',
+        'email_contained' => 'wajib menggunakan alamat email',
+        'password_required' => 'wajib memasukkan password',
+        'confirm_password_required' => 'wajib memasukkan passwod konfirmasi',
+        'confirm_password_same' => 'password konfirmasi harus sama dengan password'
     ],
 
     'login' => [

@@ -31,6 +31,15 @@ return [
         'password_not_match' => 'Password not match',
     ],
 
+    'validation' => [
+        'fullname_required' => 'full name is required',
+        'email_required' => 'email is required',
+        'email_contained' => 'must be contained email format',
+        'password_required' => 'password is required',
+        'confirm_password_required' => 'confirm password is required',
+        'confirm_password_same' => 'password confirmation must be same with password'
+    ],
+
     'login' => [
         "title" => 'Login',
         "header" => 'Login Page',

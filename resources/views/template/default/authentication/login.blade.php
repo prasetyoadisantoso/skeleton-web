@@ -52,10 +52,10 @@
     },
     messages: {
         email: {
-            required: "<small style='color: red;'>email is required</small>",
-            email: "<small style='color: red;'>must be contains email</small>"
+            required: "<small style='color: red;'>{{$email_required}}</small>",
+            email: "<small style='color: red;'>{{$email_contained}}</small>"
         },
-        password: "<small style='color: red;'>password is required</small>"
+        password: "<small style='color: red;'>{{$password_required}}</small>"
     },
     errorPlacement: function (error, element) {
 

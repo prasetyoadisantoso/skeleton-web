@@ -57,11 +57,11 @@ $("#reset-password-form").validate({
         }
     },
     messages: {
-        old_password: "<small style='color: red;'>password is required</small>",
-        new_password: "<small style='color: red;'>password is required</small>",
-        new_confirm_password: {
-            required: "<small style='color: red;'>password confirmation is required</small>",
-            equalTo: "<small style='color: red;'>password confirmation is must be same with new password</small>",
+        old_password: "<small style='color: red;'>{{$password_required}}</small>",
+        new_password: "<small style='color: red;'>{{$password_required}}</small>",
+        confirm_password: {
+            required: "<small style='color: red;'>{{$confirm_password_required}}</small>",
+            equalTo: "<small style='color: red;'>{{$confirm_password_same}}</small>",
         }
     },
     errorPlacement: function (error, element) {

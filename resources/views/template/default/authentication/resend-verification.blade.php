@@ -49,8 +49,8 @@ $("#verification-form").validate({
     },
     messages: {
         email: {
-            required: "<small style='color: red;'>email is required</small>",
-            email: "<small style='color: red;'>must be contains email</small>"
+            required: "<small style='color: red;'>{{$email_required}}</small>",
+            email: "<small style='color: red;'>{{$email_contained}}</small>"
         },
     },
     errorPlacement: function (error, element) {

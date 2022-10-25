@@ -62,15 +62,15 @@ $("#register-form").validate({
         }
     },
     messages: {
-        name: "<small style='color: red;'>full name is required</small>",
+        name: "<small style='color: red;'>{{$fullname_required}}</small>",
         email: {
-            required: "<small style='color: red;'>email is required</small>",
-            email: "<small style='color: red;'>must be contains email</small>"
+            required: "<small style='color: red;'>{{$email_required}}</small>",
+            email: "<small style='color: red;'>{{$email_contained}}</small>"
         },
-        password: "<small style='color: red;'>password is required</small>",
+        password: "<small style='color: red;'>{{$password_required}}</small>",
         password_confirmation: {
-            required: "<small style='color: red;'>password confirmation is required</small>",
-            equalTo: "<small style='color: red;'>password confirmation is must be same with password</small>",
+            required: "<small style='color: red;'>{{$confirm_password_required}}</small>",
+            equalTo: "<small style='color: red;'>{{$confirm_password_same}}</small>",
         }
     },
     errorPlacement: function (error, element) {

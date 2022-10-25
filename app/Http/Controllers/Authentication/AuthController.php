@@ -12,10 +12,10 @@ use App\Services\FileManagement;
 use App\Services\Generator;
 use App\Services\ResponseFormatter;
 use App\Services\Translations;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 use Exception;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -41,22 +41,81 @@ class AuthController extends Controller
         $this->responseFormatter = $responseFormatter;
     }
 
+    public function login_page()
+    {
+        $translation_login = $this->translation->authLogin;
+        $translation_messages = $this->translation->authMessages;
+        $translation_validation = $this->translation->authValidation;
+        return view('template.default.authentication.login', array_merge($translation_login, $translation_messages, $translation_validation));
+    }
+
+    public function register_page()
+    {
+        $translation_registration = $this->translation->authRegistration;
+        $translation_messages = $this->translation->authMessages;
+        $translation_validation = $this->translation->authValidation;
+        return view('template.default.authentication.registration', array_merge($translation_registration, $translation_messages, $translation_validation));
+    }
+
+    public function resend_verification_page()
+    {
+        $translation_verification = $this->translation->authVerification;
+        $translation_messages = $this->translation->authMessages;
+        $translation_validation = $this->translation->authValidation;
+        return view('template.default.authentication.resend-verification', array_merge($translation_verification, $translation_messages, $translation_validation));
+    }
+
+    public function forgot_password_page()
+    {
+        $translation_forgot_password = $this->translation->authForgotPassword;
+        $translation_messages = $this->translation->authMessages;
+        $translation_validation = $this->translation->authValidation;
+        return view('template.default.authentication.forgot-password', array_merge($translation_forgot_password, $translation_messages, $translation_validation));
+    }
+
+    public function reset_password_page($token)
+    {
+        $data_token = $this->token->GetUUIDByToken($this->encryption->DecryptToken($token));
+        $dataUser = $this->user->GetUserByID($data_token->user_id);
+
+        $translation_resetpassword = $this->translation->authResetPassword;
+        $translation_messages = $this->translation->authMessages;
+        $translation_validation = $this->translation->authValidation;
+
+        try {
+            if (is_null($dataUser)) {
+                throw new Exception($this->translation->authMessages['token_invalid']);
+            } else {
+                return view('template.default.authentication.reset-password', array_merge([
+                    'token' => $token,
+                ], $translation_resetpassword, $translation_messages, $translation_validation));
+            }
+        } catch (\Throwable$th) {
+            return redirect()->route('forgot.password.page')->with([
+                'error' => $th->getMessage(),
+            ]);
+        }
+    }
+
     public function login(AuthFormRequest $request)
     {
         $request->validated();
-        $user = $request->only(['email', 'password', 'remember_me']);
+        $user = $request->only(['email', 'password']);
+        $remember_me = $request->only(['remember_me']);
+        Auth::attempt($user, $remember_me != null ? true : false);
+        $auth = Auth::user();
         try {
-            Auth::attempt($user, isset($user['remember_me']) ? 'true' : 'false');
-            $auth = Auth::user();
             if ($auth != null) {
                 if ($auth->hasRole('Client')) {
                     if ($auth->email_verified_at != null) {
                         return redirect()->route('login.page')->with([
-                            'success' => $this->translation->authMessages['login_success']
+                            'success' => $this->translation->authMessages['login_success'],
                         ]);
                     } else {
                         Auth::logout();
-                        throw new Exception($this->translation->authMessages['email_not_verified'], 1);
+                        return redirect()->route('resend.verification.page')->with([
+                            'error' => $this->translation->authMessages['email_not_verified']
+                        ]);
                     }
                 } else {
                     Auth::logout();
@@ -67,37 +126,14 @@ class AuthController extends Controller
             }
         } catch (\Throwable$th) {
             return redirect()->route('login.page')->with([
-                'error' => $th->getMessage()
+                'error' => $th->getMessage(),
             ]);
         }
     }
 
-    public function login_page()
+    public function logout()
     {
-        $translation_login = $this->translation->authLogin;
-        $translation_messages = $this->translation->authMessages;
-        return view('template.default.authentication.login', array_merge($translation_login, $translation_messages));
-    }
-
-    public function register_page()
-    {
-        $translation_registration = $this->translation->authRegistration;
-        $translation_messages = $this->translation->authMessages;
-        return view('template.default.authentication.registration', array_merge($translation_registration, $translation_messages));
-    }
-
-    public function resend_verification_page()
-    {
-        $translation_verification = $this->translation->authVerification;
-        $translation_messages = $this->translation->authMessages;
-        return view('template.default.authentication.resend-verification', array_merge($translation_verification, $translation_messages));
-    }
-
-    public function forgot_password_page()
-    {
-        $translation_forgot_password = $this->translation->authForgotPassword;
-        $translation_messages = $this->translation->authMessages;
-        return view('template.default.authentication.forgot-password', array_merge($translation_forgot_password, $translation_messages));
+        return Auth::logout();
     }
 
     public function register_client(AuthFormRequest $request, $type)
@@ -123,7 +159,7 @@ class AuthController extends Controller
         } catch (\Throwable$th) {
             DB::rollBack();
             return redirect()->route('register.page')->with([
-                'error' => $th->getMessage()
+                'error' => $th->getMessage(),
             ]);
         }
     }
@@ -139,11 +175,13 @@ class AuthController extends Controller
             $getToken = $this->token->StoreToken($getUser->id, $this->generator->GenerateWord());
             $this->email->EmailVerification($getUser->email, $this->encryption->EncryptToken($getToken->token));
             DB::commit();
-            return redirect()->route('resend.verification.page');
+            return redirect()->route('resend.verification.page')->with([
+                'success' => $this->translation->authMessages['email_sent']
+            ]);
         } catch (\Throwable$th) {
             DB::rollBack();
             return redirect()->route('resend.verification.page')->with([
-                'error' => $th->getMessage()
+                'error' => $th->getMessage(),
             ]);
         }
     }
@@ -160,12 +198,12 @@ class AuthController extends Controller
             $this->token->DeleteToken($dataUser->id);
             DB::commit();
             return redirect()->route('login.page')->with([
-                'success' => $this->translation->authMessages['user_verified']
+                'success' => $this->translation->authMessages['user_verified'],
             ]);
         } catch (\Throwable$th) {
             DB::rollBack();
             return redirect()->route('login.page')->with([
-                'error' => $th->getMessage()
+                'error' => $th->getMessage(),
             ]);
         }
     }
@@ -178,40 +216,20 @@ class AuthController extends Controller
         DB::beginTransaction();
         try {
             $getUser = $this->user->GetUserByEmail($email['email']);
+            if(is_null($getUser)){
+                throw new Exception($this->translation->authMessages['user_not_found']);
+            }
             $getToken = $this->token->StoreToken($getUser->id, $this->generator->GenerateWord());
             $this->email->EmailResetPassword($getUser->email, $this->encryption->EncryptToken($getToken->token));
             DB::commit();
 
             return redirect()->route('forgot.password.page')->with([
-                'success' => $this->translation->authMessages['email_sent']
+                'success' => $this->translation->authMessages['email_sent'],
             ]);
         } catch (\Throwable$th) {
             DB::rollBack();
             return redirect()->route('forgot.password.page')->with([
-                'error' => $th->getMessage()
-            ]);
-        }
-    }
-
-    public function reset_password_page($token)
-    {
-        $data_token = $this->token->GetUUIDByToken($this->encryption->DecryptToken($token));
-        $dataUser = $this->user->GetUserByID($data_token->user_id);
-
-        $translation_resetpassword = $this->translation->authResetPassword;
-        $translation_messages = $this->translation->authMessages;
-
-        try {
-            if (is_null($dataUser)) {
-                throw new Exception($this->translation->authMessages['token_invalid']);
-            } else {
-                return view('template.default.authentication.reset-password', array_merge([
-                    'token' => $token
-                ], $translation_resetpassword, $translation_messages));
-            }
-        } catch (\Throwable $th) {
-            return redirect()->route('forgot.password.page')->with([
-                'error' => $th->getMessage()
+                'error' => $th->getMessage(),
             ]);
         }
     }
@@ -230,7 +248,7 @@ class AuthController extends Controller
                 $dataUser->save();
                 DB::commit();
                 return redirect()->route('login.page')->with([
-                    'success' => $this->translation->authMessages['password_change']
+                    'success' => $this->translation->authMessages['password_change'],
                 ]);
             } else {
                 throw new Exception($this->translation->authMessages['password_not_match'], 1);
