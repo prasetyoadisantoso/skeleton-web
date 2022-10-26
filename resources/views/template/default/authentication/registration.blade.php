@@ -4,9 +4,12 @@
 
 @include('template.default.authentication.partial.flash')
 
-<div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
-    <div class="card  w-25 w-md-75">
-        <div class="card-header">
+<div class="d-flex flex-column min-vh-100 justify-content-center align-items-center bg-light">
+    <div class="card  w-25 w-md-75 border-0 shadow rounded-4">
+        <div class="card-header bg-white rounded-4 border-0">
+            <div class="d-flex justify-content-center my-3">
+                <a href="{{url('/')}}"><img src="https://laravel.com/img/logomark.min.svg" alt="Laravel Logo"></a>
+            </div>
             <div class="d-flex justify-content-center">
                 <h5><i class="fa-solid fa-clipboard-check"></i>&nbsp;{{$header}}</h5>
             </div>
@@ -32,7 +35,7 @@
                 <button type="submit" class="btn btn-primary w-100" id="register-submit">{{$register}}</button>
             </div>
         </div>
-        <div class="card-footer">
+        <div class="card-footer rounded-4 border-0 bg-white pb-3">
             <div class="d-flex justify-content-between">
                 <a href="{{route('forgot.password.page')}}">{{$forgot_password}}</a><a href="{{route('login.page')}}">{{$sign_in}}</a>
             </div>

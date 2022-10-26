@@ -21,6 +21,9 @@ class Translations {
 
         // Sidebar
         $this->sidebar = __('sidebar');
+
+        // Main Dashboard
+        $this->main = __('main');
     }
 
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Services\GlobalVariable;
 use App\Services\Translations;
-use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
@@ -16,15 +15,19 @@ class MainController extends Controller
         $this->middleware(['auth', 'verified', 'role:Administrator']);
         $this->global = $global;
         $this->translation = $translation;
+
+        // Global Variable
+        $global->GlobalAdmin('Dashboard');
+        $global->GlobalLanguage();
     }
 
     public function index()
     {
-        return response()->json([
-            'report' => 'Success',
-            'global_user' => $this->global->AuthUser(),
-            'global_system_name' => $this->global->SystemName(),
-            'sidebar_dashboard' => $this->translation->sidebar,
-        ]);
+        $global_user_name = $this->global->AuthUser()->only(['name']);
+        $global_system_name = $this->global->SystemName();
+        $translation_sidebar =  $this->translation->sidebar;
+        $translation_main = $this->translation->main;
+
+        return view('template.default.dashboard.main.home', array_merge($global_user_name, $global_system_name, $translation_sidebar, $translation_main));
     }
 }

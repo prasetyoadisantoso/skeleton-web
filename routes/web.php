@@ -92,6 +92,11 @@ Route::group([
         Route::post('forgot_password', [AuthController::class, 'forgot_password'])->name('forgot.password');
         Route::post('reset_password', [AuthController::class, 'reset_password'])->name('reset.password');
         Route::post('login', [AuthController::class, 'login'])->name('login');
+        Route::get('logout', function () {
+            Session::flush();
+            Auth::logout();
+            return redirect(url('/'));
+        })->name('logout');
     });
 
     Route::prefix('dashboard')->group(function(){
