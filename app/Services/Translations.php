@@ -18,6 +18,9 @@ class Translations {
         // Email
         $this->emailVerification = __('mail.verification');
         $this->emailForgotPassword =__('mail.reset_password');
+
+        // Sidebar
+        $this->sidebar = __('sidebar');
     }
 
 }

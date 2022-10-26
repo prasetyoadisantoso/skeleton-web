@@ -73,8 +73,9 @@ class Kernel extends HttpKernel
         'localeCookieRedirect'    => \Mcamara\LaravelLocalization\Middleware\LocaleCookieRedirect::class,
         'localeViewPath'          => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class,
 
-        'lscache' => \Litespeed\LSCache\LSCacheMiddleware::class,
-        'lstags' => \Litespeed\LSCache\LSTagsMiddleware::class,
+        /* Spatie Permissions */
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
 
     ];
 }

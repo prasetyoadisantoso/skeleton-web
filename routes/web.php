@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Authentication\AuthController;
+use App\Http\Controllers\Dashboard\MainController;
 use App\Http\Controllers\TestAuthController;
 use App\Http\Controllers\TestCRUDController;
 use Illuminate\Support\Facades\Mail;
@@ -91,6 +92,10 @@ Route::group([
         Route::post('forgot_password', [AuthController::class, 'forgot_password'])->name('forgot.password');
         Route::post('reset_password', [AuthController::class, 'reset_password'])->name('reset.password');
         Route::post('login', [AuthController::class, 'login'])->name('login');
+    });
+
+    Route::prefix('dashboard')->group(function(){
+        Route::get('main', [MainController::class, 'index'])->name('dashboard.main');
     });
 
 });

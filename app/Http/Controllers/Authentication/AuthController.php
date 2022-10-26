@@ -114,9 +114,13 @@ class AuthController extends Controller
                     } else {
                         Auth::logout();
                         return redirect()->route('resend.verification.page')->with([
-                            'error' => $this->translation->authMessages['email_not_verified']
+                            'error' => $this->translation->authMessages['email_not_verified'],
                         ]);
                     }
+                } elseif (($auth->hasRole('Administrator'))) {
+                    return redirect()->route('dashboard.main')->with([
+                        'success' => $this->translation->authMessages['login_success'],
+                    ]);
                 } else {
                     Auth::logout();
                     throw new Exception($this->translation->authMessages["user_not_registered"], 1);
@@ -176,7 +180,7 @@ class AuthController extends Controller
             $this->email->EmailVerification($getUser->email, $this->encryption->EncryptToken($getToken->token));
             DB::commit();
             return redirect()->route('resend.verification.page')->with([
-                'success' => $this->translation->authMessages['email_sent']
+                'success' => $this->translation->authMessages['email_sent'],
             ]);
         } catch (\Throwable$th) {
             DB::rollBack();
@@ -216,7 +220,7 @@ class AuthController extends Controller
         DB::beginTransaction();
         try {
             $getUser = $this->user->GetUserByEmail($email['email']);
-            if(is_null($getUser)){
+            if (is_null($getUser)) {
                 throw new Exception($this->translation->authMessages['user_not_found']);
             }
             $getToken = $this->token->StoreToken($getUser->id, $this->generator->GenerateWord());
