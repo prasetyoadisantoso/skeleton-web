@@ -10,11 +10,11 @@
                 aria-haspopup="true" aria-expanded="false" id="dropdownLanguage">
                 @if ($current_locale == 'id')
                 <span class="fi fi-id mr-2"></span>
-                <span class="">Indonesia</span>
+                <span class="d-none d-md-inline">Indonesia</span>
 
                 @elseif ($current_locale == 'en')
                 <span class="fi fi-gb"></span>
-                <span class="">English</span>
+                <span class="d-none d-md-inline">English</span>
 
                 @else
                 <span class="fi fi-jp mr-2"></span>
@@ -35,13 +35,13 @@
         </div>
     </div>
 
-    <div class="order-md-3 order-3 me-3">
+    <div class="order-md-3 order-3 me-2 me-md-3">
         <div class="btn-group">
             <a href="#" class="dropdown-toggle text-decoration-none text-white " data-bs-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false" id="dropdownMenuUser">
                 <span class="my-auto text-white"><i class="far fa-user-circle me-3"></i>{{$name}}</span>
             </a>
-            <div class="dropdown-menu border-0 shadow-sm" aria-labelledby="dropdownMenuUser">
+            <div class="dropdown-menu dropdown-menu-right border-0 shadow-sm" aria-labelledby="dropdownMenuUser">
                 <a href="{{route('logout')}}" class="dropdown-item">
                     <i class="fa fa-sign-out-alt float-left py-1 me-3"></i>
                     <span class="float-left">Logout</span>
