@@ -1,0 +1,51 @@
+html, body {
+    height: 100%;
+  }
+
+a {
+    color: #06283d;
+    text-decoration: none;
+}
+
+.card {
+    border-radius:8px;
+    border: none;
+    background: #ffffff;
+    box-shadow: 5px 5px 8px #6d797d;
+}
+
+.login {
+    padding-top: 6rem;
+    padding-bottom: 2rem;
+}
+.text-head {
+    background-color: #0F044C;
+    padding-left: 10px;
+    color: #fff;
+}
+.text-login {
+    padding-left: 10px;
+    color: #0F044C;
+}
+.link-register
+{
+    color: #0F044C;
+}
+.footer {
+    position: relative;
+    margin-top: -50px; /* negative value of footer height */
+    clear:both;
+
+  }
+
+  @media(max-width: 768px) {
+    .hide {
+        display: none;
+    }
+    .footer {
+        position: relative;
+        margin-top: 0px; /* negative value of footer height */
+        clear:both;
+
+      }
+  }
