@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="../assets/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="../assets/fontawesome/css/brands.min.css">
+    <link rel="stylesheet" href="../assets/fontawesome/css/solid.min.css">
+    <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css">
+
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="../assets/sweetalert2/sweetalert2.min.css">
+    <script src="../assets/sweetalert2/sweetalert2.min.js"></script>
+
+</head>
+
+<body>
+
+    <!-- Start Page Wrapper -->
+    <div class="d-flex" id="wrapper">
+
+        <!-- Start Sidebar -->
+        <div class="bg-dark" id="sidebar">
+
+            <!-- Start Sidebar Heading -->
+            <div class="sidebar-heading my-1">
+                <div class="brand d-flex justify-content-start">
+                    <div class="avatar">
+                        <img src="https://laravel.com/img/logomark.min.svg" alt="Laravel Logo" class="logo">
+                    </div>
+                    <div class="brand-title py-1">
+                        <h6 class="font-weight-bold ms-2">Skeleton Web</h6>
+                    </div>
+                </div>
+            </div>
+            <!-- End Sidebar Heading -->
+
+
+            <!-- Start Menu List -->
+            <div class="list-group list-group-flush">
+
+                <!-- Start Standard Menu -->
+                <hr style="border-bottom: 0.1vh solid gray; width: 100%;" class="my-0">
+
+                <li class="active py-1">
+                    <a href="#" class="btn-ripple">
+                        <div class="d-flex align-items-center main-list">
+                            <span class="font-md"><i class="fa-solid fa-house me-3"></i>Dashboard</span>
+                        </div>
+                    </a>
+                </li>
+
+                <hr style="border-bottom: 0.1vh solid gray; width: 100%;" class="my-0">
+
+                <li class="active py-1">
+                    <a href="#" class="btn-ripple">
+                        <div class="d-flex align-items-center main-list">
+                            <span class="font-md"><i class="fa-solid fa-wrench me-3"></i>Other Menu</span>
+                        </div>
+                    </a>
+                </li>
+                <!-- End Standard -->
+
+                <!-- Start Dropdown Menu-->
+
+                <hr style="border-bottom: 0.1vh solid gray; width: 100%;" class="my-0">
+
+                <li class="active py-1">
+                    <a href="#dropdown-menu" data-bs-toggle="collapse" aria-expanded="false"
+                        class="btn-ripple rotation-1">
+                        <div class="d-flex align-items-center main-list">
+                            <span class="flex-grow-1 font-md"><i class="fa-solid fa-location-arrow me-3"></i>Dropdown
+                                Menu</span>
+                            <i id="icon" class="hide-fa fas fa-chevron-down font-sm rotate-1"></i>
+                        </div>
+                    </a>
+                    <ul class="collapse list-unstyled mx-5 mt-3" id="dropdown-menu">
+                        <li class="sub-list font-sm">
+                            <a href="#">
+                                <span><i class="fa-solid fa-circle-dot me-3"></i>Menu List 1</span>
+                            </a>
+                        </li>
+                        <li class="sub-list font-sm">
+                            <a href="#">
+                                <span><i class="fa-solid fa-circle-dot me-3"></i>Menu List 2</span>
+                            </a>
+                        </li>
+                        <li class="sub-list font-sm">
+                            <a href="#">
+                                <span><i class="fa-solid fa-circle-dot me-3"></i>Menu List 3</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- End Dropdown Menu -->
+
+                <hr style="border-bottom: 0.1vh solid gray; width: 100%;" class="my-0">
+
+            </div>
+            <!-- End Menu List -->
+
+        </div>
+        <!-- End Sidebar -->
+
+        <!-- Start Content Wrapper -->
+        <div id="page-content-wrapper">
+
+            <!-- Start Navigation Bar -->
+            <nav
+                class="navbar navbar-expand-lg navbar-dark bg-dark text-white shadow-none sticky-top w-100 justify-content-between">
+
+                <button class="btn btn-borderless text-white mt-1" id="menu-toggle"><i class="fas fa-bars"></i></button>
+
+                <div class="ms-auto order-md-2 order-2">
+                    <div class="btn-group">
+                        <a href="#" class="dropdown-toggle text-decoration-none mx-5 text-white "
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-aos="fade-left"
+                            id="dropdownMenuUser">
+                            <span class="my-auto text-white"><i class="far fa-user-circle me-3"></i>My Account</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right bg-dark border-0 shadow-sm"
+                            aria-labelledby="dropdownMenuUser">
+                            <a href="#" class="dropdown-item text-white">
+                                <i class="fa fa-sign-out-alt float-left py-1"></i>
+                                <span class="float-right">Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <!-- End Navigation Bar -->
+
+            <!-- Start Breadcrumb -->
+            <nav class="bg-light py-3 px-5 shadow-sm" aria-label="breadcrumb">
+                <ol class="breadcrumb my-0">
+                    <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-dark">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-dark">Library</a></li>
+                    <li class="breadcrumb-item active text-muted" aria-current="page">Data</li>
+                </ol>
+            </nav>
+            <!-- End Breadcrumb -->
+
+            <!-- Start Home -->
+            <div class="container">
+
+                <!-- Start app -->
+                <div class="card mx-3 my-3 rounded-3 border-0 shadow-md" style="background-image: url('https://c4.wallpaperflare.com/wallpaper/895/252/989/4k-material-red-light-wallpaper-preview.jpg'); background-size: cover;
+                background-position: center;">
+                    <div class="card-body">
+                        <div class="p-5 mb-4 rounded-3">
+                            <div class="container-fluid py-5">
+                                <h1 class="display-5 fw-bold">Welcome to Skeleton Web</h1>
+                                <p class="col-md-8 fs-4">We are created basic skeleton for build proper website</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row align-items-md-stretch mx-1 mb-3">
+                    <div class="col-md-6">
+                        <div class="h-100 p-5 bg-light border rounded-3">
+                            <img src="https://laravel.com/img/logomark.min.svg" alt="" height="50" class="my-2">
+                            <h2>Build With Laravel</h2>
+                            <p>Laravel is a web application framework with expressive, elegant syntax. We’ve already
+                                laid the foundation — freeing you to create without sweating the small things.</p>
+                            <a href="https://laravel.com" class="btn btn-danger">Go to Laravel Websites</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="h-100 p-5 text-white bg-dark rounded-3">
+                            <img src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg" alt=""
+                                height="50" class="my-2">
+                            <h2>Build fast, responsive sites with Bootstrap</h2>
+                            <p>Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass,
+                                utilize prebuilt grid system and components, and bring projects to life with powerful
+                                JavaScript plugins.</p>
+                            <a class="btn btn-primary">Go to Bootstrap Website</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- End app -->
+
+            </div>
+            <!-- End Home -->
+
+            <!-- Start Footer -->
+            <footer class="border-top border-bottom bg-white py-3 w-100">
+                <div class="text-center link-dark text-decoration-none">
+                    <p class="text-muted my-0">&copy; Skeleton Web - 2022</p>
+                </div>
+            </footer>
+            <!-- End Footer -->
+
+        </div>
+        <!-- End Content Wrapper -->
+
+    </div>
+    <!-- End Page Wrapper -->
+
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/jquery-3.6.1.min.js"></script>
+    <script src="../assets/jquery-validate/jquery.validate.min.js"></script>
+    <script src="../assets/jquery-validate/additional-methods.min.js"></script>
+    <script src="../assets/js/dashboard.js"></script>
+
+</body>
+
+</html>

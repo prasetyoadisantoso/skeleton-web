@@ -1,0 +1,296 @@
+/* -------------------------------------------------------------------------- */
+/*                              Text Color                                    */
+/* -------------------------------------------------------------------------- */
+.text-white {
+    color: white;
+}
+
+.text-black {
+    color: black !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                               Dropdown Effect                              */
+/* -------------------------------------------------------------------------- */
+.dropdown-menu {
+    display: block;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: .5s ease all;
+}
+
+.dropdown-menu.show {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0px);
+    transition: .5s ease all;
+}
+
+.float-right {
+    float: right;
+}
+
+.float-left {
+    float: left;
+}
+
+.overflow-vertical {
+    overflow-y: scroll;
+}
+
+
+
+/* -------------------------------------------------------------------------- */
+/*                                Button Ripple                               */
+/* -------------------------------------------------------------------------- */
+.btn-borderless {
+    box-shadow: none !important;
+}
+
+.main-content-title {
+    height: 180px;
+    margin-left: 0px;
+    margin-right: 0px;
+    background-color: #3D9970;
+}
+
+.breadcrumb-item.active {
+    color: #88cbda;
+}
+
+
+
+
+/* -------------------------------------------------------------------------- */
+/*                                Notification                                */
+/* -------------------------------------------------------------------------- */
+#notify-height {
+    height: 300px;
+}
+
+
+
+/* -------------------------------------------------------------------------- */
+/*                                  Font Size                                 */
+/* -------------------------------------------------------------------------- */
+.font-sm {
+    font-size: small;
+}
+
+.font-md {
+    font-size: medium;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/*                                Wrapper Body                                */
+/* -------------------------------------------------------------------------- */
+
+#wrapper {
+    overflow-x: hidden;
+}
+
+
+
+/* -------------------------------------------------------------------------- */
+/*                                 Sidebar CSS                                */
+/* -------------------------------------------------------------------------- */
+
+/* Sidebar Panel */
+#sidebar {
+    min-height: 100vh;
+    margin-left: -15rem;
+    -webkit-transition: margin .25s ease-out;
+    -moz-transition: margin .25s ease-out;
+    -o-transition: margin .25s ease-out;
+    transition: margin .25s ease-out;
+    z-index: 100;
+}
+
+#sidebar .logo {
+    padding: 5px 5px;
+    border-radius: 50%;
+    width: 30px;
+    box-shadow: 0px 0px 1px 1px #fff;
+}
+
+#sidebar .sidebar-heading {
+    display: inline;
+}
+
+#sidebar .sidebar-heading .brand {
+    height: 55px;
+    padding: 1rem 1rem;
+}
+
+#sidebar .sidebar-heading .brand .avatar {
+    float: left;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+#sidebar .sidebar-heading .brand .brand-title {
+    float: left;
+    color: white;
+    margin-bottom: auto;
+    margin-top: auto;
+}
+
+/* Sidebar List */
+
+#sidebar .list-group {
+    width: 15rem;
+}
+
+#sidebar .list-group li {
+    list-style-type: none;
+}
+
+#sidebar .list-group li a {
+    /* list-style-type: none; */
+    color: white;
+    text-decoration: none;
+}
+
+#sidebar .sub-list {
+    margin-bottom: 20px;
+}
+
+#sidebar .list-group .main-list {
+    margin-bottom: 10px;
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-top: 10px;
+    /* padding      : 10px; */
+}
+
+
+/* -------------------------------------------------------------------------- */
+/*                              Dashboard Content                             */
+/* -------------------------------------------------------------------------- */
+
+.dot-none {
+    list-style-type: none;
+}
+
+.border-round {
+    border-radius: 5px;
+}
+
+#page-content-wrapper {
+    min-width: 100vw;
+    background-color: rgb(240, 240, 240);
+}
+
+#wrapper.toggled #sidebar {
+    margin-left: 0;
+}
+
+@media (min-width: 768px) {
+    #sidebar {
+        margin-left: 0;
+    }
+
+    #page-content-wrapper {
+        min-width: 0;
+        width: 100%;
+    }
+
+    #wrapper.toggled #sidebar {
+        margin-left: -15rem;
+    }
+}
+
+
+/* -------------------------------------------------------------------------- */
+/*                              Main Content Page                             */
+/* -------------------------------------------------------------------------- */
+
+
+.overflow {
+    margin-top: -40px;
+}
+
+@media (max-width: 420px) {
+    .image-float {
+        margin-top: -10px;
+    }
+
+    .hide {
+        display: none;
+    }
+}
+
+
+
+/* -------------------------------------------------------------------------- */
+/*                                    Icon                                    */
+/* -------------------------------------------------------------------------- */
+
+/* Rotation*/
+.rotate {
+    -moz-transition: all 0.4s linear;
+    -webkit-transition: all 0.4s linear;
+    -moz-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+    transition: all 0.4s linear;
+}
+
+.rotate.down {
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+}
+
+
+/* -------------------------------------------------------------------------- */
+/*                                 DataTables                                 */
+/* -------------------------------------------------------------------------- */
+
+/* Pagination */
+.page-item .page-link {
+    border: 0px;
+    color: gray;
+}
+
+.page-item .page-link:hover {
+    border: 0px;
+    background-color: rgb(232, 245, 201);
+}
+
+.page-item .page-link,
+::after {
+    border: 0px;
+    box-shadow: none !important;
+}
+
+.page-item.disabled .page-link {
+    border: 0px;
+}
+
+.page-item.active .page-link {
+    border: 0px;
+    background-color: #3D9970;
+}
+
+/* End Pagination */
+
+
+/* Border */
+#datatables {
+    border: 0.5px;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                  JQUERY UI                                 */
+/* -------------------------------------------------------------------------- */
+ul.ui-autocomplete {
+    z-index: 9000;
+}
+
+footer {
+    z-index: 50 !important;
+}
