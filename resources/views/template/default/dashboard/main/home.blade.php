@@ -28,7 +28,7 @@
     </div>
 
     <div class="row align-items-md-stretch mx-1 mb-3">
-        <div class="col-md-6">
+        <div class="col-md-6 my-3">
             <div class="h-100 p-5 bg-light border rounded-3">
                 <img src="https://laravel.com/img/logomark.min.svg" alt="" height="50" class="my-2">
                 <h2>{{$content['card_2']['title']}}</h2>
@@ -36,7 +36,7 @@
                 <a href="https://laravel.com" class="btn btn-danger">{{$content['card_2']['button']}}</a>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 my-3">
             <div class="h-100 p-5 text-white bg-dark rounded-3">
                 <img src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" height="50"
                     class="my-2">

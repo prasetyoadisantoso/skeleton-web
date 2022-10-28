@@ -11341,6 +11341,17 @@ header.masthead h1, header.masthead .h1 {
   background-position: center;
 }
 @media (max-width: 998px) {
+    .showcase .showcase-text {
+      padding: 1rem 2rem;
+    }
+    .showcase .showcase-img {
+      min-height: 30rem;
+      background-size: 90%;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+@media (max-width: 512px) {
   .showcase .showcase-text {
     padding: 1rem 2rem;
   }

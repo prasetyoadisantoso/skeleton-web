@@ -21,14 +21,14 @@ class RoleSeeder extends Seeder
             // Administrator
             [
                 'id' => "1",
-                'name' => 'Administrator',
+                'name' => 'administrator',
                 'guard_name' => 'web'
             ],
 
             // Client
             [
                 'id' => '2',
-                'name' => 'Client',
+                'name' => 'client',
                 'guard_name' => 'web'
             ]
 

@@ -8,7 +8,7 @@
                 <img src="https://laravel.com/img/logomark.min.svg" alt="Laravel Logo" class="logo">
             </div>
             <div class="brand-title py-1">
-                <h6 class="font-weight-bold ms-2">{{$system_name}}</h6>
+                <a href="{{url('/')}}" class="text-decoration-none text-white"><h6 class="font-weight-bold ms-2">{{$system_name}}</h6></a>
             </div>
         </div>
     </div>

@@ -43,57 +43,77 @@ class AuthController extends Controller
 
     public function login_page()
     {
-        $translation_login = $this->translation->authLogin;
-        $translation_messages = $this->translation->authMessages;
-        $translation_validation = $this->translation->authValidation;
-        return view('template.default.authentication.login', array_merge($translation_login, $translation_messages, $translation_validation));
+        if (Auth::user() == null) {
+            $translation_login = $this->translation->authLogin;
+            $translation_messages = $this->translation->authMessages;
+            $translation_validation = $this->translation->authValidation;
+            return view('template.default.authentication.login', array_merge($translation_login, $translation_messages, $translation_validation));
+        } else {
+            return redirect()->route('dashboard.main');
+        }
     }
 
     public function register_page()
     {
-        $translation_registration = $this->translation->authRegistration;
-        $translation_messages = $this->translation->authMessages;
-        $translation_validation = $this->translation->authValidation;
-        return view('template.default.authentication.registration', array_merge($translation_registration, $translation_messages, $translation_validation));
+        if (Auth::user() == null) {
+            $translation_registration = $this->translation->authRegistration;
+            $translation_messages = $this->translation->authMessages;
+            $translation_validation = $this->translation->authValidation;
+            return view('template.default.authentication.registration', array_merge($translation_registration, $translation_messages, $translation_validation));
+        } else {
+            return redirect()->route('dashboard.main');
+        }
     }
 
     public function resend_verification_page()
     {
-        $translation_verification = $this->translation->authVerification;
-        $translation_messages = $this->translation->authMessages;
-        $translation_validation = $this->translation->authValidation;
-        return view('template.default.authentication.resend-verification', array_merge($translation_verification, $translation_messages, $translation_validation));
+        if (Auth::user() == null) {
+            $translation_verification = $this->translation->authVerification;
+            $translation_messages = $this->translation->authMessages;
+            $translation_validation = $this->translation->authValidation;
+            return view('template.default.authentication.resend-verification', array_merge($translation_verification, $translation_messages, $translation_validation));
+        } else {
+            return redirect()->route('dashboard.main');
+        }
     }
 
     public function forgot_password_page()
     {
-        $translation_forgot_password = $this->translation->authForgotPassword;
-        $translation_messages = $this->translation->authMessages;
-        $translation_validation = $this->translation->authValidation;
-        return view('template.default.authentication.forgot-password', array_merge($translation_forgot_password, $translation_messages, $translation_validation));
+        if (Auth::user() == null) {
+            $translation_forgot_password = $this->translation->authForgotPassword;
+            $translation_messages = $this->translation->authMessages;
+            $translation_validation = $this->translation->authValidation;
+            return view('template.default.authentication.forgot-password', array_merge($translation_forgot_password, $translation_messages, $translation_validation));
+        } else {
+            return redirect()->route('dashboard.main');
+        }
     }
 
     public function reset_password_page($token)
     {
-        $data_token = $this->token->GetUUIDByToken($this->encryption->DecryptToken($token));
-        $dataUser = $this->user->GetUserByID($data_token->user_id);
+        if (Auth::user() == null) {
+            $data_token = $this->token->GetUUIDByToken($this->encryption->DecryptToken($token));
+            $dataUser = $this->user->GetUserByID($data_token->user_id);
 
-        $translation_resetpassword = $this->translation->authResetPassword;
-        $translation_messages = $this->translation->authMessages;
-        $translation_validation = $this->translation->authValidation;
+            $translation_resetpassword = $this->translation->authResetPassword;
+            $translation_messages = $this->translation->authMessages;
+            $translation_validation = $this->translation->authValidation;
 
-        try {
-            if (is_null($dataUser)) {
-                throw new Exception($this->translation->authMessages['token_invalid']);
-            } else {
-                return view('template.default.authentication.reset-password', array_merge([
-                    'token' => $token,
-                ], $translation_resetpassword, $translation_messages, $translation_validation));
+            try {
+                if (is_null($dataUser)) {
+                    throw new Exception($this->translation->authMessages['token_invalid']);
+                } else {
+                    return view('template.default.authentication.reset-password', array_merge([
+                        'token' => $token,
+                    ], $translation_resetpassword, $translation_messages, $translation_validation));
+                }
+            } catch (\Throwable$th) {
+                return redirect()->route('forgot.password.page')->with([
+                    'error' => $th->getMessage(),
+                ]);
             }
-        } catch (\Throwable$th) {
-            return redirect()->route('forgot.password.page')->with([
-                'error' => $th->getMessage(),
-            ]);
+        } else {
+            return redirect()->route('dashboard.main');
         }
     }
 
@@ -106,7 +126,7 @@ class AuthController extends Controller
         $auth = Auth::user();
         try {
             if ($auth != null) {
-                if ($auth->hasRole('Client')) {
+                if ($auth->hasRole('client')) {
                     if ($auth->email_verified_at != null) {
                         return redirect()->route('login.page')->with([
                             'success' => $this->translation->authMessages['login_success'],
@@ -117,7 +137,7 @@ class AuthController extends Controller
                             'error' => $this->translation->authMessages['email_not_verified'],
                         ]);
                     }
-                } elseif (($auth->hasRole('Administrator'))) {
+                } elseif (($auth->hasRole('administrator'))) {
                     return redirect()->route('dashboard.main')->with([
                         'success' => $this->translation->authMessages['login_success'],
                     ]);
@@ -149,7 +169,7 @@ class AuthController extends Controller
         try {
             switch ($type) {
                 case 'client':
-                    $user_result = $this->user->StoreUser($client, 'Client');
+                    $user_result = $this->user->StoreUser($client, 'client');
                     $token_data = $this->token->StoreToken($user_result->id, $this->generator->GenerateWord());
                     $this->email->EmailVerification($user_result->email, $this->encryption->EncryptToken($token_data->token));
                     DB::commit();
