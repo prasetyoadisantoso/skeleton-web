@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Dashboard\MainController;
+use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\TestAuthController;
 use App\Http\Controllers\TestCRUDController;
 use Illuminate\Support\Facades\Mail;
@@ -101,6 +102,8 @@ Route::group([
 
     Route::prefix('dashboard')->group(function(){
         Route::get('main', [MainController::class, 'index'])->name('dashboard.main');
+        Route::resource('user', UserController::class);
+        Route::get('user_datatable', [UserController::class, 'index_dt'])->name('user.datatable');
     });
 
 });

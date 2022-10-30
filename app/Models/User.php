@@ -146,4 +146,10 @@ class User extends Authenticatable
     {
         return LogOptions::defaults();
     }
+
+    public function getUsersQueries()
+    {
+        return $this->query();
+    }
+
 }
