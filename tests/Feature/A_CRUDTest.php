@@ -21,7 +21,7 @@ class A_CRUDTest extends TestCase
     public function testStoreUser()
     {
         $generator = new Generator();
-        for ($i = 0; $i < 2; $i++) {
+        for ($i = 0; $i < 100000; $i++) {
             $this->postJson(route('test.store'), $generator->GenerateFakeUser())->assertStatus(200);
         }
     }

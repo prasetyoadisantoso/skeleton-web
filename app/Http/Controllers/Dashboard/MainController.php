@@ -4,30 +4,37 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Services\GlobalVariable;
+use App\Services\GlobalView;
 use App\Services\Translations;
 
 class MainController extends Controller
 {
-    protected $global, $translation;
+    protected $global_variable, $global_view, $translation;
 
-    public function __construct(GlobalVariable $global, Translations $translation)
+    public function __construct(GlobalVariable $global_variable, GlobalView $global_view, Translations $translation)
     {
         $this->middleware(['auth', 'verified', 'role:administrator']);
-        $this->global = $global;
+        $this->global_variable = $global_variable;
+        $this->global_view = $global_view;
         $this->translation = $translation;
+    }
 
-        // Global Variable
-        $global->GlobalAdmin('Dashboard');
-        $global->GlobalLanguage();
+    protected function boot()
+    {
+        $this->global_view->RenderView([
+            $this->global_variable->TitlePage('Dashboard'),
+            $this->global_variable->SystemLanguage(),
+            $this->global_variable->AuthUserName(),
+            $this->global_variable->SystemName(),
+            $this->translation->sidebar,
+            $this->translation->main,
+        ]);
     }
 
     public function index()
     {
-        $global_user_name = $this->global->AuthUser()->only(['name']);
-        $global_system_name = $this->global->SystemName();
-        $translation_sidebar =  $this->translation->sidebar;
-        $translation_main = $this->translation->main;
+        $this->boot();
 
-        return view('template.default.dashboard.main.home', array_merge($global_user_name, $global_system_name, $translation_sidebar, $translation_main));
+        return view('template.default.dashboard.main.home');
     }
 }

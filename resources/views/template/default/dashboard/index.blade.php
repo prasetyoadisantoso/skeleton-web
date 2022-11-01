@@ -13,6 +13,7 @@
 
     <!-- Start App/Module -->
     @yield('main-home')
+    @yield('user-home')
     <!-- End App/Module -->
 
     @include('template.default.dashboard.partial.footer')
