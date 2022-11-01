@@ -10,35 +10,69 @@ use App\Services\ResponseFormatter;
 use App\Services\Upload;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Yajra\DataTables\Facades\DataTables;
+use Yajra\DataTables\DataTables;
+use App\Services\GlobalVariable;
+use App\Services\GlobalView;
+use App\Services\Translations;
 
 class UserController extends Controller
 {
 
-    protected $fileManagement, $responseFormatter, $user, $upload, $dataTables;
+    protected $fileManagement, $responseFormatter, $global_view, $global_variable, $user, $upload, $dataTables;
 
     public function __construct(
         ResponseFormatter $responseFormatter,
         FileManagement $fileManagement,
+        GlobalVariable $global_variable,
+        GlobalView $global_view,
+        Translations $translation,
+        DataTables $dataTables,
         Upload $upload,
         User $user,
-        DataTables $dataTables
     ) {
         $this->responseFormatter = $responseFormatter;
         $this->fileManagement = $fileManagement;
+
+        $this->middleware(['auth', 'verified', 'role:administrator']);
+        $this->global_variable = $global_variable;
+        $this->global_view = $global_view;
+        $this->translation = $translation;
+
         $this->upload = $upload;
         $this->user = $user;
         $this->dataTables = $dataTables;
     }
 
+    /**
+     * Boot Service
+     */
+    protected function boot()
+    {
+        // Render to View
+        $this->global_view->RenderView([
+
+            // Global Variable
+            $this->global_variable->TitlePage('Users'),
+            $this->global_variable->SystemLanguage(),
+            $this->global_variable->AuthUserName(),
+            $this->global_variable->SystemName(),
+
+            // Translations
+            $this->translation->sidebar,
+            $this->translation->users,
+
+        ]);
+    }
+
     public function index()
     {
-        $this->fileManagement->Logging($this->responseFormatter->successResponse($this->user->GetAllUser(), 'Get all user data'));
+        $this->boot();
+        return view('template.default.dashboard.user.home');
     }
 
     public function index_dt()
     {
-        $result = Datatables::of($this->user->getUsersQueries())
+        $result = $this->dataTables->of($this->user->getUsersQueries())
             ->addColumn('image', function ($user) {
                 return Storage::url($user->image);
             })
@@ -88,7 +122,9 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $this->fileManagement->Logging($this->responseFormatter->successResponse($this->user->GetUserByID($id), 'Get user detail by id'));
+        $user = $this->user->GetUserByID($id);
+        $role = $user->getRoleNames();
+        return $this->responseFormatter->successResponse(["user"=> $user, "role" => $role], 'Get user detail by id');
     }
 
     public function edit($id)

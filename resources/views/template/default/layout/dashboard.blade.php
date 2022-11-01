@@ -22,6 +22,9 @@
     <!-- Flag Icon -->
     <link rel="stylesheet" href="{{asset('template/default/assets/flag-icon/css/flag-icons.min.css')}}">
 
+    <!-- DataTable CSS -->
+    <link rel="stylesheet" href="{{asset('template/default/assets/datatables/datatables.min.css')}}">
+
 </head>
 
 <body>
@@ -39,6 +42,9 @@
     <script src="{{asset('template/default/assets/jquery-validate/jquery.validate.min.js')}}"></script>
     <script src="{{asset('template/default/assets/jquery-validate/additional-methods.min.js')}}"></script>
     <script src="{{asset('template/default/assets/js/dashboard.js')}}"></script>
+    <script src="{{asset('template/default/assets/datatables/datatables.min.js')}}"></script>
+
+    @stack('user-home-js')
 
 </body>
 

@@ -3,19 +3,22 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\View;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class GlobalVariable
 {
-    public function GlobalAdmin($module_name)
+    public function TitlePage(string $title_name): ?array
     {
-        View::share('title', $module_name);
+        return [
+            'title' => $title_name
+        ];
     }
 
-    public function GlobalLanguage()
+    public function SystemLanguage()
     {
-        View::share('current_locale', LaravelLocalization::getCurrentLocale());
+        return [
+            'current_locale' => LaravelLocalization::getCurrentLocale()
+        ];
     }
 
     public function SystemName()
@@ -25,13 +28,17 @@ class GlobalVariable
         ];
     }
 
-    public function AuthUser()
+    public function AuthUserName()
     {
-        return Auth::user();
+        return [
+            'name' => Auth::user()->only(['name'])['name']
+        ];
     }
 
     public function SiteLogo()
     {
-        return "https://laravel.com/img/logomark.min.svg";
+        return [
+            'site_logo' => "https://laravel.com/img/logomark.min.svg"
+        ];
     }
 }

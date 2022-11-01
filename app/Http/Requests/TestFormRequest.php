@@ -30,7 +30,7 @@ class TestFormRequest extends FormRequest
             case 'test.store':
                 return [
                     'name' => 'required|max:50',
-                    'email' => 'required|email|unique:users,email',
+                    'email' => 'required|email',
                     'image' => 'nullable',
                     'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                     'password' => 'required|same:password_confirmation',

@@ -21,12 +21,12 @@ class ResponseFormatter
     /**
      * Give success response.
      */
-    public function successResponse($data = null, $message = null): ?string
+    public function successResponse($data = null, $message = null)
     {
         self::$response['meta']['message'] = $message;
         self::$response['data'] = $data;
 
-        return response()->json(self::$response, self::$response['meta']['code'])->getContent();
+        return response()->json(self::$response, self::$response['meta']['code']);
     }
 
     /**
@@ -39,6 +39,6 @@ class ResponseFormatter
         self::$response['meta']['message'] = $message;
         self::$response['data'] = $data;
 
-        return response()->json(self::$response, self::$response['meta']['code'])->getContent();
+        return response()->json(self::$response, self::$response['meta']['code']);
     }
 }

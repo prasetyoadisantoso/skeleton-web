@@ -24,6 +24,7 @@ Route::group([
     'prefix' => LaravelLocalization::setlocale(),
     'middleware' => ['localeSessionRedirect', 'localizationRedirect'],
 ], function () {
+
     // Home Page
     Route::get('/', function () {
         return view('welcome');
