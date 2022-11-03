@@ -60,6 +60,12 @@ return [
     'messages' => [
         'store_success' => 'Berhasil menyimpan pengguna',
         'store_failed' => 'Gagal menyimpan pengguna',
+        'update_success' => 'Pengguna berhasil diperbarui',
+        'update_failed' => 'Pengguna gagal diperbarui',
+        'image_not_available' => 'Gambar tidak tersedia',
+        'ask_delete' => 'Apakah anda yakin menghapus pengguna ini?',
+        'delete_success' => 'Berhasi menghapus pengguna',
+        'delete_failed' => 'Gagal menghapus pengguna',
     ],
 
     'validation' => [

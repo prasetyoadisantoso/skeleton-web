@@ -40,16 +40,18 @@ class UserFormRequest extends FormRequest
 
                 break;
 
-                case 'test.update':
-                    return [
-                        'name' => 'required|max:50',
-                        'email' => 'required|email|unique:users,email',
-                        'image' => 'nullable',
-                        'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                        'password' => 'same:password_confirmation',
-                    ];
+            case 'user.update':
+                return [
+                    'name' => 'required|max:50',
+                    'email' => 'required|email',
+                    'image' => 'nullable',
+                    'role' => 'required',
+                    'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                    'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+                    'password' => 'same:confirm_password',
+                ];
 
-                    break;
+                break;
 
             default:
                 // code...

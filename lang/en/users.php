@@ -60,6 +60,12 @@ return [
     'messages' => [
         'store_success' => 'User stored successfully',
         'store_failed' => 'User failed to store',
+        'update_success' => 'User updated successfully',
+        'update_failed' => 'User failed to update',
+        'image_not_available' => 'Image not available',
+        'ask_delete' => 'Do you want to delete this user?',
+        'delete_success' => 'User deleted successfully',
+        'delete_failed' => 'User failed to delete',
     ],
 
     'validation' => [

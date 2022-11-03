@@ -19,9 +19,16 @@ class FileManagement
     /**
      *  Upload profile image for testing purpose.
      */
-    public function GetPathProfileImage()
+    public function GetPathProfileImage($role = null)
     {
-        $image = public_path('Test/Images/profile.png');
+        if($role == 'admin'){
+            $image = public_path('Test/Images/admin.png');
+        } else if ($role == 'client'){
+            $image = public_path('Test/Images/client.png');
+        } else {
+            $image = public_path('Test/Images/profile.png');
+        }
+
         $file = new UploadedFile($image, 'profile.png', 'image/png', null, true);
 
         return $file;

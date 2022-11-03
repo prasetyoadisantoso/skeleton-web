@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TestFormRequest;
 use App\Http\Requests\UserFormRequest;
 use App\Models\User;
 use App\Services\FileManagement;
@@ -33,10 +32,10 @@ class UserController extends Controller
         User $user,
         Role $role,
     ) {
+        $this->middleware(['auth', 'verified', 'role:administrator']);
         $this->responseFormatter = $responseFormatter;
         $this->fileManagement = $fileManagement;
 
-        $this->middleware(['auth', 'verified', 'role:administrator']);
         $this->global_variable = $global_variable;
         $this->global_view = $global_view;
         $this->translation = $translation;
@@ -153,54 +152,81 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $data_user = $this->user->GetUserByID($id);
-        $this->fileManagement->Logging($this->responseFormatter->successResponse([
-            'Input ID (hidden)' => $data_user->id,
-            'Input Name' => $data_user->name,
-            'Input Email' => $data_user->email,
-            'Input Password' => '',
-        ], 'Get user detail by id to place into each form field'));
+        $this->boot();
+        $user = $this->user->GetUserByID($id);
+        $role = $user->getRoleNames();
+        if($user->email_verified_at !== null){
+            $is_verified = $this->translation->select['antonim']['yes'];
+        } else {
+            $is_verified = $this->translation->select['antonim']['no'];
+        }
+        return view('template.default.dashboard.user.form', array_merge($this->global_variable->TypePage('edit'), [
+            "user"=> $user,
+            "role" => $role,
+            'role_list' => $this->role->all(),
+            "is_verified" => $is_verified,
+        ]));
     }
 
-    public function update(TestFormRequest $test, $id)
+    public function update(UserFormRequest $request, $id)
     {
-        $test->validated();
-        $new_user_data = $test->only([
-            'name', 'email', 'phone', 'image', 'password'
-        ]);
+        $request->validated();
+        $new_user_data = $request->only(['name', 'email', 'password', 'image', 'phone', 'status', 'role']);
 
         DB::beginTransaction();
         try {
-            if ($test->file('image')) {
+            if ($request->file('image')) {
                 $image = $this->upload->UploadImageUserToStorage($new_user_data['image']);
                 $new_user_data['image'] = $image;
             }
-            $result = $this->user->UpdateUser($new_user_data, $id);
-            $this->fileManagement->Logging($this->responseFormatter->successResponse([
-                'ID' => $id,
-                'New Data' => $new_user_data,
-                'Result' => $result,
-            ], 'Update old user into new user'));
+            $this->user->UpdateUser($new_user_data, $id, $new_user_data['role']);
             DB::commit();
+            return redirect()->route('user.index')->with([
+                'success' => 'success',
+                'title' => $this->translation->notification['success'],
+                'content' => $this->translation->users['messages']['update_success']
+            ]);
         } catch (\Throwable$th) {
             DB::rollback();
-            $this->fileManagement->Logging($this->responseFormatter->errorResponse($th->getMessage()));
+            $message = $th->getMessage();
+
+            if (str_contains($th->getMessage(), 'Duplicate entry')) {
+                $message = 'Duplicate entry';
+            }
+
+            return redirect()->back()->with([
+                'error' => 'error',
+                "title" => $this->translation->notification['error'],
+                "content" => $message
+            ]);
         }
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         DB::beginTransaction();
         try {
             $delete = $this->user->DeleteUser($id);
             DB::commit();
 
-            $this->fileManagement->Logging($this->responseFormatter->successResponse([
-                'status' => $delete,
-            ], 'Data deleted successfully'));
+            // check data deleted or not
+            if ($delete == 1) {
+                $status = 'success';
+            } else {
+                $status = 'error';
+            }
+
+            //  Return response
+            return response()->json(['status' => $status]);
         } catch (\Throwable$th) {
             DB::rollback();
-            $this->fileManagement->Logging($this->responseFormatter->errorResponse($th->getMessage()));
+            $message = $th->getMessage();
+
+            return redirect()->back()->with([
+                'error' => 'error',
+                "title" => $this->translation->notification['error'],
+                "content" => $message
+            ]);
         }
     }
 }
