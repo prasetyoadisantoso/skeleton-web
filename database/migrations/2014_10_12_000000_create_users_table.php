@@ -21,7 +21,7 @@ return new class() extends Migration {
             $table->string('remember_me')->nullable();
             $table->string('password');
             $table->string('image')->nullable();
-            $table->enum('status', ['Online', 'Offline']);
+            $table->enum('status', ['Offline', 'Online']);
             $table->string('phone')->nullable();
             $table->rememberToken();
             $table->timestamps();

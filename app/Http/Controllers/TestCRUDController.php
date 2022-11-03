@@ -53,7 +53,7 @@ class TestCRUDController extends Controller
                 $image = $this->upload->UploadImageUserToStorage($validated_data['image']);
                 $validated_data['image'] = $image;
             }
-            $result = $this->user->StoreUser($validated_data);
+            $result = $this->user->StoreUser($validated_data, 'guest');
             $this->fileManagement->Logging($this->responseFormatter->successResponse($result, 'Data stored successfully'));
             DB::commit();
         } catch (\Throwable$th) {

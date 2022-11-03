@@ -41,4 +41,11 @@ class GlobalVariable
             'site_logo' => "https://laravel.com/img/logomark.min.svg"
         ];
     }
+
+    public function TypePage(string $type): ?array
+    {
+        return [
+            'type' => $type
+        ];
+    }
 }
