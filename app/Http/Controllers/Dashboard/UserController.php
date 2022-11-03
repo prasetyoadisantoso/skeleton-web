@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TestFormRequest;
+use App\Http\Requests\UserFormRequest;
 use App\Models\User;
 use App\Services\FileManagement;
 use App\Services\ResponseFormatter;
@@ -14,11 +15,12 @@ use Yajra\DataTables\DataTables;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
 use App\Services\Translations;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
 
-    protected $fileManagement, $responseFormatter, $global_view, $global_variable, $user, $upload, $dataTables;
+    protected $fileManagement, $responseFormatter, $global_view, $global_variable, $user, $upload, $dataTables, $role;
 
     public function __construct(
         ResponseFormatter $responseFormatter,
@@ -29,6 +31,7 @@ class UserController extends Controller
         DataTables $dataTables,
         Upload $upload,
         User $user,
+        Role $role,
     ) {
         $this->responseFormatter = $responseFormatter;
         $this->fileManagement = $fileManagement;
@@ -41,10 +44,12 @@ class UserController extends Controller
         $this->upload = $upload;
         $this->user = $user;
         $this->dataTables = $dataTables;
+        $this->role = $role;
     }
 
     /**
      * Boot Service
+     *
      */
     protected function boot()
     {
@@ -59,7 +64,9 @@ class UserController extends Controller
 
             // Translations
             $this->translation->sidebar,
+            $this->translation->button,
             $this->translation->users,
+            $this->translation->notification,
 
         ]);
     }
@@ -76,7 +83,7 @@ class UserController extends Controller
             ->addColumn('image', function ($user) {
                 return Storage::url($user->image);
             })
-            ->addColumn('roles', function ($user) {
+            ->addColumn('role', function ($user) {
                 return $user->getRoleNames()->map(function ($item) {
                     return $item;
                 })->implode('<br>');
@@ -91,40 +98,57 @@ class UserController extends Controller
 
     public function create()
     {
-        $this->fileManagement->Logging($this->responseFormatter->successResponse([
-            'type' => 'form',
-            'name' => 'Andy Reztyan',
-            'email' => 'andy@email.com',
-            'image' => 'profile.png',
-            'password' => '123456',
-        ], 'Get form input'));
+        $this->boot();
+        return view('template.default.dashboard.user.form', array_merge($this->global_variable->TypePage('create'), [
+            'role_list' => $this->role->all()
+        ]));
     }
 
-    public function store(TestFormRequest $test)
+    public function store(UserFormRequest $request)
     {
-        $test->validated();
-        $validated_data = $test->only(['name', 'email', 'password', 'image', 'phone']);
+        $request->validated();
+        $validated_data = $request->only(['name', 'email', 'password', 'image', 'phone', 'status', 'role']);
 
         DB::beginTransaction();
         try {
-            if ($test->file('image')) {
+            if ($request->file('image')) {
                 $image = $this->upload->UploadImageUserToStorage($validated_data['image']);
                 $validated_data['image'] = $image;
             }
-            $result = $this->user->StoreUser($validated_data);
-            $this->fileManagement->Logging($this->responseFormatter->successResponse($result, 'Data stored successfully'));
+            $this->user->StoreUser($validated_data, $validated_data['role']);
             DB::commit();
+
+            return redirect()->route('user.index')->with([
+                'success' => 'success',
+                'title' => $this->translation->notification['success'],
+                'content' => $this->translation->users['messages']['store_success']
+            ]);
         } catch (\Throwable$th) {
             DB::rollback();
-            $this->fileManagement->Logging($this->responseFormatter->errorResponse($th->getMessage()));
+            $message = $th->getMessage();
+
+            if (str_contains($th->getMessage(), 'Duplicate entry')) {
+                $message = 'Duplicate entry';
+            }
+
+            return redirect()->route('user.create')->with([
+                'error' => 'error',
+                "title" => $this->translation->notification['error'],
+                "content" => $message
+            ]);
         }
     }
 
     public function show($id)
     {
         $user = $this->user->GetUserByID($id);
+        if($user->email_verified_at !== null){
+            $is_verified = $this->translation->select['antonim']['yes'];
+        } else {
+            $is_verified = $this->translation->select['antonim']['no'];
+        }
         $role = $user->getRoleNames();
-        return $this->responseFormatter->successResponse(["user"=> $user, "role" => $role], 'Get user detail by id');
+        return $this->responseFormatter->successResponse(["user"=> $user, "role" => $role, "is_verified" => $is_verified], 'Get user detail by id');
     }
 
     public function edit($id)
@@ -142,7 +166,7 @@ class UserController extends Controller
     {
         $test->validated();
         $new_user_data = $test->only([
-            'name', 'email', 'password', 'image', 'password_confirmation',
+            'name', 'email', 'phone', 'image', 'password'
         ]);
 
         DB::beginTransaction();

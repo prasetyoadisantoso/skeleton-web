@@ -22,6 +22,15 @@ class Translations {
         // Sidebar
         $this->sidebar = __('sidebar');
 
+        // Button
+        $this->button = __('button');
+
+        // Notification
+        $this->notification =__('notification');
+
+        // Select
+        $this->select = __('select');
+
         // Main Dashboard
         $this->main = __('main');
 

@@ -94,9 +94,16 @@ class User extends Authenticatable
 
     public function StoreUser($data = null, $role = null)
     {
+
         if (isset($data['image']) == false || isset($data['phone']) == false) {
             $data['image'] = null;
             $data['phone'] = null;
+        }
+
+        if (isset($data['status']) && $data['status'] == "on"){
+            $data['status'] = date("Y-m-d H:i:s");
+        } else {
+            $data['status'] = null;
         }
 
         $user = $this->create([
@@ -104,6 +111,7 @@ class User extends Authenticatable
             'email' => $data['email'],
             'image' => $data['image'],
             'phone' => $data['phone'],
+            'email_verified_at' => $data['status'],
             'password' => Hash::make($data['password']),
         ]);
 
