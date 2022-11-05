@@ -3,27 +3,80 @@
 return [
 
     'breadcrumb' => [
+        'title' => 'Users',
         'home' => 'Home',
-        'index' => 'Index',
-        'current_index' => 'Current Index'
+        'index' => 'Index Page',
+        'create' => 'Create Page',
+        'edit' => 'Edit Page',
     ],
 
-    'content' => [
-        "card_1" => [
-            'title' => 'Welcome to Skeleton Web',
-            'subtitle' => 'We are create basic skeleton for build proper website',
+    'datatable' => [
+        'header' => [
+            'title' => 'Users Management',
         ],
-
-        'card_2' => [
-            'title' => 'Built With Laravel',
-            'subtitle' => 'Laravel is a web application framework with expressive, elegant syntax. We’ve already laid the foundation — freeing you to create without sweating the small things.',
-            'button' => 'Go to Laravel Website',
+        'table' => [
+            'number' => 'No',
+            'name' => 'Name',
+            'image' => 'Image',
+            'email' => 'Email',
+            'role' => 'Role',
+            'action' => 'Action',
         ],
-
-        'card_3' => [
-            'title' => 'Build fast, responsive sites with Bootstrap',
-            'subtitle' => 'Powerful, extensible, and feature-packed frontend toolkit. Build and customize with Sass, utilize prebuilt grid system and components, and bring projects to life with powerful JavaScript plugins.',
-            'button' => 'Go to Bootstrap Website',
-        ],
+        'search' => 'Search: ',
+        'previous' => 'Previous',
+        'next' => 'Next',
+        'info' => "Showing _START_ to _END_ of _TOTAL_ entries",
+        'length_menu' => 'Show _MENU_ entries',
     ],
+
+    'detail' => [
+        'title' => 'Detail User',
+        'name' => 'Name',
+        'email' => 'Email',
+        'phone' => 'Phone',
+        'role' => 'Role',
+        'is_verified' => 'Is Verified ?',
+    ],
+
+    'form' => [
+        'create_title' => 'Create User',
+        'edit_title' => 'Edit User',
+        'image_note' => '*Click picture above to add a new image',
+        'name' => 'Full Name :',
+        'name_placeholder' => 'Full name...',
+        'email' => 'Email :',
+        'email_placeholder' => 'Email...',
+        'phone' => 'Phone Number :',
+        'phone_placeholder' => 'Phone number...',
+        'role' => 'Role :',
+        'role_placeholder' => 'Select role...',
+        'password' => 'Password :',
+        'password_placeholder' => 'Password...',
+        'confirm_password' => 'Password Confirmation :',
+        'confirm_password_placeholder' => 'Password confirmation...',
+        'verification_status' => 'Verification Status :',
+    ],
+
+    'messages' => [
+        'store_success' => 'User stored successfully',
+        'store_failed' => 'User failed to store',
+        'update_success' => 'User updated successfully',
+        'update_failed' => 'User failed to update',
+        'image_not_available' => 'Image not available',
+        'ask_delete' => 'Do you want to delete this user?',
+        'delete_success' => 'User deleted successfully',
+        'delete_failed' => 'User failed to delete',
+    ],
+
+    'validation' => [
+        'fullname_required' => 'full name is required',
+        'email_required' => 'email is required',
+        'email_contained' => 'must be contained email format',
+        'phone_required' => 'phone is required',
+        'role_required' => "role is required",
+        'password_required' => 'password is required',
+        'confirm_password_required' => 'confirm password is required',
+        'confirm_password_same' => 'password confirmation must be same with password',
+    ],
+
 ];

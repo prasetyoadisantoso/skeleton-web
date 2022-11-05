@@ -21,7 +21,8 @@ class UserSeeder extends Seeder
         $fileManagement = new FileManagement;
         $upload = new Upload;
 
-        $image = $upload->UploadImageUserToStorage($fileManagement->GetPathProfileImage()) ;
+        $imageAdmin = $upload->UploadImageUserToStorage($fileManagement->GetPathProfileImage('admin')) ;
+        $imageClient = $upload->UploadImageUserToStorage($fileManagement->GetPathProfileImage('client')) ;
 
 
         DB::table('users')->insert([
@@ -30,7 +31,7 @@ class UserSeeder extends Seeder
             [
                 'id' => 'c41833ee-2d65-400e-97f1-a47647326ab4',
                 'name' => 'Administrator Department',
-                'image' => $image,
+                'image' => $imageAdmin,
                 'email' => 'admin@email.com',
                 'password' => Hash::make("123456"),
                 'phone' => "081234567890",
@@ -41,7 +42,7 @@ class UserSeeder extends Seeder
             [
                 'id' => 'b11833ee-2d65-400e-97f1-a47647326ac2',
                 'name' => 'Best Client',
-                'image' => $image,
+                'image' => $imageClient,
                 'email' => 'client@email.com',
                 'password' => Hash::make("123456"),
                 'phone' => "089876543210",

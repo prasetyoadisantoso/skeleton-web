@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -15,7 +16,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 use Webpatser\Uuid\Uuid;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
     use HasFactory;
@@ -94,9 +95,19 @@ class User extends Authenticatable
 
     public function StoreUser($data = null, $role = null)
     {
-        if (isset($data['image']) == false || isset($data['phone']) == false) {
+
+        if (!isset($data['image'])) {
             $data['image'] = null;
+        }
+
+        if (!isset($data['phone'])) {
             $data['phone'] = null;
+        }
+
+        if (isset($data['status']) && $data['status'] == "on"){
+            $data['status'] = date("Y-m-d H:i:s");
+        } else {
+            $data['status'] = null;
         }
 
         $user = $this->create([
@@ -104,6 +115,7 @@ class User extends Authenticatable
             'email' => $data['email'],
             'image' => $data['image'],
             'phone' => $data['phone'],
+            'email_verified_at' => $data['status'],
             'password' => Hash::make($data['password']),
         ]);
 
@@ -114,12 +126,18 @@ class User extends Authenticatable
 
     }
 
-    public function UpdateUser($new_user_data, $id)
+    public function UpdateUser($new_user_data, $id, $role)
     {
         if (!empty($new_user_data['password'])) {
             $new_user_data['password'] = Hash::make($new_user_data['password']);
         } else {
             $new_user_data = Arr::except($new_user_data, ['password']);
+        }
+
+        if (isset($new_user_data['status']) && $new_user_data['status'] == "on"){
+            $new_user_data['email_verified_at'] = date("Y-m-d H:i:s");
+        } else {
+            $new_user_data['email_verified_at'] = null;
         }
 
         $current_user_data = $this->GetUserByID($id);
@@ -129,7 +147,9 @@ class User extends Authenticatable
             Storage::delete('/public' . '/' . $current_user_data->image);
         }
 
+        $current_user_data->removeRole($current_user_data->getRoleNames()[0]);
         $current_user_data->update($new_user_data);
+        $current_user_data->assignRole($role);
     }
 
     public function DeleteUser($id)
@@ -139,7 +159,7 @@ class User extends Authenticatable
         // Delete image file
         Storage::delete('/public' . '/' . $delete_user->image);
 
-        $this->where('id', '=', $delete_user->id)->delete();
+        return $this->where('id', '=', $delete_user->id)->delete();
     }
 
     public function getActivitylogOptions(): LogOptions

@@ -14,6 +14,7 @@
     <!-- Start App/Module -->
     @yield('main-home')
     @yield('user-home')
+    @yield('user-form')
     <!-- End App/Module -->
 
     @include('template.default.dashboard.partial.footer')

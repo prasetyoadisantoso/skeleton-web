@@ -130,17 +130,32 @@ class AuthController extends Controller
                     if ($auth->email_verified_at != null) {
                         return redirect()->route('login.page')->with([
                             'success' => $this->translation->authMessages['login_success'],
+                            'title' => $this->translation->notification['success'],
+                            'content' => $this->translation->authMessages['login_success'],
                         ]);
                     } else {
                         Auth::logout();
                         return redirect()->route('resend.verification.page')->with([
                             'error' => $this->translation->authMessages['email_not_verified'],
+                            'title' => $this->translation->notification['failed'],
+                            'content' => $this->translation->authMessages['email_not_verified'],
                         ]);
                     }
                 } elseif (($auth->hasRole('administrator'))) {
-                    return redirect()->route('dashboard.main')->with([
-                        'success' => $this->translation->authMessages['login_success'],
-                    ]);
+                    if ($auth->email_verified_at != null) {
+                        return redirect()->route('dashboard.main')->with([
+                            'success' => $this->translation->authMessages['login_success'],
+                            'title' => $this->translation->notification['success'],
+                            'content' => $this->translation->authMessages['login_success'],
+                        ]);
+                    }  else {
+                        Auth::logout();
+                        return redirect()->route('login.page')->with([
+                            'error' => $this->translation->authMessages['email_not_verified'],
+                            'title' => $this->translation->notification['failed'],
+                            'content' => $this->translation->authMessages['email_not_verified'],
+                        ]);
+                    }
                 } else {
                     Auth::logout();
                     throw new Exception($this->translation->authMessages["user_not_registered"], 1);

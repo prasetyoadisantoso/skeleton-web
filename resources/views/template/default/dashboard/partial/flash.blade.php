@@ -4,8 +4,11 @@
 <script>
     Swal.fire({
             title: "{{ $error }}",
-            text:"{{ $error }}",
-            icon:'error'
+            icon:'error',
+            customClass: {
+                confirmButton: "btn btn-danger px-5",
+            },
+            buttonsStyling: false,
     });
 </script>
 @endforeach
@@ -15,12 +18,11 @@
 {{-- Success Sweetalert --}}
 <script>
     Swal.fire({
-            title:"{{__('notification.success')}}",
-            text:"{{Session::get('success')}}",
+            title:"{{Session::get('title')}}",
+            text:"{{Session::get('content')}}",
             icon:'success',
             customClass: {
-                popup: "rad-25",
-                confirmButton: "btn btn-success px-5 rad-25",
+                confirmButton: "btn btn-success px-5",
             },
             buttonsStyling: false,
         });
@@ -31,9 +33,13 @@
 {{-- Error Sweetalert --}}
 <script type="text/javascript">
     Swal.fire({
-        title:"{{__('notification.error')}}",
-        text:"{{Session::get('error')}}",
-        icon:'error'
+        title:"{{Session::get('title')}}",
+        text:"{{Session::get('content')}}",
+        icon:'error',
+        customClass: {
+                confirmButton: "btn btn-danger px-5",
+        },
+        buttonsStyling: false,
     });
 </script>
 @endif
