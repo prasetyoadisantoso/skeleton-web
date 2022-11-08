@@ -219,7 +219,8 @@
 </script>
 
 <script>
-    $("#user-store-form").validate({
+    let current_id = document.querySelector("form").id;
+    $("#" + current_id).validate({
     rules: {
         name: {
             required: true

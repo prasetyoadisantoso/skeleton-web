@@ -28,7 +28,7 @@ Route::group([
     });
 
     // Authentication
-    Route::prefix('authentication')->group(function(){
+    Route::prefix('authentication')->group(function () {
         Route::get('login/page', [AuthController::class, 'login_page'])->name('login.page');
         Route::get('register/page', [AuthController::class, 'register_page'])->name('register.page');
         Route::get('forgot_password/page', [AuthController::class, 'forgot_password_page'])->name('forgot.password.page');
@@ -48,26 +48,24 @@ Route::group([
     });
 
     // Dashboard
-    Route::prefix('dashboard')->group(function(){
+    Route::prefix('dashboard')->group(function () {
         Route::get('main', [MainController::class, 'index'])->name('dashboard.main');
         Route::resource('user', UserController::class);
         Route::get('user_datatable', [UserController::class, 'index_dt'])->name('user.datatable');
+        Route::resource('permission', PermissionController::class);
+        Route::get('permission_datatable', [PermissionController::class, 'index_dt'])->name('permission.datatable');
     });
 
 });
 
 Route::group([
-    'prefix' => 'testing'
-],function(){
+    'prefix' => 'testing',
+], function () {
     # Place testing code here
     # <code>
-    Route::resource('permission', PermissionController::class);
-    Route::get('permission_datatable', [PermissionController::class, 'index_dt'])->name('permission.datatable');
 
     # Email template testing
     Route::get('/send-verification', function () {
         return new App\Mail\SendVerification("1111");
     });
 });
-
-

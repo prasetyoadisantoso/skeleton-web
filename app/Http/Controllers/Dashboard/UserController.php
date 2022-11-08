@@ -11,15 +11,17 @@ use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
+use App\Services\ResponseFormatter;
 use App\Services\Translations;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
 
-    protected $global_view, $global_variable, $user, $upload, $dataTables, $translation, $role;
+    protected $global_view, $global_variable, $user, $upload, $dataTables, $translation, $role, $responseFormatter;
 
     public function __construct(
+        ResponseFormatter $responseFormatter,
         GlobalVariable $global_variable,
         GlobalView $global_view,
         Translations $translation,
@@ -30,6 +32,7 @@ class UserController extends Controller
     ) {
         $this->middleware(['auth', 'verified', 'xss', 'role:administrator']);
 
+        $this->responseFormatter = $responseFormatter;
         $this->global_variable = $global_variable;
         $this->global_view = $global_view;
         $this->translation = $translation;

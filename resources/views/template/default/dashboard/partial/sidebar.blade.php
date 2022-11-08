@@ -52,7 +52,7 @@
                     </a>
                 </li>
                 <li class="sub-list font-sm">
-                    <a href="#">
+                    <a href="{{route('permission.index')}}">
                         <span><i class="fa-solid fa-circle-dot me-3"></i>{{$permissions}}</span>
                     </a>
                 </li>

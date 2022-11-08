@@ -45,7 +45,7 @@ class PermissionController extends Controller
         $this->global_view->RenderView([
 
             // Global Variable
-            $this->global_variable->TitlePage('Permissions'),
+            $this->global_variable->TitlePage($this->translation->permissions['title']),
             $this->global_variable->SystemLanguage(),
             $this->global_variable->AuthUserName(),
             $this->global_variable->SystemName(),
@@ -53,7 +53,7 @@ class PermissionController extends Controller
             // Translations
             $this->translation->sidebar,
             $this->translation->button,
-            $this->translation->users,
+            $this->translation->permissions,
             $this->translation->notification,
 
         ]);
@@ -62,7 +62,7 @@ class PermissionController extends Controller
     public function index()
     {
         $this->boot();
-        $this->fileManagement->Logging($this->responseFormatter->successResponse("Index Page: Success "));
+        return view('template.default.dashboard.permissions.home',  array_merge($this->global_variable->TypePage('create')));
     }
 
     public function index_dt()
@@ -73,14 +73,14 @@ class PermissionController extends Controller
             })
             ->removeColumn('id')->addIndexColumn()->make('true');
 
-        $this->fileManagement->Logging($this->responseFormatter->successResponse($result)->getContent());
+        return $result;
 
     }
 
     public function create()
     {
         $this->boot();
-        $this->fileManagement->Logging($this->responseFormatter->successResponse("Create Page: Success ")->getContent());
+        return view('template.default.dashboard.permissions.form', array_merge($this->global_variable->TypePage('create')));
     }
 
     public function store(PermissionFormRequest $request)
@@ -96,10 +96,24 @@ class PermissionController extends Controller
                 'name' => $validated_data['name'],
             ]);
             DB::commit();
-            $this->fileManagement->Logging($this->responseFormatter->successResponse("Store Success")->getContent());
+            return redirect()->route('permission.index')->with([
+                'success' => 'success',
+                'title' => $this->translation->notification['success'],
+                'content' => $this->translation->permissions['messages']['store_success'],
+            ]);
         } catch (\Throwable$th) {
-            DB::rollBack();
-            $this->fileManagement->Logging($this->responseFormatter->errorResponse($th->getMessage()));
+            DB::rollback();
+            $message = $th->getMessage();
+
+            if (str_contains($th->getMessage(), 'Duplicate entry')) {
+                $message = 'Duplicate entry';
+            }
+
+            return redirect()->route('permission.create')->with([
+                'error' => 'error',
+                "title" => $this->translation->notification['error'],
+                "content" => $message,
+            ]);
         }
 
     }
@@ -112,8 +126,10 @@ class PermissionController extends Controller
     public function edit($id)
     {
         $this->boot();
-        $data = $this->permission->findById($id);
-        $this->fileManagement->Logging($this->responseFormatter->successResponse($data)->getContent());
+        $permission = $this->permission->findById($id);
+        return view('template.default.dashboard.permissions.form', array_merge($this->global_variable->TypePage('edit'), [
+            "permission"=> $permission,
+        ]));
     }
 
     public function update(PermissionFormRequest $request, $id)
@@ -127,10 +143,23 @@ class PermissionController extends Controller
             $permission->name = $validated_data['name'];
             $permission->save();
             DB::commit();
-            $this->fileManagement->Logging($this->responseFormatter->successResponse("Update success"));
+            return redirect()->route('permission.index')->with([
+                'success' => 'success',
+                'title' => $this->translation->notification['success'],
+                'content' => $this->translation->permissions['messages']['update_success'],
+            ]);
         } catch (\Throwable$th) {
             DB::rollBack();
-            $this->fileManagement->Logging($this->responseFormatter->errorResponse($th->getMessage()));
+            $message = $th->getMessage();
+
+            if (str_contains($th->getMessage(), 'Duplicate entry')) {
+                $message = 'Duplicate entry';
+            }
+            return redirect()->route('permission.create')->with([
+                'error' => 'error',
+                "title" => $this->translation->notification['error'],
+                "content" => $message,
+            ]);
         }
 
     }
@@ -149,10 +178,16 @@ class PermissionController extends Controller
                 $status = 'error';
             }
 
-            $this->fileManagement->Logging($this->responseFormatter->successResponse($status));
+            //  Return response
+            return response()->json(['status' => $status]);
         } catch (\Throwable$th) {
             DB::rollBack();
-            $this->fileManagement->Logging($this->responseFormatter->errorResponse($th->getMessage()));
+            $message = $th->getMessage();
+            return redirect()->back()->with([
+                'error' => 'error',
+                "title" => $this->translation->notification['error'],
+                "content" => $message
+            ]);
         }
     }
 }

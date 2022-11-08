@@ -36,6 +36,9 @@ class Translations {
 
         // User Dashboard
         $this->users = __('users');
+
+        // Permission Dashboard
+        $this->permissions = __('permissions');
     }
 
 }

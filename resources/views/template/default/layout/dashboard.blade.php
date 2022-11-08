@@ -46,6 +46,8 @@
 
     @stack('user-home-js')
     @stack('user-form-js')
+    @stack('permission-home-js')
+    @stack('permission-form-js')
 
 </body>
 
