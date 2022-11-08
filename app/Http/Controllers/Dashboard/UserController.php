@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserFormRequest;
 use App\Models\User;
-use App\Services\FileManagement;
-use App\Services\ResponseFormatter;
 use App\Services\Upload;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -19,11 +17,9 @@ use Spatie\Permission\Models\Role;
 class UserController extends Controller
 {
 
-    protected $fileManagement, $responseFormatter, $global_view, $global_variable, $user, $upload, $dataTables, $role;
+    protected $global_view, $global_variable, $user, $upload, $dataTables, $translation, $role;
 
     public function __construct(
-        ResponseFormatter $responseFormatter,
-        FileManagement $fileManagement,
         GlobalVariable $global_variable,
         GlobalView $global_view,
         Translations $translation,
@@ -32,9 +28,7 @@ class UserController extends Controller
         User $user,
         Role $role,
     ) {
-        $this->middleware(['auth', 'verified', 'role:administrator']);
-        $this->responseFormatter = $responseFormatter;
-        $this->fileManagement = $fileManagement;
+        $this->middleware(['auth', 'verified', 'xss', 'role:administrator']);
 
         $this->global_variable = $global_variable;
         $this->global_view = $global_view;

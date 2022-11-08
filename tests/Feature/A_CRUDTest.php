@@ -61,4 +61,8 @@ class A_CRUDTest extends TestCase
         $get_user_id = User::inRandomOrder()->first('id')->id;
         $this->deleteJson(route('test.delete', $get_user_id))->assertStatus(200);
     }
+
+    public function testAccessPermissionPage()
+    {
+    }
 }
