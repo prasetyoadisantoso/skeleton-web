@@ -8,7 +8,10 @@
         <li class="breadcrumb-item"><a href="{{route('permission.index')}}"
                 class="text-decoration-none text-dark">{{$breadcrumb['home']}}</a>
         </li>
-        <li class="breadcrumb-item active text-muted" aria-current="page">{{$breadcrumb['edit']}}</li>
+        <li class="breadcrumb-item active text-muted" aria-current="page">
+            {{$type == 'create' ? $breadcrumb['create'] : ''}}
+            {{$type == 'edit' ? $breadcrumb['edit'] : ''}}
+        </li>
     </ol>
 </nav>
 <!-- End Breadcrumb -->
@@ -19,7 +22,7 @@
     <!-- Start app -->
     <div class="card" id="role-create" style="margin-bottom: 30vh;">
         <div class="card-header">
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-center">
                 <h5 class="align-self-center">{{$form['create_title']}}</h5>
             </div>
         </div>

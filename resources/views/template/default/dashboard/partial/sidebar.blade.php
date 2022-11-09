@@ -47,7 +47,7 @@
                     </a>
                 </li>
                 <li class="sub-list font-sm">
-                    <a href="#">
+                    <a href="{{route('role.index')}}">
                         <span><i class="fa-solid fa-circle-dot me-3"></i>{{$roles}}</span>
                     </a>
                 </li>

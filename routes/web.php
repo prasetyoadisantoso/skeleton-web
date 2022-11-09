@@ -56,6 +56,8 @@ Route::group([
         Route::get('user_datatable', [UserController::class, 'index_dt'])->name('user.datatable');
         Route::resource('permission', PermissionController::class);
         Route::get('permission_datatable', [PermissionController::class, 'index_dt'])->name('permission.datatable');
+        Route::resource('role', RoleController::class);
+        Route::get('role_datatable', [RoleController::class, 'index_dt'])->name('role.datatable');
     });
 
 });
@@ -65,8 +67,6 @@ Route::group([
 ], function () {
     # Place testing code here
     # <code>
-    Route::resource('role', RoleController::class);
-    Route::get('role_datatable', [RoleController::class, 'index_dt'])->name('role.datatable');
 
     # Email template testing
     Route::get('/send-verification', function () {
@@ -76,5 +76,3 @@ Route::group([
 
 Route::get('create-form', [TestController::class, 'create'])->name('test.create');
 Route::post('create-form/store', [TestController::class, 'store'])->name('test.store');
-
-

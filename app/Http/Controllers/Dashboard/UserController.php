@@ -5,15 +5,15 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserFormRequest;
 use App\Models\User;
-use App\Services\Upload;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Yajra\DataTables\DataTables;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
 use App\Services\ResponseFormatter;
 use App\Services\Translations;
+use App\Services\Upload;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
+use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
@@ -64,13 +64,26 @@ class UserController extends Controller
             $this->translation->users,
             $this->translation->notification,
 
+            // Module
+            $this->global_variable->ModuleType([
+                'user-home',
+                'user-form'
+            ]),
+
+            // Script
+            $this->global_variable->ScriptType([
+                'user-home-js',
+                'user-form-js'
+            ]),
         ]);
     }
 
     public function index()
     {
         $this->boot();
-        return view('template.default.dashboard.user.home');
+        return view('template.default.dashboard.user.home', array_merge(
+            $this->global_variable->PageType('index')
+        ));
     }
 
     public function index_dt()
@@ -95,9 +108,12 @@ class UserController extends Controller
     public function create()
     {
         $this->boot();
-        return view('template.default.dashboard.user.form', array_merge($this->global_variable->PageType('create'), [
-            'role_list' => $this->role->all()
-        ]));
+        return view('template.default.dashboard.user.form', array_merge(
+            $this->global_variable->PageType('create'),
+            [
+                'role_list' => $this->role->all(),
+            ]
+        ));
     }
 
     public function store(UserFormRequest $request)
@@ -117,7 +133,7 @@ class UserController extends Controller
             return redirect()->route('user.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
-                'content' => $this->translation->users['messages']['store_success']
+                'content' => $this->translation->users['messages']['store_success'],
             ]);
         } catch (\Throwable$th) {
             DB::rollback();
@@ -130,7 +146,7 @@ class UserController extends Controller
             return redirect()->route('user.create')->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],
-                "content" => $message
+                "content" => $message,
             ]);
         }
     }
@@ -138,13 +154,13 @@ class UserController extends Controller
     public function show($id)
     {
         $user = $this->user->GetUserByID($id);
-        if($user->email_verified_at !== null){
+        if ($user->email_verified_at !== null) {
             $is_verified = $this->translation->select['antonim']['yes'];
         } else {
             $is_verified = $this->translation->select['antonim']['no'];
         }
         $role = $user->getRoleNames();
-        return $this->responseFormatter->successResponse(["user"=> $user, "role" => $role, "is_verified" => $is_verified], 'Get user detail by id');
+        return $this->responseFormatter->successResponse(["user" => $user, "role" => $role, "is_verified" => $is_verified], 'Get user detail by id');
     }
 
     public function edit($id)
@@ -152,17 +168,20 @@ class UserController extends Controller
         $this->boot();
         $user = $this->user->GetUserByID($id);
         $role = $user->getRoleNames();
-        if($user->email_verified_at !== null){
+        if ($user->email_verified_at !== null) {
             $is_verified = $this->translation->select['antonim']['yes'];
         } else {
             $is_verified = $this->translation->select['antonim']['no'];
         }
-        return view('template.default.dashboard.user.form', array_merge($this->global_variable->PageType('edit'), [
-            "user"=> $user,
-            "role" => $role,
-            'role_list' => $this->role->all(),
-            "is_verified" => $is_verified,
-        ]));
+        return view('template.default.dashboard.user.form', array_merge(
+            $this->global_variable->PageType('edit'),
+            [
+                "user" => $user,
+                "role" => $role,
+                'role_list' => $this->role->all(),
+                "is_verified" => $is_verified,
+            ]
+        ));
     }
 
     public function update(UserFormRequest $request, $id)
@@ -181,7 +200,7 @@ class UserController extends Controller
             return redirect()->route('user.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
-                'content' => $this->translation->users['messages']['update_success']
+                'content' => $this->translation->users['messages']['update_success'],
             ]);
         } catch (\Throwable$th) {
             DB::rollback();
@@ -194,7 +213,7 @@ class UserController extends Controller
             return redirect()->back()->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],
-                "content" => $message
+                "content" => $message,
             ]);
         }
     }
@@ -222,7 +241,7 @@ class UserController extends Controller
             return redirect()->back()->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],
-                "content" => $message
+                "content" => $message,
             ]);
         }
     }

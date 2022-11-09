@@ -32,6 +32,7 @@ class RoleController extends Controller
 
         $this->fileManagement = $fileManagement;
         $this->responseFormatter = $responseFormatter;
+
         $this->global_variable = $global_variable;
         $this->global_view = $global_view;
         $this->translation = $translation;
@@ -52,7 +53,7 @@ class RoleController extends Controller
         $this->global_view->RenderView([
 
             // Global Variable
-            $this->global_variable->TitlePage('Users'),
+            $this->global_variable->TitlePage($this->translation->permissions['title']),
             $this->global_variable->SystemLanguage(),
             $this->global_variable->AuthUserName(),
             $this->global_variable->SystemName(),
@@ -62,7 +63,18 @@ class RoleController extends Controller
             $this->translation->sidebar,
             $this->translation->button,
             $this->translation->roles,
-            $this->translation->permissions,
+
+            // Module
+            $this->global_variable->ModuleType([
+                'role-home',
+                'role-form',
+            ]),
+
+            // Script
+            $this->global_variable->ScriptType([
+                'role-home-js',
+                'role-form-js',
+            ]),
 
         ]);
     }
@@ -70,7 +82,9 @@ class RoleController extends Controller
     public function index()
     {
         $this->boot();
-        $this->fileManagement->Logging($this->responseFormatter->successResponse("Index Page"));
+        return view('template.default.dashboard.role.home', array_merge(
+            $this->global_variable->PageType('index'))
+        );
     }
 
     public function index_dt()
@@ -87,16 +101,19 @@ class RoleController extends Controller
             })
             ->removeColumn('id')->addIndexColumn()->make('true');
 
-        return $this->fileManagement->Logging($this->responseFormatter->successResponse($result));
+        return $result;
     }
 
     public function create()
     {
         $this->boot();
-        $permissions = $this->permission->query()->get();
-        $this->fileManagement->Logging($this->responseFormatter->successResponse(array_merge($this->global_variable->PageType('create')), [
-            'permissions' => $permissions,
-        ]));
+        $permissions = $permissions = $this->permission->query()->get()->toArray();
+        return view('template.default.dashboard.role.form', array_merge(
+            $this->global_variable->PageType('create'),
+            [
+                'permission_list' => $permissions,
+            ]
+        ));
     }
 
     public function store(RoleFormRequest $request)
@@ -110,20 +127,42 @@ class RoleController extends Controller
             $role->syncPermissions($validated_data['permissions']);
             DB::commit();
 
-            $this->fileManagement->Logging($this->responseFormatter->successResponse("Success create role")->getContent());
+            return redirect()->route('role.index')->with([
+                'success' => 'success',
+                'title' => $this->translation->notification['success'],
+                'content' => $this->translation->roles['messages']['store_success'],
+            ]);
         } catch (\Throwable$th) {
             DB::rollBack();
-            $this->fileManagement->Logging($this->responseFormatter->errorResponse($th->getMessage())->getContent());
+            $message = $th->getMessage();
+
+            if (str_contains($th->getMessage(), 'Duplicate entry')) {
+                $message = 'Duplicate entry';
+            }
+
+            return redirect()->route('role.create')->with([
+                'error' => 'error',
+                "title" => $this->translation->notification['error'],
+                "content" => $message,
+            ]);
         }
     }
 
     public function edit($id)
     {
+        $this->boot();
         $role = $this->role->findById($id);
-        $permission = $role->permissions()->get();
-        $this->fileManagement->Logging($this->responseFormatter->successResponse([
-            $role, $permission
-        ])->getContent());
+        $current_permission = $role->permissions()->get()->toArray();
+        $permissions = $this->permission->query()->get()->toArray();
+
+        return view('template.default.dashboard.role.form', array_merge(
+            $this->global_variable->PageType('edit'),
+            [
+                'role' => $role,
+                'permission_list' => $permissions,
+                'current_permissions' => $current_permission,
+            ]
+        ));
     }
 
     public function update(RoleFormRequest $request, $id)
@@ -135,14 +174,28 @@ class RoleController extends Controller
         try {
             $role = $this->role->findById($id);
             $role->update([
-                "name" => $validated_data['name']
+                "name" => $validated_data['name'],
             ]);
             $role->syncPermissions($validated_data['permissions']);
             DB::commit();
-            $this->fileManagement->Logging($this->responseFormatter->successResponse("Success update data")->getContent());
-        } catch (\Throwable $th) {
+            return redirect()->route('role.index')->with([
+                'success' => 'success',
+                'title' => $this->translation->notification['success'],
+                'content' => $this->translation->roles['messages']['update_success'],
+            ]);
+        } catch (\Throwable$th) {
             DB::rollBack();
-            $this->fileManagement->Logging($this->responseFormatter->errorResponse($th->getMessage())->getContent());
+            $message = $th->getMessage();
+
+            if (str_contains($th->getMessage(), 'Duplicate entry')) {
+                $message = 'Duplicate entry';
+            }
+
+            return redirect()->back()->with([
+                'error' => 'error',
+                "title" => $this->translation->notification['error'],
+                "content" => $message,
+            ]);
         }
     }
 
@@ -152,16 +205,24 @@ class RoleController extends Controller
         try {
             $delete = $this->role->findById($id)->delete();
             DB::commit();
-             // check data deleted or not
-             if ($delete == true) {
+
+            // check data deleted or not
+            if ($delete == "true") {
                 $status = 'success';
             } else {
                 $status = 'error';
             }
-            $this->fileManagement->Logging($this->responseFormatter->successResponse($status, "Success delete data")->getContent());
-        } catch (\Throwable $th) {
+
+            //  Return response
+            return response()->json(['status' => $status]);
+        } catch (\Throwable$th) {
             DB::rollBack();
-            $this->fileManagement->Logging($this->responseFormatter->errorResponse($th->getMessage())->getContent());
+            $message = $th->getMessage();
+            return redirect()->back()->with([
+                'error' => 'error',
+                "title" => $this->translation->notification['error'],
+                "content" => $message
+            ]);
         }
     }
 }

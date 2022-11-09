@@ -37,12 +37,12 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>1</td>
-                        <td>Image</td>
-                        <td>Administrator Department</td>
-                        <td>Email</td>
-                        <td>Role</td>
-                        <td>Action</td>
+                        <td>{{$datatable['table']['number']}}</td>
+                        <td>{{$datatable['table']['image']}}</td>
+                        <td>{{$datatable['table']['name']}}</td>
+                        <td>{{$datatable['table']['email']}}</td>
+                        <td>{{$datatable['table']['role']}}</td>
+                        <td>{{$datatable['table']['action']}}</td>
                     </tr>
                 </tbody>
             </table>

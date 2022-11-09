@@ -48,4 +48,18 @@ class GlobalVariable
             'type' => $type
         ];
     }
+
+    public function ModuleType(array $type): ?array
+    {
+        return [
+            'module' => $type
+        ];
+    }
+
+    public function ScriptType(array $type): ?array
+    {
+        return [
+            'script' => $type
+        ];
+    }
 }

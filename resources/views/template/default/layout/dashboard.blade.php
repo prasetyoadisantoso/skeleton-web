@@ -44,10 +44,11 @@
     <script src="{{asset('template/default/assets/js/dashboard.js')}}"></script>
     <script src="{{asset('template/default/assets/datatables/datatables.min.js')}}"></script>
 
-    @stack('user-home-js')
-    @stack('user-form-js')
-    @stack('permission-home-js')
-    @stack('permission-form-js')
+    {{-- Script Type --}}
+    @foreach ($script as $item)
+    @stack($item)
+    @endforeach
+
 
 </body>
 

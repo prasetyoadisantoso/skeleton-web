@@ -56,13 +56,27 @@ class PermissionController extends Controller
             $this->translation->permissions,
             $this->translation->notification,
 
+            // Module
+            $this->global_variable->ModuleType([
+                'permission-home',
+                'permission-form'
+            ]),
+
+            // Script
+            $this->global_variable->ScriptType([
+                'permission-home-js',
+                'permission-form-js'
+            ]),
+
         ]);
     }
 
     public function index()
     {
         $this->boot();
-        return view('template.default.dashboard.permissions.home',  array_merge($this->global_variable->PageType('create')));
+        return view('template.default.dashboard.permissions.home',  array_merge(
+            $this->global_variable->PageType('index')
+        ));
     }
 
     public function index_dt()
@@ -80,7 +94,9 @@ class PermissionController extends Controller
     public function create()
     {
         $this->boot();
-        return view('template.default.dashboard.permissions.form', array_merge($this->global_variable->PageType('create')));
+        return view('template.default.dashboard.permissions.form', array_merge(
+            $this->global_variable->PageType('create')
+        ));
     }
 
     public function store(PermissionFormRequest $request)
@@ -116,11 +132,6 @@ class PermissionController extends Controller
             ]);
         }
 
-    }
-
-    public function show($id)
-    {
-        # code...
     }
 
     public function edit($id)

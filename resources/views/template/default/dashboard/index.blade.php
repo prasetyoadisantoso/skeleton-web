@@ -13,10 +13,9 @@
 
     <!-- Start App/Module -->
     @yield('main-home')
-    @yield('user-home')
-    @yield('user-form')
-    @yield('permission-home')
-    @yield('permission-form')
+    @foreach ($module as $item)
+    @yield($item)
+    @endforeach
     <!-- End App/Module -->
 
     @include('template.default.dashboard.partial.footer')

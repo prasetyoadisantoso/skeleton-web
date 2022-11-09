@@ -1,9 +1,9 @@
 @extends('template.default.dashboard.index')
 
-@section('permission-home')
+@section('role-home')
 <!-- Start Breadcrumb -->
 <nav class="bg-light py-3 px-2 px-md-5 shadow-sm d-flex justify-content-between" aria-label="breadcrumb">
-    <h5 class="my-0"><i class="fa-solid fa-person-military-pointing me-3"></i>{{$breadcrumb['title']}}</h5>
+    <h5 class="my-0"><i class="fa-solid fa-user-shield me-3"></i>{{$breadcrumb['title']}}</h5>
     <ol class="breadcrumb my-0">
         <li class="breadcrumb-item active text-muted" aria-current="page">{{$breadcrumb['index']}}</li>
     </ol>
@@ -11,24 +11,25 @@
 <!-- End Breadcrumb -->
 
 <!-- Start Home -->
-<div class="container py-3">
+<div class="container py-2">
 
     <!-- Start app -->
-    <div class="card" id="permission-home">
+    <div class="card" id="role-home">
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <h5 class="align-self-center">{{$datatable['header']['title']}}</h5>
-                <a href="{{route('permission.create')}}" class="btn btn-success">{{$button['create']}}<i
+                <a href="{{route('role.create')}}" class="btn btn-success">{{$button['create']}}<i
                     class="fa-solid fa-plus ms-3"></i></a>
             </div>
         </div>
         <div class="card-body">
             <!-- <div class="table-responsive"> -->
-            <table id="permission_datatable" class="table table-bordered w-100">
+            <table id="role_datatable" class="table table-bordered w-100">
                 <thead>
                     <tr>
                         <th>{{$datatable['table']['number']}}</th>
                         <th>{{$datatable['table']['name']}}</th>
+                        <th>{{$datatable['table']['permission']}}</th>
                         <th>{{$datatable['table']['action']}}</th>
                     </tr>
                 </thead>
@@ -36,6 +37,7 @@
                     <tr>
                         <td>{{$datatable['table']['number']}}</td>
                         <td>{{$datatable['table']['name']}}</td>
+                        <td>{{$datatable['table']['permission']}}</td>
                         <td>{{$datatable['table']['action']}}</td>
                     </tr>
                 </tbody>
@@ -49,26 +51,36 @@
 <!-- End Home -->
 @endsection
 
-@push('permission-home-js')
+@push('role-home-js')
 <script type="text/javascript" alt="datatable">
-    $("#permission_datatable").DataTable({
+    $("#role_datatable").DataTable({
         scrollX: true,
         processing: true,
-        ajax: "{{route('permission.datatable')}}",
+        ajax: "{{route('role.datatable')}}",
         dom: 'frtip',
         paging: true,
-        pageLength: 10,
+        pageLength: 5,
         columns: [
-            { data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false, width: "5%", },
+            { data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false, width: '5%' },
             { data: 'name', name: 'name', searchable: true, orderable: true },
             {
-                data: 'action', name: 'action', width: "20%", orderable: false, searchable: false, render: function (data, type, full, meta) {
+                data: 'permission', name: 'permission', searchable: true, render: function (data, type, full, meta) {
+                    let collect = JSON.parse(data);
+                    let res = '';
+                    for (let element in collect){
+                        res += collect[element] + "<br>";
+                    }
+                    return res;
+                }
+            },
+            {
+                data: 'action', width: '20%', name: 'action', orderable: false, searchable: false, render: function (data, type, full, meta) {
                     var id = data;
                     // Edit
-                    var edit = '{{route("permission.edit", ":id")}}';
+                    var edit = '{{route("role.edit", ":id")}}';
                     edit = edit.replace(':id', id);
                     // Delete
-                    var destroy = '{{route("permission.destroy", ":id")}}';
+                    var destroy = '{{route("role.destroy", ":id")}}';
                     destroy = destroy.replace(':id', id);
                     return '<a href="' + edit + '" class="btn btn-secondary my-1 w-100"><i class="fas fa-pen-square mx-2"></i>{{$button["edit"]}}</a>' + '<a id="destroy" href="' + destroy + '" class="btn btn-danger my-1 w-100"><i class="fas fa-trash mx-2"></i>{{$button["delete"]}}</a>';
                 }
@@ -87,7 +99,7 @@
     });
 </script>
 
-<script alt="permission-delete">
+<script alt="role-delete">
     /* Delete Permission */
     $(document).on('click', '#destroy', function (e) {
         e.preventDefault();
@@ -146,3 +158,4 @@
     })
 </script>
 @endpush
+
