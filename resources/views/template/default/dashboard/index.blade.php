@@ -12,7 +12,6 @@
     @include('template.default.dashboard.partial.header')
 
     <!-- Start App/Module -->
-    @yield('main-home')
     @foreach ($module as $item)
     @yield($item)
     @endforeach

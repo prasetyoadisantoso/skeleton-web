@@ -28,6 +28,16 @@ class MainController extends Controller
             $this->global_variable->SystemName(),
             $this->translation->sidebar,
             $this->translation->main,
+
+            // Module
+            $this->global_variable->ModuleType([
+                'main-home',
+            ]),
+
+            // Script
+            $this->global_variable->ScriptType([
+                'main-home-js',
+            ]),
         ]);
     }
 
