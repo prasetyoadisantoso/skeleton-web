@@ -42,7 +42,7 @@ class GlobalVariable
         ];
     }
 
-    public function TypePage(string $type): ?array
+    public function PageType(string $type): ?array
     {
         return [
             'type' => $type

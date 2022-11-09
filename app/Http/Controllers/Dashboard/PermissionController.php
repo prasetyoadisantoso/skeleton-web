@@ -62,7 +62,7 @@ class PermissionController extends Controller
     public function index()
     {
         $this->boot();
-        return view('template.default.dashboard.permissions.home',  array_merge($this->global_variable->TypePage('create')));
+        return view('template.default.dashboard.permissions.home',  array_merge($this->global_variable->PageType('create')));
     }
 
     public function index_dt()
@@ -80,7 +80,7 @@ class PermissionController extends Controller
     public function create()
     {
         $this->boot();
-        return view('template.default.dashboard.permissions.form', array_merge($this->global_variable->TypePage('create')));
+        return view('template.default.dashboard.permissions.form', array_merge($this->global_variable->PageType('create')));
     }
 
     public function store(PermissionFormRequest $request)
@@ -127,7 +127,7 @@ class PermissionController extends Controller
     {
         $this->boot();
         $permission = $this->permission->findById($id);
-        return view('template.default.dashboard.permissions.form', array_merge($this->global_variable->TypePage('edit'), [
+        return view('template.default.dashboard.permissions.form', array_merge($this->global_variable->PageType('edit'), [
             "permission"=> $permission,
         ]));
     }

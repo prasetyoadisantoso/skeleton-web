@@ -39,6 +39,9 @@ class Translations {
 
         // Permission Dashboard
         $this->permissions = __('permissions');
+
+        // Role Dashboard
+        $this->roles = __('roles');
     }
 
 }

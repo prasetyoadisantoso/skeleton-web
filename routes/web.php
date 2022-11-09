@@ -3,7 +3,9 @@
 use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Dashboard\MainController;
 use App\Http\Controllers\Dashboard\PermissionController;
+use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\UserController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -63,9 +65,16 @@ Route::group([
 ], function () {
     # Place testing code here
     # <code>
+    Route::resource('role', RoleController::class);
+    Route::get('role_datatable', [RoleController::class, 'index_dt'])->name('role.datatable');
 
     # Email template testing
     Route::get('/send-verification', function () {
         return new App\Mail\SendVerification("1111");
     });
 });
+
+Route::get('create-form', [TestController::class, 'create'])->name('test.create');
+Route::post('create-form/store', [TestController::class, 'store'])->name('test.store');
+
+

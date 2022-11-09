@@ -159,7 +159,7 @@ class User extends Authenticatable implements MustVerifyEmail
         // Delete image file
         Storage::delete('/public' . '/' . $delete_user->image);
 
-        return $this->where('id', '=', $delete_user->id)->delete();
+        return $this->find($delete_user->id)->forceDelete();
     }
 
     public function getActivitylogOptions(): LogOptions

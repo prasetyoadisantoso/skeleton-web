@@ -95,7 +95,7 @@ class UserController extends Controller
     public function create()
     {
         $this->boot();
-        return view('template.default.dashboard.user.form', array_merge($this->global_variable->TypePage('create'), [
+        return view('template.default.dashboard.user.form', array_merge($this->global_variable->PageType('create'), [
             'role_list' => $this->role->all()
         ]));
     }
@@ -157,7 +157,7 @@ class UserController extends Controller
         } else {
             $is_verified = $this->translation->select['antonim']['no'];
         }
-        return view('template.default.dashboard.user.form', array_merge($this->global_variable->TypePage('edit'), [
+        return view('template.default.dashboard.user.form', array_merge($this->global_variable->PageType('edit'), [
             "user"=> $user,
             "role" => $role,
             'role_list' => $this->role->all(),
@@ -207,7 +207,7 @@ class UserController extends Controller
             DB::commit();
 
             // check data deleted or not
-            if ($delete == 1) {
+            if ($delete == true) {
                 $status = 'success';
             } else {
                 $status = 'error';
