@@ -17,7 +17,7 @@ class FileManagement
     }
 
     /**
-     *  Upload profile image for testing purpose.
+     *  Upload profile image for development purpose.
      */
     public function GetPathProfileImage($role = null)
     {
@@ -31,6 +31,26 @@ class FileManagement
 
         $file = new UploadedFile($image, 'profile.png', 'image/png', null, true);
 
+        return $file;
+    }
+
+    /**
+     *  Upload Logo for development purpose
+     */
+    public function GetPathLogoImage()
+    {
+        $image = public_path('Test/Images/logo.png');
+        $file = new UploadedFile($image, 'profile.png', 'image/png', null, true);
+        return $file;
+    }
+
+    /**
+     *  Upload Favicon for development purpose
+     */
+    public function GetPathFaviconImage()
+    {
+        $image = public_path('Test/Images/favicon.png');
+        $file = new UploadedFile($image, 'profile.png', 'image/png', null, true);
         return $file;
     }
 }

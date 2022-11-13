@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Authentication\AuthController;
+use App\Http\Controllers\Dashboard\GeneralController;
 use App\Http\Controllers\Dashboard\MainController;
 use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\RoleController;
@@ -19,6 +20,9 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
+/**
+ * Development - Production Mode
+ */
 Route::group([
     'prefix' => LaravelLocalization::setlocale(),
     'middleware' => ['localeSessionRedirect', 'localizationRedirect'],
@@ -62,17 +66,27 @@ Route::group([
 
 });
 
+/**
+ * Testing Mode
+ */
 Route::group([
-    'prefix' => 'testing',
+    'prefix' => LaravelLocalization::setlocale(),
+    'middleware' => ['localeSessionRedirect', 'localizationRedirect'],
 ], function () {
     # Place testing code here
     # <code>
+    Route::prefix('testing')->group(function () {
+        Route::get('create-form', [TestController::class, 'create'])->name('test.create');
+        Route::post('create-form/store', [TestController::class, 'store'])->name('test.store');
+
+        Route::get('general', [GeneralController::class, 'index'])->name('general.index.test');
+        Route::post('general/description/update', [GeneralController::class, 'update_site_description'])->name('general.update.description.test');
+        Route::post('general/logo_favicon/update', [GeneralController::class, 'update_site_logo_favicon'])->name('general.update.logo.favicon.test');
+    });
 
     # Email template testing
     Route::get('/send-verification', function () {
         return new App\Mail\SendVerification("1111");
     });
-});
 
-Route::get('create-form', [TestController::class, 'create'])->name('test.create');
-Route::post('create-form/store', [TestController::class, 'store'])->name('test.store');
+});
