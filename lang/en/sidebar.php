@@ -12,5 +12,11 @@ return [
     'users_and_permissions' => 'Users & Permissions',
     'users' => 'Users',
     'roles' => 'Roles',
-    'permissions' => 'Permissions'
+    'permissions' => 'Permissions',
+
+    // Settings
+    'settings' => 'Settings',
+    'general' => 'General',
+    'seo' => 'SEO',
+    'google' => 'Google',
 ];

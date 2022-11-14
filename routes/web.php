@@ -56,12 +56,19 @@ Route::group([
     // Dashboard
     Route::prefix('dashboard')->group(function () {
         Route::get('main', [MainController::class, 'index'])->name('dashboard.main');
+
+        // User & Permissions
         Route::resource('user', UserController::class);
         Route::get('user_datatable', [UserController::class, 'index_dt'])->name('user.datatable');
         Route::resource('permission', PermissionController::class);
         Route::get('permission_datatable', [PermissionController::class, 'index_dt'])->name('permission.datatable');
         Route::resource('role', RoleController::class);
         Route::get('role_datatable', [RoleController::class, 'index_dt'])->name('role.datatable');
+
+        // Settings
+        Route::get('general', [GeneralController::class, 'index'])->name('general.index');
+        Route::post('general/description/update', [GeneralController::class, 'update_site_description'])->name('general.update.description');
+        Route::post('general/logo_favicon/update', [GeneralController::class, 'update_site_logo_favicon'])->name('general.update.logo.favicon');
     });
 
 });
@@ -78,10 +85,6 @@ Route::group([
     Route::prefix('testing')->group(function () {
         Route::get('create-form', [TestController::class, 'create'])->name('test.create');
         Route::post('create-form/store', [TestController::class, 'store'])->name('test.store');
-
-        Route::get('general', [GeneralController::class, 'index'])->name('general.index.test');
-        Route::post('general/description/update', [GeneralController::class, 'update_site_description'])->name('general.update.description.test');
-        Route::post('general/logo_favicon/update', [GeneralController::class, 'update_site_logo_favicon'])->name('general.update.logo.favicon.test');
     });
 
     # Email template testing

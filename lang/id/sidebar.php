@@ -13,4 +13,10 @@ return [
     'users' => 'Pengguna',
     'roles' => 'Peranan',
     'permissions' => 'Izin',
+
+    // Settings
+    'settings' => 'Pengaturan',
+    'general' => 'Umum',
+    'seo' => 'SEO',
+    'google' => 'Google',
 ];

@@ -32,7 +32,7 @@ class GeneralSeeder extends Seeder
             'site_logo' => $imageLogo,
             'site_favicon' => $imageFavicon,
             'url_address' => 'https://localhost:8000',
-            'copyright' => '&copy; 2022 - Skeleton Web',
+            'copyright' => '{"en":"&copy; 2022 - Copyright Skeleton Web","id":"&copy; 2022 - Hak Cipta Skeleton Web"}',
             'cookies_concern' => '{"en":"Lorem ipsum in english","id":"Lorem ipsum dalam bahasa Indonesia"}'
         ]);
 

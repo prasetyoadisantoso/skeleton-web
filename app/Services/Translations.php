@@ -42,6 +42,9 @@ class Translations {
 
         // Role Dashboard
         $this->roles = __('roles');
+
+        // General Dashboard
+        $this->general = __('general');
     }
 
 }

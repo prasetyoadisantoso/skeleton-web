@@ -27,7 +27,7 @@ class GeneralFormRequest extends FormRequest
         $route = Route::currentRouteName();
 
         switch ($route) {
-            case 'general.update.description.test':
+            case 'general.update.description':
                 return [
                     'id' => 'required|uuid',
                     'site_title' => 'required|string',
@@ -38,7 +38,7 @@ class GeneralFormRequest extends FormRequest
                 ];
                 break;
 
-            case 'general.update.logo.favicon.test':
+            case 'general.update.logo.favicon':
                 return [
                     'site_logo' => 'nullable',
                     'site_logo.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',

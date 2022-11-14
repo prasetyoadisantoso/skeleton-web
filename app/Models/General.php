@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Translatable\HasTranslations;
 
 class General extends Model
@@ -39,6 +40,16 @@ class General extends Model
     public function UpdateSiteLogoFavicon($data)
     {
         $current_data = $this->query()->find($data['id']);
+        if (isset($data['site_logo'])) {
+            // Delete image file
+            Storage::delete('/public' . '/' . $current_data->site_logo);
+        }
+
+        if (isset($data['site_favicon'])) {
+            // Delete image file
+            Storage::delete('/public' . '/' . $current_data->site_favicon);
+        }
+
         return $current_data->update($data);
     }
 

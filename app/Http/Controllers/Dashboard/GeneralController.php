@@ -6,22 +6,69 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\GeneralFormRequest;
 use App\Models\General;
 use App\Services\FileManagement;
+use App\Services\GlobalVariable;
+use App\Services\GlobalView;
 use App\Services\ResponseFormatter;
+use App\Services\Translations;
+use App\Services\Upload;
 use Illuminate\Support\Facades\DB;
 
 class GeneralController extends Controller
 {
-    protected $responseFormatter, $fileManagement, $general;
+    protected $global_view, $global_variable, $translation, $responseFormatter, $fileManagement, $general, $upload;
 
     public function __construct(
         ResponseFormatter $responseFormatter,
         FileManagement $fileManagement,
+        GlobalVariable $global_variable,
+        GlobalView $global_view,
+        Translations $translation,
         General $general,
+        Upload $upload,
     )
     {
+        $this->middleware(['auth', 'verified', 'xss', 'role:administrator']);
+
         $this->responseFormatter = $responseFormatter;
+        $this->global_variable = $global_variable;
+        $this->global_view = $global_view;
+        $this->translation = $translation;
         $this->fileManagement = $fileManagement;
         $this->general = $general;
+        $this->upload = $upload;
+    }
+
+    /**
+     * Boot Service
+     *
+     */
+    protected function boot()
+    {
+        // Render to View
+        $this->global_view->RenderView([
+
+            // Global Variable
+            $this->global_variable->TitlePage($this->translation->general['title']),
+            $this->global_variable->SystemLanguage(),
+            $this->global_variable->AuthUserName(),
+            $this->global_variable->SystemName(),
+
+            // Translations
+            $this->translation->sidebar,
+            $this->translation->button,
+            $this->translation->notification,
+            $this->translation->general,
+
+            // Module
+            $this->global_variable->ModuleType([
+                'general-home'
+            ]),
+
+            // Script
+            $this->global_variable->ScriptType([
+                'general-js',
+            ]),
+        ]);
     }
 
     /**
@@ -31,8 +78,12 @@ class GeneralController extends Controller
      */
     public function index()
     {
+        $this->boot();
         $data = $this->general->query()->first();
-        return $this->fileManagement->Logging($this->responseFormatter->successResponse($data));
+        return view('template.default.dashboard.settings.general.home', array_merge(
+            ['data' => $data]
+        ));
+        // return $this->fileManagement->Logging($this->responseFormatter->successResponse($data));
     }
 
     /**
@@ -57,15 +108,23 @@ class GeneralController extends Controller
                 $status = 'error';
             }
             DB::commit();
-            //  Return response
-            $this->fileManagement->Logging($this->responseFormatter->successResponse($status));
+
+            return redirect()->route('general.index')->with([
+                'success' => $status,
+                'title' => $this->translation->notification['success'],
+                'content' => $this->translation->general['messages']['update_success'],
+            ]);
         } catch (\Throwable $th) {
             DB::rollback();
             $message = $th->getMessage();
             if (str_contains($th->getMessage(), 'Duplicate entry')) {
                 $message = 'Duplicate entry';
             }
-            $this->fileManagement->Logging($this->responseFormatter->errorResponse($message));
+            return redirect()->route('permission.create')->with([
+                'error' => 'error',
+                "title" => $this->translation->notification['error'],
+                "content" => $message,
+            ]);
         }
     }
 
@@ -83,6 +142,17 @@ class GeneralController extends Controller
 
         DB::beginTransaction();
         try {
+
+            if ($request->file('site_logo')) {
+                $image = $this->upload->UploadImageLogoToStorage($validated_data['site_logo']);
+                $validated_data['site_logo'] = $image;
+            }
+
+            if ($request->file('site_favicon')) {
+                $image = $this->upload->UploadImageFaviconToStorage($validated_data['site_favicon']);
+                $validated_data['site_favicon'] = $image;
+            }
+
             $general = $this->general->UpdateSiteLogoFavicon($validated_data);
             // check data updated or no
             if ($general == true) {
@@ -91,15 +161,22 @@ class GeneralController extends Controller
                 $status = 'error';
             }
             DB::commit();
-            //  Return response
-            $this->fileManagement->Logging($this->responseFormatter->successResponse($status));
+            return redirect()->route('general.index')->with([
+                'success' => $status,
+                'title' => $this->translation->notification['success'],
+                'content' => $this->translation->general['messages']['update_success'],
+            ]);
         } catch (\Throwable $th) {
             DB::rollback();
             $message = $th->getMessage();
             if (str_contains($th->getMessage(), 'Duplicate entry')) {
                 $message = 'Duplicate entry';
             }
-            $this->fileManagement->Logging($this->responseFormatter->errorResponse($message));
+            return redirect()->route('general.index')->with([
+                'error' => 'error',
+                "title" => $this->translation->notification['error'],
+                "content" => $message,
+            ]);
         }
     }
 

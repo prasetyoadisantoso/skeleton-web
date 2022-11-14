@@ -30,6 +30,36 @@
         </li>
         <!-- End Standard Menu -->
 
+        <!-- Start Settings -->
+        <hr style="border-bottom: 0.1vh solid gray; width: 100%;" class="my-0">
+        <li class="active py-1">
+            <a href="#setting-dropdown-menu" data-bs-toggle="collapse" aria-expanded="false"
+                class="btn-ripple rotation-1">
+                <div class="d-flex align-items-center main-list">
+                    <span class="flex-grow-1 font-md"><i class="fa-solid fa-wrench me-3"></i>{{$settings}}</span>
+                    <i id="icon" class="hide-fa fas fa-chevron-down font-sm rotate-1"></i>
+                </div>
+            </a>
+            <ul class="collapse list-unstyled mx-5 mt-3" id="setting-dropdown-menu">
+                <li class="sub-list font-sm">
+                    <a href="{{route('general.index')}}">
+                        <span><i class="fa-solid fa-circle-dot me-3"></i>{{$general}}</span>
+                    </a>
+                </li>
+                <li class="sub-list font-sm">
+                    <a href="#">
+                        <span><i class="fa-solid fa-circle-dot me-3"></i>{{$seo}}</span>
+                    </a>
+                </li>
+                <li class="sub-list font-sm">
+                    <a href="../permissions/index.html">
+                        <span><i class="fa-solid fa-circle-dot me-3"></i>{{$google}}</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <!-- End Settings -->
+
         <!-- Start User & Permission -->
         <hr style="border-bottom: 0.1vh solid gray; width: 100%;" class="my-0">
 
