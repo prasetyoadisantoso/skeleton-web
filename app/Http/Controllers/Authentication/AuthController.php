@@ -126,44 +126,71 @@ class AuthController extends Controller
         $auth = Auth::user();
         try {
             if ($auth != null) {
-                if ($auth->hasRole('client')) {
-                    if ($auth->email_verified_at != null) {
-                        return redirect()->route('login.page')->with([
-                            'success' => $this->translation->authMessages['login_success'],
-                            'title' => $this->translation->notification['success'],
-                            'content' => $this->translation->authMessages['login_success'],
-                        ]);
-                    } else {
-                        Auth::logout();
-                        return redirect()->route('resend.verification.page')->with([
-                            'error' => $this->translation->authMessages['email_not_verified'],
-                            'title' => $this->translation->notification['failed'],
-                            'content' => $this->translation->authMessages['email_not_verified'],
-                        ]);
-                    }
-                } elseif (($auth->hasRole('administrator'))) {
-                    if ($auth->email_verified_at != null) {
-                        return redirect()->route('dashboard.main')->with([
-                            'success' => $this->translation->authMessages['login_success'],
-                            'title' => $this->translation->notification['success'],
-                            'content' => $this->translation->authMessages['login_success'],
-                        ]);
-                    }  else {
-                        Auth::logout();
-                        return redirect()->route('login.page')->with([
-                            'error' => $this->translation->authMessages['email_not_verified'],
-                            'title' => $this->translation->notification['failed'],
-                            'content' => $this->translation->authMessages['email_not_verified'],
-                        ]);
-                    }
-                } else {
-                    Auth::logout();
-                    throw new Exception($this->translation->authMessages["user_not_registered"], 1);
+                switch ($auth->roles->pluck('name')->first()) {
+
+                    // SuperAdmin
+                    case 'superadmin':
+                        if ($auth->email_verified_at != null) {
+                            return redirect()->route('dashboard.main')->with([
+                                'success' => $this->translation->authMessages['login_success'],
+                                'title' => $this->translation->notification['success'],
+                                'content' => $this->translation->authMessages['login_success'],
+                            ]);
+                        } else {
+                            Auth::logout();
+                            return redirect()->route('login.page')->with([
+                                'error' => $this->translation->authMessages['email_not_verified'],
+                                'title' => $this->translation->notification['failed'],
+                                'content' => $this->translation->authMessages['email_not_verified'],
+                            ]);
+                        }
+                        break;
+
+                    // Administrator
+                    case 'administrator':
+                        if ($auth->email_verified_at != null) {
+                            return redirect()->route('dashboard.main')->with([
+                                'success' => $this->translation->authMessages['login_success'],
+                                'title' => $this->translation->notification['success'],
+                                'content' => $this->translation->authMessages['login_success'],
+                            ]);
+                        } else {
+                            Auth::logout();
+                            return redirect()->route('login.page')->with([
+                                'error' => $this->translation->authMessages['email_not_verified'],
+                                'title' => $this->translation->notification['failed'],
+                                'content' => $this->translation->authMessages['email_not_verified'],
+                            ]);
+                        }
+                        break;
+
+                    // Customer
+                    case 'customer':
+                        if ($auth->email_verified_at != null) {
+                            return redirect()->route('site.index')->with([
+                                'success' => $this->translation->authMessages['login_success'],
+                                'title' => $this->translation->notification['success'],
+                                'content' => $this->translation->authMessages['login_success'],
+                            ]);
+                        } else {
+                            Auth::logout();
+                            return redirect()->route('resend.verification.page')->with([
+                                'error' => $this->translation->authMessages['email_not_verified'],
+                                'title' => $this->translation->notification['failed'],
+                                'content' => $this->translation->authMessages['email_not_verified'],
+                            ]);
+                        }
+                        break;
+
+                    default:
+                        throw new Exception($this->translation->authMessages["user_not_registered"], 1);
+                        break;
                 }
             } else {
                 throw new Exception($this->translation->authMessages["user_not_found"]);
             }
         } catch (\Throwable$th) {
+            Auth::logout();
             return redirect()->route('login.page')->with([
                 'error' => $th->getMessage(),
             ]);
@@ -183,8 +210,8 @@ class AuthController extends Controller
         DB::beginTransaction();
         try {
             switch ($type) {
-                case 'client':
-                    $user_result = $this->user->StoreUser($client, 'client');
+                case 'customer':
+                    $user_result = $this->user->StoreUser($client, 'customer');
                     $token_data = $this->token->StoreToken($user_result->id, $this->generator->GenerateWord());
                     $this->email->EmailVerification($user_result->email, $this->encryption->EncryptToken($token_data->token));
                     DB::commit();

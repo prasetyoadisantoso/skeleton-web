@@ -17,21 +17,30 @@ class ModelRoleSeeder extends Seeder
     {
         DB::table('model_has_roles')->insert([
 
-            // Administrator to Role
+            // Super Admin Role
             [
                 'role_id' => '1',
                 'model_type' => 'App\Models\User',
 
-                // Administrator Department
-                'model_id' => 'c41833ee-2d65-400e-97f1-a47647326ab4'
+                // Username : Super Administrator
+                'model_id' => '4f10db02-2ff7-403a-8945-f2cc2348fa06'
             ],
 
-            // Client to Role
+            // Administrator Role
             [
                 'role_id' => '2',
                 'model_type' => 'App\Models\User',
 
-                // Best Client
+                // Username : Administrator Department
+                'model_id' => 'c41833ee-2d65-400e-97f1-a47647326ab4'
+            ],
+
+            // Customer Role
+            [
+                'role_id' => '3',
+                'model_type' => 'App\Models\User',
+
+                // Username : Best Customer
                 'model_id' => 'b11833ee-2d65-400e-97f1-a47647326ac2'
             ],
 

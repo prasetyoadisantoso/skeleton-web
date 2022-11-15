@@ -32,6 +32,13 @@
             <div class="d-flex justify-content-center mt-4 mb-2">
                 <button type="submit" class="btn btn-primary w-100" id="login-submit">{{$sign_in}}</button>
             </div>
+            <div class="container mt-4 mb-2">
+                <strong>Login for demo :</strong> <br>
+                <small style="font-size: 8px;">Super Admin Username : superadmin@email.com</small><br>
+                <small style="font-size: 8px;">Administrator Username : admin@email.com</small><br>
+                <small style="font-size: 8px;">Customer Username : customer@email.com</small><br>
+                <small style="font-size: 8px;">Password for all account : 123456</small><br>
+            </div>
         </div>
         <div class="card-footer rounded-4 border-0 bg-white pb-3">
             <div class="d-flex justify-content-between">

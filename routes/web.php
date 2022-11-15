@@ -31,7 +31,7 @@ Route::group([
     // Home Page
     Route::get('/', function () {
         return view('welcome');
-    });
+    })->name('site.index');
 
     // Authentication
     Route::prefix('authentication')->group(function () {

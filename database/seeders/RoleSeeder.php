@@ -18,19 +18,42 @@ class RoleSeeder extends Seeder
     {
         DB::table('roles')->insert([
 
-            // Administrator
+            // Super Administrator
             [
                 'id' => "1",
+                'name' => 'superadmin',
+                'guard_name' => 'web'
+            ],
+
+            // Administrator
+            [
+                'id' => '2',
                 'name' => 'administrator',
                 'guard_name' => 'web'
             ],
 
-            // Client
+            // Customer
             [
-                'id' => '2',
-                'name' => 'client',
+                'id' => '3',
+                'name' => 'customer',
                 'guard_name' => 'web'
-            ]
+            ],
+
+            // Guest
+            [
+                'id' => '4',
+                'name' => 'guest',
+                'guard_name' => 'web'
+            ],
+
+
+
+            // Editor
+            [
+                'id' => '5',
+                'name' => 'editor',
+                'guard_name' => 'web'
+            ],
 
         ]);
     }

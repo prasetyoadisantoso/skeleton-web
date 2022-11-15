@@ -27,6 +27,18 @@ class UserSeeder extends Seeder
 
         DB::table('users')->insert([
 
+            // Super Admin User
+
+            [
+                'id' => '4f10db02-2ff7-403a-8945-f2cc2348fa06',
+                'name' => 'Super Administrator',
+                'image' => $imageAdmin,
+                'email' => 'superadmin@email.com',
+                'password' => Hash::make("123456"),
+                'phone' => "081234567890",
+                'email_verified_at' => date("Y-m-d H:i:s"),
+            ],
+
             // Administrator User
             [
                 'id' => 'c41833ee-2d65-400e-97f1-a47647326ab4',
@@ -38,12 +50,12 @@ class UserSeeder extends Seeder
                 'email_verified_at' => date("Y-m-d H:i:s"),
             ],
 
-            // Client User
+            // Customer User
             [
                 'id' => 'b11833ee-2d65-400e-97f1-a47647326ac2',
-                'name' => 'Best Client',
+                'name' => 'Best Customer',
                 'image' => $imageClient,
-                'email' => 'client@email.com',
+                'email' => 'customer@email.com',
                 'password' => Hash::make("123456"),
                 'phone' => "089876543210",
                 'email_verified_at' => date("Y-m-d H:i:s"),

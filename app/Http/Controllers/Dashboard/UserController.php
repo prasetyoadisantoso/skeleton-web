@@ -30,7 +30,14 @@ class UserController extends Controller
         User $user,
         Role $role,
     ) {
-        $this->middleware(['auth', 'verified', 'xss', 'role:administrator']);
+        $this->middleware(['auth', 'verified', 'xss']);
+        $this->middleware(['permission:user-index'])->only(['index', 'index_dt']);
+        $this->middleware(['permission:user-create'])->only('create');
+        $this->middleware(['permission:user-edit'])->only('edit');
+        $this->middleware(['permission:user-show'])->only('show');
+        $this->middleware(['permission:user-store'])->only('store');
+        $this->middleware(['permission:user-update'])->only('update');
+        $this->middleware(['permission:user-destroy'])->only('destroy');
 
         $this->responseFormatter = $responseFormatter;
         $this->global_variable = $global_variable;

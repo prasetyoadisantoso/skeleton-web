@@ -13,7 +13,7 @@ class MainController extends Controller
 
     public function __construct(GlobalVariable $global_variable, GlobalView $global_view, Translations $translation)
     {
-        $this->middleware(['auth', 'verified', 'role:administrator']);
+        $this->middleware(['auth', 'verified']);
         $this->global_variable = $global_variable;
         $this->global_view = $global_view;
         $this->translation = $translation;

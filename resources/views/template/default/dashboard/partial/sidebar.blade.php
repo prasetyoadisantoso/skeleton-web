@@ -41,12 +41,14 @@
                 </div>
             </a>
             <ul class="collapse list-unstyled mx-5 mt-3" id="setting-dropdown-menu">
+                @can('general-index')
                 <li class="sub-list font-sm">
                     <a href="{{route('general.index')}}">
                         <span><i class="fa-solid fa-circle-dot me-3"></i>{{$general}}</span>
                     </a>
                 </li>
-                <li class="sub-list font-sm">
+                @endcan
+                {{-- <li class="sub-list font-sm">
                     <a href="#">
                         <span><i class="fa-solid fa-circle-dot me-3"></i>{{$seo}}</span>
                     </a>
@@ -55,7 +57,7 @@
                     <a href="../permissions/index.html">
                         <span><i class="fa-solid fa-circle-dot me-3"></i>{{$google}}</span>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </li>
         <!-- End Settings -->
@@ -71,21 +73,27 @@
                 </div>
             </a>
             <ul class="collapse list-unstyled mx-5 mt-3" id="user-dropdown-menu">
+                @can('user-index')
                 <li class="sub-list font-sm">
                     <a href="{{route('user.index')}}">
                         <span><i class="fa-solid fa-circle-dot me-3"></i>{{$users}}</span>
                     </a>
                 </li>
+                @endcan
+                @can('role-index')
                 <li class="sub-list font-sm">
                     <a href="{{route('role.index')}}">
                         <span><i class="fa-solid fa-circle-dot me-3"></i>{{$roles}}</span>
                     </a>
                 </li>
+                @endcan
+                @can('permission-index')
                 <li class="sub-list font-sm">
                     <a href="{{route('permission.index')}}">
                         <span><i class="fa-solid fa-circle-dot me-3"></i>{{$permissions}}</span>
                     </a>
                 </li>
+                @endcan
             </ul>
         </li>
         <!-- End User & Permission -->

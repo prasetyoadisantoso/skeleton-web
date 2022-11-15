@@ -28,7 +28,13 @@ class RoleController extends Controller
         Role $role,
         Permission $permission
     ) {
-        $this->middleware(['auth', 'verified', 'xss', 'role:administrator']);
+        $this->middleware(['auth', 'verified', 'xss']);
+        $this->middleware(['permission:role-index'])->only(['index', 'index_dt']);
+        $this->middleware(['permission:role-create'])->only('create');
+        $this->middleware(['permission:role-edit'])->only('edit');
+        $this->middleware(['permission:role-store'])->only('store');
+        $this->middleware(['permission:role-update'])->only('update');
+        $this->middleware(['permission:role-destroy'])->only('destroy');
 
         $this->fileManagement = $fileManagement;
         $this->responseFormatter = $responseFormatter;

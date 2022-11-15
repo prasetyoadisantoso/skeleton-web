@@ -26,7 +26,13 @@ class PermissionController extends Controller
         DataTables $dataTables,
         Permission $permission,
     ) {
-        $this->middleware(['auth', 'verified', 'xss', 'role:administrator']);
+        $this->middleware(['auth', 'verified', 'xss']);
+        $this->middleware(['permission:permission-index'])->only(['index', 'index_dt']);
+        $this->middleware(['permission:permission-create'])->only('create');
+        $this->middleware(['permission:permission-edit'])->only('edit');
+        $this->middleware(['permission:permission-store'])->only('store');
+        $this->middleware(['permission:permission-update'])->only('update');
+        $this->middleware(['permission:permission-destroy'])->only('destroy');
 
         $this->responseFormatter = $responseFormatter;
         $this->fileManagement = $fileManagement;

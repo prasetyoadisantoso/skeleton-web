@@ -27,7 +27,9 @@ class GeneralController extends Controller
         Upload $upload,
     )
     {
-        $this->middleware(['auth', 'verified', 'xss', 'role:administrator']);
+        $this->middleware(['auth', 'verified', 'xss']);
+        $this->middleware(['permission:general-index'])->only(['index']);
+        $this->middleware(['permission:general-update'])->only(['update_site_description', 'update_site_logo_favicon']);
 
         $this->responseFormatter = $responseFormatter;
         $this->global_variable = $global_variable;
