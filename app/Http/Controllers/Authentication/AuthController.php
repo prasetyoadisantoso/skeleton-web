@@ -183,7 +183,20 @@ class AuthController extends Controller
                         break;
 
                     default:
-                        throw new Exception($this->translation->authMessages["user_not_registered"], 1);
+                        if ($auth->email_verified_at != null) {
+                            return redirect()->route('site.index')->with([
+                                'success' => $this->translation->authMessages['login_success'],
+                                'title' => $this->translation->notification['success'],
+                                'content' => $this->translation->authMessages['login_success'],
+                            ]);
+                        } else {
+                            Auth::logout();
+                            return redirect()->route('resend.verification.page')->with([
+                                'error' => $this->translation->authMessages['email_not_verified'],
+                                'title' => $this->translation->notification['failed'],
+                                'content' => $this->translation->authMessages['email_not_verified'],
+                            ]);
+                        }
                         break;
                 }
             } else {

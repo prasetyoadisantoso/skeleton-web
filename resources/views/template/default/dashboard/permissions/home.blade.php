@@ -18,8 +18,10 @@
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <h5 class="align-self-center">{{$datatable['header']['title']}}</h5>
+                @can ("permission-create")
                 <a href="{{route('permission.create')}}" class="btn btn-success">{{$button['create']}}<i
                     class="fa-solid fa-plus ms-3"></i></a>
+                @endcan
             </div>
         </div>
         <div class="card-body">
@@ -70,7 +72,11 @@
                     // Delete
                     var destroy = '{{route("permission.destroy", ":id")}}';
                     destroy = destroy.replace(':id', id);
-                    return '<a href="' + edit + '" class="btn btn-secondary my-1 w-100"><i class="fas fa-pen-square mx-2"></i>{{$button["edit"]}}</a>' + '<a id="destroy" href="' + destroy + '" class="btn btn-danger my-1 w-100"><i class="fas fa-trash mx-2"></i>{{$button["delete"]}}</a>';
+                    return "" +
+                    // Edit Button
+                    '@can ("permission-edit")<a href="' + edit + '" class="btn btn-primary my-1 w-100"><i class="fas fa-pen-square me-2"></i>{{$button["edit"]}}</a>@endcan' +
+                    // Destroy Button
+                    '@can ("permission-destroy")<a id="destroy" href="' + destroy + '" class="btn btn-danger my-1 w-100"><i class="fas fa-trash me-2"></i>{{$button["delete"]}}</a>@endcan';
                 }
             },
         ],

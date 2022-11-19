@@ -165,17 +165,21 @@
                                     <div class="form-group mb-3">
                                         <div class="">
                                             @if ($type == 'create')
+                                            @can ("user-store")
                                             <button id="user-store-submit" type="submit"
                                                 class="btn btn-success w-100 w-md-25">
                                                 {{$button['store']}}<i class="fas fa-save ms-2"></i>
                                             </button>
+                                            @endcan
                                             @endif
 
                                             @if ($type == 'edit')
+                                            @can ("user-update")
                                             <button id="user-update-submit" type="submit"
                                                 class="btn btn-success w-100 w-md-25">
                                                 {{$button['update']}}<i class="fas fa-save ms-2"></i>
                                             </button>
+                                            @endcan
                                             @endif
 
                                         </div>

@@ -51,18 +51,22 @@
                                 </div>
                                 <div class="mb-3">
                                     @if ($type == 'create')
-                                            <button id="role-store-submit" type="submit"
-                                                class="btn btn-success w-100 w-md-50">
-                                                {{$button['store']}}<i class="fas fa-save ms-2"></i>
-                                            </button>
-                                            @endif
+                                    @can ("role-store")
+                                    <button id="role-store-submit" type="submit"
+                                        class="btn btn-success w-100 w-md-50">
+                                        {{$button['store']}}<i class="fas fa-save ms-2"></i>
+                                    </button>
+                                    @endcan
+                                    @endif
 
-                                            @if ($type == 'edit')
-                                            <button id="role-update-submit" type="submit"
-                                                class="btn btn-success w-100 w-md-50">
-                                                {{$button['update']}}<i class="fas fa-save ms-2"></i>
-                                            </button>
-                                            @endif
+                                    @if ($type == 'edit')
+                                    @can ("role-update")
+                                    <button id="role-update-submit" type="submit"
+                                        class="btn btn-success w-100 w-md-50">
+                                        {{$button['update']}}<i class="fas fa-save ms-2"></i>
+                                    </button>
+                                    @endcan
+                                    @endif
                                 </div>
                             </div>
                             <hr>

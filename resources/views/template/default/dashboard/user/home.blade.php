@@ -18,8 +18,10 @@
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <h5 class="align-self-center my-0">{{$datatable['header']['title']}}</h5>
+                @can('user-create')
                 <a href="{{route('user.create')}}" class="btn btn-success">{{$button['create']}}<i
                         class="fa-solid fa-plus ms-3"></i></a>
+                @endcan
             </div>
         </div>
         <div class="card-body">
@@ -101,6 +103,7 @@
 @endsection
 
 @push('user-home-js')
+@can('user-index')
 <script type="text/javascript" alt="datatable">
     $("#user_datatable").DataTable({
         scrollX: true,
@@ -136,7 +139,13 @@
                     // Delete
                     var destroy = '{{ route("user.destroy", ":id") }}';
                     destroy = destroy.replace(':id', id);
-                    return '<button href="' + show + '" class="btn btn-secondary my-1 w-100" id="modal-user"><i class="fas fa-eye me-2"></i>{{$button["show"]}}</button>' + '<a href="' + edit + '" class="btn btn-primary my-1 w-100"><i class="fas fa-pen-square me-2"></i>{{$button["edit"]}}</a>' + '<a id="destroy" href="' + destroy + '" class="btn btn-danger my-1 w-100"><i class="fas fa-trash me-2"></i>{{$button["delete"]}}</a>';
+                    return "" +
+                    // Show Button
+                    '@can ("user-show")<button href="' + show + '" class="btn btn-secondary my-1 w-100" id="modal-user"><i class="fas fa-eye me-2"></i>{{$button["show"]}}</button>@endcan' +
+                    // Edit Button
+                    '@can ("user-edit")<a href="' + edit + '" class="btn btn-primary my-1 w-100"><i class="fas fa-pen-square me-2"></i>{{$button["edit"]}}</a>@endcan' +
+                    // Destroy Button
+                    '@can ("user-destroy")<a id="destroy" href="' + destroy + '" class="btn btn-danger my-1 w-100"><i class="fas fa-trash me-2"></i>{{$button["delete"]}}</a>@endcan';
                 }
             },
         ],
@@ -234,4 +243,5 @@
         })
     })
 </script>
+@endcan
 @endpush

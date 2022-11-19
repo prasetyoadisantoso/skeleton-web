@@ -51,15 +51,19 @@
                             </div>
                             <div class="mb-5">
                                 @if ($type == "create")
+                                @can ("permission-store")
                                 <button type="submit" class="btn btn-success w-100" id="permission-store-submit">
                                     {{$button['store']}} <i class="fas fa-save ms-2"></i>
                                 </button>
+                                @endcan
                                 @endif
 
                                 @if ($type == "edit")
+                                @can ("permission-update")
                                 <button type="submit" class="btn btn-success w-100" id="permission-update-submit">
                                     {{$button['update']}} <i class="fas fa-save ms-2"></i>
                                 </button>
+                                @endcan
                                 @endif
                             </div>
                         </div>

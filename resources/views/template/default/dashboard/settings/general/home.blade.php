@@ -53,8 +53,10 @@
                                     style="height: 100px" name="cookies_concern">{{$data->cookies_concern}}</textarea>
                             </div>
                             <div class="d-flex justify-content-center">
+                                @can ("general-update")
                                 <button type="submit" class="btn btn-success text-center " id="site-description-submit"><i class="fa fa-save me-3"
                                         aria-hidden="true"></i>{{$button['update']}}</button>
+                                @endcan
                             </div>
                         </form>
                     </div>
@@ -98,8 +100,10 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-center">
+                                @can ("general-update")
                                 <button type="submit" class="btn btn-success text-center " id="site-logo-favicon-submit"><i class="fa fa-save me-3"
                                         aria-hidden="true"></i>{{$button['update']}}</button>
+                                @endcan
                             </div>
                         </form>
                         <h5 class="font-weight-light text-center mt-3" style="font-size: 8pt;">
