@@ -3,6 +3,7 @@
 use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Dashboard\GeneralController;
 use App\Http\Controllers\Dashboard\MainController;
+use App\Http\Controllers\Dashboard\MetaController;
 use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\UserController;
@@ -77,12 +78,14 @@ Route::group([
  * Testing Mode
  */
 Route::group([
-    'prefix' => LaravelLocalization::setlocale(),
-    'middleware' => ['localeSessionRedirect', 'localizationRedirect'],
+    // 'prefix' => LaravelLocalization::setlocale(),
+    // 'middleware' => ['localeSessionRedirect', 'localizationRedirect'],
 ], function () {
     # Place testing code here
     # <code>
     Route::prefix('testing')->group(function () {
+        Route::resource('meta', MetaController::class);
+        Route::get('meta_datatable', [MetaController::class, 'index_dt'])->name('meta.datatable');
         Route::get('create-form', [TestController::class, 'create'])->name('test.create');
         Route::post('create-form/store', [TestController::class, 'store'])->name('test.store');
     });

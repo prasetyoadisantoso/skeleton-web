@@ -45,6 +45,8 @@ class Translations {
 
         // General Dashboard
         $this->general = __('general');
+
+        $this->meta = __('meta');
     }
 
 }
