@@ -33,7 +33,7 @@ return [
         'create_title' => 'Create Meta',
         'edit_title' => 'Edit Meta',
         'name' => 'Name :',
-        'name_placeholder' => 'Insert meta\'s name...',
+        'name_placeholder' => 'Insert meta name...',
         'robot' => 'Robots :',
         'robot_placeholder' => 'Insert robots text...',
         'description' => 'Description :',
