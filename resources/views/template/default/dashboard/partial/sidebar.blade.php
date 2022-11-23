@@ -21,6 +21,7 @@
         <!-- Start Standard Menu -->
         <hr style="border-bottom: 0.1vh solid gray; width: 100%;" class="my-0">
 
+        @can('main-sidebar')
         <li class="active py-1">
             <a href="{{route('dashboard.main')}}" class="btn-ripple">
                 <div class="d-flex align-items-center main-list">
@@ -28,9 +29,11 @@
                 </div>
             </a>
         </li>
+        @endcan
         <!-- End Standard Menu -->
 
         <!-- Start Settings -->
+        @can('setting-sidebar')
         <hr style="border-bottom: 0.1vh solid gray; width: 100%;" class="my-0">
         <li class="active py-1">
             <a href="#setting-dropdown-menu" data-bs-toggle="collapse" aria-expanded="false"
@@ -60,9 +63,11 @@
                 </li> --}}
             </ul>
         </li>
+        @endcan
         <!-- End Settings -->
 
         <!-- Start User & Permission -->
+        @can('user-sidebar')
         <hr style="border-bottom: 0.1vh solid gray; width: 100%;" class="my-0">
 
         <li class="active py-1">
@@ -96,6 +101,7 @@
                 @endcan
             </ul>
         </li>
+        @endcan
         <!-- End User & Permission -->
 
         <hr style="border-bottom: 0.1vh solid gray; width: 100%;" class="my-0">

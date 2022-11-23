@@ -31,6 +31,7 @@ class UserController extends Controller
         Role $role,
     ) {
         $this->middleware(['auth', 'verified', 'xss']);
+        $this->middleware(['permission:user-sidebar']);
         $this->middleware(['permission:user-index'])->only(['index', 'index_dt']);
         $this->middleware(['permission:user-create'])->only('create');
         $this->middleware(['permission:user-edit'])->only('edit');

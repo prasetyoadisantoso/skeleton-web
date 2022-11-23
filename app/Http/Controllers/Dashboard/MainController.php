@@ -14,6 +14,8 @@ class MainController extends Controller
     public function __construct(GlobalVariable $global_variable, GlobalView $global_view, Translations $translation)
     {
         $this->middleware(['auth', 'verified']);
+        $this->middleware(['permission:main-sidebar']);
+        $this->middleware(['permission:main-index'])->only(['index']);
         $this->global_variable = $global_variable;
         $this->global_view = $global_view;
         $this->translation = $translation;

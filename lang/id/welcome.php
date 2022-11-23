@@ -6,6 +6,7 @@ return [
         "sign_in" => "Login",
         "sign_up" => "Daftar",
         "dashboard" => "Dasbor",
+        "logout" => "Logout",
     ],
 
     "main" => [

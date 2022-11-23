@@ -28,6 +28,7 @@ class MetaController extends Controller
         Meta $meta,
     )
     {
+        $this->middleware(['permission:setting-sidebar']);
         $this->global_view = $global_view;
         $this->global_variable = $global_variable;
         $this->translation = $translation;

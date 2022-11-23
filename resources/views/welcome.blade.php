@@ -83,10 +83,16 @@
             </div>
             <div class="me-3">
                 @if (Auth::user() == null)
-                <a class="mx-2 text-decoration-none text-white" href="{{route('login.page')}}">{{__('welcome.header.sign_in')}}</a>
-                <a class="mx-2 text-decoration-none text-white" href="{{route('register.page')}}">{{__('welcome.header.sign_up')}}</a>
+                <a class="mx-2 text-decoration-none text-white" href="{{route('login.page')}}"><i class="fa-solid fa-right-to-bracket mx-2"></i>{{__('welcome.header.sign_in')}}</a>
+                <a class="mx-2 text-decoration-none text-white" href="{{route('register.page')}}"><i class="fa-solid fa-user-plus mx-2"></i>{{__('welcome.header.sign_up')}}</a>
                 @else
-                <a class="mx-2 text-decoration-none text-white" href="{{route('dashboard.main')}}">{{__('welcome.header.dashboard')}}</a>
+                @can('main-index')
+                <a class="mx-2 text-decoration-none text-white" href="{{route('dashboard.main')}}"><i class="fa-solid fa-gauge mx-2"></i>{{__('welcome.header.dashboard')}}</a>
+                @endcan
+                <a href="{{route('logout')}}" class="mx-2 text-decoration-none text-white">
+                    <i class="fa fa-sign-out-alt mx-2"></i>
+                    <span class="text-sm">{{__('welcome.header.logout')}}</span>
+                </a>
                 @endif
                 <a class="mx-2 text-decoration-none text-white"
                     href="https://github.com/prasetyoadisantoso/skeleton-web"><i class="fa-brands fa-github"></i></a>

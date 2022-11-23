@@ -28,6 +28,7 @@ class GeneralController extends Controller
     )
     {
         $this->middleware(['auth', 'verified', 'xss']);
+        $this->middleware(['permission:setting-sidebar']);
         $this->middleware(['permission:general-index'])->only(['index']);
         $this->middleware(['permission:general-update'])->only(['update_site_description', 'update_site_logo_favicon']);
 

@@ -29,6 +29,7 @@ class RoleController extends Controller
         Permission $permission
     ) {
         $this->middleware(['auth', 'verified', 'xss']);
+        $this->middleware(['permission:user-sidebar']);
         $this->middleware(['permission:role-index'])->only(['index', 'index_dt']);
         $this->middleware(['permission:role-create'])->only('create');
         $this->middleware(['permission:role-edit'])->only('edit');

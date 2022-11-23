@@ -35,13 +35,31 @@ class ModelRoleSeeder extends Seeder
                 'model_id' => 'c41833ee-2d65-400e-97f1-a47647326ab4'
             ],
 
-            // Customer Role
+            // Editor Role
             [
                 'role_id' => '3',
                 'model_type' => 'App\Models\User',
 
+                // Username : Best Editor
+                'model_id' => '4c956744-83d4-4d49-b604-bc2cf107ed51'
+            ],
+
+            // Customer Role
+            [
+                'role_id' => '4',
+                'model_type' => 'App\Models\User',
+
                 // Username : Best Customer
                 'model_id' => 'b11833ee-2d65-400e-97f1-a47647326ac2'
+            ],
+
+            // Guest Role
+            [
+                'role_id' => '5',
+                'model_type' => 'App\Models\User',
+
+                // Username : Best Editor
+                'model_id' => '67ea7b54-fb0e-45f5-99c6-8471e24745ac'
             ],
 
         ]);

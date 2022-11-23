@@ -21,10 +21,16 @@ class FileManagement
      */
     public function GetPathProfileImage($role = null)
     {
-        if($role == 'admin'){
+        if($role == 'superadmin'){
+            $image = public_path('Test/Images/superadmin.png');
+        } else if ($role == 'admin'){
             $image = public_path('Test/Images/admin.png');
-        } else if ($role == 'client'){
-            $image = public_path('Test/Images/client.png');
+        } else if ($role == 'customer'){
+            $image = public_path('Test/Images/customer.png');
+        } else if ($role == 'editor'){
+            $image = public_path('Test/Images/editor.png');
+        } else if ($role == 'guest'){
+            $image = public_path('Test/Images/guest.png');
         } else {
             $image = public_path('Test/Images/profile.png');
         }
