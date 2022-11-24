@@ -92,7 +92,7 @@ class MetaController extends Controller
             return $meta->robot;
         })
         ->addColumn('description', function($meta){
-            return $meta->name;
+            return $meta->description;
         })
         ->addColumn('keyword', function($meta){
             return $meta->keyword;
