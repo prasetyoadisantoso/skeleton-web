@@ -20,22 +20,22 @@
             <table id="meta_datatable" class="table table-bordered w-100">
                 <thead>
                     <tr>
-                        <th>No</th>
-                        <th>Name</th>
-                        <th>Robot</th>
-                        <th>Description</th>
-                        <th>Keyword</th>
-                        <th>Actions</th>
+                        <th>{{$datatable['table']['number']}}</th>
+                        <th>{{$datatable['table']['name']}}</th>
+                        <th>{{$datatable['table']['robot']}}</th>
+                        <th>{{$datatable['table']['description']}}</th>
+                        <th>{{$datatable['table']['keyword']}}</th>
+                        <th>{{$datatable['table']['action']}}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>No</td>
-                        <td>Name</td>
-                        <td>Robot</td>
-                        <td>Description</td>
-                        <td>Keyword</td>
-                        <td>Actions</td>
+                        <td>{{$datatable['table']['number']}}</td>
+                        <td>{{$datatable['table']['name']}}</td>
+                        <td>{{$datatable['table']['robot']}}</td>
+                        <td>{{$datatable['table']['description']}}</td>
+                        <td>{{$datatable['table']['keyword']}}</td>
+                        <td>{{$datatable['table']['action']}}</td>
                     </tr>
                 </tbody>
             </table>

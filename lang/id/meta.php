@@ -17,7 +17,7 @@ return [
         'table' => [
             'number' => 'No',
             'name' => 'Nama',
-            'robots' => 'Robots',
+            'robot' => 'Robots',
             'description' => 'Deskripsi',
             'keyword' => 'Keyword',
             'action' => 'Aksi',
