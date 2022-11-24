@@ -54,7 +54,7 @@ return [
 
     'validation' => [
         'name_required' => 'Nama wajib diisi',
-        'robots_required' => 'Teks robots wajib diisi',
+        'robot_required' => 'Teks robots wajib diisi',
         'description_required' => 'Deskripsi wajib diisi',
         'keyword_required' => 'Keyword wajib diisi',
     ],

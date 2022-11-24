@@ -55,6 +55,15 @@ class RoleAndPermissionSeeder extends Seeder
             'general-index',
             'general-update',
 
+            // Meta
+            'meta-index',
+            'meta-create',
+            'meta-store',
+            'meta-show',
+            'meta-edit',
+            'meta-update',
+            'meta-destroy',
+
             /* -------------------------------------------------------------------------- */
             /*                                   Sidebar                                  */
             /* -------------------------------------------------------------------------- */
@@ -105,6 +114,14 @@ class RoleAndPermissionSeeder extends Seeder
             'general-index',
             'general-update',
 
+            'meta-index',
+            'meta-create',
+            'meta-store',
+            'meta-show',
+            'meta-edit',
+            'meta-update',
+            'meta-destroy',
+
             'main-sidebar',
             'setting-sidebar',
             'user-sidebar',
@@ -136,7 +153,7 @@ class RoleAndPermissionSeeder extends Seeder
 
         ]);
 
-        $customer->givePermissionTo([
+        $guest->givePermissionTo([
 
         ]);
 

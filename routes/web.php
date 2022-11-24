@@ -70,6 +70,8 @@ Route::group([
         Route::get('general', [GeneralController::class, 'index'])->name('general.index');
         Route::post('general/description/update', [GeneralController::class, 'update_site_description'])->name('general.update.description');
         Route::post('general/logo_favicon/update', [GeneralController::class, 'update_site_logo_favicon'])->name('general.update.logo.favicon');
+        Route::resource('meta', MetaController::class);
+        Route::get('meta_datatable', [MetaController::class, 'index_dt'])->name('meta.datatable');
     });
 
 });
@@ -84,8 +86,6 @@ Route::group([
     # Place testing code here
     # <code>
     Route::prefix('testing')->group(function () {
-        Route::resource('meta', MetaController::class);
-        Route::get('meta_datatable', [MetaController::class, 'index_dt'])->name('meta.datatable');
         Route::get('create-form', [TestController::class, 'create'])->name('test.create');
         Route::post('create-form/store', [TestController::class, 'store'])->name('test.store');
     });

@@ -54,7 +54,7 @@ return [
 
     'validation' => [
         'name_required' => 'Meta name is required',
-        'robots_required' => 'Meta robots is required',
+        'robot_required' => 'Meta robots is required',
         'description_required' => 'Meta description is required',
         'keyword_required' => 'Meta keyword is required',
     ],

@@ -35,7 +35,7 @@ class Meta extends Model
 
     public function GetMetaById($id)
     {
-        return $this->query()->find($id)->first();
+        return $this->query()->find($id);
     }
 
     public function StoreMeta($data = null)

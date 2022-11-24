@@ -51,16 +51,13 @@
                     </a>
                 </li>
                 @endcan
-                {{-- <li class="sub-list font-sm">
-                    <a href="#">
-                        <span><i class="fa-solid fa-circle-dot me-3"></i>{{$seo}}</span>
+                @can('meta-index')
+                <li class="sub-list font-sm">
+                    <a href="{{route('meta.index')}}">
+                        <span><i class="fa-solid fa-circle-dot me-3"></i>{{$meta}}</span>
                     </a>
                 </li>
-                <li class="sub-list font-sm">
-                    <a href="../permissions/index.html">
-                        <span><i class="fa-solid fa-circle-dot me-3"></i>{{$google}}</span>
-                    </a>
-                </li> --}}
+                @endcan
             </ul>
         </li>
         @endcan

@@ -40,9 +40,7 @@ class MetaController extends Controller
 
     protected function boot()
     {
-        // return $this->global_view->RenderView([]);
-
-        return [
+        return $this->global_view->RenderView([
             $this->global_variable->TitlePage($this->translation->meta['title']),
             $this->global_variable->SystemLanguage(),
             $this->global_variable->AuthUserName(),
@@ -65,7 +63,10 @@ class MetaController extends Controller
                 'meta-home-js',
                 'meta-form-js'
             ]),
-        ];
+
+            // Route Type
+            $this->global_variable->RouteType('meta.index'),
+        ]);
     }
 
     /**
@@ -75,12 +76,15 @@ class MetaController extends Controller
      */
     public function index()
     {
-        return $this->fileManagement->Logging($this->responseFormatter->successResponse($this->boot())->getContent());
+        $this->boot();
+        return view('template.default.dashboard.settings.meta.home', array_merge(
+            $this->global_variable->PageType('index'),
+        ));
     }
 
     public function index_dt()
     {
-        $res = $this->dataTables->of($this->meta->query())
+        return $this->dataTables->of($this->meta->query())
         ->addColumn('name', function($meta){
             return $meta->name;
         })
@@ -97,7 +101,6 @@ class MetaController extends Controller
             return $meta->id;
         })
         ->removeColumn('id')->addIndexColumn()->make('true');
-        return $this->fileManagement->Logging($this->responseFormatter->successResponse($res));
     }
 
     /**
@@ -107,7 +110,10 @@ class MetaController extends Controller
      */
     public function create()
     {
-        return $this->fileManagement->Logging($this->responseFormatter->successResponse($this->boot()));
+        $this->boot();
+        return view('template.default.dashboard.settings.meta.form', array_merge(
+            $this->global_variable->PageType('create'),
+        ));
     }
 
     /**
@@ -123,12 +129,26 @@ class MetaController extends Controller
 
         DB::beginTransaction();
         try {
-            $result = $this->meta->StoreMeta($metadata);
+            $this->meta->StoreMeta($metadata);
             DB::commit();
-            return $this->fileManagement->Logging($this->responseFormatter->successResponse($result)->getContent());
+            return redirect()->route('meta.index')->with([
+                'success' => 'success',
+                'title' => $this->translation->notification['success'],
+                'content' => $this->translation->roles['messages']['update_success'],
+            ]);
         } catch (\Throwable $th) {
             DB::rollBack();
-            return $this->fileManagement->Logging($this->responseFormatter->errorResponse($th->getMessage())->getContent());
+            $message = $th->getMessage();
+
+            if (str_contains($th->getMessage(), 'Duplicate entry')) {
+                $message = 'Duplicate entry';
+            }
+
+            return redirect()->route('role.create')->with([
+                'error' => 'error',
+                "title" => $this->translation->notification['error'],
+                "content" => $message,
+            ]);
         }
     }
 
@@ -152,8 +172,14 @@ class MetaController extends Controller
      */
     public function edit($id)
     {
+        $this->boot();
         $metadata = $this->meta->GetMetaById($id);
-        return $this->fileManagement->Logging($this->responseFormatter->successResponse($this->boot(), $metadata)->getContent());
+        return view('template.default.dashboard.settings.meta.form', array_merge(
+            $this->global_variable->PageType('edit'),
+            [
+                'meta' => $metadata,
+            ]
+        ));
     }
 
     /**
@@ -169,13 +195,26 @@ class MetaController extends Controller
         $metadata = $request->only(['name', 'robot', 'description', 'keyword']);
 
         DB::beginTransaction();
-        try {
-            $result = $this->meta->UpdateMeta($metadata, $id);
+        try {$this->meta->UpdateMeta($metadata, $id);
             DB::commit();
-            $this->fileManagement->Logging($this->responseFormatter->successResponse($result));
+            return redirect()->route('meta.index')->with([
+                'success' => 'success',
+                'title' => $this->translation->notification['success'],
+                'content' => $this->translation->meta['messages']['update_success'],
+            ]);
         } catch (\Throwable $th) {
             DB::rollBack();
-            $this->fileManagement->Logging($this->responseFormatter->errorResponse($th->getMessage()));
+            $message = $th->getMessage();
+
+            if (str_contains($th->getMessage(), 'Duplicate entry')) {
+                $message = 'Duplicate entry';
+            }
+
+            return redirect()->back()->with([
+                'error' => 'error',
+                "title" => $this->translation->notification['error'],
+                "content" => $message,
+            ]);
         }
     }
 
@@ -199,11 +238,16 @@ class MetaController extends Controller
                 $status = 'error';
             }
 
-            //  Return response
-            $this->fileManagement->Logging($this->responseFormatter->successResponse(['status' => $status]));
+            ///  Return response
+            return response()->json(['status' => $status]);
         } catch (\Throwable$th) {
             DB::rollback();
-            $this->fileManagement->Logging($this->responseFormatter->errorResponse($th->getMessage()));
+            $message = $th->getMessage();
+            return redirect()->back()->with([
+                'error' => 'error',
+                "title" => $this->translation->notification['error'],
+                "content" => $message
+            ]);
 
         }
     }

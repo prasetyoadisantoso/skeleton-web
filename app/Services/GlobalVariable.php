@@ -62,4 +62,11 @@ class GlobalVariable
             'script' => $type
         ];
     }
+
+    public function RouteType(string $type): ?array
+    {
+        return [
+            'url' => $type
+        ];
+    }
 }

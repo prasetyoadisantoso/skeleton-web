@@ -17,6 +17,7 @@ return [
     // Settings
     'settings' => 'Settings',
     'general' => 'General',
+    'meta' => 'Meta',
     'seo' => 'SEO',
     'google' => 'Google',
 ];
