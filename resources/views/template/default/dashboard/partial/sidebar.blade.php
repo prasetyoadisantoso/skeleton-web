@@ -54,7 +54,7 @@
                 @can('meta-index')
                 <li class="sub-list font-sm">
                     <a href="{{route('meta.index')}}">
-                        <span><i class="fa-solid fa-circle-dot me-3"></i>{{$meta}}</span>
+                        <span><i class="fa-solid fa-circle-dot me-3"></i>{{$metas}}</span>
                     </a>
                 </li>
                 @endcan
