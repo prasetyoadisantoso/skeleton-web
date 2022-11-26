@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             RoleAndPermissionSeeder::class,
             ModelRoleSeeder::class,
             GeneralSeeder::class,
+            SocialMediaSeeder::class,
             MetaSeeder::class,
 
         ]);

@@ -6,6 +6,7 @@ use App\Http\Controllers\Dashboard\MainController;
 use App\Http\Controllers\Dashboard\MetaController;
 use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\RoleController;
+use App\Http\Controllers\Dashboard\SocialMediaController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
@@ -86,6 +87,8 @@ Route::group([
     # Place testing code here
     # <code>
     Route::prefix('testing')->group(function () {
+        Route::resource('social_media', SocialMediaController::class);
+        Route::get('social_media_dt', [SocialMediaController::class, 'index_dt'])->name('social_media.datatable');
         Route::get('create-form', [TestController::class, 'create'])->name('test.create');
         Route::post('create-form/store', [TestController::class, 'store'])->name('test.store');
     });

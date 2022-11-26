@@ -9,7 +9,6 @@ use App\Services\GlobalVariable;
 use App\Services\GlobalView;
 use App\Services\ResponseFormatter;
 use App\Services\Translations;
-use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 Use App\Models\Meta;
 use Illuminate\Support\Facades\DB;
@@ -28,6 +27,7 @@ class MetaController extends Controller
         Meta $meta,
     )
     {
+        $this->middleware(['auth', 'verified', 'xss']);
         $this->middleware(['permission:setting-sidebar']);
         $this->global_view = $global_view;
         $this->global_variable = $global_variable;
