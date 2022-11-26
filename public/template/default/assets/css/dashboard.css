@@ -237,20 +237,16 @@ body {
 /*                                    Icon                                    */
 /* -------------------------------------------------------------------------- */
 
-/* Rotation*/
-.rotate {
-    -moz-transition: all 0.4s linear;
-    -webkit-transition: all 0.4s linear;
-    -moz-transform: rotate(90deg);
-    -webkit-transform: rotate(90deg);
-    transform: rotate(90deg);
-    transition: all 0.4s linear;
+/* Rotation Arrow List*/
+
+.fa-chevron-down {
+    transform: rotate(0deg);
+    transition: transform 0.1s linear;
 }
 
-.rotate.down {
-    -moz-transform: rotate(0deg);
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
+.fa-chevron-down.open {
+    transform: rotate(180deg);
+    transition: transform 0.1s linear;
 }
 
 
