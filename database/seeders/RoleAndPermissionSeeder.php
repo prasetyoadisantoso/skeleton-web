@@ -64,6 +64,15 @@ class RoleAndPermissionSeeder extends Seeder
             'meta-update',
             'meta-destroy',
 
+            // Social Media
+            'socialmedia-index',
+            'socialmedia-create',
+            'socialmedia-store',
+            'socialmedia-show',
+            'socialmedia-edit',
+            'socialmedia-update',
+            'socialmedia-destroy',
+
             /* -------------------------------------------------------------------------- */
             /*                                   Sidebar                                  */
             /* -------------------------------------------------------------------------- */
@@ -121,6 +130,14 @@ class RoleAndPermissionSeeder extends Seeder
             'meta-edit',
             'meta-update',
             'meta-destroy',
+
+            'socialmedia-index',
+            'socialmedia-create',
+            'socialmedia-store',
+            'socialmedia-show',
+            'socialmedia-edit',
+            'socialmedia-update',
+            'socialmedia-destroy',
 
             'main-sidebar',
             'setting-sidebar',

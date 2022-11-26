@@ -26,8 +26,7 @@ class SocialMediaController extends Controller
         ResponseFormatter $responseFormatter,
         FileManagement $fileManagement,
         SocialMedia $social_media,
-    )
-    {
+    ) {
         $this->middleware(['auth', 'verified', 'xss']);
         $this->middleware(['permission:setting-sidebar']);
         $this->global_view = $global_view;
@@ -41,10 +40,7 @@ class SocialMediaController extends Controller
 
     protected function boot()
     {
-        // return $this->global_view->RenderView([
-        // ]);
-
-        return [
+        return $this->global_view->RenderView([
             $this->global_variable->TitlePage($this->translation->social_media['title']),
             $this->global_variable->SystemLanguage(),
             $this->global_variable->AuthUserName(),
@@ -59,18 +55,16 @@ class SocialMediaController extends Controller
             // Module
             $this->global_variable->ModuleType([
                 'socialmedia-home',
-                'socialmedia-form'
+                'socialmedia-form',
             ]),
 
             // Script
             $this->global_variable->ScriptType([
                 'socialmedia-home-js',
-                'socialmedia-form-js'
+                'socialmedia-form-js',
             ]),
 
-            // Route Type
-            $this->global_variable->RouteType('meta.index'),
-        ];
+        ]);
     }
 
     /**
@@ -80,19 +74,25 @@ class SocialMediaController extends Controller
      */
     public function index()
     {
-        return $this->fileManagement->Logging($this->responseFormatter->successResponse(['view' => $this->boot(), 'datatable' => $this->index_dt()])->getContent());
+        $this->boot();
+        return view('template.default.dashboard.settings.social.home', array_merge(
+            $this->global_variable->PageType('index'),
+        ));
     }
 
     public function index_dt()
     {
         return $this->dataTables->of($this->social_media->query())
-        ->addColumn('name', function($social_media){
-            return $social_media->name;
-        })
-        ->addColumn('url', function($social_media){
-            return $social_media->url;
-        })
-        ->removeColumn('id')->addIndexColumn()->make('true');
+            ->addColumn('name', function ($social_media) {
+                return $social_media->name;
+            })
+            ->addColumn('url', function ($social_media) {
+                return $social_media->url;
+            })
+            ->addColumn('action', function ($social_media) {
+                return $social_media->id;
+            })
+            ->removeColumn('id')->addIndexColumn()->make('true');
     }
 
     /**
@@ -103,9 +103,9 @@ class SocialMediaController extends Controller
     public function create()
     {
         $this->boot();
-        $this->fileManagement->Logging($this->responseFormatter->successResponse([
-            'view' => $this->boot(),
-        ]));
+        return view('template.default.dashboard.settings.social.form', array_merge(
+            $this->global_variable->PageType('create'),
+        ));
     }
 
     /**
@@ -123,10 +123,24 @@ class SocialMediaController extends Controller
         try {
             $this->social_media->StoreSocialMedia($social_media);
             DB::commit();
-            $this->fileManagement->Logging($this->responseFormatter->successResponse('store success'));
-        } catch (\Throwable $th) {
+            return redirect()->route('social_media.index')->with([
+                'success' => 'success',
+                'title' => $this->translation->notification['success'],
+                'content' => $this->translation->roles['messages']['update_success'],
+            ]);
+        } catch (\Throwable$th) {
             DB::rollBack();
-            $this->fileManagement->Logging($this->responseFormatter->errorResponse($th->getMessage()));
+            $message = $th->getMessage();
+
+            if (str_contains($th->getMessage(), 'Duplicate entry')) {
+                $message = 'Duplicate entry';
+            }
+
+            return redirect()->route('social_media.create')->with([
+                'error' => 'error',
+                "title" => $this->translation->notification['error'],
+                "content" => $message,
+            ]);
         }
     }
 
@@ -151,7 +165,12 @@ class SocialMediaController extends Controller
     {
         $this->boot();
         $data = $this->social_media->GetSocialMediaById($id);
-        $this->fileManagement->Logging($this->responseFormatter->successResponse($data));
+        return view('template.default.dashboard.settings.social.form', array_merge(
+            $this->global_variable->PageType('edit'),
+            [
+                'social_media' => $data,
+            ]
+        ));
     }
 
     /**
@@ -170,10 +189,24 @@ class SocialMediaController extends Controller
         try {
             $this->social_media->UpdateSocialMedia($social_media, $id);
             DB::commit();
-            $this->fileManagement->Logging($this->responseFormatter->successResponse('update success'));
-        } catch (\Throwable $th) {
+            return redirect()->route('social_media.index')->with([
+                'success' => 'success',
+                'title' => $this->translation->notification['success'],
+                'content' => $this->translation->roles['messages']['update_success'],
+            ]);
+        } catch (\Throwable$th) {
             DB::rollBack();
-            $this->fileManagement->Logging($this->responseFormatter->errorResponse($th->getMessage()));
+            $message = $th->getMessage();
+
+            if (str_contains($th->getMessage(), 'Duplicate entry')) {
+                $message = 'Duplicate entry';
+            }
+
+            return redirect()->route('role.create')->with([
+                'error' => 'error',
+                "title" => $this->translation->notification['error'],
+                "content" => $message,
+            ]);
         }
     }
 
@@ -197,11 +230,17 @@ class SocialMediaController extends Controller
                 $status = 'error';
             }
 
-            $this->fileManagement->Logging($this->responseFormatter->successResponse($status));
+            ///  Return response
+            return response()->json(['status' => $status]);
         } catch (\Throwable$th) {
             DB::rollback();
             $message = $th->getMessage();
-            $this->fileManagement->Logging($this->responseFormatter->errorResponse($message));
+            $message = $th->getMessage();
+            return redirect()->back()->with([
+                'error' => 'error',
+                "title" => $this->translation->notification['error'],
+                "content" => $message
+            ]);
 
         }
     }

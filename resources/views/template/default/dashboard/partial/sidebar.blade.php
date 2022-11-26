@@ -38,7 +38,7 @@
         <li class="active py-1">
             <a href="#setting-dropdown-menu" data-bs-toggle="collapse" aria-expanded="false"
                 class="btn-ripple rotation-1">
-                <div class="d-flex align-items-center main-list">
+                <div class="d-flex align-items-center main-list" id="rotation-settings">
                     <span class="flex-grow-1 font-md"><i class="fa-solid fa-wrench me-3"></i>{{$settings}}</span>
                     <i id="icon" class="hide-fa fas fa-chevron-down font-sm rotate-1"></i>
                 </div>
@@ -48,6 +48,13 @@
                 <li class="sub-list font-sm">
                     <a href="{{route('general.index')}}">
                         <span><i class="fa-solid fa-circle-dot me-3"></i>{{$general}}</span>
+                    </a>
+                </li>
+                @endcan
+                @can('socialmedia-index')
+                <li class="sub-list font-sm">
+                    <a href="{{route('social_media.index')}}">
+                        <span><i class="fa-solid fa-circle-dot me-3"></i>{{$socialmedia}}</span>
                     </a>
                 </li>
                 @endcan
@@ -69,7 +76,7 @@
 
         <li class="active py-1">
             <a href="#user-dropdown-menu" data-bs-toggle="collapse" aria-expanded="false" class="btn-ripple rotation-1">
-                <div class="d-flex align-items-center main-list">
+                <div class="d-flex align-items-center main-list" id="rotation-users">
                     <span class="flex-grow-1 font-md"><i class="fa-solid fa-user-shield me-3"></i>{{$users_and_permissions}}</span>
                     <i id="icon" class="hide-fa fas fa-chevron-down font-sm rotate-1"></i>
                 </div>

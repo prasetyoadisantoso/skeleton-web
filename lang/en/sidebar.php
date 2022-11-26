@@ -18,6 +18,7 @@ return [
     'settings' => 'Settings',
     'general' => 'General',
     'metas' => 'Meta',
+    'socialmedia' => 'Social Media',
     'seo' => 'SEO',
     'google' => 'Google',
 ];

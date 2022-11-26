@@ -73,6 +73,8 @@ Route::group([
         Route::post('general/logo_favicon/update', [GeneralController::class, 'update_site_logo_favicon'])->name('general.update.logo.favicon');
         Route::resource('meta', MetaController::class);
         Route::get('meta_datatable', [MetaController::class, 'index_dt'])->name('meta.datatable');
+        Route::resource('social_media', SocialMediaController::class);
+        Route::get('social_media_dt', [SocialMediaController::class, 'index_dt'])->name('social_media.datatable');
     });
 
 });
@@ -87,8 +89,6 @@ Route::group([
     # Place testing code here
     # <code>
     Route::prefix('testing')->group(function () {
-        Route::resource('social_media', SocialMediaController::class);
-        Route::get('social_media_dt', [SocialMediaController::class, 'index_dt'])->name('social_media.datatable');
         Route::get('create-form', [TestController::class, 'create'])->name('test.create');
         Route::post('create-form/store', [TestController::class, 'store'])->name('test.store');
     });
