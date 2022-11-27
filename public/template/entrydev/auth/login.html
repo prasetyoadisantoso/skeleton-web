@@ -25,94 +25,98 @@
 </head>
 
 <body>
-    <!-- Section: Design Block -->
-    <section class="">
-        <!-- Jumbotron -->
-        <div class="login d-flex flex-column vh-100 text-center text-lg-start" style="background-color: #EEEEEE">
-            <div class="container">
-                <div class="row gx-lg-5 align-items-center">
-                    <div class=" hide col-lg-6 mb-5 mb-lg-0">
-                        <h3 class=" text-head display-2 fw-bold ls-tight">
-                            Skeleton Web
-                        </h3>
-                        <span class="text-login display-5 fw-bold ls-tight">for your business</span>
-                        <p class="mt-4" style="color: hsl(217, 10%, 50.8%)">
-                            Lorem ipsum dolor sit amet consectetur
-                            adipisicing elit. Eveniet, itaque accusantium
-                            odio, soluta, corrupti aliquam quibusdam tempora
-                            at cupiditate quis eum maiores libero veritatis?
-                            Dicta facilis sint aliquid ipsum atque?
-                        </p>
-                    </div>
-
-                    <div class="col-lg-6 mb-5 mb-lg-0">
-                        <div class="card">
-                            <div class="card-body py-4 px-md-5">
-                                <div class="d-flex align-items-center mb-3 pb-1">
-                                    <i class="fas fa-user-circle fa-3x me-3"></i>
-                                    <span class="h1 fw-bold mb-0">Logo</span>
-                                </div>
-
-                                <h5 class="fw-bold pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
-                                <form id="login-form">
-                                    <!-- Email input -->
-                                    <div class="form-floating mb-3">
-                                        <input name="email" type="email" class="form-control" id="floatingInput"
-                                            placeholder="name@example.com">
-                                        <label for="floatingInput">Email address</label>
-                                        <div class='error-email'></div>
-
+    <section class="vh-100" style="background-color: #eee">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-lg-12 col-xl-11">
+                    <div class="row justify-content-center my-4">
+                        <div class="col-md-10 col-lg-6 col-xl-7 align-items-center order-1 order-lg-1">
+                            <div class="hide text-register">
+                                <h3 class="text-head display-5 fw-bold ls-tight ">
+                                    Skeleton Web
+                                </h3>
+                                <span class="text-login display-6 fw-bold ls-tight">for your business</span>
+                                <p class="mt-4" style="color: hsl(217, 10%, 50.8%)">
+                                    Lorem ipsum dolor sit amet consectetur
+                                    adipisicing elit. Eveniet, itaque accusantium
+                                    odio, soluta, corrupti aliquam quibusdam tempora
+                                    at cupiditate quis eum maiores libero veritatis?
+                                    Dicta facilis sint aliquid ipsum atque?
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-2">
+                            <div class="card text-black">
+                                <div class="card-body p-md-2 ">
+                                    <div class="text-center mb-2 pb-1 mt-2">
+                                        <i class="fas fa-user-circle fa-3x me-3"></i>
+                                        <span class="h1 fw-bold mb-0">Logo</span>
                                     </div>
-                                    <div class="form-floating">
-                                        <input name="password" type="password" class="form-control" id="floatingPassword"
-                                            placeholder="Password">
-                                        <label for="floatingPassword">Password</label>
-                                    </div>
-                                    <div class="error-password"></div>
+                                    <p class="text-center h4 fw-bold mb-3 mx-1 mx-md-4">
+                                        Create your new account
+                                    </p>
+                                    <form class="mx-1 mx-md-3" id="login-form">
 
-                                    <div class="row mt-3">
-                                        <div class="col-6 text-start">
-                                            <!-- Checkbox -->
-                                            <div class="form-check d-flex">
-                                                <input class="form-check-input me-2" type="checkbox" value=""
-                                                    id="form2Example33" checked />
-                                                <label class="form-check-label" for="form2Example33">
-                                                    Remember me
-                                                </label>
+                                        <!-- Email Address Input -->
+                                        <div
+                                            class="input-group input-group-sm has-validation d-flex flex-row align-items-center mb-2">
+                                            <span><i class="fas fa-envelope fa-lg me-3 fa-fw"></i></span>
+                                            <div class="form-floating flex-fill mb-0 is-invalid">
+                                                <input name="email" type="email" class="form-control" id="floatingEmail"
+                                                    placeholder="Email Address" required />
+                                                <label class="form-label" for="floatingEmail">Email
+                                                    Address</label>
                                             </div>
-
+                                            <div class="invalid-feedback error-email"></div>
                                         </div>
-                                        <div class="col-6 text-end">
-                                            <p class="small pb-lg-2"><a class="text-muted" href="#!">Forgot
-                                                    password?</a>
+                                        <!-- Password Input -->
+                                        <div
+                                            class="input-group input-group-sm has-validation d-flex flex-row align-items-center mb-2">
+                                            <span><i class="fas fa-lock fa-lg me-3 fa-fw"></i></span>
+                                            <div class="form-floating flex-fill mb-0 is-invalid">
+                                                <input name="password" type="password" class="form-control"
+                                                    id="floatingPassword" placeholder="Password" required />
+                                                <label class="form-label" for="floatingPassword">Password</label>
+                                            </div>
+                                            <div class=" invalid-feedback error-password"></div>
+                                        </div>
+
+                                        <div class="form-check d-flex justify-content-center mt-2 mb-3">
+                                            <input class="form-check-input me-2" type="checkbox" value=""
+                                                id="form2Example3c" />
+                                            <label class="form-check-label" for="form2Example3">
+                                                I agree all statements in <a href="#!"
+                                                    class="link-register fw-bold">Terms of
+                                                    service</a>
+                                            </label>
+                                        </div>
+
+                                        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                                            <button type="button" class="btn btn-primary btn-lg">Register</button>
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <p>
+                                                Have already an account?
+                                                <a href="./login.html" class="link-register fw-bold">Login here</a>
                                             </p>
                                         </div>
-                                    </div>
-                                    <!-- Submit button -->
-                                    <button type="submit" class="btn btn-primary btn-block px-5 mb-4" id="login-submit">
-                                        Login
-                                    </button>
-
-                                </form>
-                                <div class="text-end">
-                                    <p>Don't have an account? <a href="./register.html" class="link-register fw-bold">Register here</a></p>
+                                    </form>
                                 </div>
                             </div>
                         </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-12 col-xl-11 mb-5">
+                    <div class="text-center">
+                        © 2022 Copyright:
+                        <a class="link-register fw-bold" href="#">EntryDev</a> By
+                        Agoes29
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Jumbotron -->
     </section>
-    <!-- Section: Design Block -->
-
-    <footer class="footer">
-        <div class="text-center">
-            © 2022 Copyright:
-            <a class="link-register fw-bold" href="#">EntryDev</a> By Agoes29
-          </div>
-    </footer>
 
     <script src="../assets/vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="../assets/vendor/jquery/jquery-3.6.1.min.js"></script>
