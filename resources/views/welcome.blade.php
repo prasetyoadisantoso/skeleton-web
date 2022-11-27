@@ -21,6 +21,8 @@
     <link href="{{asset('template/default/assets/css/client-style.css')}}" rel="stylesheet" />
     <!-- Flag Icon -->
     <link rel="stylesheet" href="{{asset('template/default/assets/flag-icon/css/flag-icons.min.css')}}">
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
         .laravel-logo {
@@ -83,11 +85,14 @@
             </div>
             <div class="me-3">
                 @if (Auth::user() == null)
-                <a class="mx-2 text-decoration-none text-white" href="{{route('login.page')}}"><i class="fa-solid fa-right-to-bracket mx-2"></i>{{__('welcome.header.sign_in')}}</a>
-                <a class="mx-2 text-decoration-none text-white" href="{{route('register.page')}}"><i class="fa-solid fa-user-plus mx-2"></i>{{__('welcome.header.sign_up')}}</a>
+                <a class="mx-2 text-decoration-none text-white" href="{{route('login.page')}}"><i
+                        class="fa-solid fa-right-to-bracket mx-2"></i>{{__('welcome.header.sign_in')}}</a>
+                <a class="mx-2 text-decoration-none text-white" href="{{route('register.page')}}"><i
+                        class="fa-solid fa-user-plus mx-2"></i>{{__('welcome.header.sign_up')}}</a>
                 @else
                 @can('main-index')
-                <a class="mx-2 text-decoration-none text-white" href="{{route('dashboard.main')}}"><i class="fa-solid fa-gauge mx-2"></i>{{__('welcome.header.dashboard')}}</a>
+                <a class="mx-2 text-decoration-none text-white" href="{{route('dashboard.main')}}"><i
+                        class="fa-solid fa-gauge mx-2"></i>{{__('welcome.header.dashboard')}}</a>
                 @endcan
                 <a href="{{route('logout')}}" class="mx-2 text-decoration-none text-white">
                     <i class="fa fa-sign-out-alt mx-2"></i>
@@ -104,7 +109,7 @@
         <div class="container position-relative">
             <div class="row justify-content-center">
                 <div class="col-xl-6">
-                    <div class="text-center text-white">
+                    <div class="text-center text-white" data-aos="fade-up" data-aos-easing="ease-in-sine" data-aos-duration="1000">
                         <!-- Page heading-->
                         <h1 class="mb-5 text-dark">{{__('welcome.main.jumbotron')}}<br><img
                                 src="https://raw.githubusercontent.com/laravel/art/master/logo-type/4%20PNG/3%20RGB/1%20Full%20Color/laravel-logotype-rgb-red.png"
@@ -118,7 +123,7 @@
     </header>
     <!-- Icons Grid-->
     <section class="features-icons bg-light text-center">
-        <div class="container">
+        <div class="container" data-aos="fade-up" data-aos-easing="ease-in-sine" data-aos-duration="1000">
             <div class="row">
                 <div class="col-lg-4">
                     <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
@@ -149,7 +154,7 @@
     </section>
     <!-- Image Showcases-->
     <section class="showcase bg-light">
-        <div class="container-fluid p-0">
+        <div class="container-fluid p-0" data-aos="fade-up" data-aos-easing="ease-in-sine" data-aos-duration="1000">
             <div class="row g-0">
                 <div class="col-lg-6 text-white showcase-img"
                     style="background-image: url('template/default/assets/img/bg-showcase-2.png');"></div>
@@ -162,23 +167,19 @@
     </section>
     <!-- Developer -->
     <section class="testimonials text-center bg-light">
-        <div class="container">
+        <div class="container" data-aos="fade-up" data-aos-easing="ease-in-sine" data-aos-duration="1000">
             <h2 class="mb-5">Developer</h2>
             <div class="row">
                 <div class="col-lg-6">
                     <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                        <img class="img-fluid rounded-circle mb-3"
-                            src="https://avatars.githubusercontent.com/u/27277683?s=400&u=9cd21f1bedb8b4410900b67ee2acaaa8b3752080&v=4"
-                            alt="..." />
+                        <img class="img-fluid rounded-circle mb-3" src="{{asset('image/pras.jpg')}}" alt="..." />
                         <h5>Prasetyo Adi Santoso</h5>
                         <small>Back-end Developer</small>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-                        <img class="img-fluid rounded-circle mb-3"
-                            src="https://scontent.fdps3-1.fna.fbcdn.net/v/t31.18172-8/12719442_10204674983873588_8188114836839099061_o.jpg?_nc_cat=109&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=iNM5GanEen8AX8epBMI&_nc_ht=scontent.fdps3-1.fna&oh=00_AfDawFL_bsVGk7AZkWxk79Zroe3qz-O5_f2OnyRJL0GWyw&oe=637EA97C"
-                            alt="..." />
+                        <img class="img-fluid rounded-circle mb-3" src="{{asset('image/satriyadi.jpg')}}" alt="..." />
                         <h5>Gede Bagus Satriyadi</h5>
                         <small>Front-end Developer</small>
                     </div>
@@ -194,6 +195,12 @@
     </footer>
     <!-- Bootstrap core JS-->
     <script src="{{asset('template/default/assets/js/bootstrap.bundle.min.js')}}"></script>
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+
 </body>
 
 </html>
