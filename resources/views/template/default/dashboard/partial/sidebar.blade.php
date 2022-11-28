@@ -82,6 +82,13 @@
                     </a>
                 </li>
                 @endcan
+                @can('canonical-index')
+                <li class="sub-list font-sm">
+                    <a href="{{route('canonical.index')}}">
+                        <span><i class="fa-solid fa-circle-dot me-3"></i>{{$canonicals}}</span>
+                    </a>
+                </li>
+                @endcan
             </ul>
         </li>
         @endcan

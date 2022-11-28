@@ -55,6 +55,15 @@ class RoleAndPermissionSeeder extends Seeder
             'general-index',
             'general-update',
 
+            // Social Media
+            'socialmedia-index',
+            'socialmedia-create',
+            'socialmedia-store',
+            'socialmedia-show',
+            'socialmedia-edit',
+            'socialmedia-update',
+            'socialmedia-destroy',
+
             // Meta
             'meta-index',
             'meta-create',
@@ -64,14 +73,14 @@ class RoleAndPermissionSeeder extends Seeder
             'meta-update',
             'meta-destroy',
 
-            // Social Media
-            'socialmedia-index',
-            'socialmedia-create',
-            'socialmedia-store',
-            'socialmedia-show',
-            'socialmedia-edit',
-            'socialmedia-update',
-            'socialmedia-destroy',
+            // Canonical
+            'canonical-index',
+            'canonical-create',
+            'canonical-store',
+            'canonical-show',
+            'canonical-edit',
+            'canonical-update',
+            'canonical-destroy',
 
             /* -------------------------------------------------------------------------- */
             /*                                   Sidebar                                  */
@@ -139,6 +148,14 @@ class RoleAndPermissionSeeder extends Seeder
             'socialmedia-edit',
             'socialmedia-update',
             'socialmedia-destroy',
+
+            'canonical-index',
+            'canonical-create',
+            'canonical-store',
+            'canonical-show',
+            'canonical-edit',
+            'canonical-update',
+            'canonical-destroy',
 
             'main-sidebar',
             'setting-sidebar',

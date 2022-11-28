@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Authentication\AuthController;
+use App\Http\Controllers\Dashboard\CanonicalController;
 use App\Http\Controllers\Dashboard\GeneralController;
 use App\Http\Controllers\Dashboard\MainController;
 use App\Http\Controllers\Dashboard\MetaController;
@@ -8,7 +9,6 @@ use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\SocialMediaController;
 use App\Http\Controllers\Dashboard\UserController;
-use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,22 +59,26 @@ Route::group([
     Route::prefix('dashboard')->group(function () {
         Route::get('main', [MainController::class, 'index'])->name('dashboard.main');
 
-        // User & Permissions
-        Route::resource('user', UserController::class);
-        Route::get('user_datatable', [UserController::class, 'index_dt'])->name('user.datatable');
-        Route::resource('permission', PermissionController::class);
-        Route::get('permission_datatable', [PermissionController::class, 'index_dt'])->name('permission.datatable');
-        Route::resource('role', RoleController::class);
-        Route::get('role_datatable', [RoleController::class, 'index_dt'])->name('role.datatable');
-
         // Settings
         Route::get('general', [GeneralController::class, 'index'])->name('general.index');
         Route::post('general/description/update', [GeneralController::class, 'update_site_description'])->name('general.update.description');
         Route::post('general/logo_favicon/update', [GeneralController::class, 'update_site_logo_favicon'])->name('general.update.logo.favicon');
-        Route::resource('meta', MetaController::class);
-        Route::get('meta_datatable', [MetaController::class, 'index_dt'])->name('meta.datatable');
         Route::resource('social_media', SocialMediaController::class);
         Route::get('social_media_dt', [SocialMediaController::class, 'index_dt'])->name('social_media.datatable');
+
+        // SEO
+        Route::resource('meta', MetaController::class);
+        Route::get('meta_datatable', [MetaController::class, 'index_dt'])->name('meta.datatable');
+        Route::resource('canonical', CanonicalController::class);
+        Route::get('canonical_datatable', [CanonicalController::class, 'index_dt'])->name('canonical.datatable');
+
+         // User & Permissions
+         Route::resource('user', UserController::class);
+         Route::get('user_datatable', [UserController::class, 'index_dt'])->name('user.datatable');
+         Route::resource('permission', PermissionController::class);
+         Route::get('permission_datatable', [PermissionController::class, 'index_dt'])->name('permission.datatable');
+         Route::resource('role', RoleController::class);
+         Route::get('role_datatable', [RoleController::class, 'index_dt'])->name('role.datatable');
     });
 
 });

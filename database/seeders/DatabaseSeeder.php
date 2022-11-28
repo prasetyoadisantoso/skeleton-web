@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             GeneralSeeder::class,
             SocialMediaSeeder::class,
             MetaSeeder::class,
+            CanonicalSeeder::class,
 
         ]);
     }

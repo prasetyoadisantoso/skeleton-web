@@ -17,8 +17,11 @@ return [
     // Settings
     'settings' => 'Pengaturan',
     'general' => 'Umum',
-    'metas' => 'Meta',
     'socialmedia' => 'Media Sosial',
-    'seo' => 'SEO',
     'google' => 'Google',
+
+    // SEO
+    'seo' => 'SEO',
+    'metas' => 'Meta',
+    'canonicals' => 'Canonical'
 ];
