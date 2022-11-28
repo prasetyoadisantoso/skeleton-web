@@ -78,6 +78,7 @@ class RoleAndPermissionSeeder extends Seeder
             /* -------------------------------------------------------------------------- */
             'main-sidebar',
             'setting-sidebar',
+            'seo-sidebar',
             'user-sidebar',
 
         ];
@@ -141,6 +142,7 @@ class RoleAndPermissionSeeder extends Seeder
 
             'main-sidebar',
             'setting-sidebar',
+            'seo-sidebar',
             'user-sidebar',
 
         ]);
