@@ -38,7 +38,7 @@
         <li class="active py-1">
             <a href="#setting-dropdown-menu" data-bs-toggle="collapse" aria-expanded="false"
                 class="btn-ripple rotation-1">
-                <div class="d-flex align-items-center main-list">
+                <div class="d-flex align-items-center main-list" id="rotation-settings">
                     <span class="flex-grow-1 font-md"><i class="fa-solid fa-wrench me-3"></i>{{$settings}}</span>
                     <i id="icon" class="hide-fa fas fa-chevron-down font-sm rotate-1"></i>
                 </div>
@@ -51,6 +51,30 @@
                     </a>
                 </li>
                 @endcan
+                @can('socialmedia-index')
+                <li class="sub-list font-sm">
+                    <a href="{{route('social_media.index')}}">
+                        <span><i class="fa-solid fa-circle-dot me-3"></i>{{$socialmedia}}</span>
+                    </a>
+                </li>
+                @endcan
+            </ul>
+        </li>
+        @endcan
+        <!-- End Settings -->
+
+        <!-- Start SEO -->
+        @can('seo-sidebar')
+        <hr style="border-bottom: 0.1vh solid gray; width: 100%;" class="my-0">
+        <li class="active py-1">
+            <a href="#seo-dropdown-menu" data-bs-toggle="collapse" aria-expanded="false"
+                class="btn-ripple rotation-1">
+                <div class="d-flex align-items-center main-list" id="rotation-seo">
+                    <span class="flex-grow-1 font-md"><i class="fa-brands fa-searchengin me-3"></i>{{$seo}}</span>
+                    <i id="icon" class="hide-fa fas fa-chevron-down font-sm rotate-1"></i>
+                </div>
+            </a>
+            <ul class="collapse list-unstyled mx-5 mt-3" id="seo-dropdown-menu">
                 @can('meta-index')
                 <li class="sub-list font-sm">
                     <a href="{{route('meta.index')}}">
@@ -61,7 +85,7 @@
             </ul>
         </li>
         @endcan
-        <!-- End Settings -->
+        <!-- End SEO Settings -->
 
         <!-- Start User & Permission -->
         @can('user-sidebar')
@@ -69,7 +93,7 @@
 
         <li class="active py-1">
             <a href="#user-dropdown-menu" data-bs-toggle="collapse" aria-expanded="false" class="btn-ripple rotation-1">
-                <div class="d-flex align-items-center main-list">
+                <div class="d-flex align-items-center main-list" id="rotation-users">
                     <span class="flex-grow-1 font-md"><i class="fa-solid fa-user-shield me-3"></i>{{$users_and_permissions}}</span>
                     <i id="icon" class="hide-fa fas fa-chevron-down font-sm rotate-1"></i>
                 </div>

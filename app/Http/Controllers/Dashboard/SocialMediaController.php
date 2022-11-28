@@ -3,19 +3,20 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\MetaFormRequest;
+use App\Http\Requests\SocialMediaFormRequest;
+use App\Models\SocialMedia;
 use App\Services\FileManagement;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
 use App\Services\ResponseFormatter;
 use App\Services\Translations;
-use Yajra\DataTables\DataTables;
-Use App\Models\Meta;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\DataTables;
 
-class MetaController extends Controller
+class SocialMediaController extends Controller
 {
-    protected $global_view, $global_variable, $translation, $dataTables, $responseFormatter, $fileManagement, $meta;
+    protected $global_view, $global_variable, $translation, $dataTables, $responseFormatter, $fileManagement, $social_media;
 
     public function __construct(
         GlobalView $global_view,
@@ -24,9 +25,8 @@ class MetaController extends Controller
         DataTables $dataTables,
         ResponseFormatter $responseFormatter,
         FileManagement $fileManagement,
-        Meta $meta,
-    )
-    {
+        SocialMedia $social_media,
+    ) {
         $this->middleware(['auth', 'verified', 'xss']);
         $this->middleware(['permission:setting-sidebar']);
         $this->global_view = $global_view;
@@ -35,13 +35,13 @@ class MetaController extends Controller
         $this->dataTables = $dataTables;
         $this->responseFormatter = $responseFormatter;
         $this->fileManagement = $fileManagement;
-        $this->meta = $meta;
+        $this->social_media = $social_media;
     }
 
     protected function boot()
     {
         return $this->global_view->RenderView([
-            $this->global_variable->TitlePage($this->translation->meta['title']),
+            $this->global_variable->TitlePage($this->translation->social_media['title']),
             $this->global_variable->SystemLanguage(),
             $this->global_variable->AuthUserName(),
             $this->global_variable->SystemName(),
@@ -49,23 +49,21 @@ class MetaController extends Controller
             // Translations
             $this->translation->sidebar,
             $this->translation->button,
-            $this->translation->meta,
             $this->translation->notification,
+            $this->translation->social_media,
 
             // Module
             $this->global_variable->ModuleType([
-                'meta-home',
-                'meta-form'
+                'socialmedia-home',
+                'socialmedia-form',
             ]),
 
             // Script
             $this->global_variable->ScriptType([
-                'meta-home-js',
-                'meta-form-js'
+                'socialmedia-home-js',
+                'socialmedia-form-js',
             ]),
 
-            // Route Type
-            $this->global_variable->RouteType('meta.index'),
         ]);
     }
 
@@ -77,30 +75,24 @@ class MetaController extends Controller
     public function index()
     {
         $this->boot();
-        return view('template.default.dashboard.settings.meta.home', array_merge(
+        return view('template.default.dashboard.settings.social.home', array_merge(
             $this->global_variable->PageType('index'),
         ));
     }
 
     public function index_dt()
     {
-        return $this->dataTables->of($this->meta->query())
-        ->addColumn('name', function($meta){
-            return $meta->name;
-        })
-        ->addColumn('robot', function($meta){
-            return $meta->robot;
-        })
-        ->addColumn('description', function($meta){
-            return $meta->description;
-        })
-        ->addColumn('keyword', function($meta){
-            return $meta->keyword;
-        })
-        ->addColumn('action', function ($meta) {
-            return $meta->id;
-        })
-        ->removeColumn('id')->addIndexColumn()->make('true');
+        return $this->dataTables->of($this->social_media->query())
+            ->addColumn('name', function ($social_media) {
+                return $social_media->name;
+            })
+            ->addColumn('url', function ($social_media) {
+                return $social_media->url;
+            })
+            ->addColumn('action', function ($social_media) {
+                return $social_media->id;
+            })
+            ->removeColumn('id')->addIndexColumn()->make('true');
     }
 
     /**
@@ -111,7 +103,7 @@ class MetaController extends Controller
     public function create()
     {
         $this->boot();
-        return view('template.default.dashboard.settings.meta.form', array_merge(
+        return view('template.default.dashboard.settings.social.form', array_merge(
             $this->global_variable->PageType('create'),
         ));
     }
@@ -122,21 +114,21 @@ class MetaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MetaFormRequest $request)
+    public function store(SocialMediaFormRequest $request)
     {
         $request->validated();
-        $metadata = $request->only(['name', 'robot', 'description', 'keyword']);
+        $social_media = $request->only(['name', 'url']);
 
         DB::beginTransaction();
         try {
-            $this->meta->StoreMeta($metadata);
+            $this->social_media->StoreSocialMedia($social_media);
             DB::commit();
-            return redirect()->route('meta.index')->with([
+            return redirect()->route('social_media.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
                 'content' => $this->translation->roles['messages']['update_success'],
             ]);
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             DB::rollBack();
             $message = $th->getMessage();
 
@@ -144,7 +136,7 @@ class MetaController extends Controller
                 $message = 'Duplicate entry';
             }
 
-            return redirect()->route('role.create')->with([
+            return redirect()->route('social_media.create')->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],
                 "content" => $message,
@@ -160,8 +152,7 @@ class MetaController extends Controller
      */
     public function show($id)
     {
-        $metadata = $this->meta->GetMetaById($id);
-        return $this->fileManagement->Logging($this->responseFormatter->successResponse($metadata)->getContent());
+        //
     }
 
     /**
@@ -173,11 +164,11 @@ class MetaController extends Controller
     public function edit($id)
     {
         $this->boot();
-        $metadata = $this->meta->GetMetaById($id);
-        return view('template.default.dashboard.settings.meta.form', array_merge(
+        $data = $this->social_media->GetSocialMediaById($id);
+        return view('template.default.dashboard.settings.social.form', array_merge(
             $this->global_variable->PageType('edit'),
             [
-                'meta' => $metadata,
+                'social_media' => $data,
             ]
         ));
     }
@@ -189,20 +180,21 @@ class MetaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(MetaFormRequest $request, $id)
+    public function update(SocialMediaFormRequest $request, $id)
     {
         $request->validated();
-        $metadata = $request->only(['name', 'robot', 'description', 'keyword']);
+        $social_media = $request->only(['name', 'url']);
 
         DB::beginTransaction();
-        try {$this->meta->UpdateMeta($metadata, $id);
+        try {
+            $this->social_media->UpdateSocialMedia($social_media, $id);
             DB::commit();
-            return redirect()->route('meta.index')->with([
+            return redirect()->route('social_media.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
-                'content' => $this->translation->meta['messages']['update_success'],
+                'content' => $this->translation->roles['messages']['update_success'],
             ]);
-        } catch (\Throwable $th) {
+        } catch (\Throwable$th) {
             DB::rollBack();
             $message = $th->getMessage();
 
@@ -210,7 +202,7 @@ class MetaController extends Controller
                 $message = 'Duplicate entry';
             }
 
-            return redirect()->back()->with([
+            return redirect()->route('role.create')->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],
                 "content" => $message,
@@ -228,7 +220,7 @@ class MetaController extends Controller
     {
         DB::beginTransaction();
         try {
-            $delete = $this->meta->DeleteMeta($id);
+            $delete = $this->social_media->DeleteSocialMedia($id);
             DB::commit();
 
             // check data deleted or not
@@ -242,6 +234,7 @@ class MetaController extends Controller
             return response()->json(['status' => $status]);
         } catch (\Throwable$th) {
             DB::rollback();
+            $message = $th->getMessage();
             $message = $th->getMessage();
             return redirect()->back()->with([
                 'error' => 'error',

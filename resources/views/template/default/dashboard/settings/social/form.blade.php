@@ -1,16 +1,15 @@
 @extends('template.default.dashboard.index')
 
-@section('meta-form')
+@section('socialmedia-form')
 
 <!-- Start Breadcrumb -->
 <nav class="bg-light py-3 px-2 px-md-5 shadow-sm d-flex justify-content-between" aria-label="breadcrumb">
-    <h5 class="my-0"><i class="fa-solid fa-code me-3"></i>{{$breadcrumb['title']}}</h5>
+    <h5 class="my-0"><i class="fa-solid fa-users me-3"></i>{{$breadcrumb['title']}}</h5>
     <ol class="breadcrumb my-0">
-        <li class="breadcrumb-item"><a href="{{route($url)}}"
+        <li class="breadcrumb-item"><a href="{{route('social_media.index')}}"
                 class="text-decoration-none text-dark">{{$breadcrumb['home']}}</a>
         </li>
         <li class="breadcrumb-item active text-muted" aria-current="page">
-            {{$type == 'index' ? $breadcrumb['index'] : ''}}
             {{$type == 'create' ? $breadcrumb['create'] : ''}}
             {{$type == 'edit' ? $breadcrumb['edit'] : ''}}
         </li>
@@ -37,11 +36,11 @@
             <!-- Start Create Meta -->
             <div class="container-fluid">
                 @if ($type == 'create')
-                <form action="{{route('meta.store')}}" method="POST" id="meta-store-form">
+                <form action="{{route('social_media.store')}}" method="POST" id="socialmedia-store-form">
                 @endif
 
                 @if ($type == 'edit')
-                <form action="{{route('meta.update', $meta->id)}}" method="POST" id="meta-update-form">
+                <form action="{{route('social_media.update', $social_media->id)}}" method="POST" id="socialmedia-update-form">
                 @method('PUT')
                 @endif
 
@@ -51,34 +50,20 @@
                         <div class="mb-3">
                             <input name="name" type="text" class="form-control" id="name"
                                 placeholder="{{$form['name_placeholder']}}" value="{{$type == "edit" &&
-                                isset($meta) ? $meta->name : ''}}" required>
+                                isset($social_media) ? $social_media->name : ''}}" required>
                             <div class="error-name"></div>
                         </div>
-                        <label for="inputRobot" class="">{{$form['robot']}}</label>
+                        <label for="inputUrl" class="">{{$form['url']}}</label>
                         <div class="mb-3">
-                            <input name="robot" type="text" class="form-control" id="robot"
-                                placeholder="{{$form['robot_placeholder']}}" value="{{$type == "edit" &&
-                                isset($meta) ? $meta->robot : ''}}" required>
-                            <div class="error-robot"></div>
+                            <input name="url" type="text" class="form-control" id="url"
+                                placeholder="{{$form['url_placeholder']}}" value="{{$type == "edit" &&
+                                isset($social_media) ? $social_media->url : ''}}" required>
+                            <div class="error-url"></div>
                         </div>
-                        <label for="inputDescription" class="">{{$form['description']}}</label>
-                        <div class="mb-3">
-                            <textarea class="form-control" placeholder="{{$form['description_placeholder']}}"
-                                id="description" style="height: 100px" name="description">{{$type == "edit" &&
-                                isset($meta) ? $meta->description : ''}}</textarea>
-                            <div class="error-description"></div>
-                        </div>
-                        <label for="inputKeyword" class="">{{$form['keyword']}}</label>
-                        <div class="mb-3">
-                            <textarea class="form-control" placeholder="{{$form['keyword_placeholder']}}" id="keyword"
-                                style="height: 100px" name="keyword">{{$type == "edit" &&
-                                isset($meta) ? $meta->keyword : ''}}</textarea>
-                            <div class="error-keyword"></div>
-                        </div>
-                        <div class="mb-3">
+                        <div class="mb-5">
                             @if ($type == 'create')
                             @can ("meta-store")
-                            <button id="meta-store-submit" type="submit" class="btn btn-success w-100">
+                            <button id="socialmedia-store-submit" type="submit" class="btn btn-success w-100">
                                 {{$button['store']}}<i class="fas fa-save ms-2"></i>
                             </button>
                             @endcan
@@ -86,7 +71,7 @@
 
                             @if ($type == 'edit')
                             @can ("meta-update")
-                            <button id="meta-update-submit" type="submit" class="btn btn-success w-100">
+                            <button id="socialmedia-update-submit" type="submit" class="btn btn-success w-100">
                                 {{$button['update']}}<i class="fas fa-save ms-2"></i>
                             </button>
                             @endcan
@@ -106,7 +91,7 @@
 <!-- End Home -->
 @endsection
 
-@push('meta-form-js')
+@push('socialmedia-form-js')
 <script>
     let current_id = document.querySelector("form").id;
     $("#" + current_id).validate({
@@ -114,51 +99,37 @@
             name: {
                 required: true
             },
-            robot: {
-                required: true
-            },
-            description: {
-                required: true
-            },
-            keyword: {
+            url: {
                 required: true
             },
         },
         messages: {
             name: "<small style='color: red;'>{{$validation['name_required']}}</small>",
-            robot: "<small style='color: red;'>{{$validation['robot_required']}}</small>",
-            description: "<small style='color: red;'>{{$validation['description_required']}}</small>",
-            keyword: "<small style='color: red;'>{{$validation['keyword_required']}}</small>",
+            url: "<small style='color: red;'>{{$validation['url_required']}}</small>",
         },
         errorPlacement: function (error, element) {
             if (element.attr("name") == "name") {
                 error.appendTo(".error-name");
             }
-            if (element.attr("name") == "robot") {
-                error.appendTo(".error-robot");
-            }
-            if (element.attr("name") == "description") {
-                error.appendTo(".error-description");
-            }
-            if (element.attr("name") == "keyword") {
-                error.appendTo(".error-keyword");
+            if (element.attr("name") == "url") {
+                error.appendTo(".error-url");
             }
         },
     });
 
-    $('#meta-store-submit').click(function () {
-        let a = $("#meta-store-form").valid();
+    $('#socialmedia-store-submit').click(function () {
+        let a = $("#socialmedia-store-form").valid();
         if (a === true) {
-            $("#meta-store-form").submit();
+            $("#socialmedia-store-form").submit();
         } else {
             return false;
         }
     });
 
-    $('#meta-update-submit').click(function () {
-        let a = $("#meta-update-form").valid();
+    $('#socialmedia-update-submit').click(function () {
+        let a = $("#socialmedia-update-form").valid();
         if (a === true) {
-            $("#meta-update-form").submit();
+            $("#socialmedia-update-form").submit();
         } else {
             return false;
         }

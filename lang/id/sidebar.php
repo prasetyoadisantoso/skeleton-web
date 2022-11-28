@@ -18,6 +18,7 @@ return [
     'settings' => 'Pengaturan',
     'general' => 'Umum',
     'metas' => 'Meta',
+    'socialmedia' => 'Media Sosial',
     'seo' => 'SEO',
     'google' => 'Google',
 ];

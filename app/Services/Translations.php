@@ -45,7 +45,7 @@ class Translations {
 
         // General Dashboard
         $this->general = __('general');
-
+        $this->social_media = __('social_media');
         $this->meta = __('meta');
     }
 

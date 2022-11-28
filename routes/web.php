@@ -6,6 +6,7 @@ use App\Http\Controllers\Dashboard\MainController;
 use App\Http\Controllers\Dashboard\MetaController;
 use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\RoleController;
+use App\Http\Controllers\Dashboard\SocialMediaController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
@@ -72,6 +73,8 @@ Route::group([
         Route::post('general/logo_favicon/update', [GeneralController::class, 'update_site_logo_favicon'])->name('general.update.logo.favicon');
         Route::resource('meta', MetaController::class);
         Route::get('meta_datatable', [MetaController::class, 'index_dt'])->name('meta.datatable');
+        Route::resource('social_media', SocialMediaController::class);
+        Route::get('social_media_dt', [SocialMediaController::class, 'index_dt'])->name('social_media.datatable');
     });
 
 });
