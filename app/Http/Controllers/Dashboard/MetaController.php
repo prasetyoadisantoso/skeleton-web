@@ -29,6 +29,12 @@ class MetaController extends Controller
     {
         $this->middleware(['auth', 'verified', 'xss']);
         $this->middleware(['permission:setting-sidebar']);
+        $this->middleware(['permission:meta-index'])->only(['index', 'index_dt']);
+        $this->middleware(['permission:meta-create'])->only('create');
+        $this->middleware(['permission:meta-edit'])->only('edit');
+        $this->middleware(['permission:meta-store'])->only('store');
+        $this->middleware(['permission:meta-update'])->only('update');
+        $this->middleware(['permission:meta-destroy'])->only('destroy');
         $this->global_view = $global_view;
         $this->global_variable = $global_variable;
         $this->translation = $translation;

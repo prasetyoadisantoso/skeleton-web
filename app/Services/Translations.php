@@ -46,7 +46,10 @@ class Translations {
         // General Dashboard
         $this->general = __('general');
         $this->social_media = __('social_media');
+
+        // SEO Dashboard
         $this->meta = __('meta');
+        $this->canonical = __('canonical');
     }
 
 }

@@ -22,7 +22,9 @@ $('.dropdown').on('hide.bs.dropdown', function () {
 });
 
 // Rotation Arrow Sidebar
-$(document).ready(function () {
+$(document).ready(function (e) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
     jQuery(".main-list").click(function () {
         var child = document.getElementById(this.id);
         var icon = child.children['icon'];

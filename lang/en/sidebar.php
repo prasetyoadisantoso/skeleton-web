@@ -17,8 +17,11 @@ return [
     // Settings
     'settings' => 'Settings',
     'general' => 'General',
-    'metas' => 'Meta',
     'socialmedia' => 'Social Media',
-    'seo' => 'SEO',
     'google' => 'Google',
+
+    // SEO
+    'seo' => 'SEO',
+    'metas' => 'Meta',
+    'canonicals' => 'Canonical'
 ];

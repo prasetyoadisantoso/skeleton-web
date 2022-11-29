@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SocialMediaFormRequest;
-use App\Models\SocialMedia;
+use App\Http\Requests\CanonicalFormRequest;
+use App\Models\Canonical;
 use App\Services\FileManagement;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
@@ -13,9 +13,9 @@ use App\Services\Translations;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 
-class SocialMediaController extends Controller
+class CanonicalController extends Controller
 {
-    protected $global_view, $global_variable, $translation, $dataTables, $responseFormatter, $fileManagement, $social_media;
+    protected $global_view, $global_variable, $translation, $dataTables, $responseFormatter, $fileManagement, $canonical;
 
     public function __construct(
         GlobalView $global_view,
@@ -24,29 +24,30 @@ class SocialMediaController extends Controller
         DataTables $dataTables,
         ResponseFormatter $responseFormatter,
         FileManagement $fileManagement,
-        SocialMedia $social_media,
-    ) {
+        Canonical $canonical,
+    )
+    {
         $this->middleware(['auth', 'verified', 'xss']);
-        $this->middleware(['permission:setting-sidebar']);
-        $this->middleware(['permission:socialmedia-index'])->only(['index', 'index_dt']);
-        $this->middleware(['permission:socialmedia-create'])->only('create');
-        $this->middleware(['permission:socialmedia-edit'])->only('edit');
-        $this->middleware(['permission:socialmedia-store'])->only('store');
-        $this->middleware(['permission:socialmedia-update'])->only('update');
-        $this->middleware(['permission:socialmedia-destroy'])->only('destroy');
+        $this->middleware(['permission:seo-sidebar']);
+        $this->middleware(['permission:canonical-index'])->only(['index', 'index_dt']);
+        $this->middleware(['permission:canonical-create'])->only('create');
+        $this->middleware(['permission:canonical-edit'])->only('edit');
+        $this->middleware(['permission:canonical-store'])->only('store');
+        $this->middleware(['permission:canonical-update'])->only('update');
+        $this->middleware(['permission:canonical-destroy'])->only('destroy');
         $this->global_view = $global_view;
         $this->global_variable = $global_variable;
         $this->translation = $translation;
         $this->dataTables = $dataTables;
         $this->responseFormatter = $responseFormatter;
         $this->fileManagement = $fileManagement;
-        $this->social_media = $social_media;
+        $this->canonical = $canonical;
     }
 
     protected function boot()
     {
         return $this->global_view->RenderView([
-            $this->global_variable->TitlePage($this->translation->social_media['title']),
+            $this->global_variable->TitlePage($this->translation->canonical['title']),
             $this->global_variable->SystemLanguage(),
             $this->global_variable->AuthUserName(),
             $this->global_variable->SystemName(),
@@ -55,18 +56,18 @@ class SocialMediaController extends Controller
             $this->translation->sidebar,
             $this->translation->button,
             $this->translation->notification,
-            $this->translation->social_media,
+            $this->translation->canonical,
 
             // Module
             $this->global_variable->ModuleType([
-                'socialmedia-home',
-                'socialmedia-form',
+                'canonical-home',
+                'canonical-form',
             ]),
 
             // Script
             $this->global_variable->ScriptType([
-                'socialmedia-home-js',
-                'socialmedia-form-js',
+                'canonical-home-js',
+                'canonical-form-js',
             ]),
 
         ]);
@@ -80,22 +81,22 @@ class SocialMediaController extends Controller
     public function index()
     {
         $this->boot();
-        return view('template.default.dashboard.settings.social.home', array_merge(
+        return view('template.default.dashboard.settings.canonical.home', array_merge(
             $this->global_variable->PageType('index'),
         ));
     }
 
     public function index_dt()
     {
-        return $this->dataTables->of($this->social_media->query())
-            ->addColumn('name', function ($social_media) {
-                return $social_media->name;
+        return $this->dataTables->of($this->canonical->query())
+            ->addColumn('name', function ($canonical) {
+                return $canonical->name;
             })
-            ->addColumn('url', function ($social_media) {
-                return $social_media->url;
+            ->addColumn('url', function ($canonical) {
+                return $canonical->url;
             })
-            ->addColumn('action', function ($social_media) {
-                return $social_media->id;
+            ->addColumn('action', function ($canonical) {
+                return $canonical->id;
             })
             ->removeColumn('id')->addIndexColumn()->make('true');
     }
@@ -108,7 +109,7 @@ class SocialMediaController extends Controller
     public function create()
     {
         $this->boot();
-        return view('template.default.dashboard.settings.social.form', array_merge(
+        return view('template.default.dashboard.settings.canonical.form', array_merge(
             $this->global_variable->PageType('create'),
         ));
     }
@@ -119,16 +120,16 @@ class SocialMediaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SocialMediaFormRequest $request)
+    public function store(CanonicalFormRequest $request)
     {
         $request->validated();
-        $social_media = $request->only(['name', 'url']);
+        $canonical_data = $request->only(['name', 'url']);
 
         DB::beginTransaction();
         try {
-            $this->social_media->StoreSocialMedia($social_media);
+            $this->canonical->StoreCanonical($canonical_data);
             DB::commit();
-            return redirect()->route('social_media.index')->with([
+            return redirect()->route('canonical.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
                 'content' => $this->translation->roles['messages']['update_success'],
@@ -141,7 +142,7 @@ class SocialMediaController extends Controller
                 $message = 'Duplicate entry';
             }
 
-            return redirect()->route('social_media.create')->with([
+            return redirect()->route('canonical.create')->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],
                 "content" => $message,
@@ -169,11 +170,11 @@ class SocialMediaController extends Controller
     public function edit($id)
     {
         $this->boot();
-        $data = $this->social_media->GetSocialMediaById($id);
-        return view('template.default.dashboard.settings.social.form', array_merge(
+        $data = $this->canonical->GetCanonicalById($id);
+        return view('template.default.dashboard.settings.canonical.form', array_merge(
             $this->global_variable->PageType('edit'),
             [
-                'social_media' => $data,
+                'canonical' => $data,
             ]
         ));
     }
@@ -185,16 +186,16 @@ class SocialMediaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SocialMediaFormRequest $request, $id)
+    public function update(CanonicalFormRequest $request, $id)
     {
         $request->validated();
-        $social_media = $request->only(['name', 'url']);
+        $canonical = $request->only(['name', 'url']);
 
         DB::beginTransaction();
         try {
-            $this->social_media->UpdateSocialMedia($social_media, $id);
+            $this->canonical->UpdateCanonical($canonical, $id);
             DB::commit();
-            return redirect()->route('social_media.index')->with([
+            return redirect()->route('canonical.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
                 'content' => $this->translation->roles['messages']['update_success'],
@@ -225,7 +226,7 @@ class SocialMediaController extends Controller
     {
         DB::beginTransaction();
         try {
-            $delete = $this->social_media->DeleteSocialMedia($id);
+            $delete = $this->canonical->DeleteCanonical($id);
             DB::commit();
 
             // check data deleted or not

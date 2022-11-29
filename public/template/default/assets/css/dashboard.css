@@ -241,12 +241,12 @@ body {
 
 .fa-chevron-down {
     transform: rotate(0deg);
-    transition: transform 0.1s linear;
+    transition: transform 0.05s linear;
 }
 
 .fa-chevron-down.open {
     transform: rotate(180deg);
-    transition: transform 0.1s linear;
+    transition: transform 0.05s linear;
 }
 
 
