@@ -5,6 +5,7 @@
 @import url(../css/dashboard/index.css);
 @import url(../css/dashboard/list.css);
 @import url(../css/dashboard/list.css);
+@import url(../css/dashboard/media.css);
 @import url(../css/dashboard/nav.css);
 @import url(../css/dashboard/table.css);
 @import url("//fonts.googleapis.com/css?family=Nunito:400,600,700,800");
@@ -17,7 +18,8 @@
     --entry-danger: #fc544b;
     --entry-light: #e3eaef;
     --entry-dark: #191d21;
-    --entry-shadow: #6d797d;
+    --entry-shadow: rgb(0 0 0 / 3%);
+    --entry-button-shadow-secondary: #e1e5e8;
     --entry-card-body: #34395e;
     --enty-list-disable: #c9d7e0;
     --entry-caption: #9aa0ac;
@@ -29,6 +31,7 @@
     --entry-form-border-focus: #95a0f4;
     --entry-switch-indicator: #e9ecef;
     --entry-list-border: #f9f9f9;
+    --entry-media-color: #34395e;
     --time-transition: 0.5s;
 }
 .btn:focus,
