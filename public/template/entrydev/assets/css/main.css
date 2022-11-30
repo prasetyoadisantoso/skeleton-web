@@ -1,12 +1,14 @@
 @charset "UTF-8";
+@import url(../css/dashboard/alert.css);
+@import url(../css/dashboard/badge.css);
+@import url(../css/dashboard/card.css);
 @import url(../css/dashboard/index.css);
+@import url(../css/dashboard/list.css);
+@import url(../css/dashboard/list.css);
+@import url(../css/dashboard/nav.css);
+@import url(../css/dashboard/table.css);
 @import url("//fonts.googleapis.com/css?family=Nunito:400,600,700,800");
 :root {
-    --entry-white: #fefeff;
-    --entry-btn-outline: #fdfdff;
-    --entry-radio-control: #6777ef;
-    --entry-form-border: #e4e6fc;
-    --entry-form-border-focus: #95a0f4;
     --entry-primary: #06283d;
     --entry-secondary: #cdd3d8;
     --entry-success: #47c363;
@@ -16,6 +18,17 @@
     --entry-light: #e3eaef;
     --entry-dark: #191d21;
     --entry-shadow: #6d797d;
+    --entry-card-body: #34395e;
+    --enty-list-disable: #c9d7e0;
+    --entry-caption: #9aa0ac;
+    --entry-caption-hover: #495057;
+    --entry-white: #fefeff;
+    --entry-btn-outline: #fdfdff;
+    --entry-radio-control: #6777ef;
+    --entry-form-border: #e4e6fc;
+    --entry-form-border-focus: #95a0f4;
+    --entry-switch-indicator: #e9ecef;
+    --entry-list-border: #f9f9f9;
     --time-transition: 0.5s;
 }
 .btn:focus,
@@ -317,6 +330,333 @@ textarea.form-control {
 
 .custom-file-input:focus + .custom-file-label::after {
     border-color: transparent;
+}
+
+.selectgroup {
+    display: inline-flex;
+}
+
+.selectgroup-item {
+    flex-grow: 1;
+    position: relative;
+}
+
+.selectgroup-item + .selectgroup-item {
+    margin-left: -1px;
+}
+
+.selectgroup-item:not(:first-child) .selectgroup-button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.selectgroup-item:not(:last-child) .selectgroup-button {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.selectgroup-input {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+}
+
+.selectgroup-button {
+    background-color: var(--entry-btn-outline);
+    border-color: var(--entry-form-border);
+    border-width: 1px;
+    border-style: solid;
+    display: block;
+    text-align: center;
+    padding: 0 1rem;
+    height: 35px;
+    position: relative;
+    cursor: pointer;
+    border-radius: 3px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    font-size: 13px;
+    min-width: 2.375rem;
+    line-height: 36px;
+}
+
+.selectgroup-button-icon {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.selectgroup-button-icon i {
+    font-size: 14px;
+}
+
+.selectgroup-input:checked + .selectgroup-button {
+    background-color: var(--entry-radio-control);
+    color: var(--entry-white);
+    z-index: 1;
+}
+
+.selectgroup-pills {
+    display: block;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.selectgroup-pills .selectgroup-button {
+    border-radius: 50px !important;
+}
+
+.custom-switch {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    cursor: default;
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+}
+
+.custom-switch-input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+.custom-switches-stacked {
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-switches-stacked .custom-switch {
+    margin-bottom: 0.5rem;
+}
+
+.custom-switch-indicator {
+    display: inline-block;
+    height: 1.25rem;
+    width: 2.25rem;
+    background: var(--entry-switch-indicator);
+    border-radius: 50px;
+    position: relative;
+    vertical-align: bottom;
+    border: 1px solid rgba(0, 40, 100, 0.12);
+    transition: 0.3s border-color, 0.3s background-color;
+}
+
+.custom-switch-indicator::before {
+    content: "";
+    position: absolute;
+    height: calc(1.25rem - 4px);
+    width: calc(1.25rem - 4px);
+    top: 1px;
+    left: 1px;
+    background: var(--entry-btn-outline);
+    border-radius: 50%;
+    transition: 0.3s left;
+}
+
+.custom-switch-input:checked ~ .custom-switch-indicator {
+    background: var(--entry-radio-control);
+}
+
+.custom-switch-input:checked ~ .custom-switch-indicator::before {
+    left: calc(1rem + 1px);
+}
+
+.custom-switch-input:focus ~ .custom-switch-indicator {
+    border-color: var(--entry-radio-control);
+}
+
+.custom-switch-description {
+    margin-left: 0.5rem;
+    color: #6e7687;
+    transition: 0.3s color;
+}
+
+.custom-switch-input:checked ~ .custom-switch-description {
+    color: #495057;
+}
+
+.imagecheck {
+    margin: 0;
+    position: relative;
+    cursor: pointer;
+}
+
+.imagecheck-input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+.imagecheck-figure {
+    background-color: var(--entry-btn-outline);
+    border-color: var(--entry-form-border);
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 3px;
+    margin: 0;
+    position: relative;
+}
+
+.imagecheck-input:focus ~ .imagecheck-figure {
+    border-color: var(--entry-radio-control);
+}
+
+.imagecheck-input:checked ~ .imagecheck-figure {
+    border-color: rgba(0, 40, 100, 0.24);
+}
+
+.imagecheck-figure::before {
+    content: "";
+    position: absolute;
+    top: 0.25rem;
+    left: 0.25rem;
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    pointer-events: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    background: var(--entry-radio-control)
+        url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3E%3C/svg%3E")
+        no-repeat center center/50% 50%;
+    color: #fff;
+    z-index: 1;
+    border-radius: 3px;
+    opacity: 0;
+    transition: 0.3s opacity;
+}
+
+.imagecheck-input:checked ~ .imagecheck-figure::before {
+    opacity: 1;
+}
+
+.imagecheck-image {
+    max-width: 100%;
+    opacity: 0.64;
+    transition: 0.3s opacity;
+}
+
+.imagecheck-image:first-child {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.imagecheck-image:last-child {
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+.imagecheck:hover .imagecheck-image {
+    opacity: 1;
+}
+
+.imagecheck-input:focus ~ .imagecheck-figure .imagecheck-image,
+.imagecheck-input:checked ~ .imagecheck-figure .imagecheck-image {
+    opacity: 1;
+}
+
+.imagecheck-caption {
+    text-align: center;
+    padding: 0.25rem 0.25rem;
+    color: var(--entry-caption);
+    font-size: 0.875rem;
+    transition: 0.3s color;
+}
+
+.imagecheck:hover .imagecheck-caption {
+    color: var(--entry-caption-hover);
+}
+
+.imagecheck-input:focus ~ .imagecheck-figure .imagecheck-caption,
+.imagecheck-input:checked ~ .imagecheck-figure .imagecheck-caption {
+    color: var(--entry-caption-hover);
+}
+
+.colorinput {
+    margin: 0;
+    position: relative;
+    cursor: pointer;
+}
+
+.colorinput-input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+.colorinput-color {
+    background-color: var(--entry-btn-outline);
+    border-color: var(--entry-form-border);
+    border-width: 1px;
+    border-style: solid;
+    display: inline-block;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 3px;
+    color: #fff;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.colorinput-color::before {
+    content: "";
+    opacity: 0;
+    position: absolute;
+    top: 0.25rem;
+    left: 0.25rem;
+    height: 1.25rem;
+    width: 1.25rem;
+    transition: 0.3s opacity;
+    background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3E%3C/svg%3E")
+        no-repeat center center/50% 50%;
+}
+
+.colorinput-input:checked ~ .colorinput-color::before {
+    opacity: 1;
+}
+
+/* Tooltip */
+
+.tooltip {
+    font-size: 12px;
+}
+
+.tooltip-inner {
+    padding: 7px 13px;
+}
+
+/* Pagination */
+.page-item .page-link {
+    color: var(--entry-info);
+    border-radius: 3px;
+    margin: 0 3px;
+}
+.page-item.active .page-link {
+    background-color: var(--entry-info);
+    border-color: var(--entry-info);
+}
+.page-item.disabled .page-link {
+    border-color: transparent;
+    background-color: #f9fafe;
+    color: var(--entry-info);
+    opacity: 0.6;
+}
+
+.page-link {
+    border-color: transparent;
+    background-color: #f9fafe;
+    font-weight: 600;
+}
+.page-link:hover {
+    background-color: var(--entry-info);
+    color: #fff;
+    border-color: transparent;
+}
+.page-link:focus {
+    box-shadow: none;
 }
 
 html,
