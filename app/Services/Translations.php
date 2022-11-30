@@ -50,6 +50,9 @@ class Translations {
         // SEO Dashboard
         $this->meta = __('meta');
         $this->canonical = __('canonical');
+
+        // System Dashboard
+        $this->activity = __('activity');
     }
 
 }

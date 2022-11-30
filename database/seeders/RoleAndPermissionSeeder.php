@@ -82,6 +82,15 @@ class RoleAndPermissionSeeder extends Seeder
             'canonical-update',
             'canonical-destroy',
 
+            // Activity
+            'activity-index',
+            'activity-create',
+            'activity-store',
+            'activity-show',
+            'activity-edit',
+            'activity-update',
+            'activity-destroy',
+
             /* -------------------------------------------------------------------------- */
             /*                                   Sidebar                                  */
             /* -------------------------------------------------------------------------- */
@@ -89,6 +98,7 @@ class RoleAndPermissionSeeder extends Seeder
             'setting-sidebar',
             'seo-sidebar',
             'user-sidebar',
+            'system-sidebar'
 
         ];
 
@@ -157,10 +167,19 @@ class RoleAndPermissionSeeder extends Seeder
             'canonical-update',
             'canonical-destroy',
 
+            'activity-index',
+            'activity-create',
+            'activity-store',
+            'activity-show',
+            'activity-edit',
+            'activity-update',
+            'activity-destroy',
+
             'main-sidebar',
             'setting-sidebar',
             'seo-sidebar',
             'user-sidebar',
+            'system-sidebar',
 
         ]);
 

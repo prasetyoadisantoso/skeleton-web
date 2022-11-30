@@ -5,6 +5,7 @@ return [
         'edit' => 'Edit',
         'update' => 'Perbarui',
         'delete' => 'Hapus',
+        'empty' => 'Hapus Semua',
         'create' => 'Buat',
         'confirm' => 'Konfirmasi',
         'cancel' => 'Batal',

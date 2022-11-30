@@ -253,40 +253,7 @@ body {
 /* -------------------------------------------------------------------------- */
 /*                                 DataTables                                 */
 /* -------------------------------------------------------------------------- */
-
-/* Pagination */
-.page-item .page-link {
-    border: 0px;
-    color: gray;
-}
-
-.page-item .page-link:hover {
-    border: 0px;
-    background-color: rgb(232, 245, 201);
-}
-
-.page-item .page-link,
-::after {
-    border: 0px;
-    box-shadow: none !important;
-}
-
-.page-item.disabled .page-link {
-    border: 0px;
-}
-
-.page-item.active .page-link {
-    border: 0px;
-    background-color: #3D9970;
-}
-
-/* End Pagination */
-
-
-/* Border */
-#datatables {
-    border: 0.5px;
-}
+/* Code */
 
 /* -------------------------------------------------------------------------- */
 /*                                  JQUERY UI                                 */

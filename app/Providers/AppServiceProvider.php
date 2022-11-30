@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use Spatie\Activitylog\Models\Activity;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,7 +30,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Paginator::useBootstrap();
         URL::forceScheme(env('URL_SCHEME'));
+
+        Activity::saving(function (Activity $activity) {
+            $activity->properties = $activity->properties->put('ip', request()->ip());
+        });
     }
 }

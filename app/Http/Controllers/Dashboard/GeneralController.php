@@ -12,6 +12,7 @@ use App\Services\ResponseFormatter;
 use App\Services\Translations;
 use App\Services\Upload;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class GeneralController extends Controller
 {
@@ -96,6 +97,11 @@ class GeneralController extends Controller
      */
     public function update_site_description(GeneralFormRequest $request)
     {
+        // Error Validation Message to Activity Log
+        if (isset($request->validator) && $request->validator->fails()) {
+            activity()->causedBy(Auth::user())->performedOn(new General)->log($request->validator->messages());
+        }
+
         $request->validated();
         $validated_data = $request->only([
             'id', 'site_title', 'site_tagline', 'url_address', 'copyright', 'cookies_concern'
@@ -123,7 +129,8 @@ class GeneralController extends Controller
             if (str_contains($th->getMessage(), 'Duplicate entry')) {
                 $message = 'Duplicate entry';
             }
-            return redirect()->route('permission.create')->with([
+            activity()->causedBy(Auth::user())->performedOn(new General)->log($message);
+            return redirect()->route('general.create')->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],
                 "content" => $message,
@@ -138,6 +145,11 @@ class GeneralController extends Controller
      */
     public function update_site_logo_favicon(GeneralFormRequest $request)
     {
+        // Error Validation Message to Activity Log
+        if (isset($request->validator) && $request->validator->fails()) {
+            activity()->causedBy(Auth::user())->performedOn(new General)->log($request->validator->messages());
+        }
+
         $request->validated();
         $validated_data = $request->only([
             'id', 'site_logo', 'site_favicon'
@@ -175,6 +187,7 @@ class GeneralController extends Controller
             if (str_contains($th->getMessage(), 'Duplicate entry')) {
                 $message = 'Duplicate entry';
             }
+            activity()->causedBy(Auth::user())->performedOn(new General)->log($message);
             return redirect()->route('general.index')->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],

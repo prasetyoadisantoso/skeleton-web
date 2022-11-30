@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Authentication\AuthController;
+use App\Http\Controllers\Dashboard\ActivityController;
 use App\Http\Controllers\Dashboard\CanonicalController;
 use App\Http\Controllers\Dashboard\GeneralController;
 use App\Http\Controllers\Dashboard\MainController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\SocialMediaController;
 use App\Http\Controllers\Dashboard\UserController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -72,13 +74,19 @@ Route::group([
         Route::resource('canonical', CanonicalController::class);
         Route::get('canonical_datatable', [CanonicalController::class, 'index_dt'])->name('canonical.datatable');
 
-         // User & Permissions
-         Route::resource('user', UserController::class);
-         Route::get('user_datatable', [UserController::class, 'index_dt'])->name('user.datatable');
-         Route::resource('permission', PermissionController::class);
-         Route::get('permission_datatable', [PermissionController::class, 'index_dt'])->name('permission.datatable');
-         Route::resource('role', RoleController::class);
-         Route::get('role_datatable', [RoleController::class, 'index_dt'])->name('role.datatable');
+        // User & Permissions
+        Route::resource('user', UserController::class);
+        Route::get('user_datatable', [UserController::class, 'index_dt'])->name('user.datatable');
+        Route::resource('permission', PermissionController::class);
+        Route::get('permission_datatable', [PermissionController::class, 'index_dt'])->name('permission.datatable');
+        Route::resource('role', RoleController::class);
+        Route::get('role_datatable', [RoleController::class, 'index_dt'])->name('role.datatable');
+
+        //  System
+        Route::get('activity', [ActivityController::class, 'index'])->name('activity.index');
+        Route::get('activity/{id}/destroy', [ActivityController::class, 'destroy'])->name('activity.destroy');
+        Route::get('activity/empty', [ActivityController::class, 'empty'])->name('activity.empty');
+        Route::get('activity_datatable', [ActivityController::class, 'index_dt'])->name('activity.datatable');
     });
 
 });

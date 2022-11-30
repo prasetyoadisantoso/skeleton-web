@@ -5,6 +5,7 @@ return [
         'edit' => 'Edit',
         'update' => 'Update',
         'delete' => 'Delete',
+        'empty' => 'Empty',
         'create' => 'Create',
         'confirm' => 'Confirm',
         'cancel' => 'Cancel',

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -146,11 +147,10 @@ class UserController extends Controller
         } catch (\Throwable$th) {
             DB::rollback();
             $message = $th->getMessage();
-
             if (str_contains($th->getMessage(), 'Duplicate entry')) {
                 $message = 'Duplicate entry';
             }
-
+            activity()->causedBy(Auth::user())->performedOn(new User)->log($message);
             return redirect()->route('user.create')->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],

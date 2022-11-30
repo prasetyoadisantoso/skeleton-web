@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Translatable\HasTranslations;
+use Spatie\Activitylog\LogOptions;
 
 class General extends Model
 {
-    use HasFactory , HasTranslations;
+    use HasFactory , HasTranslations, LogsActivity;
 
     public $incrementing = false;
 
@@ -51,6 +53,11 @@ class General extends Model
         }
 
         return $current_data->update($data);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
     }
 
 }
