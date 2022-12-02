@@ -12,6 +12,7 @@ use App\Services\ResponseFormatter;
 use App\Services\Translations;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class CanonicalController extends Controller
 {
@@ -122,6 +123,11 @@ class CanonicalController extends Controller
      */
     public function store(CanonicalFormRequest $request)
     {
+        // Error Validation Message to Activity Log
+        if (isset($request->validator) && $request->validator->fails()) {
+            activity()->causedBy(Auth::user())->performedOn(new Canonical)->log($request->validator->messages());
+        }
+
         $request->validated();
         $canonical_data = $request->only(['name', 'url']);
 
@@ -129,10 +135,11 @@ class CanonicalController extends Controller
         try {
             $this->canonical->StoreCanonical($canonical_data);
             DB::commit();
+            activity()->causedBy(Auth::user())->performedOn(new Canonical)->log($this->translation->canonical['messages']['store_success']);
             return redirect()->route('canonical.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
-                'content' => $this->translation->roles['messages']['update_success'],
+                'content' => $this->translation->canonical['messages']['store_success'],
             ]);
         } catch (\Throwable$th) {
             DB::rollBack();
@@ -141,6 +148,8 @@ class CanonicalController extends Controller
             if (str_contains($th->getMessage(), 'Duplicate entry')) {
                 $message = 'Duplicate entry';
             }
+
+            activity()->causedBy(Auth::user())->performedOn(new Canonical)->log($message);
 
             return redirect()->route('canonical.create')->with([
                 'error' => 'error',
@@ -188,6 +197,11 @@ class CanonicalController extends Controller
      */
     public function update(CanonicalFormRequest $request, $id)
     {
+        // Error Validation Message to Activity Log
+        if (isset($request->validator) && $request->validator->fails()) {
+            activity()->causedBy(Auth::user())->performedOn(new Canonical)->log($request->validator->messages());
+        }
+
         $request->validated();
         $canonical = $request->only(['name', 'url']);
 
@@ -195,10 +209,11 @@ class CanonicalController extends Controller
         try {
             $this->canonical->UpdateCanonical($canonical, $id);
             DB::commit();
+            activity()->causedBy(Auth::user())->performedOn(new Canonical)->log($this->translation->canonical['messages']['update_success']);
             return redirect()->route('canonical.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
-                'content' => $this->translation->roles['messages']['update_success'],
+                'content' => $this->translation->canonical['messages']['update_success'],
             ]);
         } catch (\Throwable$th) {
             DB::rollBack();
@@ -207,6 +222,8 @@ class CanonicalController extends Controller
             if (str_contains($th->getMessage(), 'Duplicate entry')) {
                 $message = 'Duplicate entry';
             }
+
+            activity()->causedBy(Auth::user())->performedOn(new Canonical)->log($message);
 
             return redirect()->route('role.create')->with([
                 'error' => 'error',
@@ -236,12 +253,14 @@ class CanonicalController extends Controller
                 $status = 'error';
             }
 
+            activity()->causedBy(Auth::user())->performedOn(new Canonical)->log($this->translation->canonical['messages']['delete_success']);
+
             ///  Return response
             return response()->json(['status' => $status]);
         } catch (\Throwable$th) {
             DB::rollback();
             $message = $th->getMessage();
-            $message = $th->getMessage();
+            activity()->causedBy(Auth::user())->performedOn(new Canonical)->log($message);
             return redirect()->back()->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],
