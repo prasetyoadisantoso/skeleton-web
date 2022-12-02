@@ -4,10 +4,13 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Contracts\Validation\Validator;
 
 
 class RoleFormRequest extends FormRequest
 {
+    public $validator = null;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -44,5 +47,10 @@ class RoleFormRequest extends FormRequest
                 # code...
                 break;
         }
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        $this->validator = $validator;
     }
 }

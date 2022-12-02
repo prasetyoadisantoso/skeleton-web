@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class RoleController extends Controller
 {
@@ -125,6 +126,11 @@ class RoleController extends Controller
 
     public function store(RoleFormRequest $request)
     {
+        // Error Validation Message to Activity Log
+        if (isset($request->validator) && $request->validator->fails()) {
+            activity()->causedBy(Auth::user())->performedOn(new Role)->log($request->validator->messages());
+        }
+
         $request->validated();
         $validated_data = $request->only(['name', 'permissions']);
 
@@ -133,7 +139,7 @@ class RoleController extends Controller
             $role = $this->role->create(['name' => $validated_data['name']]);
             $role->syncPermissions($validated_data['permissions']);
             DB::commit();
-
+            activity()->causedBy(Auth::user())->performedOn(new Role)->log($this->translation->roles['messages']['store_success']);
             return redirect()->route('role.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
@@ -146,6 +152,8 @@ class RoleController extends Controller
             if (str_contains($th->getMessage(), 'Duplicate entry')) {
                 $message = 'Duplicate entry';
             }
+
+            activity()->causedBy(Auth::user())->performedOn(new Role)->log($message);
 
             return redirect()->route('role.create')->with([
                 'error' => 'error',
@@ -174,6 +182,11 @@ class RoleController extends Controller
 
     public function update(RoleFormRequest $request, $id)
     {
+        // Error Validation Message to Activity Log
+        if (isset($request->validator) && $request->validator->fails()) {
+            activity()->causedBy(Auth::user())->performedOn(new Role)->log($request->validator->messages());
+        }
+
         $request->validated();
         $validated_data = $request->only(['name', 'permissions']);
 
@@ -185,6 +198,7 @@ class RoleController extends Controller
             ]);
             $role->syncPermissions($validated_data['permissions']);
             DB::commit();
+            activity()->causedBy(Auth::user())->performedOn(new Role)->log($this->translation->roles['messages']['update_success']);
             return redirect()->route('role.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
@@ -197,6 +211,8 @@ class RoleController extends Controller
             if (str_contains($th->getMessage(), 'Duplicate entry')) {
                 $message = 'Duplicate entry';
             }
+
+            activity()->causedBy(Auth::user())->performedOn(new Role)->log($message);
 
             return redirect()->back()->with([
                 'error' => 'error',
@@ -220,11 +236,14 @@ class RoleController extends Controller
                 $status = 'error';
             }
 
+            activity()->causedBy(Auth::user())->performedOn(new Role)->log($this->translation->roles['messages']['delete_success']);
+
             //  Return response
             return response()->json(['status' => $status]);
         } catch (\Throwable$th) {
             DB::rollBack();
             $message = $th->getMessage();
+            activity()->causedBy(Auth::user())->performedOn(new Role)->log($message);
             return redirect()->back()->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],
