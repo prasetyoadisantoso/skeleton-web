@@ -26,7 +26,7 @@ return [
         ],
     ],
     'messages' => [
-        'update_success' => 'Data berhasil diperbarui',
-        'update_failed' => 'Data gagal diperbarui',
+        'update_success' => 'Pengaturan umum berhasil diperbarui',
+        'update_failed' => 'Pengaturan umum gagal diperbarui',
     ],
 ];

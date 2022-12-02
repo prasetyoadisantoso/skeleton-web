@@ -117,7 +117,7 @@ class GeneralController extends Controller
                 $status = 'error';
             }
             DB::commit();
-
+            activity()->causedBy(Auth::user())->performedOn(new General)->log($this->translation->general['messages']['update_success']);
             return redirect()->route('general.index')->with([
                 'success' => $status,
                 'title' => $this->translation->notification['success'],
@@ -176,6 +176,7 @@ class GeneralController extends Controller
                 $status = 'error';
             }
             DB::commit();
+            activity()->causedBy(Auth::user())->performedOn(new General)->log($this->translation->general['messages']['update_success']);
             return redirect()->route('general.index')->with([
                 'success' => $status,
                 'title' => $this->translation->notification['success'],
