@@ -4,13 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Webpatser\Uuid\Uuid;
 
 class SocialMedia extends Model
 {
-    use HasFactory, LogsActivity;
+    use HasFactory;
 
     public $primaryKey = 'id';
 
@@ -51,10 +49,5 @@ class SocialMedia extends Model
     public function DeleteSocialMedia($id)
     {
         return $this->query()->find($id)->forceDelete();
-    }
-
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults();
     }
 }

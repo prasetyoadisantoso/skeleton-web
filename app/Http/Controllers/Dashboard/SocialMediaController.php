@@ -12,6 +12,7 @@ use App\Services\ResponseFormatter;
 use App\Services\Translations;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class SocialMediaController extends Controller
 {
@@ -121,6 +122,10 @@ class SocialMediaController extends Controller
      */
     public function store(SocialMediaFormRequest $request)
     {
+        // Error Validation Message to Activity Log
+        if (isset($request->validator) && $request->validator->fails()) {
+            activity()->causedBy(Auth::user())->performedOn(new SocialMedia)->log($request->validator->messages());
+        }
         $request->validated();
         $social_media = $request->only(['name', 'url']);
 
@@ -128,10 +133,11 @@ class SocialMediaController extends Controller
         try {
             $this->social_media->StoreSocialMedia($social_media);
             DB::commit();
+            activity()->causedBy(Auth::user())->performedOn(new SocialMedia)->log($this->translation->social_media['messages']['store_success']);
             return redirect()->route('social_media.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
-                'content' => $this->translation->roles['messages']['update_success'],
+                'content' => $this->translation->social_media['messages']['store_success'],
             ]);
         } catch (\Throwable$th) {
             DB::rollBack();
@@ -140,6 +146,8 @@ class SocialMediaController extends Controller
             if (str_contains($th->getMessage(), 'Duplicate entry')) {
                 $message = 'Duplicate entry';
             }
+
+            activity()->causedBy(Auth::user())->performedOn(new SocialMedia)->log($message);
 
             return redirect()->route('social_media.create')->with([
                 'error' => 'error',
@@ -187,6 +195,10 @@ class SocialMediaController extends Controller
      */
     public function update(SocialMediaFormRequest $request, $id)
     {
+        // Error Validation Message to Activity Log
+        if (isset($request->validator) && $request->validator->fails()) {
+            activity()->causedBy(Auth::user())->performedOn(new SocialMedia)->log($request->validator->messages());
+        }
         $request->validated();
         $social_media = $request->only(['name', 'url']);
 
@@ -194,10 +206,11 @@ class SocialMediaController extends Controller
         try {
             $this->social_media->UpdateSocialMedia($social_media, $id);
             DB::commit();
+            activity()->causedBy(Auth::user())->performedOn(new SocialMedia)->log($this->translation->social_media['messages']['update_success']);
             return redirect()->route('social_media.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
-                'content' => $this->translation->roles['messages']['update_success'],
+                'content' => $this->translation->social_media['messages']['update_success'],
             ]);
         } catch (\Throwable$th) {
             DB::rollBack();
@@ -206,6 +219,8 @@ class SocialMediaController extends Controller
             if (str_contains($th->getMessage(), 'Duplicate entry')) {
                 $message = 'Duplicate entry';
             }
+
+            activity()->causedBy(Auth::user())->performedOn(new SocialMedia)->log($message);
 
             return redirect()->route('role.create')->with([
                 'error' => 'error',
@@ -235,12 +250,14 @@ class SocialMediaController extends Controller
                 $status = 'error';
             }
 
+            activity()->causedBy(Auth::user())->performedOn(new SocialMedia)->log($this->translation->social_media['messages']['delete_success']);
+
             ///  Return response
             return response()->json(['status' => $status]);
         } catch (\Throwable$th) {
             DB::rollback();
             $message = $th->getMessage();
-            $message = $th->getMessage();
+            activity()->causedBy(Auth::user())->performedOn(new SocialMedia)->log($message);
             return redirect()->back()->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],
