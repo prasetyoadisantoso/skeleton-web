@@ -82,7 +82,7 @@
             { data: 'user', name: 'user', searchable: true, orderable: true, render: function (data, type, full, meta) {
                 var users = JSON.parse(data);
                 if(users === null){
-                    return "-";
+                    return "guest";
                 } else {
                     return users.name;
                 }

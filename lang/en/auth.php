@@ -20,15 +20,20 @@ return [
     'messages' => [
         'success' => 'Success',
         'failed' => 'Failed',
+        'process' => 'Processing',
         'login_success' => 'Login Success',
         'email_not_verified' => 'Email not verified',
+        'register' => 'Register',
         'user_not_registered' => 'User not registered',
         'user_not_found' => 'User not found',
         'user_verified' => 'User verified',
         'email_sent' => 'Email has been sent',
+        'resend_verification_to' => 'Resend verification to :email',
         'token_invalid' => 'Token Invalid',
+        'request_forgot_password' => 'Request forgot password',
         'password_change' => 'Password has been changed',
         'password_not_match' => 'Password not match',
+        'new_registration' => 'New registration from :email'
     ],
 
     'validation' => [

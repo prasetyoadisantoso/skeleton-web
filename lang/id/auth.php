@@ -20,15 +20,20 @@ return [
     'messages' => [
         'success' => 'Sukses',
         'failed' => 'Gagal',
+        'process' => 'Sedang memproses',
         'login_success' => 'Login Sukses',
         'email_not_verified' => 'Email tidak terverifikasi',
+        'register' => 'Mendaftar',
         'user_not_registered' => 'User tidak terdaftar',
         'user_not_found' => 'User tidak ditemukan',
         'user_verified' => 'User terverifikasi',
         'email_sent' => 'Email terkirim',
+        'resend_verification_to' => 'Kirim ulang verifikasi ke :email',
         'token_invalid' => 'Token Tidak Terdaftar',
+        'request_forgot_password' => 'Permintaan lupa password',
         'password_change' => 'Password telah diganti',
         'password_not_match' => 'Password tidak cocok',
+        'new_registration' => 'Pendaftaran baru dari :email'
     ],
 
     'validation' => [

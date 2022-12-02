@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="card-body">
-            <form action="{{route('register', 'client')}}" method="post" id="register-form">
+            <form action="{{route('register', 'customer')}}" method="post" id="register-form">
                 @csrf
                 <input type="text" name="name" id="name" class="form-control my-2"
                     placeholder="{{$full_name}}">

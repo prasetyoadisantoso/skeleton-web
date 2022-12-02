@@ -55,4 +55,15 @@ class Translations {
         $this->activity = __('activity');
     }
 
+    // Additional Attributes
+    public function newRegistrationMessage($attribute, $data): ?string
+    {
+        return __('auth.messages.new_registration', [$attribute => $data]);
+    }
+
+    public function resendVerificationMessage($attribute, $data): ?string
+    {
+        return __('auth.messages.resend_verification_to', [$attribute => $data]);
+    }
+
 }
