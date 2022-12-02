@@ -4,14 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Translatable\HasTranslations;
 use Webpatser\Uuid\Uuid;
-use Spatie\Activitylog\LogOptions;
 
 class Meta extends Model
 {
-    use HasFactory, HasTranslations, LogsActivity;
+    use HasFactory, HasTranslations;
 
     public $primaryKey = 'id';
 
@@ -57,11 +55,6 @@ class Meta extends Model
     public function DeleteMeta($id)
     {
         return $this->query()->find($id)->forceDelete();
-    }
-
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults();
     }
 
 }
