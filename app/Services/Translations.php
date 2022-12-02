@@ -53,6 +53,7 @@ class Translations {
 
         // System Dashboard
         $this->activity = __('activity');
+        $this->maintenance = __('maintenance');
     }
 
     // Additional Attributes

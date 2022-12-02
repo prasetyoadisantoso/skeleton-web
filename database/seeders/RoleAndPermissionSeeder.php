@@ -91,6 +91,9 @@ class RoleAndPermissionSeeder extends Seeder
             'activity-update',
             'activity-destroy',
 
+            // Maintenance
+            'maintenance-index',
+
             /* -------------------------------------------------------------------------- */
             /*                                   Sidebar                                  */
             /* -------------------------------------------------------------------------- */
@@ -180,6 +183,8 @@ class RoleAndPermissionSeeder extends Seeder
             'seo-sidebar',
             'user-sidebar',
             'system-sidebar',
+
+            'maintenance-index',
 
         ]);
 

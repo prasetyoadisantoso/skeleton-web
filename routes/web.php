@@ -5,6 +5,7 @@ use App\Http\Controllers\Dashboard\ActivityController;
 use App\Http\Controllers\Dashboard\CanonicalController;
 use App\Http\Controllers\Dashboard\GeneralController;
 use App\Http\Controllers\Dashboard\MainController;
+use App\Http\Controllers\Dashboard\MaintenanceController;
 use App\Http\Controllers\Dashboard\MetaController;
 use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\RoleController;
@@ -87,6 +88,14 @@ Route::group([
         Route::get('activity/{id}/destroy', [ActivityController::class, 'destroy'])->name('activity.destroy');
         Route::get('activity/empty', [ActivityController::class, 'empty'])->name('activity.empty');
         Route::get('activity_datatable', [ActivityController::class, 'index_dt'])->name('activity.datatable');
+        Route::get('maintenance', [MaintenanceController::class, 'index'])->name('maintenance.index');
+        Route::get('maintenance/event/clear', [MaintenanceController::class, 'event_clear'])->name('maintenance.event.clear');
+        Route::get('maintenance/view/clear', [MaintenanceController::class, 'view_clear'])->name('maintenance.view.clear');
+        Route::get('maintenance/cache/clear', [MaintenanceController::class, 'cache_clear'])->name('maintenance.cache.clear');
+        Route::get('maintenance/config/clear', [MaintenanceController::class, 'config_clear'])->name('maintenance.config.clear');
+        Route::get('maintenance/route/clear', [MaintenanceController::class, 'route_clear'])->name('maintenance.route.clear');
+        Route::get('maintenance/compile/clear', [MaintenanceController::class, 'compile_clear'])->name('maintenance.compile.clear');
+        Route::get('maintenance/optimize/clear', [MaintenanceController::class, 'optimize_clear'])->name('maintenance.optimize.clear');
     });
 
 });

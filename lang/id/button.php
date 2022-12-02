@@ -11,5 +11,6 @@ return [
         'cancel' => 'Batal',
         'action' => 'Aksi',
         'show' => 'Lihat',
+        'clear' => 'Bersihkan'
     ],
 ];

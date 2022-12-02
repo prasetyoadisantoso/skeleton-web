@@ -27,5 +27,6 @@ return [
 
     // System
     'system' => 'Sistem',
-    'activities' => 'Aktivitas'
+    'activities' => 'Aktivitas',
+    'maintenance' => 'Perawatan',
 ];

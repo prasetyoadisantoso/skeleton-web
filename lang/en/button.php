@@ -11,5 +11,6 @@ return [
         'cancel' => 'Cancel',
         'action' => 'Action',
         'show' => 'Show',
+        'clear' => 'Clear'
     ],
 ];
