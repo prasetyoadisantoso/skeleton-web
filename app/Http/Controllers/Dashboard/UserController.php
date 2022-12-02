@@ -127,6 +127,11 @@ class UserController extends Controller
 
     public function store(UserFormRequest $request)
     {
+        // Error Validation Message to Activity Log
+        if (isset($request->validator) && $request->validator->fails()) {
+            activity()->causedBy(Auth::user())->performedOn(new User)->log($request->validator->messages());
+        }
+
         $request->validated();
         $validated_data = $request->only(['name', 'email', 'password', 'image', 'phone', 'status', 'role']);
 
@@ -137,6 +142,7 @@ class UserController extends Controller
                 $validated_data['image'] = $image;
             }
             $this->user->StoreUser($validated_data, $validated_data['role']);
+            activity()->causedBy(Auth::user())->performedOn(new User)->log($this->translation->users['messages']['store_success']);
             DB::commit();
 
             return redirect()->route('user.index')->with([
@@ -194,6 +200,11 @@ class UserController extends Controller
 
     public function update(UserFormRequest $request, $id)
     {
+        // Error Validation Message to Activity Log
+        if (isset($request->validator) && $request->validator->fails()) {
+            activity()->causedBy(Auth::user())->performedOn(new User)->log($request->validator->messages());
+        }
+
         $request->validated();
         $new_user_data = $request->only(['name', 'email', 'password', 'image', 'phone', 'status', 'role']);
 
@@ -205,6 +216,7 @@ class UserController extends Controller
             }
             $this->user->UpdateUser($new_user_data, $id, $new_user_data['role']);
             DB::commit();
+            activity()->causedBy(Auth::user())->performedOn(new User)->log($this->translation->users['messages']['update_success']);
             return redirect()->route('user.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
@@ -217,6 +229,8 @@ class UserController extends Controller
             if (str_contains($th->getMessage(), 'Duplicate entry')) {
                 $message = 'Duplicate entry';
             }
+
+            activity()->causedBy(Auth::user())->performedOn(new User)->log($message);
 
             return redirect()->back()->with([
                 'error' => 'error',
@@ -240,12 +254,14 @@ class UserController extends Controller
                 $status = 'error';
             }
 
+            activity()->causedBy(Auth::user())->performedOn(new User)->log($this->translation->users['messages']['delete_success']);
+
             //  Return response
             return response()->json(['status' => $status]);
         } catch (\Throwable$th) {
             DB::rollback();
             $message = $th->getMessage();
-
+            activity()->causedBy(Auth::user())->performedOn(new User)->log($message);
             return redirect()->back()->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],

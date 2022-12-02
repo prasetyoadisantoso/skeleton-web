@@ -11,8 +11,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 use Webpatser\Uuid\Uuid;
 
@@ -23,7 +21,6 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use SoftDeletes;
     use Notifiable;
-    use LogsActivity;
     use HasRoles;
 
     public $incrementing = false;
@@ -160,11 +157,6 @@ class User extends Authenticatable implements MustVerifyEmail
         Storage::delete('/public' . '/' . $delete_user->image);
 
         return $this->find($delete_user->id)->forceDelete();
-    }
-
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults();
     }
 
     public function getUsersQueries()
