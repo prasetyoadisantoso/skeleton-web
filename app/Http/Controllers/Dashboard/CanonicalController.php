@@ -82,7 +82,7 @@ class CanonicalController extends Controller
     public function index()
     {
         $this->boot();
-        return view('template.default.dashboard.settings.canonical.home', array_merge(
+        return view('template.default.dashboard.seo.canonical.home', array_merge(
             $this->global_variable->PageType('index'),
         ));
     }
@@ -110,7 +110,7 @@ class CanonicalController extends Controller
     public function create()
     {
         $this->boot();
-        return view('template.default.dashboard.settings.canonical.form', array_merge(
+        return view('template.default.dashboard.seo.canonical.form', array_merge(
             $this->global_variable->PageType('create'),
         ));
     }
@@ -180,7 +180,7 @@ class CanonicalController extends Controller
     {
         $this->boot();
         $data = $this->canonical->GetCanonicalById($id);
-        return view('template.default.dashboard.settings.canonical.form', array_merge(
+        return view('template.default.dashboard.seo.canonical.form', array_merge(
             $this->global_variable->PageType('edit'),
             [
                 'canonical' => $data,

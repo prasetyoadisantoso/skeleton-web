@@ -84,7 +84,7 @@ class MetaController extends Controller
     public function index()
     {
         $this->boot();
-        return view('template.default.dashboard.settings.meta.home', array_merge(
+        return view('template.default.dashboard.seo.meta.home', array_merge(
             $this->global_variable->PageType('index'),
         ));
     }
@@ -118,7 +118,7 @@ class MetaController extends Controller
     public function create()
     {
         $this->boot();
-        return view('template.default.dashboard.settings.meta.form', array_merge(
+        return view('template.default.dashboard.seo.meta.form', array_merge(
             $this->global_variable->PageType('create'),
         ));
     }
@@ -188,7 +188,7 @@ class MetaController extends Controller
     {
         $this->boot();
         $metadata = $this->meta->GetMetaById($id);
-        return view('template.default.dashboard.settings.meta.form', array_merge(
+        return view('template.default.dashboard.seo.meta.form', array_merge(
             $this->global_variable->PageType('edit'),
             [
                 'meta' => $metadata,
