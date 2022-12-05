@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Authentication\AuthController;
+use App\Http\Controllers\Customer\MainController as CustomerMainController;
 use App\Http\Controllers\Dashboard\ActivityController;
 use App\Http\Controllers\Dashboard\CanonicalController;
 use App\Http\Controllers\Dashboard\GeneralController;
@@ -34,9 +35,7 @@ Route::group([
 ], function () {
 
     // Home Page
-    Route::get('/', function () {
-        return view('welcome');
-    })->name('site.index');
+    Route::get('/', [CustomerMainController::class, 'index'])->name('site.index');
 
     // Authentication
     Route::prefix('authentication')->group(function () {

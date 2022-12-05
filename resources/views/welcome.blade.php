@@ -8,7 +8,7 @@
     <meta name="author" content="" />
     <title>{{__('welcome.title')}}</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="https://laravel.com/img/logomark.min.svg" />
+    <link rel="icon" type="image/x-icon" href="{{$site_favicon}}" />
     <!-- FontAwesome -->
     <link rel="stylesheet" href="{{asset('template/default/assets/fontawesome/css/fontawesome.min.css')}}">
     <link rel="stylesheet" href="{{asset('template/default/assets/fontawesome/css/brands.min.css')}}">
@@ -51,7 +51,7 @@
     <nav class="navbar navbar-dark bg-dark static-top justify-content-between">
         <div class="container">
             <a class="navbar-brand fw-bold me-auto" href="#!">
-                <h4 class="my-2">Skeleton Web</h4>
+                <img src="{{$site_logo}}" class="d-inline me-2" alt="" width="40"><h4 class="d-inline my-5">Skeleton Web</h4>
             </a>
             <div class="me-3">
                 <div class="btn-group">

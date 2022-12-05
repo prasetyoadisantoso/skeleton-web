@@ -51,6 +51,7 @@ class SocialMediaController extends Controller
             $this->global_variable->SystemLanguage(),
             $this->global_variable->AuthUserName(),
             $this->global_variable->SystemName(),
+            $this->global_variable->SiteLogo(),
 
             // Translations
             $this->translation->sidebar,
