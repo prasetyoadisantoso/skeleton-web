@@ -1,14 +1,18 @@
 <?php
 
 use App\Http\Controllers\Authentication\AuthController;
+use App\Http\Controllers\Customer\MainController as CustomerMainController;
+use App\Http\Controllers\Dashboard\ActivityController;
 use App\Http\Controllers\Dashboard\CanonicalController;
 use App\Http\Controllers\Dashboard\GeneralController;
 use App\Http\Controllers\Dashboard\MainController;
+use App\Http\Controllers\Dashboard\MaintenanceController;
 use App\Http\Controllers\Dashboard\MetaController;
 use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\SocialMediaController;
 use App\Http\Controllers\Dashboard\UserController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,9 +35,7 @@ Route::group([
 ], function () {
 
     // Home Page
-    Route::get('/', function () {
-        return view('welcome');
-    })->name('site.index');
+    Route::get('/', [CustomerMainController::class, 'index'])->name('site.index');
 
     // Authentication
     Route::prefix('authentication')->group(function () {
@@ -72,13 +74,27 @@ Route::group([
         Route::resource('canonical', CanonicalController::class);
         Route::get('canonical_datatable', [CanonicalController::class, 'index_dt'])->name('canonical.datatable');
 
-         // User & Permissions
-         Route::resource('user', UserController::class);
-         Route::get('user_datatable', [UserController::class, 'index_dt'])->name('user.datatable');
-         Route::resource('permission', PermissionController::class);
-         Route::get('permission_datatable', [PermissionController::class, 'index_dt'])->name('permission.datatable');
-         Route::resource('role', RoleController::class);
-         Route::get('role_datatable', [RoleController::class, 'index_dt'])->name('role.datatable');
+        // User & Permissions
+        Route::resource('user', UserController::class);
+        Route::get('user_datatable', [UserController::class, 'index_dt'])->name('user.datatable');
+        Route::resource('permission', PermissionController::class);
+        Route::get('permission_datatable', [PermissionController::class, 'index_dt'])->name('permission.datatable');
+        Route::resource('role', RoleController::class);
+        Route::get('role_datatable', [RoleController::class, 'index_dt'])->name('role.datatable');
+
+        //  System
+        Route::get('activity', [ActivityController::class, 'index'])->name('activity.index');
+        Route::get('activity/{id}/destroy', [ActivityController::class, 'destroy'])->name('activity.destroy');
+        Route::get('activity/empty', [ActivityController::class, 'empty'])->name('activity.empty');
+        Route::get('activity_datatable', [ActivityController::class, 'index_dt'])->name('activity.datatable');
+        Route::get('maintenance', [MaintenanceController::class, 'index'])->name('maintenance.index');
+        Route::get('maintenance/event/clear', [MaintenanceController::class, 'event_clear'])->name('maintenance.event.clear');
+        Route::get('maintenance/view/clear', [MaintenanceController::class, 'view_clear'])->name('maintenance.view.clear');
+        Route::get('maintenance/cache/clear', [MaintenanceController::class, 'cache_clear'])->name('maintenance.cache.clear');
+        Route::get('maintenance/config/clear', [MaintenanceController::class, 'config_clear'])->name('maintenance.config.clear');
+        Route::get('maintenance/route/clear', [MaintenanceController::class, 'route_clear'])->name('maintenance.route.clear');
+        Route::get('maintenance/compile/clear', [MaintenanceController::class, 'compile_clear'])->name('maintenance.compile.clear');
+        Route::get('maintenance/optimize/clear', [MaintenanceController::class, 'optimize_clear'])->name('maintenance.optimize.clear');
     });
 
 });

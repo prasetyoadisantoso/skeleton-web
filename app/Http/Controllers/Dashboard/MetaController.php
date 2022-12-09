@@ -12,6 +12,7 @@ use App\Services\Translations;
 use Yajra\DataTables\DataTables;
 Use App\Models\Meta;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class MetaController extends Controller
 {
@@ -51,6 +52,7 @@ class MetaController extends Controller
             $this->global_variable->SystemLanguage(),
             $this->global_variable->AuthUserName(),
             $this->global_variable->SystemName(),
+            $this->global_variable->SiteLogo(),
 
             // Translations
             $this->translation->sidebar,
@@ -83,7 +85,7 @@ class MetaController extends Controller
     public function index()
     {
         $this->boot();
-        return view('template.default.dashboard.settings.meta.home', array_merge(
+        return view('template.default.dashboard.seo.meta.home', array_merge(
             $this->global_variable->PageType('index'),
         ));
     }
@@ -117,7 +119,7 @@ class MetaController extends Controller
     public function create()
     {
         $this->boot();
-        return view('template.default.dashboard.settings.meta.form', array_merge(
+        return view('template.default.dashboard.seo.meta.form', array_merge(
             $this->global_variable->PageType('create'),
         ));
     }
@@ -130,6 +132,10 @@ class MetaController extends Controller
      */
     public function store(MetaFormRequest $request)
     {
+        // Error Validation Message to Activity Log
+        if (isset($request->validator) && $request->validator->fails()) {
+            activity()->causedBy(Auth::user())->performedOn(new Meta)->log($request->validator->messages());
+        }
         $request->validated();
         $metadata = $request->only(['name', 'robot', 'description', 'keyword']);
 
@@ -137,10 +143,11 @@ class MetaController extends Controller
         try {
             $this->meta->StoreMeta($metadata);
             DB::commit();
+            activity()->causedBy(Auth::user())->performedOn(new Meta)->log($this->translation->meta['messages']['store_success']);
             return redirect()->route('meta.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
-                'content' => $this->translation->roles['messages']['update_success'],
+                'content' => $this->translation->meta['messages']['update_success'],
             ]);
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -150,7 +157,9 @@ class MetaController extends Controller
                 $message = 'Duplicate entry';
             }
 
-            return redirect()->route('role.create')->with([
+            activity()->causedBy(Auth::user())->performedOn(new Meta)->log($message);
+
+            return redirect()->route('meta.create')->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],
                 "content" => $message,
@@ -180,7 +189,7 @@ class MetaController extends Controller
     {
         $this->boot();
         $metadata = $this->meta->GetMetaById($id);
-        return view('template.default.dashboard.settings.meta.form', array_merge(
+        return view('template.default.dashboard.seo.meta.form', array_merge(
             $this->global_variable->PageType('edit'),
             [
                 'meta' => $metadata,
@@ -197,12 +206,18 @@ class MetaController extends Controller
      */
     public function update(MetaFormRequest $request, $id)
     {
+        // Error Validation Message to Activity Log
+        if (isset($request->validator) && $request->validator->fails()) {
+            activity()->causedBy(Auth::user())->performedOn(new Meta)->log($request->validator->messages());
+        }
+
         $request->validated();
         $metadata = $request->only(['name', 'robot', 'description', 'keyword']);
 
         DB::beginTransaction();
         try {$this->meta->UpdateMeta($metadata, $id);
             DB::commit();
+            activity()->causedBy(Auth::user())->performedOn(new Meta)->log($this->translation->meta['messages']['update_success']);
             return redirect()->route('meta.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
@@ -215,6 +230,8 @@ class MetaController extends Controller
             if (str_contains($th->getMessage(), 'Duplicate entry')) {
                 $message = 'Duplicate entry';
             }
+
+            activity()->causedBy(Auth::user())->performedOn(new Meta)->log($message);
 
             return redirect()->back()->with([
                 'error' => 'error',
@@ -244,11 +261,14 @@ class MetaController extends Controller
                 $status = 'error';
             }
 
+            activity()->causedBy(Auth::user())->performedOn(new Meta)->log($this->translation->meta['messages']['delete_success']);
+
             ///  Return response
             return response()->json(['status' => $status]);
         } catch (\Throwable$th) {
             DB::rollback();
             $message = $th->getMessage();
+            activity()->causedBy(Auth::user())->performedOn(new Meta)->log($message);
             return redirect()->back()->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],

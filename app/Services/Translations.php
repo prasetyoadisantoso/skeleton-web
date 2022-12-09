@@ -50,6 +50,21 @@ class Translations {
         // SEO Dashboard
         $this->meta = __('meta');
         $this->canonical = __('canonical');
+
+        // System Dashboard
+        $this->activity = __('activity');
+        $this->maintenance = __('maintenance');
+    }
+
+    // Additional Attributes
+    public function newRegistrationMessage($attribute, $data): ?string
+    {
+        return __('auth.messages.new_registration', [$attribute => $data]);
+    }
+
+    public function resendVerificationMessage($attribute, $data): ?string
+    {
+        return __('auth.messages.resend_verification_to', [$attribute => $data]);
     }
 
 }

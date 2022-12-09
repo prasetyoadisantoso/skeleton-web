@@ -12,6 +12,7 @@ use App\Services\Translations;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Auth;
 
 class PermissionController extends Controller
 {
@@ -56,6 +57,7 @@ class PermissionController extends Controller
             $this->global_variable->SystemLanguage(),
             $this->global_variable->AuthUserName(),
             $this->global_variable->SystemName(),
+            $this->global_variable->SiteLogo(),
 
             // Translations
             $this->translation->sidebar,
@@ -108,6 +110,11 @@ class PermissionController extends Controller
 
     public function store(PermissionFormRequest $request)
     {
+        // Error Validation Message to Activity Log
+        if (isset($request->validator) && $request->validator->fails()) {
+            activity()->causedBy(Auth::user())->performedOn(new Permission)->log($request->validator->messages());
+        }
+
         $request->validated();
         $validated_data = $request->only([
             'name',
@@ -119,6 +126,7 @@ class PermissionController extends Controller
                 'name' => $validated_data['name'],
             ]);
             DB::commit();
+            activity()->causedBy(Auth::user())->performedOn(new Permission)->log($this->translation->permissions['messages']['store_success']);
             return redirect()->route('permission.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
@@ -131,6 +139,8 @@ class PermissionController extends Controller
             if (str_contains($th->getMessage(), 'Duplicate entry')) {
                 $message = 'Duplicate entry';
             }
+
+            activity()->causedBy(Auth::user())->performedOn(new Permission)->log($message);
 
             return redirect()->route('permission.create')->with([
                 'error' => 'error',
@@ -152,6 +162,11 @@ class PermissionController extends Controller
 
     public function update(PermissionFormRequest $request, $id)
     {
+        // Error Validation Message to Activity Log
+        if (isset($request->validator) && $request->validator->fails()) {
+            activity()->causedBy(Auth::user())->performedOn(new Permission)->log($request->validator->messages());
+        }
+
         $request->validated();
         $validated_data = $request->only(['name']);
         $permission = $this->permission->findById($id);
@@ -161,6 +176,7 @@ class PermissionController extends Controller
             $permission->name = $validated_data['name'];
             $permission->save();
             DB::commit();
+            activity()->causedBy(Auth::user())->performedOn(new Permission)->log($this->translation->permissions['messages']['update_success']);
             return redirect()->route('permission.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
@@ -173,6 +189,9 @@ class PermissionController extends Controller
             if (str_contains($th->getMessage(), 'Duplicate entry')) {
                 $message = 'Duplicate entry';
             }
+
+            activity()->causedBy(Auth::user())->performedOn(new Permission)->log($message);
+
             return redirect()->route('permission.create')->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],
@@ -196,11 +215,14 @@ class PermissionController extends Controller
                 $status = 'error';
             }
 
+            activity()->causedBy(Auth::user())->performedOn(new Permission)->log($this->translation->permissions['messages']['delete_success']);
+
             //  Return response
             return response()->json(['status' => $status]);
         } catch (\Throwable$th) {
             DB::rollBack();
             $message = $th->getMessage();
+            activity()->causedBy(Auth::user())->performedOn(new Permission)->log($message);
             return redirect()->back()->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],

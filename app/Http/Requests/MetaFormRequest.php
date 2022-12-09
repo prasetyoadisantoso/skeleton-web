@@ -4,9 +4,12 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Contracts\Validation\Validator;
 
 class MetaFormRequest extends FormRequest
 {
+    public $validator = null;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -28,7 +31,7 @@ class MetaFormRequest extends FormRequest
         switch ($route) {
             case 'meta.store':
                 return [
-                    'name' => 'required|string|max:20',
+                    'name' => 'required|string|unique:metas|max:20',
                     'robot' => 'required|string',
                     'description' => 'required|string',
                     'keyword' => 'required|string',
@@ -48,5 +51,10 @@ class MetaFormRequest extends FormRequest
                 # code...
                 break;
         }
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        $this->validator = $validator;
     }
 }

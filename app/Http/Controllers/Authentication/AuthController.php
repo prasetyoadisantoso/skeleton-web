@@ -103,11 +103,13 @@ class AuthController extends Controller
                 if (is_null($dataUser)) {
                     throw new Exception($this->translation->authMessages['token_invalid']);
                 } else {
+                    activity()->causedBy($dataUser->id)->performedOn(new User)->log($translation_messages['process']);
                     return view('template.default.authentication.reset-password', array_merge([
                         'token' => $token,
                     ], $translation_resetpassword, $translation_messages, $translation_validation));
                 }
             } catch (\Throwable$th) {
+                activity()->causedBy(Auth::user())->performedOn(new User)->log($th->getMessage());
                 return redirect()->route('forgot.password.page')->with([
                     'error' => $th->getMessage(),
                 ]);
@@ -119,6 +121,10 @@ class AuthController extends Controller
 
     public function login(AuthFormRequest $request)
     {
+        // Error Validation Message to Activity Log
+        if (isset($request->validator) && $request->validator->fails()) {
+            activity()->causedBy(Auth::user())->performedOn(new User)->log($request->validator->messages());
+        }
         $request->validated();
         $user = $request->only(['email', 'password']);
         $remember_me = $request->only(['remember_me']);
@@ -131,6 +137,7 @@ class AuthController extends Controller
                     // SuperAdmin
                     case 'superadmin':
                         if ($auth->email_verified_at != null) {
+                            activity()->causedBy(Auth::user())->performedOn(new User)->log($this->translation->authMessages['login_success']);
                             return redirect()->route('dashboard.main')->with([
                                 'success' => $this->translation->authMessages['login_success'],
                                 'title' => $this->translation->notification['success'],
@@ -138,6 +145,7 @@ class AuthController extends Controller
                             ]);
                         } else {
                             Auth::logout();
+                            activity()->causedBy(Auth::user())->performedOn(new User)->log($this->translation->authMessages['email_not_verified']);
                             return redirect()->route('login.page')->with([
                                 'error' => $this->translation->authMessages['email_not_verified'],
                                 'title' => $this->translation->notification['failed'],
@@ -149,6 +157,7 @@ class AuthController extends Controller
                     // Administrator
                     case 'administrator':
                         if ($auth->email_verified_at != null) {
+                            activity()->causedBy(Auth::user())->performedOn(new User)->log($this->translation->authMessages['login_success']);
                             return redirect()->route('dashboard.main')->with([
                                 'success' => $this->translation->authMessages['login_success'],
                                 'title' => $this->translation->notification['success'],
@@ -156,6 +165,7 @@ class AuthController extends Controller
                             ]);
                         } else {
                             Auth::logout();
+                            activity()->causedBy(Auth::user())->performedOn(new User)->log($this->translation->authMessages['email_not_verified']);
                             return redirect()->route('login.page')->with([
                                 'error' => $this->translation->authMessages['email_not_verified'],
                                 'title' => $this->translation->notification['failed'],
@@ -167,6 +177,7 @@ class AuthController extends Controller
                     // Customer
                     case 'customer':
                         if ($auth->email_verified_at != null) {
+                            activity()->causedBy(Auth::user())->performedOn(new User)->log($this->translation->authMessages['login_success']);
                             return redirect()->route('site.index')->with([
                                 'success' => $this->translation->authMessages['login_success'],
                                 'title' => $this->translation->notification['success'],
@@ -174,6 +185,7 @@ class AuthController extends Controller
                             ]);
                         } else {
                             Auth::logout();
+                            activity()->causedBy(Auth::user())->performedOn(new User)->log($this->translation->authMessages['email_not_verified']);
                             return redirect()->route('resend.verification.page')->with([
                                 'error' => $this->translation->authMessages['email_not_verified'],
                                 'title' => $this->translation->notification['failed'],
@@ -184,6 +196,7 @@ class AuthController extends Controller
 
                     default:
                         if ($auth->email_verified_at != null) {
+                            activity()->causedBy(Auth::user())->performedOn(new User)->log($this->translation->authMessages['login_success']);
                             return redirect()->route('site.index')->with([
                                 'success' => $this->translation->authMessages['login_success'],
                                 'title' => $this->translation->notification['success'],
@@ -191,6 +204,7 @@ class AuthController extends Controller
                             ]);
                         } else {
                             Auth::logout();
+                            activity()->causedBy(Auth::user())->performedOn(new User)->log($this->translation->authMessages['email_not_verified']);
                             return redirect()->route('resend.verification.page')->with([
                                 'error' => $this->translation->authMessages['email_not_verified'],
                                 'title' => $this->translation->notification['failed'],
@@ -204,6 +218,7 @@ class AuthController extends Controller
             }
         } catch (\Throwable$th) {
             Auth::logout();
+            activity()->causedBy(Auth::user())->performedOn(new User)->log($th->getMessage());
             return redirect()->route('login.page')->with([
                 'error' => $th->getMessage(),
             ]);
@@ -217,6 +232,10 @@ class AuthController extends Controller
 
     public function register_client(AuthFormRequest $request, $type)
     {
+        // Error Validation Message to Activity Log
+        if (isset($request->validator) && $request->validator->fails()) {
+            activity()->causedBy(Auth::user())->performedOn(new User)->log($request->validator->messages());
+        }
         $request->validated();
         $client = $request->only(["name", "email", "password", "password_confirmation"]);
 
@@ -228,6 +247,7 @@ class AuthController extends Controller
                     $token_data = $this->token->StoreToken($user_result->id, $this->generator->GenerateWord());
                     $this->email->EmailVerification($user_result->email, $this->encryption->EncryptToken($token_data->token));
                     DB::commit();
+                    activity()->causedBy(Auth::user())->performedOn(new User)->log($this->translation->newRegistrationMessage('email', $client['email']));
                     return redirect()->route('resend.verification.page');
                     break;
 
@@ -237,6 +257,8 @@ class AuthController extends Controller
             }
         } catch (\Throwable$th) {
             DB::rollBack();
+            $message = $th->getMessage();
+            activity()->causedBy(Auth::user())->performedOn(new User)->log($message);
             return redirect()->route('register.page')->with([
                 'error' => $th->getMessage(),
             ]);
@@ -245,6 +267,10 @@ class AuthController extends Controller
 
     public function resend_verification(AuthFormRequest $request)
     {
+        // Error Validation Message to Activity Log
+        if (isset($request->validator) && $request->validator->fails()) {
+            activity()->causedBy(Auth::user())->performedOn(new User)->log($request->validator->messages());
+        }
         $request->validated();
         $email = $request->only(['email']);
 
@@ -254,11 +280,14 @@ class AuthController extends Controller
             $getToken = $this->token->StoreToken($getUser->id, $this->generator->GenerateWord());
             $this->email->EmailVerification($getUser->email, $this->encryption->EncryptToken($getToken->token));
             DB::commit();
+            activity()->causedBy(Auth::user())->performedOn(new User)->log($this->translation->resendVerificationMessage('email', $email['email']));
             return redirect()->route('resend.verification.page')->with([
                 'success' => $this->translation->authMessages['email_sent'],
             ]);
         } catch (\Throwable$th) {
             DB::rollBack();
+            $message = $th->getMessage();
+            activity()->causedBy(Auth::user())->performedOn(new User)->log($message);
             return redirect()->route('resend.verification.page')->with([
                 'error' => $th->getMessage(),
             ]);
@@ -276,11 +305,14 @@ class AuthController extends Controller
             ]);
             $this->token->DeleteToken($dataUser->id);
             DB::commit();
+            activity()->causedBy($dataUser->id)->performedOn(new User)->log($this->translation->authMessages['user_verified']);
             return redirect()->route('login.page')->with([
                 'success' => $this->translation->authMessages['user_verified'],
             ]);
         } catch (\Throwable$th) {
             DB::rollBack();
+            $message = $th->getMessage();
+            activity()->causedBy(Auth::user())->performedOn(new User)->log($message);
             return redirect()->route('login.page')->with([
                 'error' => $th->getMessage(),
             ]);
@@ -289,6 +321,10 @@ class AuthController extends Controller
 
     public function forgot_password(AuthFormRequest $request)
     {
+        // Error Validation Message to Activity Log
+        if (isset($request->validator) && $request->validator->fails()) {
+            activity()->causedBy(Auth::user())->performedOn(new User)->log($request->validator->messages());
+        }
         $request->validated();
         $email = $request->only(['email']);
 
@@ -301,12 +337,14 @@ class AuthController extends Controller
             $getToken = $this->token->StoreToken($getUser->id, $this->generator->GenerateWord());
             $this->email->EmailResetPassword($getUser->email, $this->encryption->EncryptToken($getToken->token));
             DB::commit();
-
+            activity()->causedBy($getUser->id)->performedOn(new User)->log($this->translation->authMessages['request_forgot_password']);
             return redirect()->route('forgot.password.page')->with([
                 'success' => $this->translation->authMessages['email_sent'],
             ]);
         } catch (\Throwable$th) {
             DB::rollBack();
+            $message = $th->getMessage();
+            activity()->causedBy(Auth::user())->performedOn(new User)->log($message);
             return redirect()->route('forgot.password.page')->with([
                 'error' => $th->getMessage(),
             ]);
@@ -315,6 +353,10 @@ class AuthController extends Controller
 
     public function reset_password(AuthFormRequest $request)
     {
+        // Error Validation Message to Activity Log
+        if (isset($request->validator) && $request->validator->fails()) {
+            activity()->causedBy(Auth::user())->performedOn(new User)->log($request->validator->messages());
+        }
         $request->validated();
         $data = $request->only(['token', 'old_password', 'new_password']);
         DB::beginTransaction();
@@ -326,6 +368,7 @@ class AuthController extends Controller
                 $dataUser->password = Hash::make($data['new_password']);
                 $dataUser->save();
                 DB::commit();
+                activity()->causedBy($dataUser->id)->performedOn(new User)->log($this->translation->authMessages['password_change']);
                 return redirect()->route('login.page')->with([
                     'success' => $this->translation->authMessages['password_change'],
                 ]);
@@ -334,6 +377,8 @@ class AuthController extends Controller
             }
         } catch (\Throwable$th) {
             DB::rollBack();
+            $message = $th->getMessage();
+            activity()->causedBy($dataUser->id)->performedOn(new User)->log($message);
             return redirect()->back()->with(['error' => $th->getMessage()]);
         }
     }

@@ -23,5 +23,10 @@ return [
     // SEO
     'seo' => 'SEO',
     'metas' => 'Meta',
-    'canonicals' => 'Canonical'
+    'canonicals' => 'Canonical',
+
+    // System
+    'system' => 'Sistem',
+    'activities' => 'Aktivitas',
+    'maintenance' => 'Perawatan',
 ];

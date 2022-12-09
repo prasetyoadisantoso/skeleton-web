@@ -5,7 +5,7 @@
     <div class="sidebar-heading my-1">
         <div class="brand d-flex justify-content-start">
             <div class="avatar">
-                <img src="https://laravel.com/img/logomark.min.svg" alt="Laravel Logo" class="logo">
+                <img src="{{$site_logo}}" alt="Laravel Logo" class="logo">
             </div>
             <div class="brand-title py-1">
                 <a href="{{url('/')}}" class="text-decoration-none text-white"><h6 class="font-weight-bold ms-2">{{$system_name}}</h6></a>
@@ -131,6 +131,36 @@
         </li>
         @endcan
         <!-- End User & Permission -->
+
+        <!-- Start System -->
+        @can('system-sidebar')
+        <hr style="border-bottom: 0.1vh solid gray; width: 100%;" class="my-0">
+        <li class="active py-1">
+            <a href="#system-dropdown-menu" data-bs-toggle="collapse" aria-expanded="false" class="btn-ripple rotation-1">
+                <div class="d-flex align-items-center main-list" id="rotation-system">
+                    <span class="flex-grow-1 font-md"><i class="fa-solid fa-computer me-3"></i>{{$system}}</span>
+                    <i id="icon" class="hide-fa fas fa-chevron-down font-sm rotate-1"></i>
+                </div>
+            </a>
+            <ul class="collapse list-unstyled mx-5 mt-3" id="system-dropdown-menu">
+                @can('activity-index')
+                <li class="sub-list font-sm">
+                    <a href="{{route('activity.index')}}">
+                        <span><i class="fa-solid fa-circle-dot me-3"></i>{{$activities}}</span>
+                    </a>
+                </li>
+                @endcan
+                @can('maintenance-index')
+                <li class="sub-list font-sm">
+                    <a href="{{route('maintenance.index')}}">
+                        <span><i class="fa-solid fa-circle-dot me-3"></i>Maintenance</span>
+                    </a>
+                </li>
+                @endcan
+            </ul>
+        </li>
+        @endcan
+        <!-- End System  -->
 
         <hr style="border-bottom: 0.1vh solid gray; width: 100%;" class="my-0">
 

@@ -25,7 +25,7 @@ return [
         ],
     ],
     'messages' => [
-        'update_success' => 'Permission updated successfully',
-        'update_failed' => 'Persmission failed to update',
+        'update_success' => 'General setting updated successfully',
+        'update_failed' => 'General setting failed to update',
     ],
 ];
