@@ -237,7 +237,7 @@
                             </div>
                             <div class="feature-1-collapse collapse card-body" id="feature-1">
                                 <h6 class="card-subtitle mb-2 text-muted">
-                                    {{__('welcome.feature.feature_1.description')}}</h6>
+                                    {!!__('welcome.feature.feature_1.description')!!}</h6>
                             </div>
                         </div>
                     </div>
@@ -250,7 +250,7 @@
                             </div>
                             <div class="feature-2-collapse collapse card-body" id="feature-2">
                                 <h6 class="card-subtitle mb-2 text-muted">
-                                    {{__('welcome.feature.feature_2.description')}}</h6>
+                                    {!!__('welcome.feature.feature_2.description')!!}</h6>
                             </div>
                         </div>
                     </div>
@@ -263,7 +263,7 @@
                             </div>
                             <div class="feature-3-collapse collapse card-body" id="feature-3">
                                 <h6 class="card-subtitle mb-2 text-muted">
-                                    {{__('welcome.feature.feature_3.description')}}</h6>
+                                    {!!__('welcome.feature.feature_3.description')!!}</h6>
                             </div>
                         </div>
                     </div>
