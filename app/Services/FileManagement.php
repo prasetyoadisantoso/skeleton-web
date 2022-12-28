@@ -59,4 +59,14 @@ class FileManagement
         $file = new UploadedFile($image, 'profile.png', 'image/png', null, true);
         return $file;
     }
+
+    /**
+     *  Upload Feature Image for development purpose
+     */
+    public function GetPathFeatureImage()
+    {
+        $image = public_path('Test/Images/feature-image.png');
+        $file = new UploadedFile($image, 'profile.png', 'image/png', null, true);
+        return $file;
+    }
 }

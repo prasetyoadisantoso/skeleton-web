@@ -64,4 +64,23 @@ class Upload
 
         return $image;
     }
+
+    public function UploadFeatureImageToStorage($filename = null)
+    {
+        // Processing Image & Upload
+        $get_extension = $filename->getClientOriginalExtension();
+        $names = Str::random(15).'.'.$get_extension;
+        $imagePath = 'assets/Image/Feature';
+        $image_raw = Storage::putFileAs('public/'.$imagePath, $filename, $names);
+
+        // Compress With Intervention
+        Image::make(Storage::path($image_raw))->resize(800, null, function ($constraint) {
+            $constraint->aspectRatio();
+        })->save();
+
+        // Return Image Name
+        $image = $imagePath.'/'.$names;
+
+        return $image;
+    }
 }

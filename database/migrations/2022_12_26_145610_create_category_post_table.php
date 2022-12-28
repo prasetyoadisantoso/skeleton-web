@@ -14,7 +14,20 @@ return new class extends Migration
     public function up()
     {
         Schema::create('category_post', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('post_id')->nullable();
+            $table->uuid('category_id')->nullable();
+            $table->foreign('post_id')
+                ->constrained('post_id_category')
+                ->references('id')
+                ->on('posts')
+                ->onDelete('set null')
+                ->onUpdate('cascade');
+            $table->foreign('category_id')
+                ->constrained('category_id_post')
+                ->references('id')
+                ->on('categories')
+                ->onDelete('set null')
+                ->onUpdate('cascade');
             $table->timestamps();
         });
     }

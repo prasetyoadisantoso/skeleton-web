@@ -23,6 +23,11 @@ class DatabaseSeeder extends Seeder
             SocialMediaSeeder::class,
             MetaSeeder::class,
             CanonicalSeeder::class,
+            CategorySeeder::class,
+            PostSeeder::class,
+            TagSeeder::class,
+            PostCategorySeeder::class,
+            PostTagSeeder::class,
 
         ]);
     }
