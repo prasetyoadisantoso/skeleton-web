@@ -179,6 +179,7 @@ $('#zoomBtn').click(function (e) {
     rotated = !rotated;
 });
 
+// Preloader
 window.addEventListener("load", function () {
     if (!sessionStorage.viewed){
         const loader = document.querySelector(".preloader");
