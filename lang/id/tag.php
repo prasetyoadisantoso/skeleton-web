@@ -37,13 +37,13 @@ return [
     ],
 
     'messages' => [
-        'store_success' => 'Data berhasil disimpan',
-        'store_failed' => 'Data gagal disimpan',
-        'update_success' => 'Data berhasil diperbarui',
-        'update_failed' => 'Data gagal diperbarui',
-        'ask_delete' => 'Apakah anda ingin menghapus data ini?',
-        'delete_success' => 'Data berhasil dihapus',
-        'delete_failed' => 'Data gagal dihapus',
+        'store_success' => 'Tag berhasil disimpan',
+        'store_failed' => 'Tag gagal disimpan',
+        'update_success' => 'Tag berhasil diperbarui',
+        'update_failed' => 'Tag gagal diperbarui',
+        'ask_delete' => 'Apakah anda ingin menghapus tag ini?',
+        'delete_success' => 'Tag berhasil dihapus',
+        'delete_failed' => 'Tag gagal dihapus',
     ],
 
     'validation' => [

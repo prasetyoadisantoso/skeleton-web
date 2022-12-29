@@ -24,7 +24,6 @@ class MainController extends Controller
     {
         $this->global_view->RenderView([
             $this->global_variable->SiteLogo(),
-            $this->global_variable->SiteFavicon(),
         ]);
     }
 

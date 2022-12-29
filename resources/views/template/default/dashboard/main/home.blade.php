@@ -33,7 +33,7 @@
                 <img src="https://laravel.com/img/logomark.min.svg" alt="" height="50" class="my-2">
                 <h2>{{$content['card_2']['title']}}</h2>
                 <p>{{$content['card_2']['subtitle']}}</p>
-                <a href="https://laravel.com" class="btn btn-danger">{{$content['card_2']['button']}}</a>
+                <a href="https://laravel.com" target="_blank" class="btn btn-danger">{{$content['card_2']['button']}}</a>
             </div>
         </div>
         <div class="col-md-6 my-3">
@@ -42,7 +42,7 @@
                     class="my-2">
                 <h2>{{$content['card_3']['title']}}</h2>
                 <p>{{$content['card_3']['subtitle']}}.</p>
-                <a class="btn btn-primary">{{$content['card_3']['button']}}</a>
+                <a href="https://getbootstrap.com" target="_blank" class="btn btn-primary">{{$content['card_3']['button']}}</a>
             </div>
         </div>
     </div>

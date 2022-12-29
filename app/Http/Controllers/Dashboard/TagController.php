@@ -46,15 +46,13 @@ class TagController extends Controller
 
     protected function boot()
     {
-        // return $this->global_view->RenderView([
-        // ]);
+        return $this->global_view->RenderView([
 
-        return [
+            // Global Variable
             $this->global_variable->TitlePage($this->translation->tag['title']),
             $this->global_variable->SystemLanguage(),
             $this->global_variable->AuthUserName(),
             $this->global_variable->SystemName(),
-            $this->global_variable->SiteLogo(),
 
             // Translations
             $this->translation->sidebar,
@@ -76,7 +74,7 @@ class TagController extends Controller
 
             // Route Type
             $this->global_variable->RouteType('tag.index'),
-        ];
+        ]);
     }
 
     /**
@@ -86,9 +84,10 @@ class TagController extends Controller
      */
     public function index()
     {
-        return $this->fileManagement->Logging($this->responseFormatter->successResponse([
-            $this->boot(),
-        ])->getContent());
+        $this->boot();
+        return view('template.default.dashboard.blog.tag.home', array_merge(
+            $this->global_variable->PageType('index'),
+        ));
     }
 
     public function index_dt()
@@ -104,7 +103,7 @@ class TagController extends Controller
                 return $tag->id;
             })
             ->removeColumn('id')->addIndexColumn()->make('true');
-        return $this->fileManagement->Logging($this->responseFormatter->successResponse($res)->getContent());
+        return $res;
     }
 
     /**
@@ -114,10 +113,10 @@ class TagController extends Controller
      */
     public function create()
     {
-        return $this->fileManagement->Logging($this->responseFormatter->successResponse([
+        $this->boot();
+        return view('template.default.dashboard.blog.tag.form', array_merge(
             $this->global_variable->PageType('create'),
-            $this->boot(),
-        ])->getContent());
+        ));
     }
 
     /**
@@ -145,17 +144,11 @@ class TagController extends Controller
             // Activity Log
             activity()->causedBy(Auth::user())->performedOn(new Tag)->log($this->translation->tag['messages']['store_success']);
 
-            return $this->fileManagement->Logging($this->responseFormatter->successResponse([
+            return redirect()->route('tag.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
                 'content' => $this->translation->tag['messages']['store_success'],
-            ])->getContent());
-
-            // return redirect()->route('tag.index')->with([
-            //     'success' => 'success',
-            //     'title' => $this->translation->notification['success'],
-            //     'content' => $this->translation->tag['messages']['store_success'],
-            // ]);
+            ]);
         } catch (\Throwable$th) {
             DB::rollBack();
             $message = $th->getMessage();
@@ -167,17 +160,11 @@ class TagController extends Controller
             // Activity Log
             activity()->causedBy(Auth::user())->performedOn(new Tag)->log($message);
 
-            return $this->fileManagement->Logging($this->responseFormatter->errorResponse([
+            return redirect()->route('tag.create')->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],
                 "content" => $message,
-            ])->getContent());
-
-            // return redirect()->route('tag.create')->with([
-            //     'error' => 'error',
-            //     "title" => $this->translation->notification['error'],
-            //     "content" => $message,
-            // ]);
+            ]);
         }
     }
 
@@ -202,16 +189,12 @@ class TagController extends Controller
     {
         $this->boot();
         $tagdata = $this->tag->GetTagById($id);
-        return $this->fileManagement->Logging($this->responseFormatter->successResponse([
+        return view('template.default.dashboard.blog.tag.form', array_merge(
             $this->global_variable->PageType('edit'),
-            'tag' => $tagdata,
-        ])->getContent());
-        // return view('template.default.dashboard.seo.meta.form', array_merge(
-        //     $this->global_variable->PageType('edit'),
-        //     [
-        //         'meta' => $metadata,
-        //     ]
-        // ));
+            [
+                'tag' => $tagdata,
+            ]
+        ));
     }
 
     /**
@@ -240,17 +223,11 @@ class TagController extends Controller
             // Activity Log
             activity()->causedBy(Auth::user())->performedOn(new Tag)->log($this->translation->meta['messages']['update_success']);
 
-            return $this->fileManagement->Logging($this->responseFormatter->successResponse([
+            return redirect()->route('tag.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
-                'content' => $this->translation->tag['messages']['update_success'],
-            ])->getContent());
-
-            // return redirect()->route('tag.index')->with([
-            //     'success' => 'success',
-            //     'title' => $this->translation->notification['success'],
-            //     'content' => $this->translation->meta['messages']['update_success'],
-            // ]);
+                'content' => $this->translation->meta['messages']['update_success'],
+            ]);
         } catch (\Throwable$th) {
             DB::rollBack();
             $message = $th->getMessage();
@@ -262,17 +239,11 @@ class TagController extends Controller
             // Activity Log
             activity()->causedBy(Auth::user())->performedOn(new Tag)->log($message);
 
-            return $this->fileManagement->Logging($this->responseFormatter->errorResponse([
+            return redirect()->back()->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],
                 "content" => $message,
-            ])->getContent());
-
-            // return redirect()->back()->with([
-            //     'error' => 'error',
-            //     "title" => $this->translation->notification['error'],
-            //     "content" => $message,
-            // ]);
+            ]);
         }
     }
 
@@ -301,12 +272,8 @@ class TagController extends Controller
             // Activity Log
             activity()->causedBy(Auth::user())->performedOn(new Tag)->log($this->translation->tag['messages']['delete_success']);
 
-            return $this->fileManagement->Logging($this->responseFormatter->successResponse([
-                'status' => $status,
-            ])->getContent());
-
             ///  Return response
-            // return response()->json(['status' => $status]);
+            return response()->json(['status' => $status]);
         } catch (\Throwable$th) {
             DB::rollback();
             $message = $th->getMessage();
@@ -314,17 +281,11 @@ class TagController extends Controller
             // Activity Log
             activity()->causedBy(Auth::user())->performedOn(new Tag)->log($message);
 
-            return $this->fileManagement->Logging($this->responseFormatter->successResponse([
+            return redirect()->back()->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],
                 "content" => $message,
-            ])->getContent());
-
-            // return redirect()->back()->with([
-            //     'error' => 'error',
-            //     "title" => $this->translation->notification['error'],
-            //     "content" => $message,
-            // ]);
+            ]);
 
         }
     }

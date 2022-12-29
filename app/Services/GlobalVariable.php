@@ -59,6 +59,24 @@ class GlobalVariable
         ];
     }
 
+    public static function SitesLogo()
+    {
+        $general = new General;
+        $data = $general->query()->first()->only(['site_logo']);
+        return [
+            'site_logo' => Storage::url($data['site_logo'])
+        ];
+    }
+
+    public static function SitesFavicon()
+    {
+        $general = new General;
+        $data = $general->query()->first()->only(['site_favicon']);
+        return [
+            'site_favicon' => Storage::url($data['site_favicon'])
+        ];
+    }
+
     public function PageType(string $type): ?array
     {
         return [

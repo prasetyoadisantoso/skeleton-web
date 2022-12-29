@@ -37,13 +37,13 @@ return [
     ],
 
     'messages' => [
-        'store_success' => 'Data stored successfully',
-        'store_failed' => 'Data failed to store',
-        'update_success' => 'Data updated successfully',
-        'update_failed' => 'Data failed to update',
-        'ask_delete' => 'Do you want to delete this permission?',
-        'delete_success' => 'Data deleted successfully',
-        'delete_failed' => 'Data failed to delete',
+        'store_success' => 'Tag stored successfully',
+        'store_failed' => 'Tag failed to store',
+        'update_success' => 'Tag updated successfully',
+        'update_failed' => 'Tag failed to update',
+        'ask_delete' => 'Do you want to delete this tag?',
+        'delete_success' => 'Tag deleted successfully',
+        'delete_failed' => 'Tag failed to delete',
     ],
 
     'validation' => [

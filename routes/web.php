@@ -62,6 +62,10 @@ Route::group([
     Route::prefix('dashboard')->group(function () {
         Route::get('main', [MainController::class, 'index'])->name('dashboard.main');
 
+        // Blog
+        Route::resource('tag', TagController::class);
+        Route::get('tag_datatable', [TagController::class, 'index_dt'])->name('tag.datatable');
+
         // Settings
         Route::get('general', [GeneralController::class, 'index'])->name('general.index');
         Route::post('general/description/update', [GeneralController::class, 'update_site_description'])->name('general.update.description');
@@ -104,21 +108,14 @@ Route::group([
  * Testing Mode
  */
 Route::group([
-    // 'prefix' => LaravelLocalization::setlocale(),
-    // 'middleware' => ['localeSessionRedirect', 'localizationRedirect'],
+    'prefix' => 'testing',
 ], function () {
     # Place testing code here
-    # <code>
-    Route::prefix('testing')->group(function () {
-        // Blog
-        Route::resource('tag', TagController::class);
-        Route::get('tag_datatable', [TagController::class, 'index_dt'])->name('tag.datatable');
 
-        Route::get('create-form', [TestController::class, 'create'])->name('test.create');
-        Route::post('create-form/store', [TestController::class, 'store'])->name('test.store');
-    });
+    Route::get('create-form', [TestController::class, 'create'])->name('test.create');
+    Route::post('create-form/store', [TestController::class, 'store'])->name('test.store');
 
-    # Email template testing
+    // Email template testing
     Route::get('/send-verification', function () {
         return new App\Mail\SendVerification("1111");
     });
