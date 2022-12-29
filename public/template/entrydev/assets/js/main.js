@@ -11,10 +11,10 @@ $("#login-form").validate({
     },
     messages: {
         email: {
-            required: "<small style='color: red;'>Email is required</small>",
-            email: "<small style='color: red;'>must be contains email</small>"
+            required: "<small style='margin-left:40px;color: red;'>Email is required</small>",
+            email: "<small style='margin-left:40px;color: red;'>must be contains email</small>"
         },
-        password: "<small style='color: red;'>password is required</small>"
+        password: "<small style='margin-left:40px;color: red;'>password is required</small>"
     },
     highlight: function (element) {
         $(element).closest('.form-control').addClass('is-invalid');
@@ -38,15 +38,15 @@ $('#login-submit').click(function () {
     if (a === true) {
         $("#login-form").submit();
         Swal.fire({
-            title:"Login Success",
-            text:"Redirect to dashboard",
-            icon:'success',
+            title: "Login Success",
+            text: "Redirect to dashboard",
+            icon: 'success',
             customClass: {
                 popup: "rad-25",
                 confirmButton: "btn btn-success px-5 rad-25",
             },
             buttonsStyling: false,
-    });
+        });
     } else {
         Swal.fire({
             title: "Login Failed",
@@ -76,15 +76,15 @@ $("#register-form").validate({
         }
     },
     messages: {
-        name: "<small style='color: red;'>full name is required</small>",
+        name: "<small style='margin-left:40px; color: red;'>full name is required</small>",
         email: {
-            required: "<small style='color: red;'>email is required</small>",
-            email: "<small style='color: red;'>must be contains email</small>"
+            required: "<small style='margin-left:40px; color: red;'>email is required</small>",
+            email: "<small style='margin-left:40px; color: red;'>must be contains email</small>"
         },
-        password: "<small style='color: red;'>password is required</small>",
+        password: "<small style='margin-left:40px; color: red;'>password is required</small>",
         password_confirmation: {
-            required: "<small style='color: red;'>password confirmation is required</small>",
-            equalTo: "<small style='color: red;'>password confirmation is must be same with password</small>",
+            required: "<small style='margin-left:40px; color: red;'>password confirmation is required</small>",
+            equalTo: "<small style='margin-left:40px; color: red;'>confirmation is must be same with password</small>",
         }
     },
     highlight: function (element) {
@@ -118,15 +118,15 @@ $('#register-submit').click(function () {
     if (a === true) {
         $("#register-form").submit();
         Swal.fire({
-            title:"Register Success",
-            text:"Email verification has been sent",
-            icon:'success',
+            title: "Register Success",
+            text: "Email verification has been sent",
+            icon: 'success',
             customClass: {
                 popup: "rad-25",
                 confirmButton: "btn btn-success px-5 rad-25",
             },
             buttonsStyling: false,
-    });
+        });
     } else {
         Swal.fire({
             title: "Register Failed",
@@ -171,15 +171,15 @@ $('#verification-submit').click(function () {
     if (a === true) {
         $("#verification-form").submit();
         Swal.fire({
-            title:"Email Sent",
-            text:"Email verification has been sent",
-            icon:'success',
+            title: "Email Sent",
+            text: "Email verification has been sent",
+            icon: 'success',
             customClass: {
                 popup: "rad-25",
                 confirmButton: "btn btn-success px-5 rad-25",
             },
             buttonsStyling: false,
-    });
+        });
     } else {
         Swal.fire({
             title: "Email Not Sent",
@@ -240,15 +240,15 @@ $('#reset-password-submit').click(function () {
     if (a === true) {
         $("#reset-password-form").submit();
         Swal.fire({
-            title:"Password Updated",
-            text:"Password update successfully",
-            icon:'success',
+            title: "Password Updated",
+            text: "Password update successfully",
+            icon: 'success',
             customClass: {
                 popup: "rad-25",
                 confirmButton: "btn btn-success px-5 rad-25",
             },
             buttonsStyling: false,
-    });
+        });
     } else {
         Swal.fire({
             title: "Password Update Failed",
@@ -293,15 +293,15 @@ $('#forgot-password-submit').click(function () {
     if (a === true) {
         $("#forgot-password-form").submit();
         Swal.fire({
-            title:"Email Sent",
-            text:"Email reset password has been sent",
-            icon:'success',
+            title: "Email Sent",
+            text: "Email reset password has been sent",
+            icon: 'success',
             customClass: {
                 popup: "rad-25",
                 confirmButton: "btn btn-success px-5 rad-25",
             },
             buttonsStyling: false,
-    });
+        });
     } else {
         Swal.fire({
             title: "Email Not Sent",

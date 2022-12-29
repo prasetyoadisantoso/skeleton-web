@@ -22,15 +22,16 @@ $('.dropdown').on('hide.bs.dropdown', function () {
 });
 
 // Rotation Arrow Sidebar
-$(document).ready(function (e) {
-    jQuery(".main-list").click(function () {
-        var child = document.getElementById(this.id);
-        var icon = child.children['icon'];
-        let open = $(icon).hasClass('open');
-        if (open) {
-            icon.className = 'fa fa-chevron-down';
-        } else {
-            icon.className = 'fa fa-chevron-down open';
+rotated = false;
+$('.main-list').click(function (e) {
+    e.preventDefault();
+    elem = document.querySelector('.fa-chevron-down');
+
+    $({ rotation: 180 * rotated }).animate({ rotation: 180 * !rotated }, {
+        duration: 50,
+        step: function (now) {
+            $(elem).css({ 'transform': 'rotate(' + now + 'deg)' });
         }
     });
+    rotated = !rotated;
 });
