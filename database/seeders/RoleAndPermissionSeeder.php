@@ -15,6 +15,10 @@ class RoleAndPermissionSeeder extends Seeder
      */
     public function run()
     {
+        /**
+         * List Permissions
+         * Main - Blog - User - Settings - SEO - System Management - Sidebar
+         */
         $user_access = [
 
             /* -------------------------------------------------------------------------- */
@@ -23,6 +27,41 @@ class RoleAndPermissionSeeder extends Seeder
 
             // Main
             'main-index',
+
+            /* -------------------------------------------------------------------------- */
+            /*                                    Blog                                    */
+            /* -------------------------------------------------------------------------- */
+
+            // Post
+            'post-index',
+            'post-create',
+            'post-store',
+            'post-show',
+            'post-edit',
+            'post-update',
+            'post-destroy',
+
+            // Category
+            'category-index',
+            'category-create',
+            'category-store',
+            'category-show',
+            'category-edit',
+            'category-update',
+            'category-destroy',
+
+            // Tag
+            'tag-index',
+            'tag-create',
+            'tag-store',
+            'tag-show',
+            'tag-edit',
+            'tag-update',
+            'tag-destroy',
+
+            /* -------------------------------------------------------------------------- */
+            /*                               User Management                              */
+            /* -------------------------------------------------------------------------- */
 
             // User
             'user-index',
@@ -51,6 +90,10 @@ class RoleAndPermissionSeeder extends Seeder
             'permission-update',
             'permission-destroy',
 
+            /* -------------------------------------------------------------------------- */
+            /*                                  Settings                                  */
+            /* -------------------------------------------------------------------------- */
+
             // General
             'general-index',
             'general-update',
@@ -63,6 +106,10 @@ class RoleAndPermissionSeeder extends Seeder
             'socialmedia-edit',
             'socialmedia-update',
             'socialmedia-destroy',
+
+            /* -------------------------------------------------------------------------- */
+            /*                                     SEO                                    */
+            /* -------------------------------------------------------------------------- */
 
             // Meta
             'meta-index',
@@ -82,6 +129,10 @@ class RoleAndPermissionSeeder extends Seeder
             'canonical-update',
             'canonical-destroy',
 
+            /* -------------------------------------------------------------------------- */
+            /*                              System Management                             */
+            /* -------------------------------------------------------------------------- */
+
             // Activity
             'activity-index',
             'activity-create',
@@ -98,12 +149,19 @@ class RoleAndPermissionSeeder extends Seeder
             /*                                   Sidebar                                  */
             /* -------------------------------------------------------------------------- */
             'main-sidebar',
+            'blog-sidebar',
             'setting-sidebar',
             'seo-sidebar',
             'user-sidebar',
-            'system-sidebar'
+            'system-sidebar',
 
         ];
+
+
+        /**
+         * Give Permissions to UsersRole
+         * Users - Roles - Permissions
+         */
 
         foreach ($user_access as $value) {
             Permission::create(['name' => $value]);
@@ -117,8 +175,35 @@ class RoleAndPermissionSeeder extends Seeder
 
         $superadmin->givePermissionTo([
 
+            /* Main */
             'main-index',
 
+            /* Blog */
+            'post-index',
+            'post-create',
+            'post-store',
+            'post-show',
+            'post-edit',
+            'post-update',
+            'post-destroy',
+
+            'category-index',
+            'category-create',
+            'category-store',
+            'category-show',
+            'category-edit',
+            'category-update',
+            'category-destroy',
+
+            'tag-index',
+            'tag-create',
+            'tag-store',
+            'tag-show',
+            'tag-edit',
+            'tag-update',
+            'tag-destroy',
+
+            /* User */
             'user-index',
             'user-create',
             'user-store',
@@ -143,16 +228,9 @@ class RoleAndPermissionSeeder extends Seeder
             'permission-update',
             'permission-destroy',
 
+            /* Settings */
             'general-index',
             'general-update',
-
-            'meta-index',
-            'meta-create',
-            'meta-store',
-            'meta-show',
-            'meta-edit',
-            'meta-update',
-            'meta-destroy',
 
             'socialmedia-index',
             'socialmedia-create',
@@ -162,6 +240,15 @@ class RoleAndPermissionSeeder extends Seeder
             'socialmedia-update',
             'socialmedia-destroy',
 
+            /* SEO */
+            'meta-index',
+            'meta-create',
+            'meta-store',
+            'meta-show',
+            'meta-edit',
+            'meta-update',
+            'meta-destroy',
+
             'canonical-index',
             'canonical-create',
             'canonical-store',
@@ -170,6 +257,7 @@ class RoleAndPermissionSeeder extends Seeder
             'canonical-update',
             'canonical-destroy',
 
+            /* System */
             'activity-index',
             'activity-create',
             'activity-store',
@@ -178,21 +266,35 @@ class RoleAndPermissionSeeder extends Seeder
             'activity-update',
             'activity-destroy',
 
+            'maintenance-index',
+
+            /* Sidebar */
             'main-sidebar',
+            'blog-sidebar',
             'setting-sidebar',
             'seo-sidebar',
             'user-sidebar',
             'system-sidebar',
 
-            'maintenance-index',
-
         ]);
 
         $administrator->givePermissionTo([
 
+            /* Main */
             'main-index',
-            'main-sidebar',
 
+            /* Blog */
+            'tag-index',
+            'tag-create',
+            'tag-store',
+            'tag-show',
+            'tag-edit',
+            'tag-update',
+            'tag-destroy',
+
+            /* Sidebar */
+            'main-sidebar',
+            'blog-sidebar',
             'setting-sidebar',
             'general-index',
             'general-update',
@@ -201,13 +303,16 @@ class RoleAndPermissionSeeder extends Seeder
 
         $editor->givePermissionTo([
 
+            /* Sidebar */
             'main-index',
             'main-sidebar',
+            'blog-sidebar',
 
         ]);
 
         $customer->givePermissionTo([
 
+            /* Sidebar */
             'main-index',
             'main-sidebar'
 

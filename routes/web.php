@@ -11,6 +11,7 @@ use App\Http\Controllers\Dashboard\MetaController;
 use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\SocialMediaController;
+use App\Http\Controllers\Dashboard\TagController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
@@ -109,6 +110,10 @@ Route::group([
     # Place testing code here
     # <code>
     Route::prefix('testing')->group(function () {
+        // Blog
+        Route::resource('tag', TagController::class);
+        Route::get('tag_datatable', [TagController::class, 'index_dt'])->name('tag.datatable');
+
         Route::get('create-form', [TestController::class, 'create'])->name('test.create');
         Route::post('create-form/store', [TestController::class, 'store'])->name('test.store');
     });
