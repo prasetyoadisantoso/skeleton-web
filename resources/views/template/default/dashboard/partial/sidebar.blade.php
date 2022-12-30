@@ -61,7 +61,7 @@
                 @can('tag-index')
                 <li class="sub-list font-sm">
                     <a href="{{route('tag.index')}}">
-                        <span><i class="fa-solid fa-circle-dot me-3"></i>{{$tag}}</span>
+                        <span><i class="fa-solid fa-circle-dot me-3"></i>{{$tags}}</span>
                     </a>
                 </li>
                 @endcan

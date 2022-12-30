@@ -8,7 +8,7 @@ return [
     'blog' => 'Blog',
     'post' => 'Post',
     'category' => 'Category',
-    'tag' => 'Tag',
+    'tags' => 'Tag',
 
     // Users And Permissions
     'users_and_permissions' => 'Users & Permissions',
