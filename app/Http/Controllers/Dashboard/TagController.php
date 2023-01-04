@@ -221,7 +221,7 @@ class TagController extends Controller
             DB::commit();
 
             // Activity Log
-            activity()->causedBy(Auth::user())->performedOn(new Tag)->log($this->translation->meta['messages']['update_success']);
+            activity()->causedBy(Auth::user())->performedOn(new Tag)->log($this->translation->tag['messages']['update_success']);
 
             return redirect()->route('tag.index')->with([
                 'success' => 'success',
