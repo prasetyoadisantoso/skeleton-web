@@ -4,6 +4,7 @@ use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Customer\MainController as CustomerMainController;
 use App\Http\Controllers\Dashboard\ActivityController;
 use App\Http\Controllers\Dashboard\CanonicalController;
+use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\GeneralController;
 use App\Http\Controllers\Dashboard\MainController;
 use App\Http\Controllers\Dashboard\MaintenanceController;
@@ -111,6 +112,9 @@ Route::group([
     'prefix' => 'testing',
 ], function () {
     # Place testing code here
+
+    Route::resource('category', CategoryController::class);
+    Route::get('category_datatable', [CategoryController::class, 'index_dt'])->name('category.datatable');
 
     Route::get('create-form', [TestController::class, 'create'])->name('test.create');
     Route::post('create-form/store', [TestController::class, 'store'])->name('test.store');
