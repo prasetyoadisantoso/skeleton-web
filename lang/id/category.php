@@ -17,6 +17,7 @@ return [
         'table' => [
             'number' => 'No',
             'name' => 'Nama',
+            'parent' => 'Parent',
             'slug' => 'Slug',
             'action' => 'Aksi',
         ],
@@ -34,7 +35,7 @@ return [
         'name_placeholder' => 'Masukkan nama kategori...',
         'slug' => 'Slug :',
         'slug_placeholder' => 'Masukkan slug kategori...',
-        'parent' => 'Parent :',
+        'parent' => 'Pilih Parent :',
         'parent_placeholder' => '- Pilih Parent Kategori -'
     ],
 

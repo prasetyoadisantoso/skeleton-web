@@ -46,9 +46,7 @@ class CategoryController extends Controller
 
     protected function boot()
     {
-        // return $this->global_view->RenderView([
-        // ]);
-        return [
+        return $this->global_view->RenderView([
             // Global Variable
             $this->global_variable->TitlePage($this->translation->category['title']),
             $this->global_variable->SystemLanguage(),
@@ -75,7 +73,7 @@ class CategoryController extends Controller
 
             // Route Type
             $this->global_variable->RouteType('category.index'),
-        ];
+        ]);
     }
 
     /**
@@ -86,32 +84,29 @@ class CategoryController extends Controller
     public function index()
     {
 
-        return $this->fileManagement->Logging($this->responseFormatter->successResponse([
-            $this->boot(),
+        $this->boot();
+        return view('template.default.dashboard.blog.category.home', array_merge(
             $this->global_variable->PageType('index'),
-        ]));
-        // return view('template.default.dashboard.blog.tag.home', array_merge(
-        //     $this->global_variable->PageType('index'),
-        // ));
+        ));
     }
 
     public function index_dt()
     {
         $res = $this->dataTables->of($this->category->query())
-            ->addColumn('name', function ($tag) {
-                return $tag->name;
+            ->addColumn('name', function ($category) {
+                return $category->name;
             })
-            ->addColumn('slug', function ($tag) {
-                return $tag->slug;
+            ->addColumn('slug', function ($category) {
+                return $category->slug;
             })
-            ->addColumn('parent', function ($tag) {
-                return $tag->parent;
+            ->addColumn('parent', function ($category) {
+                return $category->parent;
             })
-            ->addColumn('action', function ($tag) {
-                return $tag->id;
+            ->addColumn('action', function ($category) {
+                return $category->id;
             })
             ->removeColumn('id')->addIndexColumn()->make('true');
-        return $this->fileManagement->Logging($this->responseFormatter->successResponse($res));
+        return $res;
     }
 
     /**
@@ -121,12 +116,12 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        $this->boot();
         $category_select = $this->category->query()->select(['id', 'name'])->get();
-        return $this->fileManagement->Logging($this->responseFormatter->successResponse([
-            $this->boot(),
+        return view('template.default.dashboard.blog.category.form', array_merge(
             $this->global_variable->PageType('create'),
-            'category_select' => $category_select,
-        ]));
+            ['category_select' => $category_select]
+        ));
     }
 
     /**
@@ -156,16 +151,11 @@ class CategoryController extends Controller
             // Activity Log
             activity()->causedBy(Auth::user())->performedOn(new Category)->log($this->translation->category['messages']['store_success']);
 
-            return $this->fileManagement->Logging($this->responseFormatter->successResponse([
+            return redirect()->route('category.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
                 'content' => $this->translation->category['messages']['store_success'],
-            ]));
-            // return redirect()->route('tag.index')->with([
-            //     'success' => 'success',
-            //     'title' => $this->translation->notification['success'],
-            //     'content' => $this->translation->category['messages']['store_success'],
-            // ]);
+            ]);
 
         } catch (\Throwable$th) {
             DB::rollBack();
@@ -178,16 +168,11 @@ class CategoryController extends Controller
             // Activity Log
             activity()->causedBy(Auth::user())->performedOn(new Category)->log($message);
 
-            return $this->fileManagement->Logging($this->responseFormatter->errorResponse([
+            return redirect()->route('category.create')->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],
                 "content" => $message,
-            ]));
-            // return redirect()->route('category.create')->with([
-            //     'error' => 'error',
-            //     "title" => $this->translation->notification['error'],
-            //     "content" => $message,
-            // ]);
+            ]);
         }
     }
 
@@ -212,19 +197,17 @@ class CategoryController extends Controller
     {
         $this->boot();
         $categorydata = $this->category->GetCategoryById($id);
+        $category_select = $this->category->query()->select(['id', 'name'])->get();
+        $category_parent = $categorydata->parent;
 
-        return $this->fileManagement->Logging($this->responseFormatter->successResponse([
-            $this->boot(),
-            'category_name' => $categorydata->name,
-            'category_slug' => $categorydata->slug,
-            'category_parent' => $categorydata->parent,
-        ]));
-        // return view('template.default.dashboard.blog.tag.form', array_merge(
-        //     $this->global_variable->PageType('edit'),
-        //     [
-        //         'category' => $categorydata,
-        //     ]
-        // ));
+        return view('template.default.dashboard.blog.category.form', array_merge(
+            $this->global_variable->PageType('edit'),
+            [
+                'category' => $categorydata,
+                'category_select' => $category_select,
+                'category_parent' => $category_parent,
+            ]
+        ));
     }
 
     /**
@@ -253,17 +236,11 @@ class CategoryController extends Controller
             // Activity Log
             activity()->causedBy(Auth::user())->performedOn(new Category)->log($this->translation->category['messages']['update_success']);
 
-            return $this->fileManagement->Logging($this->responseFormatter->successResponse([
+            return redirect()->route('category.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
                 'content' => $this->translation->category['messages']['update_success'],
-            ]));
-
-            // return redirect()->route('tag.index')->with([
-            //     'success' => 'success',
-            //     'title' => $this->translation->notification['success'],
-            //     'content' => $this->translation->meta['messages']['update_success'],
-            // ]);
+            ]);
         } catch (\Throwable$th) {
             DB::rollBack();
             $message = $th->getMessage();
@@ -275,17 +252,11 @@ class CategoryController extends Controller
             // Activity Log
             activity()->causedBy(Auth::user())->performedOn(new Category)->log($message);
 
-            return $this->fileManagement->Logging($this->responseFormatter->errorResponse([
+            return redirect()->back()->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],
                 "content" => $message,
-            ]));
-
-            // return redirect()->back()->with([
-            //     'error' => 'error',
-            //     "title" => $this->translation->notification['error'],
-            //     "content" => $message,
-            // ]);
+            ]);
         }
     }
 
@@ -315,12 +286,8 @@ class CategoryController extends Controller
             activity()->causedBy(Auth::user())->performedOn(new Category)->log($this->translation->category['messages']['delete_success']);
 
             ///  Return response
-            // return response()->json(['status' => $status]);
-            return $this->fileManagement->Logging($this->responseFormatter->successResponse([
-                'status' => $status,
-                'title' => $this->translation->notification['success'],
-                'content' => $this->translation->category['messages']['delete_success'],
-            ]));
+            return response()->json(['status' => $status]);
+
         } catch (\Throwable$th) {
             DB::rollback();
             $message = $th->getMessage();
@@ -328,17 +295,11 @@ class CategoryController extends Controller
             // Activity Log
             activity()->causedBy(Auth::user())->performedOn(new Category)->log($message);
 
-            return $this->fileManagement->Logging($this->responseFormatter->errorResponse([
+            return redirect()->back()->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],
                 "content" => $message,
-            ]));
-
-            // return redirect()->back()->with([
-            //     'error' => 'error',
-            //     "title" => $this->translation->notification['error'],
-            //     "content" => $message,
-            // ]);
+            ]);
 
         }
     }

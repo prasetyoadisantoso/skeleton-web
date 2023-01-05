@@ -18,6 +18,7 @@ return [
             'number' => 'No',
             'name' => 'Name',
             'slug' => 'Slug',
+            'parent' => 'Parent',
             'action' => 'Action',
         ],
         'search' => 'Search: ',
@@ -34,7 +35,7 @@ return [
         'name_placeholder' => 'Insert category name...',
         'slug' => 'Slug :',
         'slug_placeholder' => 'Insert slug...',
-        'parent' => 'Parent :',
+        'parent' => 'Select Parent :',
         'parent_placeholder' => '- Select Category Parent -',
     ],
 

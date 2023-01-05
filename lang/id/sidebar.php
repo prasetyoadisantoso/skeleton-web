@@ -7,7 +7,7 @@ return [
     // Blog
     'blog' => 'Blog',
     'post' => 'Postingan',
-    'category' => 'Kategori',
+    'categories' => 'Kategori',
     'tags' => 'Tag',
 
     // Users & Permissions

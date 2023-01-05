@@ -53,8 +53,8 @@
                 @endcan
                 @can('category-index')
                 <li class="sub-list font-sm">
-                    <a href="#">
-                        <span><i class="fa-solid fa-circle-dot me-3"></i>Category</span>
+                    <a href="{{route('category.index')}}">
+                        <span><i class="fa-solid fa-circle-dot me-3"></i>{{$categories}}</span>
                     </a>
                 </li>
                 @endcan

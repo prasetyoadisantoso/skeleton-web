@@ -7,7 +7,7 @@ return [
     // Blog
     'blog' => 'Blog',
     'post' => 'Post',
-    'category' => 'Category',
+    'categories' => 'Category',
     'tags' => 'Tag',
 
     // Users And Permissions

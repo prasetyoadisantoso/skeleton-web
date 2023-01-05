@@ -64,6 +64,8 @@ Route::group([
         Route::get('main', [MainController::class, 'index'])->name('dashboard.main');
 
         // Blog
+        Route::resource('category', CategoryController::class);
+        Route::get('category_datatable', [CategoryController::class, 'index_dt'])->name('category.datatable');
         Route::resource('tag', TagController::class);
         Route::get('tag_datatable', [TagController::class, 'index_dt'])->name('tag.datatable');
 
@@ -112,9 +114,6 @@ Route::group([
     'prefix' => 'testing',
 ], function () {
     # Place testing code here
-
-    Route::resource('category', CategoryController::class);
-    Route::get('category_datatable', [CategoryController::class, 'index_dt'])->name('category.datatable');
 
     Route::get('create-form', [TestController::class, 'create'])->name('test.create');
     Route::post('create-form/store', [TestController::class, 'store'])->name('test.store');

@@ -48,8 +48,8 @@ class CategoryTest extends TestCase
     public function test_category_store()
     {
         $this->postJson(route('category.store'),[
-            'name' => '<?php echo "Hai";?>',
-            'slug' => 'mix-categorized',
+            'name' => 'Mix Category',
+            'slug' => 'mix-category',
             'parent' => 'b2bf09b5-a424-4cb6-8a9c-7e1eba80589c',
         ], [
             $this->user_auth(),
