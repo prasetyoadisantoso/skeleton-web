@@ -8,7 +8,7 @@
     <div class="card  w-25 w-md-75 border-0 shadow rounded-4">
         <div class="card-header  border-0 bg-white rounded-4 mt-4">
             <div class="d-flex justify-content-center">
-                <h5><i class="fa-solid fa-key"></i>&nbsp;{{$header}}</h5>
+                <h5>{{$header}}</h5>
             </div>
         </div>
         <div class="card-body">

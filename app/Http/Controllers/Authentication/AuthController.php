@@ -10,6 +10,8 @@ use App\Services\Email;
 use App\Services\Encryption;
 use App\Services\FileManagement;
 use App\Services\Generator;
+use App\Services\GlobalVariable;
+use App\Services\GlobalView;
 use App\Services\ResponseFormatter;
 use App\Services\Translations;
 use Exception;
@@ -19,7 +21,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    protected $generator, $encryption, $user, $token, $email, $translation, $fileManagement, $responseFormatter;
+    protected $generator, $global_view, $global_variable, $encryption, $user, $token, $email, $translation, $fileManagement, $responseFormatter;
 
     public function __construct(
         Generator $generator,
@@ -30,6 +32,8 @@ class AuthController extends Controller
         Translations $translation,
         FileManagement $fileManagement,
         ResponseFormatter $responseFormatter,
+        GlobalView $global_view,
+        GlobalVariable $global_variable,
     ) {
         $this->generator = $generator;
         $this->encryption = $encryption;
@@ -39,10 +43,21 @@ class AuthController extends Controller
         $this->translation = $translation;
         $this->fileManagement = $fileManagement;
         $this->responseFormatter = $responseFormatter;
+        $this->global_view = $global_view;
+        $this->global_variable = $global_variable;
+    }
+
+    protected function boot()
+    {
+        $this->global_view->RenderView([
+            $this->global_variable->SiteLogo(),
+        ]);
     }
 
     public function login_page()
     {
+        $this->boot();
+
         if (Auth::user() == null) {
             $translation_login = $this->translation->authLogin;
             $translation_messages = $this->translation->authMessages;
@@ -55,6 +70,8 @@ class AuthController extends Controller
 
     public function register_page()
     {
+        $this->boot();
+
         if (Auth::user() == null) {
             $translation_registration = $this->translation->authRegistration;
             $translation_messages = $this->translation->authMessages;
@@ -67,6 +84,8 @@ class AuthController extends Controller
 
     public function resend_verification_page()
     {
+        $this->boot();
+
         if (Auth::user() == null) {
             $translation_verification = $this->translation->authVerification;
             $translation_messages = $this->translation->authMessages;
@@ -79,6 +98,8 @@ class AuthController extends Controller
 
     public function forgot_password_page()
     {
+        $this->boot();
+
         if (Auth::user() == null) {
             $translation_forgot_password = $this->translation->authForgotPassword;
             $translation_messages = $this->translation->authMessages;
@@ -91,6 +112,8 @@ class AuthController extends Controller
 
     public function reset_password_page($token)
     {
+        $this->boot();
+
         if (Auth::user() == null) {
             $data_token = $this->token->GetUUIDByToken($this->encryption->DecryptToken($token));
             $dataUser = $this->user->GetUserByID($data_token->user_id);

@@ -8,10 +8,10 @@
     <div class="card  w-25 w-md-75 border-0 shadow rounded-4">
         <div class="card-header bg-white rounded-4 border-0">
             <div class="d-flex justify-content-center my-3">
-                <a href="{{url('/')}}"><img src="https://laravel.com/img/logomark.min.svg" alt="Laravel Logo"></a>
+                <a href="{{url('/')}}"><img src="{{$site_logo}}" alt="Site Logo" width="60"></a>
             </div>
             <div class="d-flex justify-content-center">
-                <h5><i class="fa-solid fa-clipboard-check"></i>&nbsp;{{$header}}</h5>
+                <h5>{{$header}}</h5>
             </div>
         </div>
         <div class="card-body">

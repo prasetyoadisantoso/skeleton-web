@@ -5,14 +5,14 @@
 @include('template.default.authentication.partial.flash')
 <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center bg-light">
 
-    <div class="card w-25 w-md-75 border-0 shadow rounded-4">
+    <div class="card w-25 w-md-75 border-0 shadow-sm rounded-4">
         <div class="card-header border-0 bg-white rounded-4">
             <div class="d-flex justify-content-center my-3">
-                <a href="{{url('/')}}"><img src="https://laravel.com/img/logomark.min.svg" alt="Laravel Logo"></a>
+                <a href="{{url('/')}}"><img src="{{$site_logo}}" alt="Site Logo" class="" width="60"></a>
             </div>
 
             <div class="d-flex justify-content-center">
-                <h5><i class="fa-solid fa-door-open"></i>&nbsp;{{$header}}</h5>
+                <h5>{{$header}}</h5>
             </div>
         </div>
         <div class="card-body">
@@ -32,7 +32,7 @@
             <div class="d-flex justify-content-center mt-4 mb-2">
                 <button type="submit" class="btn btn-primary w-100" id="login-submit">{{$sign_in}}</button>
             </div>
-            <div class="container mt-4 mb-2">
+            <div class="container mt-4">
                 <strong>Login for demo :</strong> <br>
                 <small style="font-size: 8px;">Super Admin Username : superadmin@email.com</small><br>
                 <small style="font-size: 8px;">Administrator Username : admin@email.com</small><br>
