@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="../../../assets/img/favicon.png">
-    <title>Tag</title>
+    <title>Post</title>
     <link rel="stylesheet" href="../../../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../../assets/css/dashboard.css">
 
@@ -22,6 +22,13 @@
 
     <!-- DataTable CSS -->
     <link rel="stylesheet" href="../../../assets/datatables/datatables.min.css">
+
+    <!-- Summernote -->
+    <link rel="stylesheet" href="../../../assets/summernote/summernote-bs4.min.css">
+
+    <!-- Select2 -->
+    <link rel="stylesheet" href="../../../assets/select2/dist/css/select2.min.css">
+    <link rel="stylesheet" href="../../../assets/select2/theme/bs5/select2-bootstrap-5-theme.min.css">
 
 </head>
 
@@ -76,8 +83,7 @@
                 <hr style="border-bottom: 0.1vh solid gray; width: 100%;" class="my-0">
 
                 <li class="active py-1">
-                    <a href="#blog-menu" data-bs-toggle="collapse" aria-expanded="false"
-                        class="btn-ripple rotation-1">
+                    <a href="#blog-menu" data-bs-toggle="collapse" aria-expanded="false" class="btn-ripple rotation-1">
                         <div class="d-flex align-items-center main-list">
                             <span class="flex-grow-1 font-md"><i class="fa-solid fa-blog me-3"></i>Blog</span>
                             <i id="icon" class="hide-fa fas fa-chevron-down font-sm rotate-1"></i>
@@ -229,7 +235,8 @@
                     </div>
                 </div>
 
-                <button class="btn btn-borderless text-white mt-1" id="menu-toggle"><i class="fas fa-bars"></i></button>
+                <button class="btn btn-borderless text-white mt-1 ms-md-5 ms-0" id="menu-toggle"><i
+                        class="fas fa-bars"></i></button>
 
                 <div class="ms-auto order-md-2 order-2">
                     <div class="btn-group">
@@ -250,10 +257,12 @@
             <!-- End Navigation Bar -->
 
             <!-- Start Breadcrumb -->
-            <nav class="bg-light py-3 px-2 px-md-5 shadow-sm d-flex justify-content-between breadcrumb" aria-label="breadcrumb">
+            <nav class="bg-light py-3 px-2 px-md-5 shadow-sm d-flex justify-content-between breadcrumb"
+                aria-label="breadcrumb">
                 <h5 class="my-0"><i class="fa-solid fa-signs-post me-3"></i>Post</h5>
                 <ol class="breadcrumb my-0">
-                    <li class="breadcrumb-item"><a href="index.html" class="text-decoration-none text-dark">Home</a></li>
+                    <li class="breadcrumb-item"><a href="index.html" class="text-decoration-none text-dark">Home</a>
+                    </li>
                     <li class="breadcrumb-item active text-muted" aria-current="page">Create Page</li>
                 </ol>
             </nav>
@@ -263,16 +272,103 @@
             <div class="container py-3 w-100 app">
 
                 <!-- Start app -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="d-flex justify-content-center">
-                            <h5 class="align-self-center">Create Post</h5>
+                <form action="#" method="POST" enctype="multipart/form-data" id="post-store-form">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-center">
+                                <h5 class="align-self-center">Create Post</h5>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <div class="mb-3">
+                                            <label for="inputTitle" class="form-label">Title</label>
+                                            <input name="title" type="text" class="form-control" id="title"
+                                                placeholder="Insert title..." value="" required>
+                                            <div class="error-title"></div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="slug" class="form-label">Slug</label>
+                                            <input type="text" class="form-control" id="slug" name="slug"
+                                                placeholder="Insert slug...">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlTextarea1" class="form-label">Content</label>
+                                            <textarea id="content" class="form-controll" name="content"
+                                                required></textarea>
+                                            <div class="error-content"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="mb-3">
+                                            <label for="formFileLg" class="form-label">Category</label>
+                                            <select class="form-select" aria-label="Default select example" name="category" id="category" required>
+                                                <option selected>- Select Category-</option>
+                                                <option value="1">One</option>
+                                                <option value="2">Two</option>
+                                                <option value="3">Three</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="formFileLg" class="form-label">Tag</label>
+                                            <select class="tag-select form-control" multiple="multiple" style="width: 100%">
+                                                <option value="1">One</option>
+                                                <option value="2">Two</option>
+                                                <option value="3">Three</option>
+                                            </select>
+                                        </div>
+                                        <hr class="my-5">
+                                        <div class="mb-3">
+                                            <label for="formFileLg" class="form-label">SEO Meta</label>
+                                            <select class="form-select" aria-label="Default select example">
+                                                <option selected>- Select Meta -</option>
+                                                <option value="1">One</option>
+                                                <option value="2">Two</option>
+                                                <option value="3">Three</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="formFileLg" class="form-label">SEO Canonical</label>
+                                            <select class="form-select" aria-label="Default select example">
+                                                <option selected>- Select Canonical -</option>
+                                                <option value="1">One</option>
+                                                <option value="2">Two</option>
+                                                <option value="3">Three</option>
+                                            </select>
+                                        </div>
+                                        <hr class="my-5">
+                                        <div class="mb-3">
+                                            <label for="formFileLg" class="form-label">Feature Image</label>
+                                            <input class="form-control" id="feature_image" name="feature_image"
+                                                type="file" id="feature_image" onchange="readImage(this);">
+                                            <div class="error-feature-image"></div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <img class="img-fluid" src="../../../assets/img/dummy.png"
+                                                alt="User profile picture" id="profileImage">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-check form-switch">
+                                <label class="form-check-label">Is Publish ?</label>
+                                <input class="form-check-input" type="checkbox" role="switch" name="published"
+                                    id="published">
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-center">
+                                <button id="post-store-submit" type="submit" class="btn btn-success w-100 w-md-25">
+                                    Store<i class="fas fa-save ms-2"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div class="card-body">
-
-                    </div>
-                </div>
+                </form>
                 <!-- End app -->
 
             </div>
@@ -297,37 +393,90 @@
     <script src="../../../assets/jquery-validate/jquery.validate.min.js"></script>
     <script src="../../../assets/jquery-validate/additional-methods.min.js"></script>
     <script src="../../../assets/datatables/datatables.min.js"></script>
+    <script src="../../../assets/summernote/summernote-bs4.min.js"></script>
+    <script src="../../../assets/select2/dist/js/select2.full.min.js"></script>
     <script src="../../../assets/js/dashboard.js"></script>
 
-    <script>
-
+    <script alt="jquery-validation">
         let current_id = document.querySelector("form").id;
 
         $("#" + current_id).validate({
             rules: {
-                name: {
+                title: {
+                    required: true
+                },
+                feature_image: {
                     required: true
                 },
             },
             messages: {
-                name: "<small style='color: red;'>Name is required</small>",
+                title: "<small style='color: red;'>Title is required</small>",
+                feature_image: "<small style='color: red;'>Feature image is required</small>",
             },
             errorPlacement: function (error, element) {
-                if (element.attr("name") == "name") {
-                    error.appendTo(".error-name");
+                if (element.attr("name")) {
+                    error.appendTo(".error-title");
+                }
+                if (element.attr("name") == "feature_image") {
+                    error.appendTo(".error-feature-image");
                 }
             },
         });
 
-        $('#meta-store-submit').click(function () {
-            let a = $("#tag-store-form").valid();
+        $('#post-store-submit').click(function () {
+            // Check if summernote empty
+            if ($('#content').summernote('isEmpty')) {
+                let er = "<small id='content-error' style='color: red;'>Content is required</small>";
+                $(".error-content").html(er);
+            } else {
+                $('#content-error').remove();
+            }
+
+            let a = $("#post-store-form").valid();
             if (a === true) {
-                $("#tag-store-form").submit();
+                $("#post-store-form").submit();
             } else {
                 return false;
             }
         });
 
+    </script>
+
+    <script alt="summernote">
+        $(document).ready(function () {
+            $('#content').summernote({
+                placeholder: "Insert your post",
+                height: 550
+            });
+        });
+    </script>
+
+    <script alt="read-feature-image">
+        //Preview Image
+        function readImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    let my_input = input.id;
+                    let i = my_input.substr(-1)
+                    $('#profileImage')
+                        .attr('src', e.target.result)
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+
+    <script alt="select2">
+        $(document).ready(function () {
+
+            $(".tag-select").select2({
+                placeholder: 'Select multiple tags',
+                theme: "bootstrap-5",
+                width: 'resolve',
+            });
+
+        });
     </script>
 
 </body>
