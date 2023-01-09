@@ -26,6 +26,13 @@ class Canonical extends Model
         });
     }
 
+    // Relations to Post
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class, 'canonical_post');
+    }
+
+    // CRUD Canonical
     public function GetCanonicalById($id)
     {
         return $this->query()->find($id);

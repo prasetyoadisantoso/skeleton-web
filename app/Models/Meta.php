@@ -31,6 +31,13 @@ class Meta extends Model
         });
     }
 
+    // Relations to Post
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class, 'meta_post');
+    }
+
+    // CRUD Meta
     public function GetMetaById($id)
     {
         return $this->query()->find($id);

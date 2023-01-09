@@ -8,6 +8,8 @@ use Spatie\Translatable\HasTranslations;
 use App\Models\Category;
 use Webpatser\Uuid\Uuid;
 use App\Models\Tag;
+use App\Models\Canonical;
+use App\Models\Meta;
 
 class Post extends Model
 {
@@ -41,12 +43,25 @@ class Post extends Model
         });
     }
 
-    // Relations
+    // Relations to Categories
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'category_post');
     }
 
+    // Relation to Metas
+    public function metas()
+    {
+        return $this->belongsToMany(Meta::class, 'meta_post');
+    }
+
+    // Relation to Canonicals
+    public function canonicals()
+    {
+        return $this->belongsToMany(Canonical::class, 'canonical_post');
+    }
+
+    // Relation to Tags
     public function tags()
     {
         return $this->belongsToMany(Tag::class, 'tag_post');

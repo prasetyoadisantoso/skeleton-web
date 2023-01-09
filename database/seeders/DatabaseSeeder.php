@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
             TagSeeder::class,
             PostCategorySeeder::class,
             PostTagSeeder::class,
+            PostMetaSeeder::class,
+            PostCanonicalSeeder::class,
 
         ]);
     }
