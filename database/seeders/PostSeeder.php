@@ -30,6 +30,7 @@ class PostSeeder extends Seeder
                 'title' => '{"en":"New Post","id":"Postingan Baru"}',
                 'content' => '{"en":"<h5>This is Content</h5>","id":"<h5>Ini Kontent</h5>"}',
                 'slug' => 'new-post',
+                'created_at' => date("Y-m-d H:i:s"),
             ]
         ]);
     }

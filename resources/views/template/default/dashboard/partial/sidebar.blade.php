@@ -46,8 +46,8 @@
             <ul class="collapse list-unstyled mx-5 mt-3" id="blog-dropdown-menu">
                 @can('post-index')
                 <li class="sub-list font-sm">
-                    <a href="#">
-                        <span><i class="fa-solid fa-circle-dot me-3"></i>Post</span>
+                    <a href="{{route('post.index')}}">
+                        <span><i class="fa-solid fa-circle-dot me-3"></i>{{$posts}}</span>
                     </a>
                 </li>
                 @endcan

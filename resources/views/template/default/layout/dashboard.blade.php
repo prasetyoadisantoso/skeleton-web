@@ -26,6 +26,13 @@
     <!-- DataTable CSS -->
     <link rel="stylesheet" href="{{asset('template/default/assets/datatables/datatables.min.css')}}">
 
+    <!-- Summernote -->
+    <link rel="stylesheet" href="{{asset('template/default/assets/summernote/summernote-bs4.min.css')}}">
+
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{asset('template/default/assets/select2/dist/css/select2.min.css')}}">
+    <link rel="stylesheet" href="{{asset('template/default/assets/select2/theme/bs5/select2-bootstrap-5-theme.min.css')}}">
+
 </head>
 
 <body>
@@ -42,6 +49,8 @@
     <script src="{{asset('template/default/assets/js/jquery-3.6.1.min.js')}}"></script>
     <script src="{{asset('template/default/assets/jquery-validate/jquery.validate.min.js')}}"></script>
     <script src="{{asset('template/default/assets/jquery-validate/additional-methods.min.js')}}"></script>
+    <script src="{{asset('template/default/assets/summernote/summernote-bs4.min.js')}}"></script>
+    <script src="{{asset('template/default/assets/select2/dist/js/select2.full.min.js')}}"></script>
     <script src="{{asset('template/default/assets/js/dashboard.js')}}"></script>
     <script src="{{asset('template/default/assets/datatables/datatables.min.js')}}"></script>
 

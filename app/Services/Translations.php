@@ -34,6 +34,9 @@ class Translations {
         // Main Dashboard
         $this->main = __('main');
 
+        // Post Dashboard
+        $this->post = __('post');
+
         // Category Dashboard
         $this->category = __('category');
 

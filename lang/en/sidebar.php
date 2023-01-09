@@ -6,7 +6,7 @@ return [
 
     // Blog
     'blog' => 'Blog',
-    'post' => 'Post',
+    'posts' => 'Post',
     'categories' => 'Category',
     'tags' => 'Tag',
 

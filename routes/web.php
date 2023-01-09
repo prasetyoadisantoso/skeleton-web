@@ -10,6 +10,7 @@ use App\Http\Controllers\Dashboard\MainController;
 use App\Http\Controllers\Dashboard\MaintenanceController;
 use App\Http\Controllers\Dashboard\MetaController;
 use App\Http\Controllers\Dashboard\PermissionController;
+use App\Http\Controllers\Dashboard\PostController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\SocialMediaController;
 use App\Http\Controllers\Dashboard\TagController;
@@ -64,6 +65,8 @@ Route::group([
         Route::get('main', [MainController::class, 'index'])->name('dashboard.main');
 
         // Blog
+        Route::resource('post', PostController::class);
+        Route::get('post_datatable', [PostController::class, 'index_dt'])->name('post.datatable');
         Route::resource('category', CategoryController::class);
         Route::get('category_datatable', [CategoryController::class, 'index_dt'])->name('category.datatable');
         Route::resource('tag', TagController::class);
