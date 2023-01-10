@@ -37,11 +37,11 @@
             <!-- Start Create Post -->
             <div class="container-fluid">
                 @if ($type == 'create')
-                <form action="{{route('post.store')}}" method="POST" id="category-store-form">
+                <form action="{{route('post.store')}}" method="POST" id="post-store-form" enctype="multipart/form-data">
                 @endif
 
                 @if ($type == 'edit')
-                <form action="{{route('category.update', $category->id)}}" method="POST" id="category-update-form">
+                <form action="{{route('post.update', $category->id)}}" method="POST" id="post-update-form" enctype="multipart/form-data">
                 @method('PUT')
                 @endif
 
@@ -56,13 +56,13 @@
                                     <div class="error-title"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="slug" class="form-label">Slug</label>
+                                    <label for="slug" class="form-label">{{$form['slug']}}</label>
                                     <input type="text" class="form-control" id="slug" name="slug"
-                                        placeholder="Insert slug...">
+                                        placeholder="{{$form['slug_placeholder']}}">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="exampleFormControlTextarea1" class="form-label">Content</label>
-                                    <textarea id="content" class="form-controll" name="content"
+                                    <label for="exampleFormControlTextarea1" class="form-label">{{$form['content']}}</label>
+                                    <textarea id="content" class="form-control" name="content"
                                         required></textarea>
                                     <div class="error-content"></div>
                                 </div>
@@ -71,44 +71,44 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <div class="mb-3">
-                                    <label for="formFileLg" class="form-label">Category</label>
+                                    <label for="formFileLg" class="form-label">{{$form['category']}}</label>
                                     <select class="form-select" aria-label="Default select example" name="category" id="category" required>
-                                        <option selected>- Select Category-</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        <option>{{$form['select_category']}}</option>
+                                        @foreach ($category_select as $category)
+                                        <option value="{{$category->id}}">{{$category->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="formFileLg" class="form-label">Tag</label>
+                                    <label for="formFileLg" class="form-label">{{$form['tag']}}</label>
                                     <select class="tag-select form-control" multiple="multiple" style="width: 100%">
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        @foreach ($tag_select as $tag)
+                                        <option value="{{$tag->id}}">{{$tag->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <hr class="my-5">
                                 <div class="mb-3">
-                                    <label for="formFileLg" class="form-label">SEO Meta</label>
+                                    <label for="formFileLg" class="form-label">{{$form['meta']}}</label>
                                     <select class="form-select" aria-label="Default select example">
-                                        <option selected>- Select Meta -</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        <option>{{$form['select_meta']}}</option>
+                                        @foreach ($meta_select as $meta)
+                                        <option value="{{$meta->id}}">{{$meta->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="formFileLg" class="form-label">SEO Canonical</label>
+                                    <label for="formFileLg" class="form-label">{{$form['canonical']}}</label>
                                     <select class="form-select" aria-label="Default select example">
-                                        <option selected>- Select Canonical -</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        <option>{{$form['select_canonical']}}</option>
+                                        @foreach ($canonical_select as $canonical)
+                                        <option value="{{$canonical->id}}">{{$canonical->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <hr class="my-5">
                                 <div class="mb-3">
-                                    <label for="formFileLg" class="form-label">Feature Image</label>
+                                    <label for="formFileLg" class="form-label">{{$form['feature_image']}}</label>
                                     <input class="form-control" id="feature_image" name="feature_image"
                                         type="file" id="feature_image" onchange="readImage(this);">
                                     <div class="error-feature-image"></div>
@@ -121,7 +121,7 @@
                         </div>
                     </div>
                     <div class="form-check form-switch">
-                        <label class="form-check-label">Is Publish ?</label>
+                        <label class="form-check-label">{{$form['is_publish']}}</label>
                         <input class="form-check-input" type="checkbox" role="switch" name="published"
                             id="published">
                     </div>
@@ -133,7 +133,7 @@
         <div class="card-footer">
             <div class="d-flex justify-content-center">
                 <button id="post-store-submit" type="submit" class="btn btn-success w-100 w-md-25">
-                    Store<i class="fas fa-save ms-2"></i>
+                    {{$button['store']}}<i class="fas fa-save ms-2"></i>
                 </button>
             </div>
         </div>
@@ -154,20 +154,13 @@
             title: {
                 required: true
             },
-            feature_image: {
-                required: true
-            },
         },
         messages: {
             title: "<small style='color: red;'>Title is required</small>",
-            feature_image: "<small style='color: red;'>Feature image is required</small>",
         },
         errorPlacement: function (error, element) {
             if (element.attr("name")) {
                 error.appendTo(".error-title");
-            }
-            if (element.attr("name") == "feature_image") {
-                error.appendTo(".error-feature-image");
             }
         },
     });
@@ -212,9 +205,35 @@
 <script alt="summernote">
     $(document).ready(function () {
         $('#content').summernote({
-            placeholder: "Insert your post",
-            height: 550
+            placeholder: "{{$form['content_placeholder']}}",
+            height: 550,
+            callbacks: {
+                onImageUpload: function(files, editor, welEditable) {
+                    sendFile(files[0], editor, welEditable);
+                }
+            }
         });
+
+        function sendFile(file, editor, welEditable) {
+                var  data = new FormData();
+                data.append("file", file);
+                var url = '{{route("post.upload.image")}}';
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('input[name="_token"]').attr('value')
+                    },
+                    data: data,
+                    type: "POST",
+                    url: url,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(url) {
+                        alert('Success');
+                        editor.insertImage(welEditable, url);
+                    }
+                });
+            }
     });
 </script>
 
@@ -238,7 +257,7 @@
     $(document).ready(function () {
 
         $(".tag-select").select2({
-            placeholder: 'Select multiple tags',
+            placeholder: '{{$form["select_tag"]}}',
             theme: "bootstrap-5",
             width: 'resolve',
         });

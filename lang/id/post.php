@@ -39,12 +39,13 @@ return [
         'content_placeholder' => 'Masukkan konten anda disini...',
         'category' => 'Kategori :',
         'select_category' => '- Pilih Kategori -',
-        'tag' => 'Tag',
+        'tag' => 'Tag :',
         'select_tag' => 'Pilih beberapa tag',
-        'meta' => 'SEO Meta',
+        'meta' => 'SEO Meta :',
         'select_meta' => '- Pilih Meta -',
-        'canonical' => '- Pilih Canonical -',
-        'feature_image' => 'Gambar',
+        'canonical' => 'SEO Canonical :',
+        'select_canonical' => '- Pilih Canonical -',
+        'feature_image' => 'Gambar Fitur :',
         'is_publish' => 'Apakah sudah terpublikasi ?'
     ],
 

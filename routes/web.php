@@ -67,6 +67,7 @@ Route::group([
         // Blog
         Route::resource('post', PostController::class);
         Route::get('post_datatable', [PostController::class, 'index_dt'])->name('post.datatable');
+        Route::post('post_upload_image', [PostController::class, 'upload'])->name('post.upload.image');
         Route::resource('category', CategoryController::class);
         Route::get('category_datatable', [CategoryController::class, 'index_dt'])->name('category.datatable');
         Route::resource('tag', TagController::class);

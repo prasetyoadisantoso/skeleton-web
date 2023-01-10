@@ -3,23 +3,24 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Canonical;
+use App\Models\Category;
+use App\Models\Meta;
 use App\Models\Post;
-use App\Services\GlobalView;
-use App\Services\GlobalVariable;
-use App\Services\Translations;
-use Yajra\DataTables\DataTables;
-use App\Services\ResponseFormatter;
+use App\Models\Tag;
 use App\Services\FileManagement;
+use App\Services\GlobalVariable;
+use App\Services\GlobalView;
+use App\Services\ResponseFormatter;
+use App\Services\Translations;
+use App\Services\Upload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Category;
-use App\Models\Tag;
-use App\Models\Meta;
-use App\Models\Canonical;
+use Yajra\DataTables\DataTables;
 
 class PostController extends Controller
 {
-    protected $global_view, $global_variable, $translation, $dataTables, $responseFormatter, $fileManagement, $post, $category, $tag, $meta, $canonical;
+    protected $global_view, $global_variable, $translation, $dataTables, $responseFormatter, $fileManagement, $post, $category, $tag, $meta, $canonical, $upload;
 
     public function __construct(
         GlobalView $global_view,
@@ -28,6 +29,7 @@ class PostController extends Controller
         DataTables $dataTables,
         ResponseFormatter $responseFormatter,
         FileManagement $fileManagement,
+        Upload $upload,
         Post $post,
         Category $category,
         Tag $tag,
@@ -53,6 +55,7 @@ class PostController extends Controller
         $this->tag = $tag;
         $this->meta = $meta;
         $this->canonical = $canonical;
+        $this->upload = $upload;
     }
 
     protected function boot()
@@ -138,7 +141,7 @@ class PostController extends Controller
                 'category_select' => $category_select,
                 'tag_select' => $tag_select,
                 'meta_select' => $meta_select,
-                'canonical_select' => $canonical_select
+                'canonical_select' => $canonical_select,
             ]
         ));
     }
@@ -151,7 +154,25 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'content' => 'required',
+        ]);
+
+        dd($request->all());
+
+        $content = $request->content;
+
         //
+    }
+
+    public function upload(Request $request)
+    {
+        $this->validate($request, [
+            'file' => 'required'
+        ]);
+        $file = $request->file;
+        $this->upload->UploadPostImageToStorage($file);
+
     }
 
     /**

@@ -39,12 +39,13 @@ return [
         'content_placeholder' => 'Insert your content here...',
         'category' => 'Category :',
         'select_category' => '- Select Category -',
-        'tag' => 'Tag',
+        'tag' => 'Tag :',
         'select_tag' => 'Select multiple tags',
-        'meta' => 'SEO Meta',
+        'meta' => 'SEO Meta :',
         'select_meta' => '- Select Meta -',
-        'canonical' => '- Select Canonical -',
-        'feature_image' => 'Feature Image',
+        'canonical' => 'Canonical',
+        'select_canonical' => '- Select Canonical -',
+        'feature_image' => 'Feature Image :',
         'is_publish' => 'Is Publish ?'
     ],
 
