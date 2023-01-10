@@ -32,6 +32,7 @@ class PostFormRequest extends FormRequest
             case 'post.store':
                 return [
                     'title' => 'required|string|unique_translation:posts|max:20',
+                    'content' => 'required',
                     'feature_image' => 'nullable',
                     'feature_image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 ];
@@ -40,6 +41,7 @@ class PostFormRequest extends FormRequest
             case 'post.update':
                 return [
                     'title' => 'required|string|max:20',
+                    'content' => 'required',
                     'feature_image' => 'nullable',
                     'feature_image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 ];

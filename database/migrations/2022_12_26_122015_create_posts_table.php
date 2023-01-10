@@ -16,10 +16,11 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('title');
-            $table->string('feature_image');
+            $table->string('feature_image')->nullable();
             $table->string('slug');
             $table->longText('content');
             $table->timestamps();
+            $table->timestamp('published_at')->nullable();
         });
     }
 

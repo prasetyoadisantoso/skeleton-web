@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PostFormRequest;
 use App\Models\Canonical;
 use App\Models\Category;
 use App\Models\Meta;
@@ -17,6 +18,8 @@ use App\Services\Upload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -36,7 +39,7 @@ class PostController extends Controller
         Meta $meta,
         Canonical $canonical,
     ) {
-        $this->middleware(['auth', 'verified', 'xss']);
+        $this->middleware(['auth', 'verified']);
         $this->middleware(['permission:blog-sidebar']);
         $this->middleware(['permission:post-index'])->only(['index', 'index_dt']);
         $this->middleware(['permission:post-create'])->only('create');
@@ -152,17 +155,42 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostFormRequest $request)
     {
-        $this->validate($request, [
-            'content' => 'required',
-        ]);
+        // Error Validation Message to Activity Log
+        if (isset($request->validator) && $request->validator->fails()) {
+            activity()->causedBy(Auth::user())->performedOn(new Post)->log($request->validator->messages());
+        }
 
-        dd($request->all());
+        $request->validated();
+        $post_data = $request->only(['title', 'slug', 'content', 'category', 'tag', 'meta', 'canonical', 'feature_image', 'published']);
 
-        $content = $request->content;
+        if ($request->file('feature_image')) {
+            $feature_image = $this->upload->UploadFeatureImageToStorage($post_data['feature_image']);
+            $post_data['feature_image'] = $feature_image;
+        }
 
-        //
+        DB::beginTransaction();
+        try {
+
+            $post = $this->post->StorePost($post_data);
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollback();
+            $message = $th->getMessage();
+            if (str_contains($th->getMessage(), 'Duplicate entry')) {
+                $message = 'Duplicate entry';
+            }
+            activity()->causedBy(Auth::user())->performedOn(new Post)->log($message);
+            return redirect()->route('post.create')->with([
+                'error' => 'error',
+                "title" => $this->translation->notification['error'],
+                "content" => $message,
+            ]);
+        }
+
+        // dd($request->only(['title', 'slug', 'content', 'category', 'tag', 'meta', 'canonical']));
     }
 
     public function upload(Request $request)
@@ -171,8 +199,8 @@ class PostController extends Controller
             'file' => 'required'
         ]);
         $file = $request->file;
-        $this->upload->UploadPostImageToStorage($file);
-
+        $image = $this->upload->UploadPostImageToStorage($file);
+        return Storage::url($image);
     }
 
     /**

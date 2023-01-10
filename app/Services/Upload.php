@@ -70,7 +70,7 @@ class Upload
         // Processing Image & Upload
         $get_extension = $filename->getClientOriginalExtension();
         $names = Str::random(15).'.'.$get_extension;
-        $imagePath = 'assets/Image/Feature';
+        $imagePath = 'assets/Image/Post/Feature';
         $image_raw = Storage::putFileAs('public/'.$imagePath, $filename, $names);
 
         // Compress With Intervention
@@ -89,7 +89,7 @@ class Upload
         // Processing Image & Upload
         $get_extension = $filename->getClientOriginalExtension();
         $names = Str::random(15).'.'.$get_extension;
-        $imagePath = 'assets/Image/Content';
+        $imagePath = 'assets/Image/Post/Content';
         $image_raw = Storage::putFileAs('public/'.$imagePath, $filename, $names);
 
         // Compress With Intervention

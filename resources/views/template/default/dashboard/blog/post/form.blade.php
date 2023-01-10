@@ -72,8 +72,8 @@
                             <div class="form-group">
                                 <div class="mb-3">
                                     <label for="formFileLg" class="form-label">{{$form['category']}}</label>
-                                    <select class="form-select" aria-label="Default select example" name="category" id="category" required>
-                                        <option>{{$form['select_category']}}</option>
+                                    <select class="form-select" aria-label="Default select example" name="category" id="category">
+                                        <option value="">{{$form['select_category']}}</option>
                                         @foreach ($category_select as $category)
                                         <option value="{{$category->id}}">{{$category->name}}</option>
                                         @endforeach
@@ -81,7 +81,8 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="formFileLg" class="form-label">{{$form['tag']}}</label>
-                                    <select class="tag-select form-control" multiple="multiple" style="width: 100%">
+                                    <select class="tag-select form-control" multiple="multiple" name="tag[]" style="width: 100%">
+                                        <option value="" id="thanks"></option>
                                         @foreach ($tag_select as $tag)
                                         <option value="{{$tag->id}}">{{$tag->name}}</option>
                                         @endforeach
@@ -90,8 +91,8 @@
                                 <hr class="my-5">
                                 <div class="mb-3">
                                     <label for="formFileLg" class="form-label">{{$form['meta']}}</label>
-                                    <select class="form-select" aria-label="Default select example">
-                                        <option>{{$form['select_meta']}}</option>
+                                    <select class="form-select" aria-label="Default select example" name="meta">
+                                        <option value="">{{$form['select_meta']}}</option>
                                         @foreach ($meta_select as $meta)
                                         <option value="{{$meta->id}}">{{$meta->name}}</option>
                                         @endforeach
@@ -99,8 +100,8 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="formFileLg" class="form-label">{{$form['canonical']}}</label>
-                                    <select class="form-select" aria-label="Default select example">
-                                        <option>{{$form['select_canonical']}}</option>
+                                    <select class="form-select" aria-label="Default select example" name="canonical">
+                                        <option value="">{{$form['select_canonical']}}</option>
                                         @foreach ($canonical_select as $canonical)
                                         <option value="{{$canonical->id}}">{{$canonical->name}}</option>
                                         @endforeach
@@ -159,7 +160,7 @@
             title: "<small style='color: red;'>Title is required</small>",
         },
         errorPlacement: function (error, element) {
-            if (element.attr("name")) {
+            if (element.attr("name") == "title") {
                 error.appendTo(".error-title");
             }
         },
@@ -210,6 +211,9 @@
             callbacks: {
                 onImageUpload: function(files, editor, welEditable) {
                     sendFile(files[0], editor, welEditable);
+                },
+                onChange: function(contents, $editable) {
+                    $('#content').val(contents).code();
                 }
             }
         });
@@ -230,7 +234,8 @@
                     processData: false,
                     success: function(url) {
                         alert('Success');
-                        editor.insertImage(welEditable, url);
+                        var image = $('<img>').attr('src', url);
+                        $('#content').summernote("insertNode", image[0]);
                     }
                 });
             }
