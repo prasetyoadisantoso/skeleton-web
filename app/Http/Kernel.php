@@ -79,6 +79,7 @@ class Kernel extends HttpKernel
 
         // XSS Protection
         'xss' => \ProtoneMedia\LaravelXssProtection\Middleware\XssCleanInput::class,
+        'xss-sanitize' => \App\Http\Middleware\XssSanitize::class,
 
     ];
 }

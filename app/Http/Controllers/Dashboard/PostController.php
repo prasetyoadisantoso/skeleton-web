@@ -40,6 +40,8 @@ class PostController extends Controller
         Canonical $canonical,
     ) {
         $this->middleware(['auth', 'verified']);
+        $this->middleware(['xss'])->except(['store']);
+        $this->middleware(['xss-sanitize'])->only(['store']);
         $this->middleware(['permission:blog-sidebar']);
         $this->middleware(['permission:post-index'])->only(['index', 'index_dt']);
         $this->middleware(['permission:post-create'])->only('create');
@@ -59,6 +61,7 @@ class PostController extends Controller
         $this->meta = $meta;
         $this->canonical = $canonical;
         $this->upload = $upload;
+
     }
 
     protected function boot()
@@ -157,6 +160,7 @@ class PostController extends Controller
      */
     public function store(PostFormRequest $request)
     {
+
         // Error Validation Message to Activity Log
         if (isset($request->validator) && $request->validator->fails()) {
             activity()->causedBy(Auth::user())->performedOn(new Post)->log($request->validator->messages());
@@ -173,9 +177,15 @@ class PostController extends Controller
         DB::beginTransaction();
         try {
 
-            $post = $this->post->StorePost($post_data);
+            $this->post->StorePost($post_data);
 
             DB::commit();
+
+            return redirect()->route('post.index')->with([
+                'success' => 'success',
+                'title' => $this->translation->notification['success'],
+                'content' => $this->translation->post['messages']['store_success'],
+            ]);
         } catch (\Throwable $th) {
             DB::rollback();
             $message = $th->getMessage();
@@ -189,8 +199,6 @@ class PostController extends Controller
                 "content" => $message,
             ]);
         }
-
-        // dd($request->only(['title', 'slug', 'content', 'category', 'tag', 'meta', 'canonical']));
     }
 
     public function upload(Request $request)
