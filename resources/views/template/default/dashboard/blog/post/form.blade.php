@@ -41,7 +41,7 @@
                 @endif
 
                 @if ($type == 'edit')
-                <form action="{{route('post.update', $category->id)}}" method="POST" id="post-update-form" enctype="multipart/form-data">
+                <form action="{{route('post.update', $post->id)}}" method="POST" id="post-update-form" enctype="multipart/form-data">
                 @method('PUT')
                 @endif
 
@@ -52,13 +52,13 @@
                                 <div class="mb-3">
                                     <label for="inputTitle" class="form-label">{{$form['title']}}</label>
                                     <input name="title" type="text" class="form-control" id="title"
-                                        placeholder="{{$form['title_placeholder']}}" value="" required>
+                                        placeholder="{{$form['title_placeholder']}}" value="{{$type == 'edit' ? $post->title : ''}}" required>
                                     <div class="error-title"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="slug" class="form-label">{{$form['slug']}}</label>
                                     <input type="text" class="form-control" id="slug" name="slug"
-                                        placeholder="{{$form['slug_placeholder']}}">
+                                        placeholder="{{$form['slug_placeholder']}}" value="{{$type == 'edit' ? $post->slug : ''}}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleFormControlTextarea1" class="form-label">{{$form['content']}}</label>
@@ -206,7 +206,6 @@
 <script alt="summernote">
     $(document).ready(function () {
         $('#content').summernote({
-            placeholder: "{{$form['content_placeholder']}}",
             height: 550,
             callbacks: {
                 onImageUpload: function(files, editor, welEditable) {

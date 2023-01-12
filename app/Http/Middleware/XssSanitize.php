@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class XssSanitize
 {
@@ -17,7 +18,14 @@ class XssSanitize
     public function handle(Request $request, Closure $next)
     {
         $input = $request->all();
-        $input['title'] = strip_tags($input['title']);
+
+        $route = Route::currentRouteName();
+
+        // Post Route
+        if ($route == "post.store") {
+            $input['title'] = strip_tags($input['title']);
+        }
+
         $request->merge($input);
         return $next($request);
     }

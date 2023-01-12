@@ -40,8 +40,8 @@ class PostController extends Controller
         Canonical $canonical,
     ) {
         $this->middleware(['auth', 'verified']);
-        $this->middleware(['xss'])->except(['store']);
-        $this->middleware(['xss-sanitize'])->only(['store']);
+        $this->middleware(['xss'])->except(['store', 'update']);
+        $this->middleware(['xss-sanitize'])->only(['store', 'update']);
         $this->middleware(['permission:blog-sidebar']);
         $this->middleware(['permission:post-index'])->only(['index', 'index_dt']);
         $this->middleware(['permission:post-create'])->only('create');
@@ -230,7 +230,37 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $this->boot();
+        $post = $this->post->GetUserById($id);
+        $category = $post->categories()->get();
+        $tag = $post->tags()->get();
+        $meta = $post->metas()->get();
+        $canonical = $post->canonicals()->get();
+
+        $category_select = $this->category->query()->get();
+        $tag_select = $this->tag->query()->get();
+        $meta_select = $this->meta->query()->get();
+        $canonical_select = $this->canonical->query()->get();
+
+
+        // dd([$post, $category, $tag, $meta, $canonical]);
+
+        return view('template.default.dashboard.blog.post.form', array_merge(
+            $this->global_variable->PageType('edit'),
+            [
+                'post' => $post,
+                'category' => $category,
+                'tag' => $tag,
+                'meta' => $meta,
+                'canonical' => $canonical,
+
+                'category_select' => $category_select,
+                'tag_select' => $tag_select,
+                'meta_select' => $meta_select,
+                'canonical_select' => $canonical_select,
+            ]
+        ));
+
     }
 
     /**

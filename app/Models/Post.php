@@ -69,6 +69,12 @@ class Post extends Model
         return $this->belongsToMany(Tag::class, 'tag_post');
     }
 
+    // CRUD Post\
+    public function GetUserById($id = null)
+    {
+        return $this->query()->find($id);
+    }
+
     public function StorePost($data = null)
     {
 
