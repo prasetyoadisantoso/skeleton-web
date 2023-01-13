@@ -100,8 +100,8 @@
 
                                         @if ($type == 'edit')
                                             <option value="" id="thanks"></option>
-                                            @foreach ($tag_select as $item)
-                                            <option value="{{$item->id}}" {{isset($tag->name) && $tag->name == $item->name ? "selected" : ""}}>{{$item->name}}</option>
+                                            @foreach ($tag_select->makeVisible('id') as $value)
+                                                <option value="{{$value->id}}" {{isset($value->id) && in_array($value->id, $tag_selection) == $value->id ? "selected" : ""}}>{{$value->name}}</option>
                                             @endforeach
                                         @endif
                                     </select>
@@ -263,7 +263,7 @@
                     sendFile(files[0], editor, welEditable);
                 },
                 onChange: function(contents, $editable) {
-                    $('#content').val(contents).code();
+                    $('#content').val(contents);
                 }
             }
         });

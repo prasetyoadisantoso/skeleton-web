@@ -49,6 +49,18 @@ return [
         'is_publish' => 'Is Publish ?'
     ],
 
+    'detail' => [
+        'title' => 'Title :',
+        'feature_image' => 'Feature Image : ',
+        'slug' => 'Slug :',
+        'content' => 'Content :',
+        'category' => 'Category',
+        'tags' => 'Tags',
+        'meta' => 'SEO Meta',
+        'canonical' => 'SEO Canonical',
+        'is_published' => 'Is Published?',
+    ],
+
     'messages' => [
         'store_success' => 'Post stored successfully',
         'store_failed' => 'Post failed to store',
@@ -57,6 +69,7 @@ return [
         'ask_delete' => 'Do you want to delete this Post?',
         'delete_success' => 'Post deleted successfully',
         'delete_failed' => 'Post failed to delete',
+        'image_not_available' => 'Image not available',
     ],
 
     'validation' => [

@@ -58,6 +58,59 @@
 </div>
 <!-- End Home -->
 
+<!-- Start Modal -->
+<div class="modal fade" id="modal-detail-post">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body w-100">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <div class="mb-3">
+                                <label for="" class="fw-bold form-label">{{$detail['title']}}</label>
+                                <div id="post-title" class="fw-bold" style="font-size: 30px;"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="fw-bold form-label">{{$detail['content']}}</label>
+                                <div id="post-content"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="mb-3">
+                                <label for="" class="fw-bold form-label">{{$detail['category']}}</label><br>
+                                <div id="post-category"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="fw-bold form-label">{{$detail['tags']}}</label>
+                                <div id="post-tag"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="fw-bold form-label">{{$detail['meta']}}</label>
+                                <div id="post-meta"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="fw-bold form-label">{{$detail['canonical']}}</label>
+                                <div id="post-canonical"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="fw-bold form-label">{{$detail['feature_image']}}</label>
+                                <div id="post-feature-image"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal -->
+
 @endsection
 
 @push('post-home-js')
@@ -86,6 +139,9 @@
             {
                 data: 'action',  width: '25%', name: 'action', orderable: false, searchable: false, render: function (data, type, full, meta) {
                     var id = data;
+                    // Show
+                    var show = "{{route('post.show', ':id')}}";
+                    show = show.replace(':id', id);
                     // Edit
                     var edit = "{{route('post.edit', ':id')}}";
                     edit = edit.replace(':id', id);
@@ -93,6 +149,8 @@
                     var destroy = "{{route('post.destroy', ':id')}}";
                     destroy = destroy.replace(':id', id);
                     return "" +
+                    // Show Button
+                    '@can ("post-show")<button href="' + show + '" class="btn btn-secondary my-1 w-100" id="modal-post"><i class="fas fa-eye me-2"></i>{{$button["show"]}}</button>@endcan' +
                     // Edit Button
                     '<a href="' + edit + '" class="btn btn-primary my-1 w-100"><i class="fas fa-pen-square me-2"></i>{{$button["edit"]}}</a>' +
                     // Destroy Button
@@ -113,7 +171,7 @@
     });
 </script>
 
-<script alt="tag-delete">
+<script alt="post-delete">
     $(document).on('click', '#destroy', function (e) {
         e.preventDefault();
         var url = $(this).attr('href');
@@ -130,11 +188,12 @@
             buttonsStyling: false,
             reverseButtons: false,
         }).then(function (e) {
+            var CSRF_TOKEN = "{{csrf_token()}}";
             if (e.value === true) {
                 $.ajax({
                     type: 'DELETE',
                     url: url,
-                    data: { _token: "{{csrf_token()}}" },
+                    data: { _token: CSRF_TOKEN },
                     dataType: 'JSON',
                     success: function (results) {
                         if (results.status === 'success') {
@@ -167,5 +226,35 @@
         }, function (dismiss) {
         })
     })
+</script>
+
+<script type="text/javascript">
+    $(document).on('click', '#modal-post', function () {
+        var link = $(this).attr('href');
+        $.ajax({
+            type: 'GET',
+            url: link,
+            cache: false,
+            success: function (result) {
+                let tags = '';
+                $("#modal-detail-post").modal('show');
+                console.log(result)
+                $('#post-title').html(result.data['post'].title.{{LaravelLocalization::getCurrentLocale()}});
+                $('#post-content').html(result.data['post'].content.{{LaravelLocalization::getCurrentLocale()}});
+                $('#post-category').html(result.data['category'].name.{{LaravelLocalization::getCurrentLocale()}});
+                result.data['tag'].forEach((item) => {
+                    tags += item.name.{{LaravelLocalization::getCurrentLocale()}} + ", ";
+                });
+                $('#post-tag').html(tags);
+                $('#post-meta').html(result.data['meta'].name);
+                $('#post-canonical').html(result.data['canonical'].name);
+                if ( result.data['post'].feature_image !== null) {
+                    $('#post-feature-image').html("<img src='/storage/" + result.data['post'].feature_image + "' class='img-fluid w-50'>");
+                } else {
+                    $('#post-feature-image').html("{{$messages['image_not_available']}}");
+                }
+            }
+        });
+    });
 </script>
 @endpush

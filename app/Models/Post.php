@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Spatie\Translatable\HasTranslations;
 use Webpatser\Uuid\Uuid;
+use Illuminate\Support\Facades\Storage;
 
 class Post extends Model
 {
@@ -36,6 +37,8 @@ class Post extends Model
     protected $hidden = [
         'id',
     ];
+
+    protected $dates = ['published_at'];
 
     public static function boot()
     {
@@ -77,7 +80,6 @@ class Post extends Model
 
     public function StorePost($data = null)
     {
-
         if (array_key_exists('published', $data)) {
             if ($data['published'] == "on") {
                 $data['published'] = date('Y-m-d H:i:s');;
@@ -127,19 +129,14 @@ class Post extends Model
 
     public function UpdatePost($data = null, $id = null)
     {
-
         if (array_key_exists('published', $data)) {
             if ($data['published'] == "on") {
-                $data['published'] = date('Y-m-d H:i:s');;
+                $data['published_at'] = date('Y-m-d H:i:s');
             } else {
-                $data['published'] = null;
+                $data['published_at'] = null;
             }
         } else {
-            $data['published'] = null;
-        }
-
-        if (!isset($data['feature_image'])) {
-            $data['feature_image'] = null;
+            $data['published_at'] = null;
         }
 
         if ($data['slug'] == null || $data['slug'] == '') {
@@ -160,8 +157,9 @@ class Post extends Model
         }
 
         if (array_key_exists('tag', $data)) {
-            $current_post->tags()->detach($current_post->id);
             $current_post->tags()->sync($data['tag']);
+        } else {
+            $current_post->tags()->detach();
         }
 
         if ($data['meta'] != null || $data['meta'] != '') {
@@ -175,6 +173,20 @@ class Post extends Model
         $current_post->update($data);
 
         return $current_post;
+    }
+
+    public function DeletePost($id)
+    {
+        $delete_post = $this->GetPostByID($id);
+        $delete_post->tags()->detach();
+        $delete_post->categories()->detach();
+        $delete_post->metas()->detach();
+        $delete_post->canonicals()->detach();
+
+        // Delete image file
+        Storage::delete('/public' . '/' . $delete_post->image);
+
+        return $this->find($delete_post->id)->forceDelete();
     }
 
 

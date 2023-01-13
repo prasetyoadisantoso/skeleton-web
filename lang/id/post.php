@@ -49,6 +49,18 @@ return [
         'is_publish' => 'Apakah sudah terpublikasi ?'
     ],
 
+    'detail' => [
+        'title' => 'Judul :',
+        'feature_image' => 'Gambar Fitur : ',
+        'slug' => 'Slug :',
+        'content' => 'Konten :',
+        'category' => 'Kategori',
+        'tags' => 'Tag',
+        'meta' => 'SEO Meta',
+        'canonical' => 'SEO Canonical',
+        'is_published' => 'Apakah sudah terpublikasi?',
+    ],
+
     'messages' => [
         'store_success' => 'Sukses menyimpan post',
         'store_failed' => 'Gagal menyimpan pos',
@@ -57,6 +69,7 @@ return [
         'ask_delete' => 'Apakah yakin menghapus post ini?',
         'delete_success' => 'Sukses menghapus post',
         'delete_failed' => 'Gagal menghapus post',
+        'image_not_available' => 'Gambar tidak tersedia',
     ],
 
     'validation' => [

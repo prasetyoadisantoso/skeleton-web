@@ -120,7 +120,14 @@ class PostController extends Controller
                 return Storage::url($post->feature_image);
             })
             ->addColumn('publish', function ($post) {
-                return $post->created_at->format('M d, Y');
+                if($post->published_at == null || $post->published_at == '' || $post->published_at == 'null'){
+                    return "";
+                }
+
+                if($post->published_at != null) {
+                    return $post->published_at->format('M d, Y');
+                }
+
             })
             ->addColumn('action', function ($post) {
                 return $post->id;
@@ -219,7 +226,39 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = $this->post->GetPostById($id);
+        $category = $post->categories()->first();
+        $tag = $post->tags()->get();
+        $meta = $post->metas()->first();
+        $canonical = $post->canonicals()->first();
+
+        $category_select = $this->category->query()->get();
+        $tag_select = $this->tag->query()->get();
+        $meta_select = $this->meta->query()->get();
+        $canonical_select = $this->canonical->query()->get();
+
+        foreach ($tag as $value) {
+            $tag_selection[] = $value->id;
+        }
+
+        if(!isset($tag_selection)){
+            $tag_selection = [];
+        }
+
+        return $this->responseFormatter->successResponse([
+                'post' => $post,
+                'content' => $post->content,
+                'category' => $category,
+                'tag' => $tag,
+                'meta' => $meta,
+                'canonical' => $canonical,
+
+                'category_select' => $category_select,
+                'tag_select' => $tag_select,
+                'tag_selection' => $tag_selection,
+                'meta_select' => $meta_select,
+                'canonical_select' => $canonical_select,
+        ]);
     }
 
     /**
@@ -233,7 +272,7 @@ class PostController extends Controller
         $this->boot();
         $post = $this->post->GetPostById($id);
         $category = $post->categories()->first();
-        $tag = $post->tags()->first();
+        $tag = $post->tags()->get();
         $meta = $post->metas()->first();
         $canonical = $post->canonicals()->first();
 
@@ -242,20 +281,26 @@ class PostController extends Controller
         $meta_select = $this->meta->query()->get();
         $canonical_select = $this->canonical->query()->get();
 
+        foreach ($tag as $value) {
+            $tag_selection[] = $value->id;
+        }
 
-        // dd([$post, $category, $tag, $meta, $canonical]);
+        if(!isset($tag_selection)){
+            $tag_selection = [];
+        }
 
         return view('template.default.dashboard.blog.post.form', array_merge(
             $this->global_variable->PageType('edit'),
             [
                 'post' => $post,
                 'category' => $category,
-                'tag' => $tag,
+                'tag' => $tag->unique(),
                 'meta' => $meta,
                 'canonical' => $canonical,
 
                 'category_select' => $category_select,
                 'tag_select' => $tag_select,
+                'tag_selection' => $tag_selection,
                 'meta_select' => $meta_select,
                 'canonical_select' => $canonical_select,
             ]
@@ -280,14 +325,14 @@ class PostController extends Controller
             activity()->causedBy(Auth::user())->performedOn(new Post)->log($request->validator->messages());
         }
 
-        if ($request->file('feature_image')) {
-            $feature_image = $this->upload->UploadFeatureImageToStorage($post_data['feature_image']);
-            $post_data['feature_image'] = $feature_image;
-        }
-
         DB::beginTransaction();
 
         try {
+            if ($request->file('feature_image')) {
+                $feature_image = $this->upload->UploadFeatureImageToStorage($post_data['feature_image']);
+                $post_data['feature_image'] = $feature_image;
+            }
+
             $this->post->UpdatePost($post_data, $id);
             DB::commit();
             return redirect()->route('post.index')->with([
@@ -318,6 +363,31 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $delete = $this->post->DeletePost($id);
+            DB::commit();
+
+            // check data deleted or not
+            if ($delete == true) {
+                $status = 'success';
+            } else {
+                $status = 'error';
+            }
+
+            activity()->causedBy(Auth::user())->performedOn(new Post)->log($this->translation->post['messages']['delete_success']);
+
+            //  Return response
+            return response()->json(['status' => $status]);
+        } catch (\Throwable$th) {
+            DB::rollback();
+            $message = $th->getMessage();
+            activity()->causedBy(Auth::user())->performedOn(new Post)->log($message);
+            return redirect()->back()->with([
+                'error' => 'error',
+                "title" => $this->translation->notification['error'],
+                "content" => $message,
+            ]);
+        }
     }
 }
