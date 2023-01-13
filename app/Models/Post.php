@@ -70,7 +70,7 @@ class Post extends Model
     }
 
     // CRUD Post\
-    public function GetUserById($id = null)
+    public function GetPostById($id = null)
     {
         return $this->query()->find($id);
     }
@@ -125,23 +125,57 @@ class Post extends Model
         return $post;
     }
 
-    public function StoreCategory(Type $var = null)
+    public function UpdatePost($data = null, $id = null)
     {
-        # code...
+
+        if (array_key_exists('published', $data)) {
+            if ($data['published'] == "on") {
+                $data['published'] = date('Y-m-d H:i:s');;
+            } else {
+                $data['published'] = null;
+            }
+        } else {
+            $data['published'] = null;
+        }
+
+        if (!isset($data['feature_image'])) {
+            $data['feature_image'] = null;
+        }
+
+        if ($data['slug'] == null || $data['slug'] == '') {
+            $data['slug'] = Str::slug($data['title']);
+        } else {
+            $data['slug'] = Str::slug($data['slug']);
+        }
+
+        $current_post = $this->GetPostById($id);
+
+        if (isset($feature['feature_image'])) {
+            // Delete image file
+            Storage::delete('/public' . '/' . $current_post->feature_image);
+        }
+
+        if ($data['category'] != null || $data['category'] != '') {
+            $current_post->categories()->sync($data['category']);
+        }
+
+        if (array_key_exists('tag', $data)) {
+            $current_post->tags()->detach($current_post->id);
+            $current_post->tags()->sync($data['tag']);
+        }
+
+        if ($data['meta'] != null || $data['meta'] != '') {
+            $current_post->metas()->sync($data['meta']);
+        }
+
+        if ($data['canonical'] != null || $data['canonical'] != '') {
+            $current_post->canonicals()->sync($data['canonical']);
+        }
+
+        $current_post->update($data);
+
+        return $current_post;
     }
 
-    public function StoreTag(Type $var = null)
-    {
-        # code...
-    }
 
-    public function StoreMeta(Type $var = null)
-    {
-        # code...
-    }
-
-    public function StoreCanonical(Type $var = null)
-    {
-        # code...
-    }
 }

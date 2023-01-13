@@ -23,8 +23,8 @@ class CanonicalSeeder extends Seeder
             ],
             [
                 'id' => '252a4bee-48f4-4977-8806-52db10cdbc7f',
-                'name' => 'Blog',
-                'url' => 'https://example.com/product',
+                'name' => 'No Follow',
+                'url' => 'https://example.com/nofollow',
             ],
         ]);
 

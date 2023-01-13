@@ -231,11 +231,11 @@ class PostController extends Controller
     public function edit($id)
     {
         $this->boot();
-        $post = $this->post->GetUserById($id);
-        $category = $post->categories()->get();
-        $tag = $post->tags()->get();
-        $meta = $post->metas()->get();
-        $canonical = $post->canonicals()->get();
+        $post = $this->post->GetPostById($id);
+        $category = $post->categories()->first();
+        $tag = $post->tags()->first();
+        $meta = $post->metas()->first();
+        $canonical = $post->canonicals()->first();
 
         $category_select = $this->category->query()->get();
         $tag_select = $this->tag->query()->get();
@@ -270,9 +270,44 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PostFormRequest $request, $id)
     {
-        //
+        $request->validated();
+        $post_data = $request->only(['title', 'slug', 'content', 'category', 'tag', 'meta', 'canonical', 'feature_image', 'published']);
+
+        // Error Validation Message to Activity Log
+        if (isset($request->validator) && $request->validator->fails()) {
+            activity()->causedBy(Auth::user())->performedOn(new Post)->log($request->validator->messages());
+        }
+
+        if ($request->file('feature_image')) {
+            $feature_image = $this->upload->UploadFeatureImageToStorage($post_data['feature_image']);
+            $post_data['feature_image'] = $feature_image;
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $this->post->UpdatePost($post_data, $id);
+            DB::commit();
+            return redirect()->route('post.index')->with([
+                'success' => 'success',
+                'title' => $this->translation->notification['success'],
+                'content' => $this->translation->post['messages']['update_success'],
+            ]);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $message = $th->getMessage();
+            if (str_contains($th->getMessage(), 'Duplicate entry')) {
+                $message = 'Duplicate entry';
+            }
+            activity()->causedBy(Auth::user())->performedOn(new Post)->log($message);
+            return redirect()->back()->with([
+                'error' => 'error',
+                "title" => $this->translation->notification['error'],
+                "content" => $message,
+            ]);
+        }
     }
 
     /**

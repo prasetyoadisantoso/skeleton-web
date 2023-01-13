@@ -19,7 +19,7 @@ class PostCanonicalSeeder extends Seeder
         DB::table('canonical_post')->insert([
             [
                 'post_id' => '7b72ae68-4785-4844-868e-7fc0c0517b8c',
-                'canonical_id' => '252a4bee-48f4-4977-8806-52db10cdbc7f',
+                'canonical_id' => '37039e16-12bf-435f-938f-24c6b167d16b',
             ]
         ]);
     }
