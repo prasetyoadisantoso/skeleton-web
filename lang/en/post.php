@@ -54,11 +54,14 @@ return [
         'feature_image' => 'Feature Image : ',
         'slug' => 'Slug :',
         'content' => 'Content :',
-        'category' => 'Category',
-        'tags' => 'Tags',
-        'meta' => 'SEO Meta',
-        'canonical' => 'SEO Canonical',
+        'category' => 'Category :',
+        'tags' => 'Tags :',
+        'meta' => 'SEO Meta :',
+        'canonical' => 'SEO Canonical :',
+        'author' => 'Author :',
         'is_published' => 'Is Published?',
+        'yes' => 'Yes',
+        'no' => 'No',
     ],
 
     'messages' => [

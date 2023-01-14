@@ -102,6 +102,14 @@
                                 <label for="" class="fw-bold form-label">{{$detail['feature_image']}}</label>
                                 <div id="post-feature-image"></div>
                             </div>
+                            <div class="mb-3">
+                                <label for="" class="fw-bold form-label">{{$detail['author']}}</label>
+                                <div id="post-author"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="fw-bold form-label">{{$detail['is_published']}}</label>
+                                <div id="post-published"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -238,7 +246,6 @@
             success: function (result) {
                 let tags = '';
                 $("#modal-detail-post").modal('show');
-                console.log(result)
                 $('#post-title').html(result.data['post'].title.{{LaravelLocalization::getCurrentLocale()}});
                 $('#post-content').html(result.data['post'].content.{{LaravelLocalization::getCurrentLocale()}});
                 $('#post-category').html(result.data['category'].name.{{LaravelLocalization::getCurrentLocale()}});
@@ -252,6 +259,13 @@
                     $('#post-feature-image').html("<img src='/storage/" + result.data['post'].feature_image + "' class='img-fluid w-50'>");
                 } else {
                     $('#post-feature-image').html("{{$messages['image_not_available']}}");
+                }
+                $('#post-author').html(result.data['author'].name);
+                if(result.data['published'] === "Yes"){
+                    $('#post-published').html("{{$detail['yes']}}");
+                }
+                if(result.data['published'] === "No"){
+                    $('#post-published').html("{{$detail['no']}}");
                 }
             }
         });

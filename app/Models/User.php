@@ -70,6 +70,12 @@ class User extends Authenticatable implements MustVerifyEmail
         });
     }
 
+    // Get Author
+    public function author()
+    {
+        return $this->hasMany(Post::class, 'author_id');
+    }
+
     public function GetAllUser()
     {
         return $this->all();

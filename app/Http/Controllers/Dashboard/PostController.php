@@ -175,6 +175,7 @@ class PostController extends Controller
 
         $request->validated();
         $post_data = $request->only(['title', 'slug', 'content', 'category', 'tag', 'meta', 'canonical', 'feature_image', 'published']);
+        $post_data['author_id'] = Auth::user()->id;
 
         if ($request->file('feature_image')) {
             $feature_image = $this->upload->UploadFeatureImageToStorage($post_data['feature_image']);
@@ -236,6 +237,14 @@ class PostController extends Controller
         $tag_select = $this->tag->query()->get();
         $meta_select = $this->meta->query()->get();
         $canonical_select = $this->canonical->query()->get();
+        $author = $post->author()->first();
+        if($post->published_at == null || $post->published_at == '' || $post->published_at == 'null'){
+            $published = "No";
+        }
+
+        if($post->published_at != null) {
+            $published = "Yes";
+        }
 
         foreach ($tag as $value) {
             $tag_selection[] = $value->id;
@@ -258,6 +267,8 @@ class PostController extends Controller
                 'tag_selection' => $tag_selection,
                 'meta_select' => $meta_select,
                 'canonical_select' => $canonical_select,
+                'author' => $author,
+                'published' => $published,
         ]);
     }
 

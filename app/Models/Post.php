@@ -26,7 +26,8 @@ class Post extends Model
         'feature_image',
         'slug',
         'content',
-        'published_at'
+        'published_at',
+        'author_id',
     ];
 
     protected $translatable = [
@@ -72,6 +73,12 @@ class Post extends Model
         return $this->belongsToMany(Tag::class, 'tag_post');
     }
 
+    // Get Author
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'author_id');
+    }
+
     // CRUD Post\
     public function GetPostById($id = null)
     {
@@ -105,7 +112,8 @@ class Post extends Model
             'feature_image' => $data['feature_image'],
             'slug' => $data['slug'],
             'content' => $data['content'],
-            'published_at' => $data['published']
+            'published_at' => $data['published'],
+            'author_id' => $data['author_id'],
         ]);
 
         if ($data['category'] != null || $data['category'] != '') {

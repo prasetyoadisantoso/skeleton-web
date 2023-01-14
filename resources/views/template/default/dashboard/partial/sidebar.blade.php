@@ -191,7 +191,7 @@
                 @can('maintenance-index')
                 <li class="sub-list font-sm">
                     <a href="{{route('maintenance.index')}}">
-                        <span><i class="fa-solid fa-circle-dot me-3"></i>Maintenance</span>
+                        <span><i class="fa-solid fa-circle-dot me-3"></i>{{$maintenance}}</span>
                     </a>
                 </li>
                 @endcan

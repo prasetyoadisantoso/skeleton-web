@@ -19,7 +19,7 @@ return [
             'title' => 'Judul',
             'image' => 'Gambar',
             'publish' => 'Publikasi',
-            'action' => 'Action',
+            'action' => 'Aksi',
         ],
         'search' => 'Pencarian: ',
         'previous' => 'Sebelumnya',
@@ -46,7 +46,7 @@ return [
         'canonical' => 'SEO Canonical :',
         'select_canonical' => '- Pilih Canonical -',
         'feature_image' => 'Gambar Fitur :',
-        'is_publish' => 'Apakah sudah terpublikasi ?'
+        'is_publish' => 'Apakah sudah terpublikasi ?',
     ],
 
     'detail' => [
@@ -54,11 +54,14 @@ return [
         'feature_image' => 'Gambar Fitur : ',
         'slug' => 'Slug :',
         'content' => 'Konten :',
-        'category' => 'Kategori',
-        'tags' => 'Tag',
-        'meta' => 'SEO Meta',
-        'canonical' => 'SEO Canonical',
+        'category' => 'Kategori :',
+        'tags' => 'Tag :',
+        'meta' => 'SEO Meta :',
+        'canonical' => 'SEO Canonical :',
+        'author' => 'Author :',
         'is_published' => 'Apakah sudah terpublikasi?',
+        'yes' => 'Ya',
+        'no' => 'Tidak',
     ],
 
     'messages' => [

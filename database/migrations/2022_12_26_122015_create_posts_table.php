@@ -19,6 +19,13 @@ return new class extends Migration
             $table->string('feature_image')->nullable();
             $table->string('slug');
             $table->longText('content');
+            $table->uuid('author_id')->nullable();
+            $table->foreign('author_id')
+            ->constrained('author_id_user')
+            ->references('id')
+            ->on('users')
+            ->onDelete('set null')
+            ->onUpdate('cascade');
             $table->timestamps();
             $table->timestamp('published_at')->nullable();
         });

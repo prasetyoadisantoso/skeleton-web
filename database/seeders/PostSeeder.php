@@ -32,6 +32,7 @@ class PostSeeder extends Seeder
                 'slug' => 'new-post',
                 'created_at' => date("Y-m-d H:i:s"),
                 'published_at' => date("Y-m-d H:i:s"),
+                'author_id' => '4f10db02-2ff7-403a-8945-f2cc2348fa06'
             ]
         ]);
     }
