@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Authentication\AuthController;
+use App\Http\Controllers\Customer\BlogController;
 use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Customer\MainController as CustomerMainController;
 use App\Http\Controllers\Dashboard\ActivityController;
@@ -40,6 +41,9 @@ Route::group([
 
     // Home Page
     Route::get('/', [HomeController::class, 'index'])->name('site.index');
+
+    // Blog Page
+    Route::get('blog', [BlogController::class, 'index'])->name('site.blog');
 
     // Authentication
     Route::prefix('authentication')->group(function () {

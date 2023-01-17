@@ -70,7 +70,8 @@
                                             class="fi fi-gb me-3"></span>English</a></li>
                             </ul>
                         </li>
-                        <li><a href="blog.html" class="text-dark"><i class="fa-solid fa-blog me-3"></i>{{__('home.header.blog')}}</a></li>
+                        <li><a href="{{route('site.blog')}}" class="text-dark"><i
+                                    class="fa-solid fa-blog me-3"></i>{{__('home.header.blog')}}</a></li>
                         @if (Auth::user() == null)
                         <li>
                             <a class="mx-2 text-decoration-none text-dark" href="{{route('login.page')}}"><i
@@ -116,15 +117,24 @@
                 <div class="modal-body mx-5" id="menu-modal">
                     <ul class="list-group border-0">
                         @if (Auth::user() == null)
-                        <li class="list-group-item my-3 border-0"><a class="mx-2 text-decoration-none text-dark"
-                                href="{{route('login.page')}}"><i
-                                    class="fa-solid fa-right-to-bracket mx-2"></i>{{__('home.header.sign_in')}}</a>
+                        <li class="list-group-item my-3 border-0"><a href="{{route('site.blog')}}"
+                                class="text-decoration-none text-dark"><i
+                                    class="fa-solid fa-blog me-3"></i>{{__('home.header.blog')}}</a>
                         </li>
-                        <li class="list-group-item my-3 border-0"><a class="mx-2 text-decoration-none text-dark"
+                        <li class="list-group-item my-3 border-0"><a class="text-decoration-none text-dark"
+                                href="{{route('login.page')}}"><i
+                                    class="fa-solid fa-right-to-bracket me-3"></i>{{__('home.header.sign_in')}}</a>
+                        </li>
+                        <li class="list-group-item my-3 border-0"><a class="text-decoration-none text-dark"
                                 href="{{route('register.page')}}"><i
-                                    class="fa-solid fa-user-plus mx-2"></i>{{__('home.header.sign_up')}}</a>
+                                    class="fa-solid fa-user-plus me-3"></i>{{__('home.header.sign_up')}}</a>
                         </li>
                         @else
+                        {{-- Blog Menu --}}
+                        <li class="list-group-item my-3 border-0"><a href="{{route('site.blog')}}"
+                                class="text-decoration-none text-dark"><i
+                                    class="fa-solid fa-blog me-3"></i>{{__('home.header.blog')}}</a>
+                        </li>
                         @can('main-index')
                         <li class="list-group-item my-3 border-0"><a href="{{route('dashboard.main')}}"
                                 class="text-dark"><i
@@ -132,7 +142,6 @@
                         @endcan
                         <li class="list-group-item my-3 border-0"><a href="{{route('logout')}}" class="text-dark"><i
                                     class="fa-solid fa-right-from-bracket me-3"></i>{{__('home.header.logout')}}</a>
-                        </li>
                         </li>
                         @endif
                     </ul>
