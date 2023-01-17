@@ -70,24 +70,25 @@
                                             class="fi fi-gb me-3"></span>English</a></li>
                             </ul>
                         </li>
+                        <li><a href="blog.html" class="text-dark"><i class="fa-solid fa-blog me-3"></i>{{__('home.header.blog')}}</a></li>
                         @if (Auth::user() == null)
                         <li>
                             <a class="mx-2 text-decoration-none text-dark" href="{{route('login.page')}}"><i
-                                    class="fa-solid fa-right-to-bracket mx-2"></i>{{__('welcome.header.sign_in')}}</a>
+                                    class="fa-solid fa-right-to-bracket mx-2"></i>{{__('home.header.sign_in')}}</a>
                         </li>
                         <li>
                             <a class="mx-2 text-decoration-none text-dark" href="{{route('register.page')}}"><i
-                                    class="fa-solid fa-user-plus mx-2"></i>{{__('welcome.header.sign_up')}}</a>
+                                    class="fa-solid fa-user-plus mx-2"></i>{{__('home.header.sign_up')}}</a>
                         </li>
                         @else
                         @can('main-index')
                         <li>
                             <a class="mx-2 text-decoration-none text-dark" href="{{route('dashboard.main')}}"><i
-                                    class="fa-solid fa-gauge mx-2"></i>{{__('welcome.header.dashboard')}}</a>
+                                    class="fa-solid fa-gauge mx-2"></i>{{__('home.header.dashboard')}}</a>
                         </li>
                         @endcan
                         <li><a href="{{route('logout')}}" class="text-dark"><i
-                                    class="fa-solid fa-right-from-bracket me-3"></i>{{__('welcome.header.logout')}}</a>
+                                    class="fa-solid fa-right-from-bracket me-3"></i>{{__('home.header.logout')}}</a>
                         </li>
                         @endif
                     </ul>
@@ -117,20 +118,20 @@
                         @if (Auth::user() == null)
                         <li class="list-group-item my-3 border-0"><a class="mx-2 text-decoration-none text-dark"
                                 href="{{route('login.page')}}"><i
-                                    class="fa-solid fa-right-to-bracket mx-2"></i>{{__('welcome.header.sign_in')}}</a>
+                                    class="fa-solid fa-right-to-bracket mx-2"></i>{{__('home.header.sign_in')}}</a>
                         </li>
                         <li class="list-group-item my-3 border-0"><a class="mx-2 text-decoration-none text-dark"
                                 href="{{route('register.page')}}"><i
-                                    class="fa-solid fa-user-plus mx-2"></i>{{__('welcome.header.sign_up')}}</a>
+                                    class="fa-solid fa-user-plus mx-2"></i>{{__('home.header.sign_up')}}</a>
                         </li>
                         @else
                         @can('main-index')
                         <li class="list-group-item my-3 border-0"><a href="{{route('dashboard.main')}}"
                                 class="text-dark"><i
-                                    class="fa-solid fa-gauge me-3"></i>{{__('welcome.header.dashboard')}}</a></li>
+                                    class="fa-solid fa-gauge me-3"></i>{{__('home.header.dashboard')}}</a></li>
                         @endcan
                         <li class="list-group-item my-3 border-0"><a href="{{route('logout')}}" class="text-dark"><i
-                                    class="fa-solid fa-right-from-bracket me-3"></i>{{__('welcome.header.logout')}}</a>
+                                    class="fa-solid fa-right-from-bracket me-3"></i>{{__('home.header.logout')}}</a>
                         </li>
                         </li>
                         @endif
@@ -189,22 +190,22 @@
                     <div class="col-md-6">
                         <div class="container mb-5 descriptions">
                             <div class="description text-dark rounded text-center text-md-start">
-                                <h1>{{__('welcome.home.title_1')}}</h1>
-                                <h1>{{__('welcome.home.title_2')}}</h1>
-                                <h1>{{__('welcome.home.title_3')}}</h1>
+                                <h1>{{__('home.home.title_1')}}</h1>
+                                <h1>{{__('home.home.title_2')}}</h1>
+                                <h1>{{__('home.home.title_3')}}</h1>
                                 <h1><i class="fa-brands fa-laravel me-3" style="color: #F9322C;"></i>&<i
                                         class="ms-3 fa-brands fa-bootstrap" style="color: #6610F2;"></i></h1>
                             </div>
                         </div>
                         <div class="social container mt-5">
                             <div class="d-flex justify-content-start">
-                                <a href="#" class="me-4">
+                                <a href="{{$social_media[0]['url']}}" class="me-4">
                                     <i class="fa-brands fa-instagram me-3" style="font-size: 40px; color: #6C757D;"></i>
                                 </a>
-                                <a href="#" class="me-4">
+                                <a href="{{$social_media[1]['url']}}" class="me-4">
                                     <i class="fa-brands fa-gitlab me-3" style="font-size: 40px; color: #6C757D;"></i>
                                 </a>
-                                <a href="#" class="me-4">
+                                <a href="{{$social_media[2]['url']}}" class="me-4">
                                     <i class="fa-brands fa-github me-3" style="font-size: 40px; color: #6C757D;"></i>
                                 </a>
                             </div>
@@ -233,11 +234,11 @@
                             <div class="feature-1-icon crimson text-center" data-bs-toggle="collapse" href="#feature-1"
                                 role="button" aria-expanded="false" aria-controls="feature-1">
                                 <i class="fa-solid fa-gauge"></i>
-                                <h5 class="card-title mt-2">{{__('welcome.feature.feature_1.title')}}</h5>
+                                <h5 class="card-title mt-2">{{__('home.feature.feature_1.title')}}</h5>
                             </div>
                             <div class="feature-1-collapse collapse card-body" id="feature-1">
                                 <h6 class="card-subtitle mb-2 text-muted">
-                                    {!!__('welcome.feature.feature_1.description')!!}</h6>
+                                    {!!__('home.feature.feature_1.description')!!}</h6>
                             </div>
                         </div>
                     </div>
@@ -246,11 +247,11 @@
                             <div class="feature-2-icon text-center dodgerblue" data-bs-toggle="collapse"
                                 href="#feature-2" role="button" aria-expanded="false" aria-controls="feature-2">
                                 <i class="fa-solid fa-layer-group"></i>
-                                <h5 class="card-title mt-2">{{__('welcome.feature.feature_2.title')}}</h5>
+                                <h5 class="card-title mt-2">{{__('home.feature.feature_2.title')}}</h5>
                             </div>
                             <div class="feature-2-collapse collapse card-body" id="feature-2">
                                 <h6 class="card-subtitle mb-2 text-muted">
-                                    {!!__('welcome.feature.feature_2.description')!!}</h6>
+                                    {!!__('home.feature.feature_2.description')!!}</h6>
                             </div>
                         </div>
                     </div>
@@ -259,11 +260,11 @@
                             <div class="feature-3-icon seagreen crimson text-center" data-bs-toggle="collapse"
                                 href="#feature-3" role="button" aria-expanded="false" aria-controls="feature-3">
                                 <i class="fa-solid fa-shield-halved"></i>
-                                <h5 class="card-title mt-2">{{__('welcome.feature.feature_3.title')}}</h5>
+                                <h5 class="card-title mt-2">{{__('home.feature.feature_3.title')}}</h5>
                             </div>
                             <div class="feature-3-collapse collapse card-body" id="feature-3">
                                 <h6 class="card-subtitle mb-2 text-muted">
-                                    {!!__('welcome.feature.feature_3.description')!!}</h6>
+                                    {!!__('home.feature.feature_3.description')!!}</h6>
                             </div>
                         </div>
                     </div>
@@ -280,8 +281,8 @@
                             id="framework-img">
                     </div>
                     <div class="col-md-6 my-md-0 mb-4 mt-4">
-                        <h2>{{__('welcome.framework.title')}}</h2>
-                        <h5>{{__('welcome.framework.description')}}</h5>
+                        <h2>{{__('home.framework.title')}}</h2>
+                        <h5>{{__('home.framework.description')}}</h5>
                     </div>
                 </div>
             </div>
@@ -296,8 +297,8 @@
                             id="development-img">
                     </div>
                     <div class="col-md-6 my-md-0 mb-4 mt-4">
-                        <h3>{{__('welcome.development.title')}}</h3>
-                        <h5>{{__('welcome.development.description')}}</h5>
+                        <h3>{{__('home.development.title')}}</h3>
+                        <h5>{{__('home.development.description')}}</h5>
                     </div>
                 </div>
             </div>
@@ -306,24 +307,24 @@
         <!-- Developer -->
         <div class="page page_5" id="page_5">
             <div class="container text-center" id="developer">
-                <h2 class="mb-3 title">Developer</h2>
+                <h2 class="mb-4 title">Developer</h2>
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-12">
                         <div class="developer-item mx-auto mb-3 mb-lg-0">
-                            <img class="img-fluid shadow rounded-circle mb-3"
+                            <img class="img-fluid shadow rounded-circle mb-3 developer-image"
                                 src="{{asset('template/default/assets/img/pras.jpg')}}" alt="..." />
                             <h5 class="mt-2">Prasetyo Adi Santoso</h5>
                             <small>Back-end Developer</small>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    {{-- <div class="col-lg-6">
                         <div class="developer-item mx-auto mb-3 mb-lg-0">
                             <img class="img-fluid shadow rounded-circle mb-3"
                                 src="{{asset('template/default/assets/img/satriyadi.jpg')}}" alt="..." />
                             <h5 class="mt-2">Gede Bagus Satriyadi</h5>
                             <small>Front-end Developer</small>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

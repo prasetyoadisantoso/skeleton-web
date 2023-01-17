@@ -18,6 +18,10 @@ class SocialMedia extends Model
         'name', 'url'
     ];
 
+    protected $hidden = [
+        'id'
+    ];
+
     public static function boot()
     {
         parent::boot();

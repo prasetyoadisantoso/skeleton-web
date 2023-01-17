@@ -16,18 +16,18 @@ class SocialMediaSeeder extends Seeder
     public function run()
     {
         SocialMedia::create([
-            'name' => 'Whatsapp',
-            'url' => 'https://api.whatsapp.com/phone_number'
+            'name' => 'Instagram',
+            'url' => 'https://www.instagram.com/prasetyowebdeveloper/'
         ]);
 
         SocialMedia::create([
-            'name' => 'Facebook',
-            'url' => 'https://facebook.com/username'
+            'name' => 'Github',
+            'url' => 'https://github.com/prasetyoadisantoso/'
         ]);
 
         SocialMedia::create([
-            'name' => 'Twitter',
-            'url' => 'https://twitter.com/username'
+            'name' => 'Gitlab',
+            'url' => 'https://gitlab.com/prasetyoadisantoso'
         ]);
     }
 }
