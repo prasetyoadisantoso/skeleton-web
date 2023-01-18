@@ -189,7 +189,7 @@
                     <!-- Start Post List -->
                     {{-- Post List --}}
                     @foreach ($posts as $key => $post)
-                    <div class="container mb-5">
+                    <div class="container mb-5 mt-5">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="container">
