@@ -40,6 +40,7 @@ class BlogController extends Controller
             $this->global_variable->SiteLogo(),
 
             // Translations
+            $this->translation->button,
             $this->translation->blog,
 
             [

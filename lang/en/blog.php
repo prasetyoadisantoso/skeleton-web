@@ -2,6 +2,7 @@
 
 return [
     "title" => "Blog",
+    'search' => 'Search...',
     "header" => [
         "sign_in" => "Sign In",
         "sign_up" => "Register",
@@ -9,8 +10,8 @@ return [
         'blog' => 'Blog',
         "logout" => "Logout",
     ],
-    "categories" => 'Categories',
-    "tags" => 'Tags',
-    "previous" => "Previous",
-    "next" => "Next"
+    "category" => 'Categories',
+    "tag" => 'Tags',
+    "latest" => "Latest Post",
+    "oldest" => "Oldest Post"
 ];

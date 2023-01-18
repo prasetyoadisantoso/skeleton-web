@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="{{asset('template/default/assets/css/style.css')}}">
 </head>
 
-<body onload="init();">
+<body onload="init();" class="home">
 
     <!-- Navigation Bar -->
     <div class="container-fluid fixed-top mx-md-4 mx-0" id="navigation">

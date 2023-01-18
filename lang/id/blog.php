@@ -2,6 +2,7 @@
 
 return [
     "title" => "Blog",
+    'search' => 'Pencarian...',
     "header" => [
         "sign_in" => "Masuk",
         "sign_up" => "Daftar",
@@ -9,8 +10,8 @@ return [
         'blog' => 'Blog',
         "logout" => "Keluar",
     ],
-    "categories" => 'Kategori',
-    "tags" => 'Tag',
-    "previous" => "Sebelumnya",
-    "next" => "Selanjutnya"
+    "category" => 'Kategori',
+    "tag" => 'Tag',
+    "latest" => "Post Terbaru",
+    "oldest" => "Post Terlama"
 ];
