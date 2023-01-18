@@ -777,7 +777,7 @@
     margin: 0 0;
 }
 
-.text-truncation {
+.container.blog-content p {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
