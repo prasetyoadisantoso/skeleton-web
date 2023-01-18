@@ -52,7 +52,7 @@ class BlogController extends Controller
     public function index()
     {
         $this->boot();
-        $posts = $this->post->query()->latest()->paginate(2);
+        $posts = $this->post->query()->latest()->paginate(5);
         $categories = $this->category->query()->get();
         $tags = $this->tag->query()->get();
         return view('template.default.customer.blog', array_merge([
@@ -71,7 +71,7 @@ class BlogController extends Controller
         $input = $request->only(['search']);
 
         $this->boot();
-        $posts = $this->post->query()->where('content','like',"%".$input['search']."%")->orWhere('title','like',"%".$input['search']."%")->paginate(1);
+        $posts = $this->post->query()->where('content','like',"%".$input['search']."%")->orWhere('title','like',"%".$input['search']."%")->paginate(5);
         $categories = $this->category->query()->get();
         $tags = $this->tag->query()->get();
 
@@ -87,7 +87,7 @@ class BlogController extends Controller
         $this->boot();
         $posts = $this->post->query()->whereHas('categories', function($query) use ($category){
             $query->where('slug', $category);
-        })->paginate(1);
+        })->paginate(5);
         $categories = $this->category->query()->get();
         $tags = $this->tag->query()->get();
 
@@ -103,7 +103,7 @@ class BlogController extends Controller
         $this->boot();
         $posts = $this->post->query()->whereHas('tags', function($query) use ($tag){
             $query->where('slug', $tag);
-        })->paginate(1);
+        })->paginate(5);
         $categories = $this->category->query()->get();
         $tags = $this->tag->query()->get();
 

@@ -248,13 +248,31 @@
                 $("#modal-detail-post").modal('show');
                 $('#post-title').html(result.data['post'].title.{{LaravelLocalization::getCurrentLocale()}});
                 $('#post-content').html(result.data['post'].content.{{LaravelLocalization::getCurrentLocale()}});
-                $('#post-category').html(result.data['category'].name.{{LaravelLocalization::getCurrentLocale()}});
+
+                if( result.data['category'] !== null || result.data['category'] === '' ){
+                    $('#post-category').html(result.data['category'].name.{{LaravelLocalization::getCurrentLocale()}});
+                } else {
+                    $('#post-category').html('...');
+                }
+
                 result.data['tag'].forEach((item) => {
                     tags += item.name.{{LaravelLocalization::getCurrentLocale()}} + ", ";
                 });
                 $('#post-tag').html(tags);
-                $('#post-meta').html(result.data['meta'].name);
-                $('#post-canonical').html(result.data['canonical'].name);
+
+                if( result.data['meta'] !== null || result.data['meta'] === '' ){
+                    $('#post-meta').html(result.data['meta'].name);
+                } else {
+                    $('#post-meta').html('...');
+                }
+
+                if( result.data['canonical'] !== null || result.data['canonical'] === '' ){
+                    $('#post-canonical').html(result.data['canonical'].name);
+                } else {
+                    $('#post-canonical').html('...');
+                }
+
+
                 if ( result.data['post'].feature_image !== null) {
                     $('#post-feature-image').html("<img src='/storage/" + result.data['post'].feature_image + "' class='img-fluid w-50'>");
                 } else {

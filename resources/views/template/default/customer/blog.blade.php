@@ -202,7 +202,7 @@
                                     <p class="text-truncation text-secondary">
                                         {!!$post->content!!}
                                     </p>
-                                    <a href="post.html" class="btn btn-primary px-5 bg-purple">{{$button['read_more']}}</a>
+                                    <a href="post.html" class="btn btn-danger bg-crimson px-5 rounded-pill">{{$button['read_more']}}</a>
                                 </div>
                             </div>
                         </div>
