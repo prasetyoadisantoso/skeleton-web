@@ -13,5 +13,6 @@ return [
     "category" => 'Categories',
     "tag" => 'Tags',
     "latest" => "Latest Post",
-    "oldest" => "Oldest Post"
+    "oldest" => "Oldest Post",
+    "back_to_post_list" => "Back To Post List",
 ];

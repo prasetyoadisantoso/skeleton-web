@@ -47,6 +47,7 @@ Route::group([
     Route::post('blog', [BlogController::class, 'search'])->name('site.blog.search')->middleware(['xss-sanitize']);
     Route::get('blog/category/{slug}', [BlogController::class, 'category'])->name('site.blog.category');
     Route::get('blog/tag/{slug}', [BlogController::class, 'tag'])->name('site.blog.tag');
+    Route::get('blog/post/{slug}', [BlogController::class, 'post'])->name('site.blog.post');
 
     // Authentication
     Route::prefix('authentication')->group(function () {

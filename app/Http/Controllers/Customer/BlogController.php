@@ -113,4 +113,18 @@ class BlogController extends Controller
             'tags' => $tags,
         ]));
     }
+
+    public function post($post)
+    {
+        $this->boot();
+        $posts = $this->post->query()->where('slug', $post)->first();
+        $categories = $this->category->query()->get();
+        $tags = $this->tag->query()->get();
+
+        return view('template.default.customer.post', array_merge([
+            'posts' => $posts,
+            'categories' => $categories,
+            'tags' => $tags,
+        ]));
+    }
 }

@@ -13,5 +13,6 @@ return [
     "category" => 'Kategori',
     "tag" => 'Tag',
     "latest" => "Post Terbaru",
-    "oldest" => "Post Terlama"
+    "oldest" => "Post Terlama",
+    "back_to_post_list" => "Kembali Ke Daftar Postingan"
 ];
