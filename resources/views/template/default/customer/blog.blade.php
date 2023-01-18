@@ -6,7 +6,7 @@
     <div class="d-flex justify-content-between align-items-top">
 
         <!-- Brand & Logo -->
-        <div class="ms-4 container">
+        <div class="ms-2 container">
             <div class="d-flex justify-content-start">
                 <a href="{{route('site.index')}}"><img src="{{$site_logo}}" alt="" srcset="" id="logo"></a>
                 <h2 class="ms-3 my-auto" id="text-logo">Skeleton Web</h2>
@@ -14,7 +14,7 @@
         </div>
 
         <!-- Menu List -->
-        <div class="container me-4" id="menu-desktop">
+        <div class="container me-2" id="menu-desktop">
             <div id="menu">
                 <ul id="menu-list">
                     <li class="nav-item dropdown">
@@ -260,7 +260,7 @@
 <footer class=" text-center text-lg-start mt-5">
     <!-- Copyright -->
     <div class="text-center p-3 text-dark">
-        © 2022 Copyright - Skeleton Web
+        © 2023 Copyright - Skeleton Web
     </div>
     <!-- Copyright -->
 </footer>

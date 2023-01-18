@@ -363,7 +363,7 @@
     <footer class=" text-center text-lg-start fixed-bottom">
         <!-- Copyright -->
         <div class="text-center p-3 text-dark">
-            © 2022 Copyright - Skeleton Web
+            © 2023 Copyright - Skeleton Web
         </div>
         <!-- Copyright -->
     </footer>
