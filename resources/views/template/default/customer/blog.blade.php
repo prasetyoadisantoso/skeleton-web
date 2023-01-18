@@ -44,7 +44,7 @@
                                 <div class="container blog-content text-center text-md-start">
                                     <h3 class="fw-bold text-gray mt-3 mt-md-0">{{$post->title}}</h3>
                                     <div class="text-truncation text-secondary">
-                                        {!!$post->content!!}
+                                        {!!Str::limit($post->content, 180)!!}
                                     </div>
                                     <a href="{{route('site.blog.post', $post->slug)}}" class="btn btn-danger bg-crimson px-5 rounded-pill">{{$button['read_more']}}</a>
                                 </div>
