@@ -11,6 +11,7 @@ return [
         'cancel' => 'Cancel',
         'action' => 'Action',
         'show' => 'Show',
-        'clear' => 'Clear'
+        'clear' => 'Clear',
+        'read_more' => 'Read More',
     ],
 ];
