@@ -188,7 +188,7 @@ class PostController extends Controller
             $this->post->StorePost($post_data);
 
             DB::commit();
-
+            activity()->causedBy(Auth::user())->performedOn(new Post)->log($this->translation->post['messages']['store_success']);
             return redirect()->route('post.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
@@ -346,6 +346,7 @@ class PostController extends Controller
 
             $this->post->UpdatePost($post_data, $id);
             DB::commit();
+            activity()->causedBy(Auth::user())->performedOn(new Post)->log($this->translation->post['messages']['update_success']);
             return redirect()->route('post.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
