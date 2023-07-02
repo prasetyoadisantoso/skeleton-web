@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use \AllowDynamicProperties;
+#[AllowDynamicProperties]
+
 class Translations {
 
     public function __construct()
