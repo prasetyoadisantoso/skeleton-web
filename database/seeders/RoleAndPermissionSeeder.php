@@ -108,6 +108,19 @@ class RoleAndPermissionSeeder extends Seeder
             'socialmedia-destroy',
 
             /* -------------------------------------------------------------------------- */
+            /*                                    Email                                   */
+            /* -------------------------------------------------------------------------- */
+
+            // Message
+            'message-index',
+            'message-create',
+            'message-store',
+            'message-show',
+            'message-edit',
+            'message-update',
+            'message-destroy',
+
+            /* -------------------------------------------------------------------------- */
             /*                                     SEO                                    */
             /* -------------------------------------------------------------------------- */
 
@@ -202,6 +215,15 @@ class RoleAndPermissionSeeder extends Seeder
             'tag-edit',
             'tag-update',
             'tag-destroy',
+
+            /* Email */
+            'message-index',
+            'message-create',
+            'message-store',
+            'message-show',
+            'message-edit',
+            'message-update',
+            'message-destroy',
 
             /* User */
             'user-index',

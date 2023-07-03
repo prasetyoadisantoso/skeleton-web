@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             PostTagSeeder::class,
             PostMetaSeeder::class,
             PostCanonicalSeeder::class,
+            MessageSeeder::class,
 
         ]);
     }

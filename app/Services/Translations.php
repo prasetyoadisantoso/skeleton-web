@@ -70,6 +70,9 @@ class Translations {
         $this->general = __('general');
         $this->social_media = __('social_media');
 
+        // Email
+        $this->message = __('message');
+
         // SEO Dashboard
         $this->meta = __('meta');
         $this->canonical = __('canonical');

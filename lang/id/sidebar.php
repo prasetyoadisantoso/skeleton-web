@@ -22,6 +22,10 @@ return [
     'socialmedia' => 'Media Sosial',
     'google' => 'Google',
 
+    // Email
+    'email' => 'Email',
+    'message' => 'Pesan',
+
     // SEO
     'seo' => 'SEO',
     'metas' => 'Meta',

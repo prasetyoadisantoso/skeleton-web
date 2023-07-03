@@ -27,6 +27,10 @@ return [
     'metas' => 'Meta',
     'canonicals' => 'Canonical',
 
+    // Email
+    'email' => 'Email',
+    'message' => 'Message',
+
     // System
     'system' => 'System',
     'activities' => 'Activities',

@@ -3,13 +3,13 @@
 use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Customer\BlogController;
 use App\Http\Controllers\Customer\HomeController;
-use App\Http\Controllers\Customer\MainController as CustomerMainController;
 use App\Http\Controllers\Dashboard\ActivityController;
 use App\Http\Controllers\Dashboard\CanonicalController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\GeneralController;
 use App\Http\Controllers\Dashboard\MainController;
 use App\Http\Controllers\Dashboard\MaintenanceController;
+use App\Http\Controllers\Dashboard\MessageController;
 use App\Http\Controllers\Dashboard\MetaController;
 use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\PostController;
@@ -19,6 +19,7 @@ use App\Http\Controllers\Dashboard\TagController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,6 +90,9 @@ Route::group([
         Route::resource('social_media', SocialMediaController::class);
         Route::get('social_media_dt', [SocialMediaController::class, 'index_dt'])->name('social_media.datatable');
 
+        // Email
+        Route::resource('message', MessageController::class);
+
         // SEO
         Route::resource('meta', MetaController::class);
         Route::get('meta_datatable', [MetaController::class, 'index_dt'])->name('meta.datatable');
@@ -134,6 +138,35 @@ Route::group([
     // Email template testing
     Route::get('/send-verification', function () {
         return new App\Mail\SendVerification("1111");
+    });
+
+});
+
+Route::group([
+    'prefix' => 'command',
+], function () {
+
+    Route::get('storage-delete', function () {
+        // Delete all directories and files inside storage
+        Storage::deleteDirectory('public');
+        // Recreate the storage directory
+        Storage::makeDirectory('public');
+    });
+
+    Route::get('migrate-reset', function () {
+        Artisan::call('migrate:reset');
+    });
+
+    Route::get('migrate-fresh', function () {
+        Artisan::call('migrate:fresh --seed');
+    });
+
+    Route::get('storage-link', function () {
+        Artisan::call('storage:link --force');
+    });
+
+    Route::get('config-cache', function () {
+        Artisan::call('config:cache');
     });
 
 });
