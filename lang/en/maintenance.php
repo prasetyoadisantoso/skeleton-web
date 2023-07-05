@@ -18,6 +18,7 @@ return [
             'compile_clear' => 'Command to clear the compiled services and packages',
             'optimize_clear' => 'Optimizing System'
         ],
+        'factory_reset' => 'Factory Reset!',
         'coming_soon' => [
             'message' => 'Coming Soon!'
         ],
@@ -25,5 +26,8 @@ return [
     'messages' => [
         'action_success' => 'Clear Success!',
         'action_failed' => 'Clear Failed!',
+        'ask_reset' => 'Be Careful, All Data will be reset. Reset Now? ',
+        'reset_success' => 'Reset Success!',
+        'reset_failed' => 'Reset Failed, Use Recovery Command',
     ],
 ];

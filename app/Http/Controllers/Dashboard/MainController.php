@@ -29,6 +29,8 @@ class MainController extends Controller
             $this->global_variable->AuthUserName(),
             $this->global_variable->SystemName(),
             $this->global_variable->SiteLogo(),
+            $this->global_variable->MessageNotification(),
+            $this->translation->header,
             $this->translation->sidebar,
             $this->translation->main,
 

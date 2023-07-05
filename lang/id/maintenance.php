@@ -18,6 +18,7 @@ return [
             'compile_clear' => 'Bersihkan sampah "service" dan "package"',
             'optimize_clear' => 'Optimasi Sistem'
         ],
+        'factory_reset' => 'Reset Pabrik!',
         'coming_soon' => [
             'message' => 'Coming Soon!'
         ],
@@ -25,5 +26,8 @@ return [
     'messages' => [
         'action_success' => 'Pembersihan Sukses',
         'action_failed' => 'Pembersihan Gagal',
+        'ask_reset' => 'Peringatan, Semua data akan di hapus. Setel Ulang? ',
+        'reset_success' => 'Setel Ulang Berhasil!',
+        'reset_failed' => 'Setel Ulang Gagal, Gunakan Recovery Command',
     ],
 ];

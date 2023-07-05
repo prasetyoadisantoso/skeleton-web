@@ -67,8 +67,10 @@ class UserController extends Controller
             $this->global_variable->AuthUserName(),
             $this->global_variable->SystemName(),
             $this->global_variable->SiteLogo(),
+            $this->global_variable->MessageNotification(),
 
             // Translations
+            $this->translation->header,
             $this->translation->sidebar,
             $this->translation->button,
             $this->translation->users,

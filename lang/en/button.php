@@ -13,5 +13,6 @@ return [
         'show' => 'Show',
         'clear' => 'Clear',
         'read_more' => 'Read More',
+        'reset' => 'Reset',
     ],
 ];

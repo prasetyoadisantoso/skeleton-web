@@ -17,7 +17,7 @@
 <!-- End Breadcrumb -->
 
 <!-- Start Home -->
-<div class="container py-2">
+<div class="container py-2" id="myElement">
 
     <!-- Start app -->
     <div class="card" id="meta-home">
@@ -61,7 +61,7 @@
 @endsection
 
 @push('activity-home-js')
-<script type="text/javascript" alt="datatable">
+<script type="text/javascript" alt="datatable" id="script-1">
     $("#activity_datatable").DataTable({
         scrollX: true,
         processing: true,
@@ -115,7 +115,7 @@
     });
 </script>
 
-<script alt="delete">
+<script alt="delete" id="script-2">
     $(document).on('click', '#destroy', function (e) {
         e.preventDefault();
         var url = $(this).attr('href');
@@ -149,7 +149,17 @@
                                 },
                                 buttonsStyling: false,
                             }).then(() => {
-                                location.reload();
+
+                                var dataTable = $('#activity_datatable').DataTable();
+
+                                // Reload the DataTable
+                                function reloadDataTable() {
+                                    dataTable.ajax.reload(null, false);
+                                }
+
+                                reloadDataTable();
+
+
                             });
                         } else {
                             Swal.fire({
@@ -157,8 +167,15 @@
                                 text: results.message,
                                 icon: "error",
                             }).then(() => {
-                                location.reload();
-                            });
+                                var dataTable = $('#activity_datatable').DataTable();
+
+                                // Reload the DataTable
+                                function reloadDataTable() {
+                                    dataTable.ajax.reload(null, false);
+                                }
+
+                                reloadDataTable();
+                                });
                         }
                     }
                 });
@@ -204,16 +221,30 @@
                                 },
                                 buttonsStyling: false,
                             }).then(() => {
-                                location.reload();
-                            });
+                                var dataTable = $('#activity_datatable').DataTable();
+
+                                // Reload the DataTable
+                                function reloadDataTable() {
+                                    dataTable.ajax.reload(null, false);
+                                }
+
+                                reloadDataTable();
+                                });
                         } else {
                             Swal.fire({
                                 title: "{{$messages['delete_failed']}}",
                                 text: results.message,
                                 icon: "error",
                             }).then(() => {
-                                location.reload();
-                            });
+                                var dataTable = $('#activity_datatable').DataTable();
+
+                                // Reload the DataTable
+                                function reloadDataTable() {
+                                    dataTable.ajax.reload(null, false);
+                                }
+
+                                reloadDataTable();
+                                });
                         }
                     }
                 });

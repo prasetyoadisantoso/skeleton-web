@@ -58,6 +58,10 @@
                             <label for="">{{$form['clean_cache_system']['optimize_clear']}}</label>
                             <a href="{{route('maintenance.optimize.clear')}}" class="btn btn-success"><i class="fa-solid fa-broom me-3"></i>{{$button['clear']}}</a>
                         </div>
+                        <div class="my-3 d-flex justify-content-between">
+                            <label for="">{{$form['factory_reset']}}</label>
+                            <a id="reset" href="{{route('maintenance.factory.reset')}}" class="btn btn-danger"><i class="fa-solid fa-warning me-3"></i>{{$button['reset']}}</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -70,3 +74,63 @@
 </div>
 <!-- End Home -->
 @endsection
+
+@push('maintenance-js')
+<script alt="maintenance-delete">
+    $(document).on('click', '#reset', function (e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        Swal.fire({
+            title: "{{$messages['ask_reset']}}",
+            icon: "warning",
+            showCancelButton: !0,
+            cancelButtonText: "{{$button['cancel']}}",
+            confirmButtonText: "{{$button['confirm']}}",
+            customClass: {
+                confirmButton: "btn btn-success px-5 rad-25 mx-1 my-1",
+                cancelButton: "btn btn-danger px-5 rad-25 mx-1 my-1 order-sm-1",
+            },
+            buttonsStyling: false,
+            reverseButtons: false,
+        }).then(function (e) {
+            if (e.value === true) {
+                Swal.fire('Please wait')
+                Swal.showLoading()
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    data: { _token: "{{csrf_token()}}" },
+                    dataType: 'JSON',
+                    success: function (results) {
+                        if (results.success === 'success') {
+                            Swal.fire({
+                                title: "{{$messages['reset_success']}}",
+                                text: results.message,
+                                icon: "success",
+                                customClass: {
+                                    popup: "rad-25",
+                                    confirmButton: "btn btn-success px-5 rad-25",
+                                },
+                                buttonsStyling: false,
+                            }).then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                title: "{{$messages['reset_failed']}}",
+                                text: results.message,
+                                icon: "error",
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                    }
+                });
+            } else {
+                e.dismiss;
+            }
+        }, function (dismiss) {
+        })
+    })
+</script>
+@endpush

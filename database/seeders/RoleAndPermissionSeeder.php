@@ -165,6 +165,7 @@ class RoleAndPermissionSeeder extends Seeder
             'blog-sidebar',
             'setting-sidebar',
             'seo-sidebar',
+            'email-sidebar',
             'user-sidebar',
             'system-sidebar',
 
@@ -294,6 +295,7 @@ class RoleAndPermissionSeeder extends Seeder
             'main-sidebar',
             'blog-sidebar',
             'setting-sidebar',
+            'email-sidebar',
             'seo-sidebar',
             'user-sidebar',
             'system-sidebar',

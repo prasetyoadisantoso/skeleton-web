@@ -89,7 +89,7 @@ class Post extends Model
     {
         if (array_key_exists('published', $data)) {
             if ($data['published'] == "on") {
-                $data['published'] = date('Y-m-d H:i:s');;
+                $data['published'] = date('Y-m-d H:i:s');
             } else {
                 $data['published'] = null;
             }

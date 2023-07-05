@@ -8,8 +8,9 @@ use App\Services\GlobalVariable;
 use App\Services\GlobalView;
 use App\Services\ResponseFormatter;
 use App\Services\Translations;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Artisan;
 
 class MaintenanceController extends Controller
 {
@@ -23,7 +24,7 @@ class MaintenanceController extends Controller
         GlobalView $global_view,
         Translations $translation,
     ) {
-        $this->middleware(['auth', 'verified', 'xss']);
+        $this->middleware(['auth', 'verified', 'xss'])->except(['factory_reset']);
         $this->middleware(['permission:system-sidebar']);
         $this->middleware(['permission:maintenance-index']);
 
@@ -45,8 +46,10 @@ class MaintenanceController extends Controller
             $this->global_variable->AuthUserName(),
             $this->global_variable->SystemName(),
             $this->global_variable->SiteLogo(),
+            $this->global_variable->MessageNotification(),
 
             // Translations
+            $this->translation->header,
             $this->translation->sidebar,
             $this->translation->button,
             $this->translation->notification,
@@ -69,7 +72,7 @@ class MaintenanceController extends Controller
         $this->boot();
         return view('template.default.dashboard.system.maintenance.home', array_merge(
             $this->global_variable->PageType('index'
-        )));
+            )));
     }
 
     public function event_clear()
@@ -82,7 +85,7 @@ class MaintenanceController extends Controller
                 'title' => $this->translation->notification['success'],
                 'content' => $this->translation->maintenance['messages']['action_success'],
             ]);
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
             $message = $th->getMessage();
             activity()->causedBy(Auth::user())->log($message);
             return redirect()->back()->with([
@@ -103,7 +106,7 @@ class MaintenanceController extends Controller
                 'title' => $this->translation->notification['success'],
                 'content' => $this->translation->maintenance['messages']['action_success'],
             ]);
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
             $message = $th->getMessage();
             activity()->causedBy(Auth::user())->log($message);
             return redirect()->back()->with([
@@ -124,7 +127,7 @@ class MaintenanceController extends Controller
                 'title' => $this->translation->notification['success'],
                 'content' => $this->translation->maintenance['messages']['action_success'],
             ]);
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
             $message = $th->getMessage();
             activity()->causedBy(Auth::user())->log($message);
             return redirect()->back()->with([
@@ -145,7 +148,7 @@ class MaintenanceController extends Controller
                 'title' => $this->translation->notification['success'],
                 'content' => $this->translation->maintenance['messages']['action_success'],
             ]);
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
             $message = $th->getMessage();
             activity()->causedBy(Auth::user())->log($message);
             return redirect()->back()->with([
@@ -166,7 +169,7 @@ class MaintenanceController extends Controller
                 'title' => $this->translation->notification['success'],
                 'content' => $this->translation->maintenance['messages']['action_success'],
             ]);
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
             $message = $th->getMessage();
             activity()->causedBy(Auth::user())->log($message);
             return redirect()->back()->with([
@@ -187,7 +190,7 @@ class MaintenanceController extends Controller
                 'title' => $this->translation->notification['success'],
                 'content' => $this->translation->maintenance['messages']['action_success'],
             ]);
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
             $message = $th->getMessage();
             activity()->causedBy(Auth::user())->log($message);
             return redirect()->back()->with([
@@ -208,7 +211,28 @@ class MaintenanceController extends Controller
                 'title' => $this->translation->notification['success'],
                 'content' => $this->translation->maintenance['messages']['action_success'],
             ]);
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
+            $message = $th->getMessage();
+            activity()->causedBy(Auth::user())->log($message);
+            return redirect()->back()->with([
+                'error' => 'error',
+                "title" => $this->translation->notification['error'],
+                "content" => $message,
+            ]);
+        }
+    }
+
+    public function factory_reset()
+    {
+        try {
+            Artisan::call('factory-reset');
+            activity()->causedBy(Auth::user())->log($this->translation->maintenance['messages']['action_success']);
+            return redirect()->back()->with([
+                'success' => 'success',
+                'title' => $this->translation->notification['success'],
+                'content' => $this->translation->maintenance['messages']['action_success'],
+            ]);
+        } catch (\Throwable $th) {
             $message = $th->getMessage();
             activity()->causedBy(Auth::user())->log($message);
             return redirect()->back()->with([

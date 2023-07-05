@@ -17,6 +17,8 @@ return [
         'table' => [
             'number' => 'No',
             'name' => 'Nama',
+            'email' => 'Email',
+            'read_at' => 'Dibaca pada',
             'action' => 'Aksi',
         ],
         'search' => 'Pencarian: ',
@@ -47,6 +49,14 @@ return [
         'ask_delete' => 'Apakah anda ingin menghapus data ini?',
         'delete_success' => 'Data berhasil dihapus',
         'delete_failed' => 'Data gagal dihapus',
+    ],
+
+    'detail' => [
+        'name' => 'Nama :',
+        'email' => 'Email :',
+        'phone' => 'Nomor Telepon :',
+        'message' => 'Pesan :',
+        'switch' => 'Switch untuk menandai Sudah Baca atau Belum Baca'
     ],
 
     'validation' => [

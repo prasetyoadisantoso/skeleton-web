@@ -33,6 +33,8 @@ class Translations {
         $this->emailVerification = __('mail.verification');
         $this->emailForgotPassword =__('mail.reset_password');
 
+        $this->header = __('header');
+
         // Sidebar
         $this->sidebar = __('sidebar');
 

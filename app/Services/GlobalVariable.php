@@ -6,6 +6,7 @@ use App\Models\General;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use App\Models\Message;
 
 class GlobalVariable
 {
@@ -102,6 +103,15 @@ class GlobalVariable
     {
         return [
             'url' => $type
+        ];
+    }
+
+    public function MessageNotification(){
+        $message = Message::select('name', 'read_at')->whereNull('read_at')->get();
+        $message_count = Message::whereNull('read_at')->count();
+        return [
+          'message_notification' => $message,
+          'message_notification_count' => $message_count
         ];
     }
 }

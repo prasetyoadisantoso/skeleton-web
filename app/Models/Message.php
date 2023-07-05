@@ -15,8 +15,10 @@ class Message extends Model
     public $incrementing = false;
 
     public $fillable = [
-        'name', 'email', 'phone', 'message'
+        'name', 'email', 'phone', 'message', 'read_at'
     ];
+
+    protected $dates = ['read_at'];
 
     public static function boot()
     {

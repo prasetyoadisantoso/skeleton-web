@@ -17,6 +17,8 @@ return [
         'table' => [
             'number' => 'No',
             'name' => 'Name',
+            'email' => 'Email',
+            'read_at' => 'Read at',
             'action' => 'Action',
         ],
         'search' => 'Search: ',
@@ -54,5 +56,13 @@ return [
         'robot_required' => 'Meta robots is required',
         'description_required' => 'Meta description is required',
         'keyword_required' => 'Meta keyword is required',
+    ],
+
+    'detail' => [
+        'name' => 'Nama :',
+        'email' => 'Email :',
+        'phone' => 'Phone :',
+        'message' => 'Message :',
+        'switch' => 'Switch Read or Unread'
     ],
 ];

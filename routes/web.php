@@ -18,6 +18,7 @@ use App\Http\Controllers\Dashboard\SocialMediaController;
 use App\Http\Controllers\Dashboard\TagController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\TestController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
@@ -92,6 +93,10 @@ Route::group([
 
         // Email
         Route::resource('message', MessageController::class);
+        Route::post('message/readon', [MessageController::class, 'ReadOn'])->name('message.read.on');
+        Route::post('message/readoff', [MessageController::class, 'ReadOff'])->name('message.read.off');
+        Route::get('message/notification/count', [MessageController::class, 'MessageNotificationCount'])->name('message.notification.count');
+        Route::get('message_datatable', [MessageController::class, 'index_dt'])->name('message.datatable');
 
         // SEO
         Route::resource('meta', MetaController::class);
@@ -120,6 +125,7 @@ Route::group([
         Route::get('maintenance/route/clear', [MaintenanceController::class, 'route_clear'])->name('maintenance.route.clear');
         Route::get('maintenance/compile/clear', [MaintenanceController::class, 'compile_clear'])->name('maintenance.compile.clear');
         Route::get('maintenance/optimize/clear', [MaintenanceController::class, 'optimize_clear'])->name('maintenance.optimize.clear');
+        // Route::get('maintenance/factory_reset', [MaintenanceController::class, 'factory_reset'])->name('maintenance.factory.reset');
     });
 
 });
@@ -142,14 +148,20 @@ Route::group([
 
 });
 
+Route::get('factory-reset', function(){
+    Artisan::call('factory-reset');
+    return response()->json([
+        'success' => 'success'
+    ]);
+})->name('maintenance.factory.reset')->middleware('auth', 'verified');
+
+// Use it for Recovery System
 Route::group([
     'prefix' => 'command',
 ], function () {
 
     Route::get('storage-delete', function () {
-        // Delete all directories and files inside storage
         Storage::deleteDirectory('public');
-        // Recreate the storage directory
         Storage::makeDirectory('public');
     });
 

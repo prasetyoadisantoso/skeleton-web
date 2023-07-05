@@ -13,5 +13,6 @@ return [
         'show' => 'Lihat',
         'clear' => 'Bersihkan',
         'read_more' => 'Lihat Lebih Lanjut',
+        'reset' => 'Setel Ulang',
     ],
 ];
