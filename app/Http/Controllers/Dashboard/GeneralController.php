@@ -107,7 +107,7 @@ class GeneralController extends Controller
 
         $request->validated();
         $validated_data = $request->only([
-            'id', 'site_title', 'site_tagline', 'url_address', 'copyright', 'cookies_concern'
+            'id', 'site_title', 'site_tagline', 'site_email', 'url_address', 'copyright', 'cookies_concern'
         ]);
 
         DB::beginTransaction();

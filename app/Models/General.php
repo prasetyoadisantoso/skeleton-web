@@ -30,6 +30,7 @@ class General extends Model
         'site_tagline',
         'site_logo',
         'site_favicon',
+        'site_email',
         'url_address',
         'copyright',
         'cookies_concern'

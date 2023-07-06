@@ -35,6 +35,7 @@ class GeneralFormRequest extends FormRequest
                     'id' => 'required|uuid',
                     'site_title' => 'required|string',
                     'site_tagline' => 'required|string',
+                    'site_email' => 'required|email',
                     'url_address' => 'required|string',
                     'copyright' => 'required|string',
                     'cookies_concern' => 'required|string',

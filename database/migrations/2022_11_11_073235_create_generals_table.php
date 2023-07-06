@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('site_tagline');
             $table->string('site_logo');
             $table->string('site_favicon');
+            $table->string('site_email');
             $table->string('url_address');
             $table->string('copyright');
             $table->string('cookies_concern');

@@ -43,6 +43,11 @@
                                     value="{{$data->url_address}}" name="url_address">
                             </div>
                             <div class="my-3">
+                                <input type="text" class="form-control" id="url-address"
+                                    placeholder="{{$form['site_description']['site_email']}}"
+                                    value="{{$data->site_email}}" name="site_email">
+                            </div>
+                            <div class="my-3">
                                 <input type="text" class="form-control" id="copyright"
                                     placeholder="{{$form['site_description']['site_copyright']}}"
                                     value="{!!$data->copyright!!}" name="copyright">

@@ -15,6 +15,7 @@ return [
             'site_title' => 'Insert title here...',
             'site_tagline' => 'Insert tagline here...',
             'site_url' => 'Insert url address here...',
+            'site_email' => 'Insert email here...',
             'site_copyright' => 'Insert copyright here...',
             'site_cookies' => 'Insert cookies here...'
         ],
