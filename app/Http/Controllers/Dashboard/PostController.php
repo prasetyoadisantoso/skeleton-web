@@ -114,7 +114,7 @@ class PostController extends Controller
 
     public function index_dt()
     {
-        $res = $this->dataTables->of($this->post->query())
+        $res = $this->dataTables->of($this->post->query()->orderBy('published_at', 'DESC'))
             ->addColumn('title', function ($post) {
                 return $post->title;
             })

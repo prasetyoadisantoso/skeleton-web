@@ -31,7 +31,7 @@
                     </div>
 
                     <!-- Content -->
-                    <div class="container mt-5">
+                    <div class="container mt-5" id="post_content">
                         {!!$posts->content!!}
                     </div>
 

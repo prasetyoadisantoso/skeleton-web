@@ -173,7 +173,7 @@
             <div class="d-flex justify-content-center">
                 @if ($type == 'create')
                     @can ("post-store")
-                    <<button id="post-store-submit" type="submit" class="btn btn-success w-100 w-md-25">
+                    <button id="post-store-submit" type="submit" class="btn btn-success w-100 w-md-25">
                         {{$button['store']}}<i class="fas fa-save ms-2"></i>
                     </button>
                     @endcan

@@ -180,6 +180,39 @@
     color: #6C757D;
 }
 
+/* Blog */
+/* Mobile Styles (up to 767px) */
+@media (max-width: 767px) {
+    /* Add your CSS rules for mobile devices here */
+    #post_content p img {
+        width: 100%;
+        height: auto;
+        padding: 15px;
+    }
+}
+
+/* Tablet Styles (768px to 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+    /* Add your CSS rules for tablet devices here */
+    #post_content p img {
+        width: 45%;
+        height: auto;
+        padding: 15px;
+    }
+
+}
+
+/* Desktop Styles (1024px and above) */
+@media (min-width: 1024px) {
+    /* Add your CSS rules for desktop devices here */
+    #post_content p img {
+        width: 40%;
+        height: auto;
+        padding: 15px;
+    }
+}
+
+
 /* Monitor */
 @media only screen and (max-width: 1930px) {
     .macbook {
@@ -925,4 +958,3 @@
         height: 25% !important;
     }
 }
-
