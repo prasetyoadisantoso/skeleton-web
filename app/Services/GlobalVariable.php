@@ -78,6 +78,14 @@ class GlobalVariable
         ];
     }
 
+    public function SiteEmail()
+    {
+        $data = $this->general->first()->only(['site_email']);
+        return [
+            'site_email' => $data['site_email']
+        ];
+    }
+
     public function PageType(string $type): ?array
     {
         return [

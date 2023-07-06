@@ -14,5 +14,6 @@ return [
         'clear' => 'Clear',
         'read_more' => 'Read More',
         'reset' => 'Reset',
+        'send' => 'Send',
     ],
 ];

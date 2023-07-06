@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Route;
 
 class MessageFormRequest extends FormRequest
 {
+    public $validator = null;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -13,7 +16,7 @@ class MessageFormRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +26,26 @@ class MessageFormRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        $route = Route::currentRouteName();
+        switch ($route) {
+            case 'site.contact.message':
+                return [
+                    'name' => 'required|max:50',
+                    'email' => 'required|email',
+                    'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+                    'message' => 'required|string'
+                ];
+
+                break;
+
+            default:
+                // code...
+                break;
+        }
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        $this->validator = $validator;
     }
 }

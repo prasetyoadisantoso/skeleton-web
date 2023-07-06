@@ -14,5 +14,6 @@ return [
         'clear' => 'Bersihkan',
         'read_more' => 'Lihat Lebih Lanjut',
         'reset' => 'Setel Ulang',
+        'send' => 'Kirim',
     ],
 ];

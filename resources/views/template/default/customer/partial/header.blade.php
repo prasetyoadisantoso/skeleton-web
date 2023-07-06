@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-between align-items-top">
 
         <!-- Brand & Logo -->
-        <div class="ms-2 container">
+        <div class="ms-2 container w-md-50 w-100">
             <div class="d-flex justify-content-start">
                 <a href="{{route('site.index')}}"><img src="{{$site_logo}}" alt="" srcset="" id="logo"></a>
                 <h2 class="ms-3 my-auto" id="text-logo">Skeleton Web</h2>
@@ -42,6 +42,8 @@
                     </li>
                     <li><a href="{{route('site.blog')}}" class="text-dark"><i
                                 class="fa-solid fa-blog me-3"></i>{{__('home.header.blog')}}</a></li>
+                    <li><a href="{{route('site.contact')}}" class="text-dark">
+                            <i class="fa-regular fa-circle-question me-3"></i>{{__('contact.title')}}</a></li>
                     @if (Auth::user() == null)
                     <li>
                         <a class="mx-2 text-decoration-none text-dark" href="{{route('login.page')}}"><i
@@ -91,6 +93,8 @@
                             class="text-decoration-none text-dark"><i
                                 class="fa-solid fa-blog me-3"></i>{{__('home.header.blog')}}</a>
                     </li>
+                    <li class="list-group-item my-3 border-0"><a href="{{route('site.contact')}}" class="text-dark">
+                            <i class="fa-regular fa-circle-question me-3"></i>{{__('contact.title')}}</a></li>
                     <li class="list-group-item my-3 border-0"><a class="text-decoration-none text-dark"
                             href="{{route('login.page')}}"><i
                                 class="fa-solid fa-right-to-bracket me-3"></i>{{__('home.header.sign_in')}}</a>
@@ -105,9 +109,10 @@
                             class="text-decoration-none text-dark"><i
                                 class="fa-solid fa-blog me-3"></i>{{__('home.header.blog')}}</a>
                     </li>
+                    <li class="list-group-item my-3 border-0"><a href="{{route('site.contact')}}" class="text-dark">
+                            <i class="fa-regular fa-circle-question me-3"></i>{{__('contact.title')}}</a></li>
                     @can('main-index')
-                    <li class="list-group-item my-3 border-0"><a href="{{route('dashboard.main')}}"
-                            class="text-dark"><i
+                    <li class="list-group-item my-3 border-0"><a href="{{route('dashboard.main')}}" class="text-dark"><i
                                 class="fa-solid fa-gauge me-3"></i>{{__('home.header.dashboard')}}</a></li>
                     @endcan
                     <li class="list-group-item my-3 border-0"><a href="{{route('logout')}}" class="text-dark"><i
@@ -119,15 +124,13 @@
                     <p>
                         @if (LaravelLocalization::getCurrentLocale() == 'id')
                         <a class="text-dark text-decoration-none dropdown-toggle" data-bs-toggle="collapse"
-                            href="#collapseExample" role="button" aria-expanded="false"
-                            aria-controls="collapseExample">
+                            href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                             <span class="fi fi-id me-3"></span>Indonesia
                         </a>
 
                         @elseif (LaravelLocalization::getCurrentLocale() == 'en')
                         <a class="text-dark text-decoration-none dropdown-toggle" data-bs-toggle="collapse"
-                            href="#collapseExample" role="button" aria-expanded="false"
-                            aria-controls="collapseExample">
+                            href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                             <span class="fi fi-gb me-3"></span>English
                         </a>
 

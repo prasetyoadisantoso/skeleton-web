@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Customer\BlogController;
+use App\Http\Controllers\Customer\ContactController;
 use App\Http\Controllers\Customer\HomeController;
 use App\Http\Controllers\Dashboard\ActivityController;
 use App\Http\Controllers\Dashboard\CanonicalController;
@@ -50,6 +51,10 @@ Route::group([
     Route::get('blog/category/{slug}', [BlogController::class, 'category'])->name('site.blog.category');
     Route::get('blog/tag/{slug}', [BlogController::class, 'tag'])->name('site.blog.tag');
     Route::get('blog/post/{slug}', [BlogController::class, 'post'])->name('site.blog.post');
+
+    // Contact Page
+    Route::get('contact', [ContactController::class,'index'])->name('site.contact');
+    Route::post('contact/message', [ContactController::class, 'message'])->name('site.contact.message');
 
     // Authentication
     Route::prefix('authentication')->group(function () {
