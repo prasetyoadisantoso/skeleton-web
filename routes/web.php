@@ -1,23 +1,24 @@
 <?php
 
 use App\Http\Controllers\Authentication\AuthController;
-use App\Http\Controllers\Customer\BlogController;
-use App\Http\Controllers\Customer\ContactController;
-use App\Http\Controllers\Customer\HomeController;
-use App\Http\Controllers\Dashboard\ActivityController;
-use App\Http\Controllers\Dashboard\CanonicalController;
-use App\Http\Controllers\Dashboard\CategoryController;
-use App\Http\Controllers\Dashboard\GeneralController;
-use App\Http\Controllers\Dashboard\MainController;
-use App\Http\Controllers\Dashboard\MaintenanceController;
-use App\Http\Controllers\Dashboard\MessageController;
-use App\Http\Controllers\Dashboard\MetaController;
-use App\Http\Controllers\Dashboard\PermissionController;
-use App\Http\Controllers\Dashboard\PostController;
-use App\Http\Controllers\Dashboard\RoleController;
-use App\Http\Controllers\Dashboard\SocialMediaController;
-use App\Http\Controllers\Dashboard\TagController;
-use App\Http\Controllers\Dashboard\UserController;
+use App\Http\Controllers\Frontend\BlogController;
+use App\Http\Controllers\Frontend\ContactController;
+use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Backend\ActivityController;
+use App\Http\Controllers\Backend\CanonicalController;
+use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\GeneralController;
+use App\Http\Controllers\Backend\MainController;
+use App\Http\Controllers\Backend\MaintenanceController;
+use App\Http\Controllers\Backend\MessageController;
+use App\Http\Controllers\Backend\MetaController;
+use App\Http\Controllers\Backend\PermissionController;
+use App\Http\Controllers\Backend\PostController;
+use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\Backend\SocialMediaController;
+use App\Http\Controllers\Backend\TagController;
+use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\OpengraphController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -108,6 +109,8 @@ Route::group([
         Route::get('meta_datatable', [MetaController::class, 'index_dt'])->name('meta.datatable');
         Route::resource('canonical', CanonicalController::class);
         Route::get('canonical_datatable', [CanonicalController::class, 'index_dt'])->name('canonical.datatable');
+        Route::resource('opengraph', OpengraphController::class);
+        Route::get('opengraph_datatable', [OpengraphController::class, 'index_dt'])->name('opengraph.datatable');
 
         // User & Permissions
         Route::resource('user', UserController::class);

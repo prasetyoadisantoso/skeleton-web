@@ -142,6 +142,15 @@ class RoleAndPermissionSeeder extends Seeder
             'canonical-update',
             'canonical-destroy',
 
+            // Opengraph
+            'opengraph-index',
+            'opengraph-create',
+            'opengraph-store',
+            'opengraph-show',
+            'opengraph-edit',
+            'opengraph-update',
+            'opengraph-destroy',
+
             /* -------------------------------------------------------------------------- */
             /*                              System Management                             */
             /* -------------------------------------------------------------------------- */
@@ -279,6 +288,15 @@ class RoleAndPermissionSeeder extends Seeder
             'canonical-edit',
             'canonical-update',
             'canonical-destroy',
+
+            // Opengraph
+            'opengraph-index',
+            'opengraph-create',
+            'opengraph-store',
+            'opengraph-show',
+            'opengraph-edit',
+            'opengraph-update',
+            'opengraph-destroy',
 
             /* System */
             'activity-index',

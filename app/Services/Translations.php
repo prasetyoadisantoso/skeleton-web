@@ -9,18 +9,10 @@ class Translations {
 
     public function __construct()
     {
-        /* -------------------------------------------------------------------------- */
-        /*                                  Customer                                  */
-        /* -------------------------------------------------------------------------- */
-        $this->home = __('home');
-        $this->blog = __('blog');
-        $this->contact = __('contact');
-
 
         /* -------------------------------------------------------------------------- */
-        /*                                Administrator                               */
+        /*                               Authentication                               */
         /* -------------------------------------------------------------------------- */
-
         // Auth
         $this->authLogin = __('auth.login');
         $this->authRegistration = __('auth.registration');
@@ -33,11 +25,28 @@ class Translations {
         // Email
         $this->emailVerification = __('mail.verification');
         $this->emailForgotPassword =__('mail.reset_password');
+        /* --------------------------- End Authentication --------------------------- */
 
-        $this->header = __('header');
+
+
+        /* -------------------------------------------------------------------------- */
+        /*                                  Frontend                                  */
+        /* -------------------------------------------------------------------------- */
+        $this->home = __('home');
+        $this->blog = __('blog');
+        $this->contact = __('contact');
+        /* ------------------------------ End Frontend ------------------------------ */
+
+
+
+        /* -------------------------------------------------------------------------- */
+        /*                                   Backend                                  */
+        /* -------------------------------------------------------------------------- */
+        // Header
+        $this->header = __('backend-header');
 
         // Sidebar
-        $this->sidebar = __('sidebar');
+        $this->sidebar = __('backend-sidebar');
 
         // Button
         $this->button = __('button');
@@ -49,40 +58,41 @@ class Translations {
         $this->select = __('select');
 
         // Main Dashboard
-        $this->main = __('main');
+        $this->main = __('backend-main');
 
         // Post Dashboard
-        $this->post = __('post');
+        $this->post = __('backend-post');
 
         // Category Dashboard
-        $this->category = __('category');
+        $this->category = __('backend-category');
 
         // Tag Dashboard
-        $this->tag = __('tag');
+        $this->tag = __('backend-tag');
 
         // User Dashboard
-        $this->users = __('users');
+        $this->users = __('backend-users');
 
         // Permission Dashboard
-        $this->permissions = __('permissions');
+        $this->permissions = __('backend-permissions');
 
         // Role Dashboard
-        $this->roles = __('roles');
+        $this->roles = __('backend-roles');
 
         // General Dashboard
-        $this->general = __('general');
-        $this->social_media = __('social_media');
+        $this->general = __('backend-general');
+        $this->social_media = __('backend-social-media');
 
         // Email
-        $this->message = __('message');
+        $this->message = __('backend-message');
 
         // SEO Dashboard
-        $this->meta = __('meta');
-        $this->canonical = __('canonical');
+        $this->meta = __('backend-meta');
+        $this->canonical = __('backend-canonical');
+        $this->opengraph = __('backend-opengraph');
 
         // System Dashboard
-        $this->activity = __('activity');
-        $this->maintenance = __('maintenance');
+        $this->activity = __('backend-activity');
+        $this->maintenance = __('backend-maintenance');
     }
 
     // Additional Attributes
