@@ -26,10 +26,21 @@
     <link rel="stylesheet" href="{{asset('template/default/assets/css/style.css')}}">
 </head>
 
-<body class="blog-home">
+<body>
 
-    @yield('blog')
-    @yield('contact')
+    <header>
+        @include('template.default.frontend.section.header')
+    </header>
+
+    <main>
+        @yield('home')
+        @yield('blog')
+        @yield('contact')
+    </main>
+
+    <footer class=" text-center text-lg-start mt-5">
+        @include('template.default.frontend.section.footer')
+    </footer>
 
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"
@@ -45,7 +56,7 @@
     <!-- Tween JS -->
     <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
     <!-- Customer JS     -->
-    {{-- <script src="{{asset('template/default/assets/js/main.js')}}"></script> --}}
+    <script src="{{asset('template/default/assets/js/main.js')}}"></script>
 
 </body>
 

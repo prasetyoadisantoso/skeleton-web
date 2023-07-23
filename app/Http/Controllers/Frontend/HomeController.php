@@ -40,8 +40,8 @@ class HomeController extends Controller
     {
         $this->boot();
         $social_media = $this->social_media->query()->where('name', 'Instagram')->orWhere('name', 'Github')->orWhere('name', 'Gitlab')->get();
-        return view('template.default.frontend.home', array_merge([
+        return view('template.default.frontend.page.home', array_merge([
             'social_media' => $social_media->toArray()
-        ]));
+        ], $this->global_variable->PageType('home')));
     }
 }

@@ -55,7 +55,7 @@ class BlogController extends Controller
         $posts = $this->post->query()->latest()->paginate(5);
         $categories = $this->category->query()->get();
         $tags = $this->tag->query()->get();
-        return view('template.default.frontend.blog', array_merge([
+        return view('template.default.frontend.page.blog', array_merge([
             'posts' => $posts,
             'categories' => $categories,
             'tags' => $tags,
@@ -75,7 +75,7 @@ class BlogController extends Controller
         $categories = $this->category->query()->get();
         $tags = $this->tag->query()->get();
 
-        return view('template.default.frontend.blog', array_merge([
+        return view('template.default.frontend.page.blog', array_merge([
             'posts' => $posts,
             'categories' => $categories,
             'tags' => $tags,
@@ -91,7 +91,7 @@ class BlogController extends Controller
         $categories = $this->category->query()->get();
         $tags = $this->tag->query()->get();
 
-        return view('template.default.frontend.blog', array_merge([
+        return view('template.default.frontend.page.blog', array_merge([
             'posts' => $posts,
             'categories' => $categories,
             'tags' => $tags,
@@ -107,7 +107,7 @@ class BlogController extends Controller
         $categories = $this->category->query()->get();
         $tags = $this->tag->query()->get();
 
-        return view('template.default.frontend.blog', array_merge([
+        return view('template.default.frontend.page.blog', array_merge([
             'posts' => $posts,
             'categories' => $categories,
             'tags' => $tags,
@@ -121,7 +121,7 @@ class BlogController extends Controller
         $categories = $this->category->query()->get();
         $tags = $this->tag->query()->get();
 
-        return view('template.default.frontend.post', array_merge([
+        return view('template.default.frontend.page.post', array_merge([
             'posts' => $posts,
             'categories' => $categories,
             'tags' => $tags,

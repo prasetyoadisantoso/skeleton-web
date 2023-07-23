@@ -54,7 +54,7 @@ class ContactController extends Controller
     public function index()
     {
         $this->boot();
-        return view('template.default.frontend.contact', array_merge([
+        return view('template.default.frontend.page.contact', array_merge([
         ]));
     }
 

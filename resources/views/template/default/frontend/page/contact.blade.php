@@ -1,8 +1,6 @@
-@extends('template.default.layout.customer')
+@extends('template.default.frontend.layout.main')
 
 @section('contact')
-
-@include('template.default.frontend.partial.header')
 
 <!-- Main Page -->
 <div class="container-fluid">
@@ -66,6 +64,4 @@
         @endif
     </div>
 </div>
-
-@include('template.default.frontend.partial.footer')
 @endsection
