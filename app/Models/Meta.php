@@ -16,11 +16,11 @@ class Meta extends Model
     public $incrementing = false;
 
     public $translatable = [
-      'description', 'keyword'
+      'description'
     ];
 
     public $fillable = [
-        'name', 'robot', 'description', 'keyword'
+        'name', 'robot', 'description'
     ];
 
     public static function boot()
@@ -49,7 +49,6 @@ class Meta extends Model
             'name' => $data['name'],
             'robot' => $data['robot'],
             'description' => $data['description'],
-            'keyword' => $data['keyword'],
         ]);
     }
 

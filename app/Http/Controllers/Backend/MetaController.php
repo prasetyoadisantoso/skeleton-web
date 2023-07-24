@@ -104,9 +104,6 @@ class MetaController extends Controller
         ->addColumn('description', function($meta){
             return $meta->description;
         })
-        ->addColumn('keyword', function($meta){
-            return $meta->keyword;
-        })
         ->addColumn('action', function ($meta) {
             return $meta->id;
         })
@@ -139,7 +136,7 @@ class MetaController extends Controller
             activity()->causedBy(Auth::user())->performedOn(new Meta)->log($request->validator->messages());
         }
         $request->validated();
-        $metadata = $request->only(['name', 'robot', 'description', 'keyword']);
+        $metadata = $request->only(['name', 'robot', 'description']);
 
         DB::beginTransaction();
         try {
@@ -214,7 +211,7 @@ class MetaController extends Controller
         }
 
         $request->validated();
-        $metadata = $request->only(['name', 'robot', 'description', 'keyword']);
+        $metadata = $request->only(['name', 'robot', 'description']);
 
         DB::beginTransaction();
         try {$this->meta->UpdateMeta($metadata, $id);

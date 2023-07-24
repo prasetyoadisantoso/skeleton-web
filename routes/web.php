@@ -158,9 +158,7 @@ Route::group([
 
 Route::get('factory-reset', function(){
     Artisan::call('factory-reset');
-    return response()->json([
-        'success' => 'success'
-    ]);
+    return redirect()->route('site.index');
 })->name('maintenance.factory.reset')->middleware('auth', 'verified');
 
 // Use it for Recovery System

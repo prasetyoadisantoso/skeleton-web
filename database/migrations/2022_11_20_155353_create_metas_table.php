@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('robot');
             $table->string('description');
-            $table->string('keyword');
             $table->timestamps();
         });
     }
