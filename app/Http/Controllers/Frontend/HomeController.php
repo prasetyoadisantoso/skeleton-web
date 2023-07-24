@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\SocialMedia;
 use App\Services\GlobalView;
-use Illuminate\Http\Request;
 use App\Services\GlobalVariable;
 use App\Services\Translations;
 
@@ -33,6 +32,7 @@ class HomeController extends Controller
 
             // Translations
             $this->translation->home,
+
         ]);
     }
 
@@ -44,4 +44,5 @@ class HomeController extends Controller
             'social_media' => $social_media->toArray()
         ], $this->global_variable->PageType('home')));
     }
+
 }
