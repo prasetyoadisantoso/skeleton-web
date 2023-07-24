@@ -36,6 +36,9 @@ class OpengraphFormRequest extends FormRequest
                     'description' => 'required|string',
                     'url' => 'required|string',
                     'site_name' => 'required|string',
+                    'image' => 'nullable',
+                    'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                    'type' => 'required|string',
                 ];
                 break;
 
@@ -46,6 +49,8 @@ class OpengraphFormRequest extends FormRequest
                     'description' => 'required|string',
                     'url' => 'required|string',
                     'site_name' => 'required|string',
+                    'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                    'type' => 'required|string',
                 ];
                 break;
 

@@ -37,11 +37,11 @@
             <!-- Start Create Meta -->
             <div class="container-fluid">
                 @if ($type == 'create')
-                <form action="{{route('opengraph.store')}}" method="POST" id="opengraph-store-form">
+                <form action="{{route('opengraph.store')}}" method="POST" id="opengraph-store-form"  enctype="multipart/form-data">
                 @endif
 
                 @if ($type == 'edit')
-                <form action="{{route('opengraph.update', $opengraph->id)}}" method="POST" id="opengraph-update-form">
+                <form action="{{route('opengraph.update', $opengraph->id)}}" method="POST" id="opengraph-update-form"  enctype="multipart/form-data">
                 @method('PUT')
                 @endif
 
@@ -82,6 +82,24 @@
                                 isset($opengraph) ? $opengraph->site_name : ''}}" required>
                             <div class="error-site-name"></div>
                         </div>
+                        <div class="mb-3">
+                            <label for="formFileLg" class="form-label">{{$form['image']}}</label>
+                            <input class="form-control" id="image" name="image"
+                                type="file" id="image" onchange="readImage(this);">
+                            <div class="error-image"></div>
+                        </div>
+                        <div class="mb-3">
+                            <img class="img-fluid" src="{{$type == 'edit' && $opengraph->image != null ? Storage::url($opengraph->image) :asset('template/default/assets/img/dummy.png')}}"
+                                alt="User profile picture" id="opengraphimage">
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputUrl" class="">{{$form['type']}}</label>
+                            <input name="type" type="text" class="form-control" id="type"
+                                placeholder="{{$form['type_placeholder']}}" value="{{$type == "edit" &&
+                                isset($opengraph) ? $opengraph->type : ''}}" required>
+                            <div class="error-type"></div>
+                        </div>
+
                         <div class="mb-3">
                             @if ($type == 'create')
                             @can ("opengraph-store")
@@ -133,6 +151,9 @@
             site_name: {
                 required: true
             },
+            type: {
+                required: true
+            },
         },
         messages: {
             name: "<small style='color: red;'>{{$validation['name_required']}}</small>",
@@ -140,6 +161,7 @@
             description: "<small style='color: red;'>{{$validation['description_required']}}</small>",
             url: "<small style='color: red;'>{{$validation['url_required']}}</small>",
             site_name: "<small style='color: red;'>{{$validation['site_name_required']}}</small>",
+            type: "<small style='color: red;'>{{$validation['type_required']}}</small>",
         },
         errorPlacement: function (error, element) {
             if (element.attr("name") == "name") {
@@ -156,6 +178,9 @@
             }
             if (element.attr("name") == "site_name") {
                 error.appendTo(".error-site-name");
+            }
+            if (element.attr("name") == "type") {
+                error.appendTo(".error-type");
             }
         },
     });
@@ -177,5 +202,21 @@
             return false;
         }
     });
+</script>
+
+<script alt="read-image">
+    //Preview Image
+    function readImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                let my_input = input.id;
+                let i = my_input.substr(-1)
+                $('#opengraphimage')
+                    .attr('src', e.target.result)
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 </script>
 @endpush

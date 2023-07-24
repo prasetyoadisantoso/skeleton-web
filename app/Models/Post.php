@@ -8,10 +8,10 @@ use App\Models\Meta;
 use App\Models\Tag;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\Translatable\HasTranslations;
 use Webpatser\Uuid\Uuid;
-use Illuminate\Support\Facades\Storage;
 
 class Post extends Model
 {
@@ -196,6 +196,5 @@ class Post extends Model
 
         return $this->find($delete_post->id)->forceDelete();
     }
-
 
 }
