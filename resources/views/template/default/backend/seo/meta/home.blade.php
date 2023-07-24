@@ -38,7 +38,6 @@
                         <th>{{$datatable['table']['name']}}</th>
                         <th>{{$datatable['table']['robot']}}</th>
                         <th>{{$datatable['table']['description']}}</th>
-                        <th>{{$datatable['table']['keyword']}}</th>
                         <th>{{$datatable['table']['action']}}</th>
                     </tr>
                 </thead>
@@ -48,7 +47,6 @@
                         <td>{{$datatable['table']['name']}}</td>
                         <td>{{$datatable['table']['robot']}}</td>
                         <td>{{$datatable['table']['description']}}</td>
-                        <td>{{$datatable['table']['keyword']}}</td>
                         <td>{{$datatable['table']['action']}}</td>
                     </tr>
                 </tbody>
@@ -77,7 +75,6 @@
             { data: 'name', name: 'name', searchable: true, orderable: true },
             { data: 'robot', name: 'robot', searchable: true, orderable: true },
             { data: 'description', name: 'description', searchable: true, orderable: true },
-            { data: 'keyword', name: 'keyword', searchable: true, orderable: true },
             {
                 data: 'action', name: 'action', orderable: false, searchable: false, render: function (data, type, full, meta) {
                     var id = data;
