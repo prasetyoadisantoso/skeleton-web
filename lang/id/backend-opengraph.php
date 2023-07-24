@@ -21,6 +21,8 @@ return [
             'description' => 'Deskripsi',
             'url' => 'URL',
             'site_name' => 'Nama Situs',
+            'image' => 'Gambar',
+            'type' => 'Tipe',
             'action' => 'Aksi',
         ],
         'search' => 'Cari: ',
@@ -43,6 +45,10 @@ return [
         'url_placeholder' => 'Masukkan alamat URL...',
         'site_name' => 'Nama situs :',
         'site_name_placeholder' => 'Masukkan nama situs...',
+        'image' => 'Image: ',
+        'image_placeholder' => 'Pilih gambar...',
+        'type' => 'Tipe Konten: ',
+        'type_placeholder' => 'Masukkan tipe konten...',
     ],
 
     'messages' => [
@@ -61,5 +67,6 @@ return [
         'description_required' => 'Deskripsi wajib diisi',
         'url_required' => 'Alamat url wajib diisi',
         'site_name_required' => 'Nama situs wajib diisi',
+        'type' => 'Tipe konten wajib diisi',
     ],
 ];

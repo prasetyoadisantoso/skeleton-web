@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('description');
             $table->string('url');
             $table->string('site_name');
+            $table->string('image')->nullable();
+            $table->string('type');
             $table->timestamps();
         });
     }

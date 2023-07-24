@@ -21,6 +21,8 @@ return [
             'description' => 'Description',
             'url' => 'URL',
             'site_name' => 'Site Name',
+            'image' => 'Image',
+            'type' => 'Type',
             'action' => 'Action',
         ],
         'search' => 'Search: ',
@@ -43,6 +45,10 @@ return [
         'url_placeholder' => 'Insert url address...',
         'site_name' => 'Site name :',
         'site_name_placeholder' => 'Insert site name...',
+        'image' => 'Image: ',
+        'image_placeholder' => 'Select image...',
+        'type' => 'Content Type: ',
+        'type_placeholder' => 'Insert type of content...',
     ],
 
     'messages' => [
@@ -61,5 +67,6 @@ return [
         'description_required' => 'Description is required',
         'url_required' => 'URL is required',
         'site_name_required' => 'Site name is required',
+        'type_required' => 'Type is required',
     ],
 ];

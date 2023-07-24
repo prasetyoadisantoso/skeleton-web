@@ -11,12 +11,13 @@ use App\Services\ResponseFormatter;
 use App\Services\Translations;
 use Yajra\DataTables\DataTables;
 Use App\Models\Opengraph;
+use App\Services\Upload;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class OpengraphController extends Controller
 {
-    protected $global_view, $global_variable, $translation, $dataTables, $responseFormatter, $fileManagement, $opengraph;
+    protected $global_view, $global_variable, $translation, $dataTables, $responseFormatter, $fileManagement, $opengraph, $upload;
 
     public function __construct(
         GlobalView $global_view,
@@ -26,6 +27,7 @@ class OpengraphController extends Controller
         ResponseFormatter $responseFormatter,
         FileManagement $fileManagement,
         Opengraph $opengraph,
+        Upload $upload,
     )
     {
         $this->middleware(['auth', 'verified', 'xss']);
@@ -43,6 +45,7 @@ class OpengraphController extends Controller
         $this->responseFormatter = $responseFormatter;
         $this->fileManagement = $fileManagement;
         $this->opengraph = $opengraph;
+        $this->upload = $upload;
     }
 
     protected function boot()
@@ -110,6 +113,12 @@ class OpengraphController extends Controller
         ->addColumn('site_name', function($opengraph){
             return $opengraph->site_name;
         })
+        ->addColumn('image', function($opengraph){
+            return $opengraph->image;
+        })
+        ->addColumn('type', function($opengraph){
+            return $opengraph->type;
+        })
         ->addColumn('action', function ($opengraph) {
             return $opengraph->id;
         })
@@ -142,7 +151,11 @@ class OpengraphController extends Controller
             activity()->causedBy(Auth::user())->performedOn(new Opengraph)->log($request->validator->messages());
         }
         $request->validated();
-        $opengraph = $request->only(['name', 'title', 'description', 'url', 'site_name']);
+        $opengraph = $request->only(['name', 'title', 'description', 'url', 'site_name', 'image', 'type']);
+        if ($request->file('image')) {
+            $image = $this->upload->UploadOpengraphImageToStorage($opengraph['image']);
+            $opengraph['image'] = $image;
+        }
 
         DB::beginTransaction();
         try {
@@ -164,7 +177,7 @@ class OpengraphController extends Controller
 
             activity()->causedBy(Auth::user())->performedOn(new Opengraph)->log($message);
 
-            return redirect()->route('meta.create')->with([
+            return redirect()->route('opengraph.create')->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],
                 "content" => $message,
@@ -216,7 +229,12 @@ class OpengraphController extends Controller
         }
 
         $request->validated();
-        $opengraph = $request->only(['name', 'title', 'description', 'url', 'site_name']);
+        $opengraph = $request->only(['name', 'title', 'description', 'url', 'site_name', 'image', 'type']);
+
+        if ($request->file('image')) {
+            $image = $this->upload->UploadOpengraphImageToStorage($opengraph['image']);
+            $opengraph['image'] = $image;
+        }
 
         DB::beginTransaction();
         try {$this->opengraph->UpdateOpengraph($opengraph, $id);
