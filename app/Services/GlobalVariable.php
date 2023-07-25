@@ -3,44 +3,48 @@
 namespace App\Services;
 
 use App\Models\General;
+use App\Models\Message;
+use App\Models\SocialMedia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-use App\Models\Message;
 
 class GlobalVariable
 {
-    protected $general;
-    public function __construct(General $general)
-    {
+    protected $general, $socialMedia;
+    public function __construct(
+        General $general,
+        SocialMedia $socialMedia,
+    ) {
         $this->general = $general;
+        $this->socialMedia = $socialMedia;
     }
 
-    public function TitlePage(string $title_name): ?array
+    public function TitlePage(string $title_name):  ? array
     {
         return [
-            'title' => $title_name
+            'title' => $title_name,
         ];
     }
 
     public function SystemLanguage()
     {
         return [
-            'current_locale' => LaravelLocalization::getCurrentLocale()
+            'current_locale' => LaravelLocalization::getCurrentLocale(),
         ];
     }
 
     public function SystemName()
     {
         return [
-            'system_name' => config('app.name')
+            'system_name' => config('app.name'),
         ];
     }
 
     public function AuthUserName()
     {
         return [
-            'name' => Auth::user()->only(['name'])['name']
+            'name' => Auth::user()->only(['name'])['name'],
         ];
     }
 
@@ -48,7 +52,7 @@ class GlobalVariable
     {
         $data = $this->general->query()->first()->only(['site_logo']);
         return [
-            'site_logo' => Storage::url($data['site_logo'])
+            'site_logo' => Storage::url($data['site_logo']),
         ];
     }
 
@@ -56,7 +60,7 @@ class GlobalVariable
     {
         $data = $this->general->query()->first()->only(['site_favicon']);
         return [
-            'site_favicon' => Storage::url($data['site_favicon'])
+            'site_favicon' => Storage::url($data['site_favicon']),
         ];
     }
 
@@ -65,7 +69,7 @@ class GlobalVariable
         $general = new General;
         $data = $general->query()->first()->only(['site_logo']);
         return [
-            'site_logo' => Storage::url($data['site_logo'])
+            'site_logo' => Storage::url($data['site_logo']),
         ];
     }
 
@@ -74,7 +78,7 @@ class GlobalVariable
         $general = new General;
         $data = $general->query()->first()->only(['site_favicon']);
         return [
-            'site_favicon' => Storage::url($data['site_favicon'])
+            'site_favicon' => Storage::url($data['site_favicon']),
         ];
     }
 
@@ -82,44 +86,52 @@ class GlobalVariable
     {
         $data = $this->general->first()->only(['site_email']);
         return [
-            'site_email' => $data['site_email']
+            'site_email' => $data['site_email'],
         ];
     }
 
-    public function PageType(string $type): ?array
+    public function PageType(string $type) :  ? array
     {
         return [
-            'type' => $type
+            'type' => $type,
         ];
     }
 
-    public function ModuleType(array $type): ?array
+    public function ModuleType(array $type) :  ? array
     {
         return [
-            'module' => $type
+            'module' => $type,
         ];
     }
 
-    public function ScriptType(array $type): ?array
+    public function ScriptType(array $type) :  ? array
     {
         return [
-            'script' => $type
+            'script' => $type,
         ];
     }
 
-    public function RouteType(string $type): ?array
+    public function RouteType(string $type) :  ? array
     {
         return [
-            'url' => $type
+            'url' => $type,
         ];
     }
 
-    public function MessageNotification(){
+    public function SocialMedia()
+    {
+        return [
+            'social_media' => $this->socialMedia->where('name', 'Instagram')->orWhere('name', 'Github')->orWhere('name', 'Gitlab')->get()->toArray()
+        ];
+    }
+
+    public function MessageNotification()
+    {
         $message = Message::select('name', 'read_at')->whereNull('read_at')->get();
         $message_count = Message::whereNull('read_at')->count();
         return [
-          'message_notification' => $message,
-          'message_notification_count' => $message_count
+            'message_notification' => $message,
+            'message_notification_count' => $message_count,
         ];
     }
 }

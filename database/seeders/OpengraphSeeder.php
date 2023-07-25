@@ -29,7 +29,7 @@ class OpengraphSeeder extends Seeder
                 "url" => "https://skeleton-web.prasetyoadisantoso.com",
                 "site_name" => "Website Name",
                 'image' => $opengraphimage,
-                "description" => '{"en":"Kerangka web yang ringan dan mudah digunakan yang dapat digunakan untuk membuat berbagai jenis situs web.","id":"a lightweight and easy-to-use web framework that can be used to create various types of websites."}',
+                "description" => '{"id":"Kerangka web yang ringan dan mudah digunakan yang dapat digunakan untuk membuat berbagai jenis situs web.","en":"A lightweight and easy-to-use web framework that can be used to create various types of websites."}',
                 "type" => "website",
             ],
 

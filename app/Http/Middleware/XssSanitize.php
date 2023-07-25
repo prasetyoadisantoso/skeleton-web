@@ -21,10 +21,13 @@ class XssSanitize
 
         $route = Route::currentRouteName();
 
-        // Post Route
-        if ($route == "post.store") {
-            $input['title'] = strip_tags($input['title']);
-        }
+        array_walk_recursive($input, function (&$value) {
+            // Remove HTML tags
+            $value = strip_tags($value);
+
+            // Convert special characters to HTML entities
+            $value = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        });
 
         $request->merge($input);
         return $next($request);

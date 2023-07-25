@@ -3,26 +3,26 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\SocialMedia;
 use App\Services\GlobalView;
 use App\Services\GlobalVariable;
 use App\Services\Translations;
+use App\Services\SEO;
 
 class HomeController extends Controller
 {
-    protected $global_view, $global_variable, $translation, $social_media;
+    protected $global_view, $global_variable, $translation, $seo;
 
     public function __construct(
         GlobalView $global_view,
         GlobalVariable $global_variable,
-        SocialMedia $social_media,
         Translations $translation,
+        SEO $seo,
     )
     {
         $this->global_view = $global_view;
         $this->global_variable = $global_variable;
-        $this->social_media = $social_media;
         $this->translation = $translation;
+        $this->seo = $seo;
     }
 
     protected function boot()
@@ -33,16 +33,21 @@ class HomeController extends Controller
             // Translations
             $this->translation->home,
 
+            $this->global_variable->PageType('home'),
+
+            $this->seo->MetaHome(),
+
+            $this->global_variable->SocialMedia(),
+
+            $this->seo->OpengraphHome(),
+
         ]);
     }
 
     public function index()
     {
         $this->boot();
-        $social_media = $this->social_media->query()->where('name', 'Instagram')->orWhere('name', 'Github')->orWhere('name', 'Gitlab')->get();
-        return view('template.default.frontend.page.home', array_merge([
-            'social_media' => $social_media->toArray()
-        ], $this->global_variable->PageType('home')));
+        return view('template.default.frontend.page.home');
     }
 
 }

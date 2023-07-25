@@ -1,11 +1,16 @@
 {{-- Meta Tag --}}
-<meta name="description" content="Description of your web page here.">
-<meta name="robots" content="index, follow">
+@foreach ($meta as $item)
+<meta name="description" content="{{$item['description']}}">
+<meta name="robots" content="{{$item['robot']}}">
+@endforeach
 
+
+@foreach ($opengraph as $item)
 {{-- OpenGraph --}}
-<meta property="og:title" content="Your Page Title Here">
-<meta property="og:description" content="Description of your web page here.">
-<meta property="og:image" content="URL of the image you want to display when shared">
-<meta property="og:url" content="URL of the web page">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Your Site Name">
+<meta property="og:title" content="{{$item['title']}}">
+<meta property="og:description" content="{{$item['description']}}">
+<meta property="og:image" content="{{url('') . Storage::url($item['image'])}}">
+<meta property="og:url" content="{{$item['url']}}">
+<meta property="og:type" content="{{$item['type']}}">
+<meta property="og:site_name" content="{{$item['site_name']}}">
+@endforeach
