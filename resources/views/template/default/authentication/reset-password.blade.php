@@ -15,9 +15,6 @@
             <form action="{{route('reset.password')}}" method="post" id="reset-password-form">
                 @csrf
                 <input type="hidden" name="token" value="{{$token}}">
-                <input type="password" name="old_password" id="old_password" class="form-control my-2"
-                    placeholder="{{$old_password}}">
-                <div class="error-old-password mb-3" style="color: red;"></div>
 
                 <input type="password" name="new_password" id="new_password" class="form-control my-2"
                     placeholder="{{$new_password}}">
@@ -45,9 +42,6 @@
 // Registration
 $("#reset-password-form").validate({
     rules: {
-        old_password: {
-            required: true,
-        },
         new_password: {
             required: true,
         },
@@ -57,7 +51,6 @@ $("#reset-password-form").validate({
         }
     },
     messages: {
-        old_password: "<small style='color: red;'>{{$password_required}}</small>",
         new_password: "<small style='color: red;'>{{$password_required}}</small>",
         confirm_password: {
             required: "<small style='color: red;'>{{$confirm_password_required}}</small>",
@@ -65,10 +58,6 @@ $("#reset-password-form").validate({
         }
     },
     errorPlacement: function (error, element) {
-
-        if (element.attr("name") == "old_password") {
-            error.appendTo(".error-old-password");
-        }
 
         if (element.attr("name") == "new_password") {
             error.appendTo(".error-new-password");

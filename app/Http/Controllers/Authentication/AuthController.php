@@ -381,12 +381,13 @@ class AuthController extends Controller
             activity()->causedBy(Auth::user())->performedOn(new User)->log($request->validator->messages());
         }
         $request->validated();
-        $data = $request->only(['token', 'old_password', 'new_password']);
+        $data = $request->only(['token', 'new_password']);
         DB::beginTransaction();
         try {
             $data_token = $this->token->GetUUIDByToken($this->encryption->DecryptToken($data["token"]));
             $dataUser = $this->user->GetUserByID($data_token->user_id);
-            $match_password = Hash::check($data['old_password'], $dataUser->password);
+            // $match_password = Hash::check($data['old_password'], $dataUser->password);
+            $match_password = true;
             if ($match_password == true) {
                 $dataUser->password = Hash::make($data['new_password']);
                 $dataUser->save();

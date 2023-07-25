@@ -67,7 +67,6 @@ class AuthFormRequest extends FormRequest
 
             case 'test.client.reset':
                 return [
-                    'old_password' => 'required',
                     'password' => 'required|same:password_confirmation',
                 ];
                 break;
@@ -123,7 +122,6 @@ class AuthFormRequest extends FormRequest
             case 'reset.password':
                 return [
                     'token' => 'required',
-                    'old_password' => 'required',
                     'new_password' => 'required|same:confirm_password',
                 ];
                 break;
