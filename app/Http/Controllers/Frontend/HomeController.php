@@ -29,16 +29,14 @@ class HomeController extends Controller
     {
         $this->global_view->RenderView([
             $this->global_variable->SiteLogo(),
+            $this->global_variable->PageType('home'),
+            $this->global_variable->SocialMedia(),
 
             // Translations
             $this->translation->home,
 
-            $this->global_variable->PageType('home'),
-
+            // SEO
             $this->seo->MetaHome(),
-
-            $this->global_variable->SocialMedia(),
-
             $this->seo->OpengraphHome(),
 
         ]);

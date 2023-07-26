@@ -13,10 +13,11 @@ use App\Services\Email;
 use App\Models\Message;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Services\SEO;
 
 class ContactController extends Controller
 {
-    protected $global_view, $global_variable, $translation, $social_media, $email;
+    protected $global_view, $global_variable, $translation, $social_media, $email, $seo;
 
     public function __construct(
         GlobalView $global_view,
@@ -25,6 +26,7 @@ class ContactController extends Controller
         Translations $translation,
         Email $email,
         Message $message,
+        SEO $seo,
     )
     {
         $this->global_view = $global_view;
@@ -33,6 +35,7 @@ class ContactController extends Controller
         $this->translation = $translation;
         $this->email = $email;
         $this->message = $message;
+        $this->seo = $seo;
     }
 
     protected function boot()
@@ -43,6 +46,10 @@ class ContactController extends Controller
             // Translations
             $this->translation->contact,
             $this->translation->button,
+
+            // SEO
+            $this->seo->MetaContact(),
+            $this->seo->OpengraphContact(),
         ]);
     }
 
