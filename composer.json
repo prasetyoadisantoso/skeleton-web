@@ -10,6 +10,7 @@
         "codezero/laravel-unique-translation": "^4.0",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",
+        "larabug/larabug": "^3.0",
         "laravel/framework": "^9.2",
         "laravel/octane": "^1.2",
         "laravel/sanctum": "^2.14.1",
