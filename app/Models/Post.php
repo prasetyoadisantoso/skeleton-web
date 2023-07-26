@@ -61,6 +61,12 @@ class Post extends Model
         return $this->belongsToMany(Meta::class, 'meta_post');
     }
 
+    // Relation to Opengraph
+    public function opengraphs()
+    {
+        return $this->belongsToMany(Opengraph::class, 'opengraph_post');
+    }
+
     // Relation to Canonicals
     public function canonicals()
     {
@@ -128,6 +134,10 @@ class Post extends Model
             $post->metas()->attach($data['meta']);
         }
 
+        if ($data['opengraph'] != null || $data['opengraph'] != '') {
+            $post->opengraphs()->attach($data['opengraph']);
+        }
+
         if ($data['canonical'] != null || $data['canonical'] != '') {
             $post->canonicals()->attach($data['canonical']);
         }
@@ -174,6 +184,10 @@ class Post extends Model
             $current_post->metas()->sync($data['meta']);
         }
 
+        if ($data['opengraph'] != null || $data['opengraph'] != '') {
+            $current_post->opengraphs()->sync($data['opengraph']);
+        }
+
         if ($data['canonical'] != null || $data['canonical'] != '') {
             $current_post->canonicals()->sync($data['canonical']);
         }
@@ -190,6 +204,7 @@ class Post extends Model
         $delete_post->categories()->detach();
         $delete_post->metas()->detach();
         $delete_post->canonicals()->detach();
+        $delete_post->opengraphs()->detach();
 
         // Delete image file
         Storage::delete('/public' . '/' . $delete_post->image);

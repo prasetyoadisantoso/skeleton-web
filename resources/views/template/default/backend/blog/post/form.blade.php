@@ -38,154 +38,185 @@
             <div class="container-fluid">
                 @if ($type == 'create')
                 <form action="{{route('post.store')}}" method="POST" id="post-store-form" enctype="multipart/form-data">
-                @endif
+                    @endif
 
-                @if ($type == 'edit')
-                <form action="{{route('post.update', $post->id)}}" method="POST" id="post-update-form" enctype="multipart/form-data">
-                @method('PUT')
-                @endif
+                    @if ($type == 'edit')
+                    <form action="{{route('post.update', $post->id)}}" method="POST" id="post-update-form"
+                        enctype="multipart/form-data">
+                        @method('PUT')
+                        @endif
 
-                    @csrf
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <div class="mb-3">
-                                    <label for="inputTitle" class="form-label">{{$form['title']}}</label>
-                                    <input name="title" type="text" class="form-control" id="title"
-                                        placeholder="{{$form['title_placeholder']}}" value="{{$type == 'edit' ? $post->title : ''}}" required>
-                                    <div class="error-title"></div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="slug" class="form-label">{{$form['slug']}}</label>
-                                    <input type="text" class="form-control" id="slug" name="slug"
-                                        placeholder="{{$form['slug_placeholder']}}" value="{{$type == 'edit' ? $post->slug : ''}}">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="exampleFormControlTextarea1" class="form-label">{{$form['content']}}</label>
-                                    <textarea id="content" class="form-control" name="content"
-                                        required>{{$type == 'edit' ? $post->content : ''}}</textarea>
-                                    <div class="error-content"></div>
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <div class="mb-3">
+                                        <label for="inputTitle" class="form-label">{{$form['title']}}</label>
+                                        <input name="title" type="text" class="form-control" id="title"
+                                            placeholder="{{$form['title_placeholder']}}"
+                                            value="{{$type == 'edit' ? $post->title : ''}}" required>
+                                        <div class="error-title"></div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="slug" class="form-label">{{$form['slug']}}</label>
+                                        <input type="text" class="form-control" id="slug" name="slug"
+                                            placeholder="{{$form['slug_placeholder']}}"
+                                            value="{{$type == 'edit' ? $post->slug : ''}}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlTextarea1"
+                                            class="form-label">{{$form['content']}}</label>
+                                        <textarea id="content" class="form-control" name="content"
+                                            required>{{$type == 'edit' ? $post->content : ''}}</textarea>
+                                        <div class="error-content"></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <div class="mb-3">
-                                    <label for="formFileLg" class="form-label">{{$form['category']}}</label>
-                                    <select class="form-select" aria-label="Default select example" name="category" id="category">
-                                        @if ($type == 'create')
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="mb-3">
+                                        <label for="formFileLg" class="form-label">{{$form['category']}}</label>
+                                        <select class="form-select" aria-label="Default select example" name="category"
+                                            id="category">
+                                            @if ($type == 'create')
                                             <option value="">{{$form['select_category']}}</option>
                                             @foreach ($category_select as $category)
                                             <option value="{{$category->id}}">{{$category->name}}</option>
                                             @endforeach
-                                        @endif
+                                            @endif
 
-                                        @if ($type == 'edit')
-                                        <option value="">{{$form['select_category']}}</option>
-                                        @foreach ($category_select as $item)
-                                        <option value="{{$item->id}}" {{isset($category->name) && $item->name == $category->name ? 'selected' : ''}}>{{$item->name}}</option>
-                                        @endforeach
-                                        @endif
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="formFileLg" class="form-label">{{$form['tag']}}</label>
-                                    <select class="tag-select form-control" multiple="multiple" name="tag[]" style="width: 100%">
-                                        @if ($type == 'create')
+                                            @if ($type == 'edit')
+                                            <option value="">{{$form['select_category']}}</option>
+                                            @foreach ($category_select as $item)
+                                            <option value="{{$item->id}}" {{isset($category->name) && $item->name ==
+                                                $category->name ? 'selected' : ''}}>{{$item->name}}</option>
+                                            @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="formFileLg" class="form-label">{{$form['tag']}}</label>
+                                        <select class="tag-select form-control" multiple="multiple" name="tag[]"
+                                            style="width: 100%">
+                                            @if ($type == 'create')
                                             <option value="" id="thanks"></option>
                                             @foreach ($tag_select as $tag)
                                             <option value="{{$tag->id}}">{{$tag->name}}</option>
                                             @endforeach
-                                        @endif
+                                            @endif
 
-                                        @if ($type == 'edit')
+                                            @if ($type == 'edit')
                                             <option value="" id="thanks"></option>
                                             @foreach ($tag_select->makeVisible('id') as $value)
-                                                <option value="{{$value->id}}" {{isset($value->id) && in_array($value->id, $tag_selection) == $value->id ? "selected" : ""}}>{{$value->name}}</option>
+                                            <option value="{{$value->id}}" {{isset($value->id) && in_array($value->id,
+                                                $tag_selection) == $value->id ? "selected" : ""}}>{{$value->name}}
+                                            </option>
                                             @endforeach
-                                        @endif
-                                    </select>
-                                </div>
-                                <hr class="my-5">
-                                <div class="mb-3">
-                                    <label for="formFileLg" class="form-label">{{$form['meta']}}</label>
-                                    <select class="form-select" aria-label="Default select example" name="meta">
-                                        @if ($type == 'create')
+                                            @endif
+                                        </select>
+                                    </div>
+                                    <hr class="my-5">
+                                    <div class="mb-3">
+                                        <label for="formFileLg" class="form-label">{{$form['meta']}}</label>
+                                        <select class="form-select" aria-label="Default select example" name="meta">
+                                            @if ($type == 'create')
                                             <option value="">{{$form['select_meta']}}</option>
                                             @foreach ($meta_select as $meta)
                                             <option value="{{$meta->id}}">{{$meta->name}}</option>
                                             @endforeach
-                                        @endif
+                                            @endif
 
-                                        @if ($type == 'edit')
+                                            @if ($type == 'edit')
                                             <option value="">{{$form['select_meta']}}</option>
                                             @foreach ($meta_select as $item)
-                                            <option value="{{$item->id}}" {{isset($meta->name) && $meta->name == $item->name ? "selected" : ""}}>{{$item->name}}</option>
+                                            <option value="{{$item->id}}" {{isset($meta->name) && $meta->name ==
+                                                $item->name ? "selected" : ""}}>{{$item->name}}</option>
                                             @endforeach
-                                        @endif
+                                            @endif
 
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="formFileLg" class="form-label">{{$form['canonical']}}</label>
-                                    <select class="form-select" aria-label="Default select example" name="canonical">
-                                        @if ($type == 'create')
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="formFileLg" class="form-label">{{$form['opengraph']}}</label>
+                                        <select class="form-select" aria-label="Default select example" name="opengraph">
+                                            @if ($type == 'create')
+                                            <option value="">{{$form['select_opengraph']}}</option>
+                                            @foreach ($opengraph_select as $opengraph)
+                                            <option value="{{$opengraph->id}}">{{$opengraph->name}}</option>
+                                            @endforeach
+                                            @endif
+
+                                            @if ($type == 'edit')
+                                            <option value="">{{$form['select_opengraph']}}</option>
+                                            @foreach ($opengraph_select as $item)
+                                            <option value="{{$item->id}}" {{isset($opengraph->name) && $opengraph->name
+                                                == $item->name ? "selected" : ""}}>{{$item->name}}</option>
+                                            @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="formFileLg" class="form-label">{{$form['canonical']}}</label>
+                                        <select class="form-select" aria-label="Default select example"
+                                            name="canonical">
+                                            @if ($type == 'create')
                                             <option value="">{{$form['select_canonical']}}</option>
                                             @foreach ($canonical_select as $canonical)
                                             <option value="{{$canonical->id}}">{{$canonical->name}}</option>
                                             @endforeach
-                                        @endif
+                                            @endif
 
-                                        @if ($type == 'edit')
+                                            @if ($type == 'edit')
                                             <option value="">{{$form['select_canonical']}}</option>
                                             @foreach ($canonical_select as $item)
-                                            <option value="{{$item->id}}" {{isset($canonical->name) && $canonical->name == $item->name ? "selected" : ""}}>{{$item->name}}</option>
+                                            <option value="{{$item->id}}" {{isset($canonical->name) && $canonical->name
+                                                == $item->name ? "selected" : ""}}>{{$item->name}}</option>
                                             @endforeach
-                                        @endif
+                                            @endif
 
-                                    </select>
-                                </div>
-                                <hr class="my-5">
-                                <div class="mb-3">
-                                    <label for="formFileLg" class="form-label">{{$form['feature_image']}}</label>
-                                    <input class="form-control" id="feature_image" name="feature_image"
-                                        type="file" id="feature_image" onchange="readImage(this);">
-                                    <div class="error-feature-image"></div>
-                                </div>
-                                <div class="mb-3">
-                                    <img class="img-fluid" src="{{$type == 'edit' && $post->feature_image != null ? Storage::url($post->feature_image) :asset('template/default/assets/img/dummy.png')}}"
-                                        alt="User profile picture" id="profileImage">
+                                        </select>
+                                    </div>
+                                    <hr class="my-5">
+                                    <div class="mb-3">
+                                        <label for="formFileLg" class="form-label">{{$form['feature_image']}}</label>
+                                        <input class="form-control" id="feature_image" name="feature_image" type="file"
+                                            id="feature_image" onchange="readImage(this);">
+                                        <div class="error-feature-image"></div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <img class="img-fluid"
+                                            src="{{$type == 'edit' && $post->feature_image != null ? Storage::url($post->feature_image) :asset('template/default/assets/img/dummy.png')}}"
+                                            alt="User profile picture" id="profileImage">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-check form-switch">
-                        <label class="form-check-label">{{$form['is_publish']}}</label>
-                        <input class="form-check-input" type="checkbox" role="switch" name="published"
-                            id="published" {{$type == 'edit' && isset($post->published_at) ? 'checked' : ''}}>
-                    </div>
+                        <div class="form-check form-switch">
+                            <label class="form-check-label">{{$form['is_publish']}}</label>
+                            <input class="form-check-input" type="checkbox" role="switch" name="published"
+                                id="published" {{$type=='edit' && isset($post->published_at) ? 'checked' : ''}}>
+                        </div>
 
-                </form>
+                    </form>
             </div>
             <!-- End Create Post -->
         </div>
         <div class="card-footer">
             <div class="d-flex justify-content-center">
                 @if ($type == 'create')
-                    @can ("post-store")
-                    <button id="post-store-submit" type="submit" class="btn btn-success w-100 w-md-25">
-                        {{$button['store']}}<i class="fas fa-save ms-2"></i>
-                    </button>
-                    @endcan
-                    @endif
+                @can ("post-store")
+                <button id="post-store-submit" type="submit" class="btn btn-success w-100 w-md-25">
+                    {{$button['store']}}<i class="fas fa-save ms-2"></i>
+                </button>
+                @endcan
+                @endif
 
-                    @if ($type == 'edit')
-                    @can ("post-update")
-                    <button id="post-update-submit" type="submit"
-                        class="btn btn-success w-100 w-md-25">
-                        {{$button['update']}}<i class="fas fa-save ms-2"></i>
-                    </button>
-                    @endcan
+                @if ($type == 'edit')
+                @can ("post-update")
+                <button id="post-update-submit" type="submit" class="btn btn-success w-100 w-md-25">
+                    {{$button['update']}}<i class="fas fa-save ms-2"></i>
+                </button>
+                @endcan
                 @endif
             </div>
         </div>

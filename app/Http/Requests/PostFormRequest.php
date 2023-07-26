@@ -31,7 +31,7 @@ class PostFormRequest extends FormRequest
         switch ($route) {
             case 'post.store':
                 return [
-                    'title' => 'required|string|unique_translation:posts|max:20',
+                    'title' => 'required|string|unique_translation:posts|max:50',
                     'content' => 'required',
                     'feature_image' => 'nullable',
                     'feature_image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -40,7 +40,7 @@ class PostFormRequest extends FormRequest
 
             case 'post.update':
                 return [
-                    'title' => 'required|string|max:20',
+                    'title' => 'required|string|max:50',
                     'content' => 'required',
                     'feature_image' => 'nullable',
                     'feature_image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',

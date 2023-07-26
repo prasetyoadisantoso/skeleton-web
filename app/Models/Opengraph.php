@@ -32,6 +32,12 @@ class Opengraph extends Model
         });
     }
 
+    // Relations to Post
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class, 'opengraph_post');
+    }
+
     public function GetOpengraphById($id)
     {
         return $this->query()->find($id);

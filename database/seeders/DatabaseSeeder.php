@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             PostCategorySeeder::class,
             PostTagSeeder::class,
             PostMetaSeeder::class,
+            PostOpengraphSeeder::class,
             PostCanonicalSeeder::class,
             MessageSeeder::class,
 

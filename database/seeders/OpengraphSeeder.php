@@ -49,10 +49,21 @@ class OpengraphSeeder extends Seeder
                 "name" => "Contact",
                 "title" => "Contact",
                 "url" => "https://example.com",
-                "site_name" => "Contact",
+                "site_name" => "Skeleton Web",
                 'image' => $opengraphimage,
                 "description" => '{"en":"Sample contact message for Skeleton Web","id":"Contoh pesan kontak dari skeleton web"}',
                 "type" => "website",
+            ],
+
+            [
+                'id' => '991ac6ae-82a1-4bc9-900b-e219d0b166e0',
+                "name" => "New Post",
+                "title" => "New Post",
+                "url" => "https://example.com",
+                "site_name" => "Skeleton Web",
+                'image' => $opengraphimage,
+                "description" => '{"en":"Sample article for Skeleton Web","id":"Contoh artikel dari skeleton web"}',
+                "type" => "article",
             ],
         ]);
     }

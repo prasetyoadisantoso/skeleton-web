@@ -7,6 +7,7 @@ use App\Http\Requests\PostFormRequest;
 use App\Models\Canonical;
 use App\Models\Category;
 use App\Models\Meta;
+use App\Models\Opengraph;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Services\FileManagement;
@@ -23,7 +24,7 @@ use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
-    protected $global_view, $global_variable, $translation, $dataTables, $responseFormatter, $fileManagement, $post, $category, $tag, $meta, $canonical, $upload;
+    protected $global_view, $global_variable, $translation, $dataTables, $responseFormatter, $fileManagement, $post, $category, $tag, $meta, $opengraph, $canonical, $upload;
 
     public function __construct(
         GlobalView $global_view,
@@ -37,6 +38,7 @@ class PostController extends Controller
         Category $category,
         Tag $tag,
         Meta $meta,
+        Opengraph $opengraph,
         Canonical $canonical,
     ) {
         $this->middleware(['auth', 'verified']);
@@ -61,6 +63,7 @@ class PostController extends Controller
         $this->meta = $meta;
         $this->canonical = $canonical;
         $this->upload = $upload;
+        $this->opengraph = $opengraph;
 
     }
 
@@ -149,6 +152,7 @@ class PostController extends Controller
         $category_select = $this->category->query()->get();
         $tag_select = $this->tag->query()->get();
         $meta_select = $this->meta->query()->get();
+        $opengraph_select = $this->opengraph->query()->get();
         $canonical_select = $this->canonical->query()->get();
         return view('template.default.backend.blog.post.form', array_merge(
             $this->global_variable->PageType('create'),
@@ -156,6 +160,7 @@ class PostController extends Controller
                 'category_select' => $category_select,
                 'tag_select' => $tag_select,
                 'meta_select' => $meta_select,
+                'opengraph_select' => $opengraph_select,
                 'canonical_select' => $canonical_select,
             ]
         ));
@@ -176,7 +181,7 @@ class PostController extends Controller
         }
 
         $request->validated();
-        $post_data = $request->only(['title', 'slug', 'content', 'category', 'tag', 'meta', 'canonical', 'feature_image', 'published']);
+        $post_data = $request->only(['title', 'slug', 'content', 'category', 'tag', 'meta', 'canonical', 'opengraph','feature_image', 'published']);
         $post_data['author_id'] = Auth::user()->id;
 
         if ($request->file('feature_image')) {
@@ -233,11 +238,13 @@ class PostController extends Controller
         $category = $post->categories()->first();
         $tag = $post->tags()->get();
         $meta = $post->metas()->first();
+        $opengraph = $post->opengraphs()->first();
         $canonical = $post->canonicals()->first();
 
         $category_select = $this->category->query()->get();
         $tag_select = $this->tag->query()->get();
         $meta_select = $this->meta->query()->get();
+        $opengraph_select = $this->opengraph->query()->get();
         $canonical_select = $this->canonical->query()->get();
         $author = $post->author()->first();
         if($post->published_at == null || $post->published_at == '' || $post->published_at == 'null'){
@@ -263,11 +270,12 @@ class PostController extends Controller
                 'tag' => $tag,
                 'meta' => $meta,
                 'canonical' => $canonical,
-
+                'opengraph' => $opengraph,
                 'category_select' => $category_select,
                 'tag_select' => $tag_select,
                 'tag_selection' => $tag_selection,
                 'meta_select' => $meta_select,
+                'opengraph_select' => $opengraph_select,
                 'canonical_select' => $canonical_select,
                 'author' => $author,
                 'published' => $published,
@@ -288,10 +296,12 @@ class PostController extends Controller
         $tag = $post->tags()->get();
         $meta = $post->metas()->first();
         $canonical = $post->canonicals()->first();
+        $opengraph = $post->opengraphs()->first();
 
         $category_select = $this->category->query()->get();
         $tag_select = $this->tag->query()->get();
         $meta_select = $this->meta->query()->get();
+        $opengraph_select = $this->opengraph->query()->get();
         $canonical_select = $this->canonical->query()->get();
 
         foreach ($tag as $value) {
@@ -309,12 +319,14 @@ class PostController extends Controller
                 'category' => $category,
                 'tag' => $tag->unique(),
                 'meta' => $meta,
+                'opengraph' => $opengraph,
                 'canonical' => $canonical,
 
                 'category_select' => $category_select,
                 'tag_select' => $tag_select,
                 'tag_selection' => $tag_selection,
                 'meta_select' => $meta_select,
+                'opengraph_select' => $opengraph_select,
                 'canonical_select' => $canonical_select,
             ]
         ));
@@ -331,7 +343,7 @@ class PostController extends Controller
     public function update(PostFormRequest $request, $id)
     {
         $request->validated();
-        $post_data = $request->only(['title', 'slug', 'content', 'category', 'tag', 'meta', 'canonical', 'feature_image', 'published']);
+        $post_data = $request->only(['title', 'slug', 'content', 'category', 'tag', 'meta', 'opengraph', 'canonical', 'feature_image', 'published']);
 
         // Error Validation Message to Activity Log
         if (isset($request->validator) && $request->validator->fails()) {

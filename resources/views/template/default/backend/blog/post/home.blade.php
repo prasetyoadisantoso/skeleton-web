@@ -95,6 +95,10 @@
                                 <div id="post-meta"></div>
                             </div>
                             <div class="mb-3">
+                                <label for="" class="fw-bold form-label">{{$detail['opengraph']}}</label>
+                                <div id="post-opengraph"></div>
+                            </div>
+                            <div class="mb-3">
                                 <label for="" class="fw-bold form-label">{{$detail['canonical']}}</label>
                                 <div id="post-canonical"></div>
                             </div>
@@ -264,6 +268,12 @@
                     $('#post-meta').html(result.data['meta'].name);
                 } else {
                     $('#post-meta').html('...');
+                }
+
+                if( result.data['opengraph'] !== null || result.data['opengraph'] === '' ){
+                    $('#post-opengraph').html(result.data['opengraph'].name);
+                } else {
+                    $('#post-opengraph').html('...');
                 }
 
                 if( result.data['canonical'] !== null || result.data['canonical'] === '' ){
