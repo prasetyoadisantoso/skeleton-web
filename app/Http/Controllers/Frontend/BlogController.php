@@ -12,10 +12,11 @@ use App\Services\Translations;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Route;
+use App\Services\SEO;
 
 class BlogController extends Controller
 {
-    protected $global_view, $global_variable, $translation, $post, $category, $tag;
+    protected $global_view, $global_variable, $translation, $post, $category, $tag, $seo;
 
     public function __construct(
         GlobalView $global_view,
@@ -24,6 +25,7 @@ class BlogController extends Controller
         Category $category,
         Post $post,
         Tag $tag,
+        SEO $seo,
     )
     {
         $this->global_view = $global_view;
@@ -32,6 +34,7 @@ class BlogController extends Controller
         $this->post = $post;
         $this->category = $category;
         $this->tag = $tag;
+        $this->seo = $seo;
     }
 
     protected function boot()
@@ -42,6 +45,10 @@ class BlogController extends Controller
             // Translations
             $this->translation->button,
             $this->translation->blog,
+
+            // SEO
+            $this->seo->MetaBlog(),
+            $this->seo->OpengraphBlog(),
 
             [
                 'method' => Route::current()->methods()
