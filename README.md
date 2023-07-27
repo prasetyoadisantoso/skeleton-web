@@ -1,4 +1,4 @@
-<img src="https://skeleton-web.prasetyoadisantoso.com/storage/assets/Image/Logo/2azi7873KmhIQA7.png" width="50" height="50"><br />
+<img src="https://skeleton-web.prasetyoadisantoso.com/storage/assets/Image/Logo/vP5VJLwcXgiADAB.png" width="50" height="50"><br />
 
 # Laravel Skeleton Web
 Simple Skeleton to Build Web App
@@ -9,10 +9,13 @@ Simple Skeleton to Build Web App
 - Multi-language
 - Blog
 - SEO
+- Email
 - Settings
-- User & Roles
+- Users & Permissions
 - Activity Logging
 - Maintenance
+- Error Monitoring
+- AntiSpam
 
 </br>
 
@@ -44,13 +47,18 @@ Simple Skeleton to Build Web App
 - protonemedia/laravel-xss-protection - **(Back End)**
 - mcamara/laravel-localization - **(Back End)**
 - intervention/image - **(Back End)**
+- spatie/laravel-honeypot - **(Back End)**
+- litespeed/lscache-laravel - **(Back End)**
+- larabug/larabug - **(Back End)**
+- intervention/image - **(Back End)**
+- maatwebsite/excel - **(Back End)**
 
 #
 ## Documentation
 Coming Soon
 # 
 ## Demo
-[Skeleton Website Demo](https://lavalite.org/demo.html)
+[Skeleton Website Demo](https://skeleton-web.prasetyoadisantoso.com)
 #
 ## License
 Skeleton Website is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
