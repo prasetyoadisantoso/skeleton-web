@@ -29,7 +29,7 @@ class MetaController extends Controller
     )
     {
         $this->middleware(['auth', 'verified', 'xss']);
-        $this->middleware(['permission:setting-sidebar']);
+        $this->middleware(['permission:seo-sidebar']);
         $this->middleware(['permission:meta-index'])->only(['index', 'index_dt']);
         $this->middleware(['permission:meta-create'])->only('create');
         $this->middleware(['permission:meta-edit'])->only('edit');
