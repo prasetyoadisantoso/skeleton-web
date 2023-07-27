@@ -28,6 +28,17 @@
         rel="stylesheet">
     <!-- Custom -->
     <link rel="stylesheet" href="{{asset('template/default/assets/css/style.css')}}">
+
+    {{-- Google Tag ID --}}
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{$google_tag}}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-2EG929JFHE');
+    </script>
 </head>
 
 <body>

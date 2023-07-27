@@ -126,8 +126,9 @@ class GlobalVariable
     }
 
     public function GoogleTagId() {
+        $google_tag = $this->general->query()->first()->only(['google_tag']);
         return [
-            'google_tag' => $this->general->query()->first()->only(['google_tag'])
+            'google_tag' => $google_tag['google_tag']
         ];
     }
 
