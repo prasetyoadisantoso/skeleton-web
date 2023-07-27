@@ -177,6 +177,7 @@ class RoleAndPermissionSeeder extends Seeder
             'email-sidebar',
             'user-sidebar',
             'system-sidebar',
+            'notification-access',
 
         ];
 
@@ -197,6 +198,9 @@ class RoleAndPermissionSeeder extends Seeder
         $guest = Role::create(['name' => 'guest']);
 
         $superadmin->givePermissionTo([
+
+            /* --------------------------- Notification Access -------------------------- */
+            'notification-access',
 
             /* Main */
             'main-index',
@@ -317,15 +321,34 @@ class RoleAndPermissionSeeder extends Seeder
             'seo-sidebar',
             'user-sidebar',
             'system-sidebar',
+            'email-sidebar',
 
         ]);
 
         $administrator->givePermissionTo([
 
-            /* Main */
+            /* --------------------------- Notification Access -------------------------- */
+            'notification-access',
+
+            /* ------------------------------- Main Access ------------------------------ */
+            'main-sidebar',
+
+            // Index
             'main-index',
 
-            /* Blog */
+            /* ------------------------------- Blog Access ------------------------------ */
+            'blog-sidebar',
+
+            // Post
+            'post-index',
+            'post-create',
+            'post-store',
+            'post-show',
+            'post-edit',
+            'post-update',
+            'post-destroy',
+
+            // Tag
             'tag-index',
             'tag-create',
             'tag-store',
@@ -334,21 +357,141 @@ class RoleAndPermissionSeeder extends Seeder
             'tag-update',
             'tag-destroy',
 
-            /* Sidebar */
-            'main-sidebar',
-            'blog-sidebar',
+            // Category
+            'category-index',
+            'category-create',
+            'category-store',
+            'category-show',
+            'category-edit',
+            'category-update',
+            'category-destroy',
+
+            /* ------------------------------ Email Access ------------------------------ */
+            'email-sidebar',
+
+            // Message
+            'message-index',
+            'message-create',
+            'message-store',
+            'message-show',
+            'message-edit',
+            'message-update',
+            'message-destroy',
+
+            /* ------------------------------- SEO Access ------------------------------- */
+            'seo-sidebar',
+
+            // Meta
+            'meta-index',
+            'meta-create',
+            'meta-store',
+            'meta-show',
+            'meta-edit',
+            'meta-update',
+            'meta-destroy',
+
+            // Canonical
+            'canonical-index',
+            'canonical-create',
+            'canonical-store',
+            'canonical-show',
+            'canonical-edit',
+            'canonical-update',
+            'canonical-destroy',
+
+            // Opengraph
+            'opengraph-index',
+            'opengraph-create',
+            'opengraph-store',
+            'opengraph-show',
+            'opengraph-edit',
+            'opengraph-update',
+            'opengraph-destroy',
+
+
+            /* ----------------------------- Setting Access ----------------------------- */
             'setting-sidebar',
+
+            // General
             'general-index',
             'general-update',
+
+            // Social Media
+            'socialmedia-index',
+            'socialmedia-create',
+            'socialmedia-store',
+            'socialmedia-show',
+            'socialmedia-edit',
+            'socialmedia-update',
+            'socialmedia-destroy',
 
         ]);
 
         $editor->givePermissionTo([
 
-            /* Sidebar */
-            'main-index',
+            /* ------------------------------- Main Access ------------------------------ */
             'main-sidebar',
+            'main-index',
+
+            /* ------------------------------- Blog Access ------------------------------ */
             'blog-sidebar',
+
+            // Post
+            'post-index',
+            'post-create',
+            'post-store',
+            'post-show',
+            'post-edit',
+            'post-update',
+            'post-destroy',
+
+            // Tag
+            'tag-index',
+            'tag-create',
+            'tag-store',
+            'tag-show',
+            'tag-edit',
+            'tag-update',
+            'tag-destroy',
+
+            // Category
+            'category-index',
+            'category-create',
+            'category-store',
+            'category-show',
+            'category-edit',
+            'category-update',
+            'category-destroy',
+
+            /* ------------------------------- SEO Access ------------------------------- */
+            'seo-sidebar',
+
+            // Meta
+            'meta-index',
+            'meta-create',
+            'meta-store',
+            'meta-show',
+            'meta-edit',
+            'meta-update',
+            'meta-destroy',
+
+            // Canonical
+            'canonical-index',
+            'canonical-create',
+            'canonical-store',
+            'canonical-show',
+            'canonical-edit',
+            'canonical-update',
+            'canonical-destroy',
+
+            // Opengraph
+            'opengraph-index',
+            'opengraph-create',
+            'opengraph-store',
+            'opengraph-show',
+            'opengraph-edit',
+            'opengraph-update',
+            'opengraph-destroy',
 
         ]);
 

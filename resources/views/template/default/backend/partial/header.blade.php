@@ -3,6 +3,7 @@
 
     <button class="me-auto btn btn-borderless text-white mt-1" id="menu-toggle"><i class="fas fa-bars"></i></button>
 
+    @can('notification-access')
     <div class="order-md-2 order-1 me-5">
         <div class="btn-group">
             <a class="dropdown-toggle text-decoration-none" href="#" id="notificationsDropdown"
@@ -17,6 +18,7 @@
             </div>
         </div>
     </div>
+    @endcan
 
     <div class="order-md-2 order-2 me-5">
         <div class="btn-group">

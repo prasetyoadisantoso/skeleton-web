@@ -31,7 +31,7 @@ class OpengraphController extends Controller
     )
     {
         $this->middleware(['auth', 'verified', 'xss']);
-        $this->middleware(['permission:setting-sidebar']);
+        $this->middleware(['permission:seo-sidebar']);
         $this->middleware(['permission:opengraph-index'])->only(['index', 'index_dt']);
         $this->middleware(['permission:opengraph-create'])->only('create');
         $this->middleware(['permission:opengraph-edit'])->only('edit');

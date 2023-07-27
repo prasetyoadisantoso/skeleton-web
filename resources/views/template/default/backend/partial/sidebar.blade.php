@@ -33,7 +33,7 @@
         <!-- End Standard Menu -->
 
         <!-- Start Blog Menu-->
-        @can('setting-sidebar')
+        @can('blog-sidebar')
         <hr style="border-bottom: 0.1vh solid gray; width: 100%;" class="my-0">
         <li class="active py-1">
             <a href="#blog-dropdown-menu" data-bs-toggle="collapse" aria-expanded="false"
