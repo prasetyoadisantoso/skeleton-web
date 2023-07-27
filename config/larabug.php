@@ -142,15 +142,4 @@ return [
     */
     'verify_ssl' => env('LB_VERIFY_SSL', true),
 
-    'channels' => [
-        'stack' => [
-            'driver' => 'stack',
-            'channels' => ['single', 'larabug'],
-        ],
-        // ...
-        'larabug' => [
-            'driver' => 'larabug',
-        ],
-    ],
-
 ];

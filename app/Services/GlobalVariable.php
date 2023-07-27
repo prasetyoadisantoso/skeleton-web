@@ -125,6 +125,12 @@ class GlobalVariable
         ];
     }
 
+    public function GoogleTagId() {
+        return [
+            'google_tag' => $this->general->query()->first()->only(['google_tag'])
+        ];
+    }
+
     public function MessageNotification()
     {
         $message = Message::select('name', 'read_at')->whereNull('read_at')->get();

@@ -81,5 +81,8 @@ class Kernel extends HttpKernel
         'xss' => \ProtoneMedia\LaravelXssProtection\Middleware\XssCleanInput::class,
         'xss-sanitize' => \App\Http\Middleware\XssSanitize::class,
 
+        // Anti Spam
+        'honeypot' => \Spatie\Honeypot\ProtectAgainstSpam::class,
+
     ];
 }

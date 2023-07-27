@@ -11,6 +11,7 @@
     </div>
     <form action="{{route('site.contact.message')}}" method="post">
         @csrf
+        @honeypot
         <div class="container px-md-5 px-3 py-3 py-md-5">
             <div class="row">
                 <div class="col-lg-6">

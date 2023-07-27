@@ -29,6 +29,7 @@ class ContactController extends Controller
         SEO $seo,
     )
     {
+        $this->middleware(['xss', 'xss-sanitize', 'honeypot'])->only(['message']);
         $this->global_view = $global_view;
         $this->global_variable = $global_variable;
         $this->social_media = $social_media;
@@ -42,6 +43,8 @@ class ContactController extends Controller
     {
         $this->global_view->RenderView([
             $this->global_variable->SiteLogo(),
+            $this->global_variable->SiteFavicon(),
+            $this->global_variable->GoogleTagId(),
 
             // Translations
             $this->translation->contact,
@@ -75,7 +78,6 @@ class ContactController extends Controller
         try {
             $request->validated();
             $contact = $request->only(['name', 'email', 'phone', 'message']);
-
             $this->email->EmailContact($this->global_variable->SiteEmail()['site_email'], $contact);
             activity()->causedBy(Auth::user())->log($this->translation->contact['messages']['message_sent']);
 
@@ -92,6 +94,8 @@ class ContactController extends Controller
             DB::rollBack();
             $message = $th->getMessage();
             activity()->causedBy(Auth::user())->performedOn(new Message)->log($message);
+            report($th->getMessage());
+
             return redirect()->route('site.contact')->with([
                 'error' => 'error',
                 'message' => $this->translation->contact['messages']['message_not_sent']

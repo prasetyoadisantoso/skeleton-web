@@ -1,5 +1,6 @@
 <div class="container w-100 w-md-25" style="margin-bottom: 5%;">
     <form action="{{route('site.blog.search')}}" method="post">
+        @honeypot
         @csrf
         <div class="searchBar">
             <input id="searchQueryInput" type="text" name="search" placeholder="{{$search}}"
