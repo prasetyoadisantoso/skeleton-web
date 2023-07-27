@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('site_email');
             $table->string('url_address');
             $table->string('copyright');
+            $table->string('google_tag');
             $table->string('cookies_concern');
             $table->timestamps();
         });

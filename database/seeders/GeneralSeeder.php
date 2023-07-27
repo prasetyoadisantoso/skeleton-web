@@ -33,6 +33,7 @@ class GeneralSeeder extends Seeder
             'site_favicon' => $imageFavicon,
             'url_address' => 'https://localhost:8000',
             'site_email' => 'mail@example.com',
+            'google_tag' => '12345678',
             'copyright' => '{"en":"&copy; 2022 - Copyright Skeleton Web","id":"&copy; 2022 - Hak Cipta Skeleton Web"}',
             'cookies_concern' => '{"en":"Lorem ipsum in english","id":"Lorem ipsum dalam bahasa Indonesia"}'
         ]);

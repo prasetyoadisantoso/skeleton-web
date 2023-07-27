@@ -32,6 +32,7 @@ class General extends Model
         'site_favicon',
         'site_email',
         'url_address',
+        'google_tag',
         'copyright',
         'cookies_concern'
     ];

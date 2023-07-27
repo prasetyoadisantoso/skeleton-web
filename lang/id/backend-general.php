@@ -17,6 +17,7 @@ return [
             'site_tagline' => 'Masukkan deskripsi disini...',
             'site_url' => 'Masukkan alamat url disini...',
             'site_email' => 'Masukkan alamat email disini...',
+            'google_tag' => 'Masukkan Google Tag ID...',
             'site_copyright' => 'Masukkan hak cipta disini...',
             'site_cookies' => 'Masukkan peringatan cookies disini..'
         ],

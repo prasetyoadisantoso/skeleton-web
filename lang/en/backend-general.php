@@ -16,6 +16,7 @@ return [
             'site_tagline' => 'Insert tagline here...',
             'site_url' => 'Insert url address here...',
             'site_email' => 'Insert email here...',
+            'google_tag' => 'Insert Google Tag ID...',
             'site_copyright' => 'Insert copyright here...',
             'site_cookies' => 'Insert cookies here...'
         ],

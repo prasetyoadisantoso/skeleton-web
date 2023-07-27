@@ -48,6 +48,11 @@
                                     value="{{$data->site_email}}" name="site_email">
                             </div>
                             <div class="my-3">
+                                <input type="text" class="form-control" id="google-tag"
+                                    placeholder="{{$form['site_description']['google_tag']}}"
+                                    value="{{$data->google_tag}}" name="google_tag">
+                            </div>
+                            <div class="my-3">
                                 <input type="text" class="form-control" id="copyright"
                                     placeholder="{{$form['site_description']['site_copyright']}}"
                                     value="{!!$data->copyright!!}" name="copyright">
