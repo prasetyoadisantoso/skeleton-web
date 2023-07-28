@@ -62,7 +62,7 @@ class AuthController extends Controller
             $translation_login = $this->translation->authLogin;
             $translation_messages = $this->translation->authMessages;
             $translation_validation = $this->translation->authValidation;
-            return view('template.default.authentication.login', array_merge($translation_login, $translation_messages, $translation_validation));
+            return view('template.default.authentication.page.login', array_merge($translation_login, $translation_messages, $translation_validation));
         } else {
             return redirect()->route('dashboard.main');
         }
@@ -76,7 +76,7 @@ class AuthController extends Controller
             $translation_registration = $this->translation->authRegistration;
             $translation_messages = $this->translation->authMessages;
             $translation_validation = $this->translation->authValidation;
-            return view('template.default.authentication.registration', array_merge($translation_registration, $translation_messages, $translation_validation));
+            return view('template.default.authentication.page.registration', array_merge($translation_registration, $translation_messages, $translation_validation));
         } else {
             return redirect()->route('dashboard.main');
         }
@@ -90,7 +90,7 @@ class AuthController extends Controller
             $translation_verification = $this->translation->authVerification;
             $translation_messages = $this->translation->authMessages;
             $translation_validation = $this->translation->authValidation;
-            return view('template.default.authentication.resend-verification', array_merge($translation_verification, $translation_messages, $translation_validation));
+            return view('template.default.authentication.page.resend-verification', array_merge($translation_verification, $translation_messages, $translation_validation));
         } else {
             return redirect()->route('dashboard.main');
         }
@@ -104,7 +104,7 @@ class AuthController extends Controller
             $translation_forgot_password = $this->translation->authForgotPassword;
             $translation_messages = $this->translation->authMessages;
             $translation_validation = $this->translation->authValidation;
-            return view('template.default.authentication.forgot-password', array_merge($translation_forgot_password, $translation_messages, $translation_validation));
+            return view('template.default.authentication.page.forgot-password', array_merge($translation_forgot_password, $translation_messages, $translation_validation));
         } else {
             return redirect()->route('dashboard.main');
         }
@@ -127,11 +127,13 @@ class AuthController extends Controller
                     throw new Exception($this->translation->authMessages['token_invalid']);
                 } else {
                     activity()->causedBy($dataUser->id)->performedOn(new User)->log($translation_messages['process']);
-                    return view('template.default.authentication.reset-password', array_merge([
+                    return view('template.default.authentication.page.reset-password', array_merge([
                         'token' => $token,
                     ], $translation_resetpassword, $translation_messages, $translation_validation));
                 }
             } catch (\Throwable$th) {
+                $message = $th->getMessage();
+                report($message);
                 activity()->causedBy(Auth::user())->performedOn(new User)->log($th->getMessage());
                 return redirect()->route('forgot.password.page')->with([
                     'error' => $th->getMessage(),
@@ -241,6 +243,9 @@ class AuthController extends Controller
             }
         } catch (\Throwable$th) {
             Auth::logout();
+            $message = $th->getMessage();
+            report($message);
+
             activity()->causedBy(Auth::user())->performedOn(new User)->log($th->getMessage());
             return redirect()->route('login.page')->with([
                 'error' => $th->getMessage(),
@@ -281,6 +286,8 @@ class AuthController extends Controller
         } catch (\Throwable$th) {
             DB::rollBack();
             $message = $th->getMessage();
+            report($message);
+
             activity()->causedBy(Auth::user())->performedOn(new User)->log($message);
             return redirect()->route('register.page')->with([
                 'error' => $th->getMessage(),
@@ -310,6 +317,8 @@ class AuthController extends Controller
         } catch (\Throwable$th) {
             DB::rollBack();
             $message = $th->getMessage();
+            report($message);
+
             activity()->causedBy(Auth::user())->performedOn(new User)->log($message);
             return redirect()->route('resend.verification.page')->with([
                 'error' => $th->getMessage(),
@@ -335,6 +344,8 @@ class AuthController extends Controller
         } catch (\Throwable$th) {
             DB::rollBack();
             $message = $th->getMessage();
+            report($message);
+
             activity()->causedBy(Auth::user())->performedOn(new User)->log($message);
             return redirect()->route('login.page')->with([
                 'error' => $th->getMessage(),
@@ -367,6 +378,8 @@ class AuthController extends Controller
         } catch (\Throwable$th) {
             DB::rollBack();
             $message = $th->getMessage();
+            report($message);
+
             activity()->causedBy(Auth::user())->performedOn(new User)->log($message);
             return redirect()->route('forgot.password.page')->with([
                 'error' => $th->getMessage(),
@@ -402,6 +415,8 @@ class AuthController extends Controller
         } catch (\Throwable$th) {
             DB::rollBack();
             $message = $th->getMessage();
+            report($message);
+
             activity()->causedBy($dataUser->id)->performedOn(new User)->log($message);
             return redirect()->back()->with(['error' => $th->getMessage()]);
         }

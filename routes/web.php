@@ -1,25 +1,24 @@
 <?php
 
 use App\Http\Controllers\Authentication\AuthController;
+use App\Http\Controllers\Backend\Module\Blog\CategoryController;
+use App\Http\Controllers\Backend\Module\Blog\PostController;
+use App\Http\Controllers\Backend\Module\Blog\TagController;
+use App\Http\Controllers\Backend\Module\Email\MessageController;
+use App\Http\Controllers\Backend\Module\Main\MainController;
+use App\Http\Controllers\Backend\Module\SEO\CanonicalController;
+use App\Http\Controllers\Backend\Module\SEO\MetaController;
+use App\Http\Controllers\Backend\Module\SEO\OpengraphController;
+use App\Http\Controllers\Backend\Module\Settings\GeneralController;
+use App\Http\Controllers\Backend\Module\Settings\SocialMediaController;
+use App\Http\Controllers\Backend\Module\System\ActivityController;
+use App\Http\Controllers\Backend\Module\System\MaintenanceController;
+use App\Http\Controllers\Backend\Module\Users\PermissionController;
+use App\Http\Controllers\Backend\Module\Users\RoleController;
+use App\Http\Controllers\Backend\Module\Users\UserController;
 use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\Backend\ActivityController;
-use App\Http\Controllers\Backend\CanonicalController;
-use App\Http\Controllers\Backend\CategoryController;
-use App\Http\Controllers\Backend\GeneralController;
-use App\Http\Controllers\Backend\MainController;
-use App\Http\Controllers\Backend\MaintenanceController;
-use App\Http\Controllers\Backend\MessageController;
-use App\Http\Controllers\Backend\MetaController;
-use App\Http\Controllers\Backend\PermissionController;
-use App\Http\Controllers\Backend\PostController;
-use App\Http\Controllers\Backend\RoleController;
-use App\Http\Controllers\Backend\SocialMediaController;
-use App\Http\Controllers\Backend\TagController;
-use App\Http\Controllers\Backend\UserController;
-use App\Http\Controllers\Backend\OpengraphController;
-use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -54,7 +53,7 @@ Route::group([
     Route::get('blog/post/{slug}', [BlogController::class, 'post'])->name('site.blog.post');
 
     // Contact Page
-    Route::get('contact', [ContactController::class,'index'])->name('site.contact');
+    Route::get('contact', [ContactController::class, 'index'])->name('site.contact');
     Route::post('contact/message', [ContactController::class, 'message'])->name('site.contact.message');
 
     // Authentication
@@ -138,25 +137,7 @@ Route::group([
 
 });
 
-/**
- * Testing Mode
- */
-Route::group([
-    'prefix' => 'testing',
-], function () {
-    # Place testing code here
-
-    Route::get('create-form', [TestController::class, 'create'])->name('test.create');
-    Route::post('create-form/store', [TestController::class, 'store'])->name('test.store');
-
-    // Email template testing
-    Route::get('/send-verification', function () {
-        return new App\Mail\SendVerification("1111");
-    });
-
-});
-
-Route::get('factory-reset', function(){
+Route::get('factory-reset', function () {
     Artisan::call('factory-reset');
     return redirect()->route('site.index');
 })->name('maintenance.factory.reset')->middleware('auth', 'verified');
