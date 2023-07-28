@@ -30,6 +30,9 @@ class HomeController extends Controller
         $this->global_view->RenderView([
             $this->global_variable->SiteLogo(),
             $this->global_variable->SiteFavicon(),
+            $this->global_variable->PageType('home'),
+
+            // SEO
             $this->global_variable->GoogleTagId(),
             $this->global_variable->SocialMedia(),
 
