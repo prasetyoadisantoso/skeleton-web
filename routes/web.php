@@ -137,6 +137,10 @@ Route::group([
 
 });
 
+Route::fallback(function(){
+    return view('errors.404');
+});
+
 Route::get('factory-reset', function () {
     Artisan::call('factory-reset');
     return redirect()->route('site.index');
