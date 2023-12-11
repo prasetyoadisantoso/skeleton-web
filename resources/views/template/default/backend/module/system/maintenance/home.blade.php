@@ -27,40 +27,64 @@
                 <div class="card px-4 py-3 my-3">
                     <div class="card-body">
                         <h5 class="card-title text-center">{{$form['clean_cache_system']['title']}}</h5>
-                        <h6 class="card-subtitle mb-4 text-muted text-center">{{$form['clean_cache_system']['description']}}
-                        <hr>
+                        <h6 class="card-subtitle mb-4 text-muted text-center">
+                            {{$form['clean_cache_system']['description']}}
+                            <hr>
                         </h6>
                         <div class="my-3 d-flex justify-content-between">
                             <label for="">{{$form['clean_cache_system']['event_clear']}}</label>
-                            <a href="{{route('maintenance.event.clear')}}" class="btn btn-success"><i class="fa-solid fa-broom me-3"></i>{{$button['clear']}}</a>
+                            <a href="{{route('maintenance.event.clear')}}" class="btn btn-success"><i
+                                    class="fa-solid fa-broom me-3"></i>{{$button['clear']}}</a>
                         </div>
                         <div class="my-3 d-flex justify-content-between">
                             <label for="">{{$form['clean_cache_system']['view_clear']}}</label>
-                            <a href="{{route('maintenance.view.clear')}}" class="btn btn-success"><i class="fa-solid fa-broom me-3"></i>{{$button['clear']}}</a>
+                            <a href="{{route('maintenance.view.clear')}}" class="btn btn-success"><i
+                                    class="fa-solid fa-broom me-3"></i>{{$button['clear']}}</a>
                         </div>
                         <div class="my-3 d-flex justify-content-between">
                             <label for="">{{$form['clean_cache_system']['cache_clear']}}</label>
-                            <a href="{{route('maintenance.cache.clear')}}" class="btn btn-success"><i class="fa-solid fa-broom me-3"></i>{{$button['clear']}}</a>
+                            <a href="{{route('maintenance.cache.clear')}}" class="btn btn-success"><i
+                                    class="fa-solid fa-broom me-3"></i>{{$button['clear']}}</a>
                         </div>
                         <div class="my-3 d-flex justify-content-between">
                             <label for="">{{$form['clean_cache_system']['config_clear']}}</label>
-                            <a href="{{route('maintenance.config.clear')}}" class="btn btn-success"><i class="fa-solid fa-broom me-3"></i>{{$button['clear']}}</a>
+                            <a href="{{route('maintenance.config.clear')}}" class="btn btn-success"><i
+                                    class="fa-solid fa-broom me-3"></i>{{$button['clear']}}</a>
                         </div>
                         <div class="my-3 d-flex justify-content-between">
                             <label for="">{{$form['clean_cache_system']['route_clear']}}</label>
-                            <a href="{{route('maintenance.route.clear')}}" class="btn btn-success"><i class="fa-solid fa-broom me-3"></i>{{$button['clear']}}</a>
+                            <a href="{{route('maintenance.route.clear')}}" class="btn btn-success"><i
+                                    class="fa-solid fa-broom me-3"></i>{{$button['clear']}}</a>
                         </div>
                         <div class="my-3 d-flex justify-content-between">
                             <label for="">{{$form['clean_cache_system']['compile_clear']}}</label>
-                            <a href="{{route('maintenance.compile.clear')}}" class="btn btn-success"><i class="fa-solid fa-broom me-3"></i>{{$button['clear']}}</a>
+                            <a href="{{route('maintenance.compile.clear')}}" class="btn btn-success"><i
+                                    class="fa-solid fa-broom me-3"></i>{{$button['clear']}}</a>
                         </div>
                         <div class="my-3 d-flex justify-content-between">
                             <label for="">{{$form['clean_cache_system']['optimize_clear']}}</label>
-                            <a href="{{route('maintenance.optimize.clear')}}" class="btn btn-success"><i class="fa-solid fa-broom me-3"></i>{{$button['clear']}}</a>
+                            <a href="{{route('maintenance.optimize.clear')}}" class="btn btn-success"><i
+                                    class="fa-solid fa-broom me-3"></i>{{$button['clear']}}</a>
                         </div>
                         <div class="my-3 d-flex justify-content-between">
                             <label for="">{{$form['factory_reset']}}</label>
-                            <a id="reset" href="{{route('maintenance.factory.reset')}}" class="btn btn-danger"><i class="fa-solid fa-warning me-3"></i>{{$button['reset']}}</a>
+                            <a id="reset" href="{{route('maintenance.factory.reset')}}" class="btn btn-danger"><i
+                                    class="fa-solid fa-warning me-3"></i>{{$button['reset']}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Site Title & Tagline -->
+
+            <!-- Start Site Title & Tagline -->
+            <div class="col-md-12">
+                <div class="card px-4 py-3 my-3">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">{{$form['additional']['title']}}</h5>
+                        <hr>
+                        <div class="my-3 d-flex justify-content-between">
+                            <label for="">{{$form['additional']['generate_sitemap']}}</label>
+                            <a href="{{route('maintenance.generate.sitemap')}}" class="btn btn-success"><i class="fa-solid fa-arrows-rotate me-3"></i>{{$button['generate']}}</a>
                         </div>
                     </div>
                 </div>

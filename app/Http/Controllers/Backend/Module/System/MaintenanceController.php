@@ -8,9 +8,9 @@ use App\Services\GlobalVariable;
 use App\Services\GlobalView;
 use App\Services\ResponseFormatter;
 use App\Services\Translations;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Sitemap\SitemapGenerator;
 
 class MaintenanceController extends Controller
 {
@@ -73,6 +73,28 @@ class MaintenanceController extends Controller
         return view('template.default.backend.module.system.maintenance.home', array_merge(
             $this->global_variable->PageType('index'
             )));
+    }
+
+    public function generate_sitemap()
+    {
+        try {
+            SitemapGenerator::create(config('app.url'))->getSitemap()->writeToDisk('public', 'sitemap.xml');
+            activity()->causedBy(Auth::user())->log($this->translation->maintenance['messages']['generate_success']);
+            return redirect()->back()->with([
+                'success' => 'success',
+                'title' => $this->translation->notification['success'],
+                'content' => $this->translation->maintenance['messages']['generate_success'],
+            ]);
+        } catch (\Throwable $th) {
+            $message = $th->getMessage();
+            report($message);
+            activity()->causedBy(Auth::user())->log($message);
+            return redirect()->back()->with([
+                'error' => 'error',
+                "title" => $this->translation->notification['error'],
+                "content" => $message,
+            ]);
+        }
     }
 
     public function event_clear()

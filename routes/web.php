@@ -125,6 +125,7 @@ Route::group([
         Route::get('activity/empty', [ActivityController::class, 'empty'])->name('activity.empty');
         Route::get('activity_datatable', [ActivityController::class, 'index_dt'])->name('activity.datatable');
         Route::get('maintenance', [MaintenanceController::class, 'index'])->name('maintenance.index');
+        Route::get('maintenance/generate/sitemap', [MaintenanceController::class, 'generate_sitemap'])->name('maintenance.generate.sitemap');
         Route::get('maintenance/event/clear', [MaintenanceController::class, 'event_clear'])->name('maintenance.event.clear');
         Route::get('maintenance/view/clear', [MaintenanceController::class, 'view_clear'])->name('maintenance.view.clear');
         Route::get('maintenance/cache/clear', [MaintenanceController::class, 'cache_clear'])->name('maintenance.cache.clear');
@@ -132,7 +133,6 @@ Route::group([
         Route::get('maintenance/route/clear', [MaintenanceController::class, 'route_clear'])->name('maintenance.route.clear');
         Route::get('maintenance/compile/clear', [MaintenanceController::class, 'compile_clear'])->name('maintenance.compile.clear');
         Route::get('maintenance/optimize/clear', [MaintenanceController::class, 'optimize_clear'])->name('maintenance.optimize.clear');
-        // Route::get('maintenance/factory_reset', [MaintenanceController::class, 'factory_reset'])->name('maintenance.factory.reset');
     });
 
 });
