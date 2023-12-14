@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Backend\Module\Blog;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryFormRequest;
 use App\Models\Category;
+use App\Models\Meta;
+use App\Models\Opengraph;
 use App\Services\FileManagement;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
@@ -16,7 +18,7 @@ use Yajra\DataTables\DataTables;
 
 class CategoryController extends Controller
 {
-    protected $global_view, $global_variable, $translation, $dataTables, $responseFormatter, $fileManagement, $category;
+    protected $global_view, $global_variable, $translation, $dataTables, $responseFormatter, $fileManagement, $meta, $opengraph, $category;
 
     public function __construct(
         GlobalView $global_view,
@@ -26,6 +28,8 @@ class CategoryController extends Controller
         ResponseFormatter $responseFormatter,
         FileManagement $fileManagement,
         Category $category,
+        Meta $meta,
+        Opengraph $opengraph,
     ) {
         $this->middleware(['auth', 'verified', 'xss']);
         $this->middleware(['permission:blog-sidebar']);
@@ -42,6 +46,8 @@ class CategoryController extends Controller
         $this->responseFormatter = $responseFormatter;
         $this->fileManagement = $fileManagement;
         $this->category = $category;
+        $this->meta = $meta;
+        $this->opengraph = $opengraph;
     }
 
     protected function boot()
@@ -120,9 +126,15 @@ class CategoryController extends Controller
     {
         $this->boot();
         $category_select = $this->category->query()->select(['id', 'name'])->get();
+        $meta_select = $this->meta->query()->get();
+        $opengraph_select = $this->opengraph->query()->get();
         return view('template.default.backend.module.blog.category.form', array_merge(
             $this->global_variable->PageType('create'),
-            ['category_select' => $category_select]
+            [
+                'category_select' => $category_select,
+                'meta_select' => $meta_select,
+                'opengraph_select' => $opengraph_select,
+            ]
         ));
     }
 
@@ -140,7 +152,7 @@ class CategoryController extends Controller
         }
 
         $request->validated();
-        $categorydata = $request->only(['name', 'slug', 'parent']);
+        $categorydata = $request->only(['name', 'slug', 'parent', 'meta', 'opengraph']);
 
         DB::beginTransaction();
 
@@ -159,7 +171,7 @@ class CategoryController extends Controller
                 'content' => $this->translation->category['messages']['store_success'],
             ]);
 
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
             DB::rollBack();
             $message = $th->getMessage();
             report($message);
@@ -201,6 +213,10 @@ class CategoryController extends Controller
         $categorydata = $this->category->GetCategoryById($id);
         $category_select = $this->category->query()->select(['id', 'name'])->get();
         $category_parent = $categorydata->parent;
+        $meta = $categorydata->metas()->first();
+        $opengraph = $categorydata->opengraphs()->first();
+        $meta_select = $this->meta->query()->get();
+        $opengraph_select = $this->opengraph->query()->get();
 
         return view('template.default.backend.module.blog.category.form', array_merge(
             $this->global_variable->PageType('edit'),
@@ -208,6 +224,10 @@ class CategoryController extends Controller
                 'category' => $categorydata,
                 'category_select' => $category_select,
                 'category_parent' => $category_parent,
+                'meta' => $meta,
+                'opengraph' => $opengraph,
+                'meta_select' => $meta_select,
+                'opengraph_select' => $opengraph_select,
             ]
         ));
     }
@@ -227,7 +247,7 @@ class CategoryController extends Controller
         }
 
         $request->validated();
-        $categorydata = $request->only(['name', 'slug', 'parent']);
+        $categorydata = $request->only(['name', 'slug', 'parent', 'meta', 'opengraph']);
 
         DB::beginTransaction();
         try {
@@ -243,7 +263,7 @@ class CategoryController extends Controller
                 'title' => $this->translation->notification['success'],
                 'content' => $this->translation->category['messages']['update_success'],
             ]);
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
             DB::rollBack();
             $message = $th->getMessage();
             report($message);
@@ -291,7 +311,7 @@ class CategoryController extends Controller
             ///  Return response
             return response()->json(['status' => $status]);
 
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
             DB::rollback();
             $message = $th->getMessage();
             report($message);

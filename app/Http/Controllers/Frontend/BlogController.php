@@ -24,7 +24,6 @@ class BlogController extends Controller
         Category $category,
         Post $post,
         Tag $tag,
-        SEO $seo,
     ) {
         $this->middleware(['xss-sanitize', 'xss', 'honeypot'])->only(['search']);
         $this->global_view = $global_view;
@@ -33,7 +32,6 @@ class BlogController extends Controller
         $this->post = $post;
         $this->category = $category;
         $this->tag = $tag;
-        $this->seo = $seo;
     }
 
     protected function boot()
@@ -47,19 +45,18 @@ class BlogController extends Controller
             $this->translation->button,
             $this->translation->blog,
 
-            // SEO
-            $this->seo->MetaBlog(),
-            $this->seo->OpengraphBlog(),
-
             [
                 'method' => Route::current()->methods(),
             ],
         ]);
     }
 
-    public function index()
+    public function index(SEO $seo)
     {
         $this->boot();
+        $meta = $seo->MetaBlog();
+        $opengraph = $seo->OpengraphBlog();
+
         $posts = $this->post->query()->latest()->paginate(5);
         $categories = $this->category->query()->get();
         $tags = $this->tag->query()->get();
@@ -67,10 +64,12 @@ class BlogController extends Controller
             'posts' => $posts,
             'categories' => $categories,
             'tags' => $tags,
+            'meta' => $meta,
+            'opengraph' => $opengraph,
         ]));
     }
 
-    public function search(Request $request)
+    public function search(Request $request, SEO $seo)
     {
         $this->boot();
         try {
@@ -127,17 +126,21 @@ class BlogController extends Controller
         ]));
     }
 
-    public function post($post)
+    public function post($post, SEO $seo)
     {
         $this->boot();
-        $posts = $this->post->query()->where('slug', $post)->first();
+        $posts = $this->post->where('slug', $post)->first();
         $categories = $this->category->query()->get();
         $tags = $this->tag->query()->get();
+        $meta = $seo->MetaPost($post);
+        $opengraph = $seo->OpengraphPost($post);
 
         return view('template.default.frontend.page.post', array_merge([
             'posts' => $posts,
             'categories' => $categories,
             'tags' => $tags,
+            'meta' => $meta,
+            'opengraph' => $opengraph,
         ]));
     }
 }

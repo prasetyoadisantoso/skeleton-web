@@ -38,6 +38,18 @@ class Opengraph extends Model
         return $this->belongsToMany(Post::class, 'opengraph_post');
     }
 
+    // Relations to Category
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'opengraph_category');
+    }
+
+    // Relations to Tag
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'opengraph_tag');
+    }
+
     public function GetOpengraphById($id)
     {
         return $this->query()->find($id);

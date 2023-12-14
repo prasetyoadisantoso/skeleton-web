@@ -36,7 +36,11 @@ return [
         'slug' => 'Slug :',
         'slug_placeholder' => 'Masukkan slug kategori...',
         'parent' => 'Pilih Parent :',
-        'parent_placeholder' => '- Pilih Parent Kategori -'
+        'parent_placeholder' => '- Pilih Parent Kategori -',
+        'meta' => 'SEO Meta :',
+        'select_meta' => '- Pilih Meta -',
+        'opengraph' => 'SEO Open Graph :',
+        'select_opengraph' => '- Pilih Open Graph -',
     ],
 
     'messages' => [

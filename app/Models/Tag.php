@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Spatie\Translatable\HasTranslations;
 use Webpatser\Uuid\Uuid;
+use App\Models\Meta;
+use App\Models\Opengraph;
 
 class Tag extends Model
 {
@@ -44,6 +46,18 @@ class Tag extends Model
         return $this->belongsToMany(Post::class, 'tag_post');
     }
 
+    // Relation to Metas
+    public function metas()
+    {
+        return $this->belongsToMany(Meta::class, 'meta_tag');
+    }
+
+    // Relation to Opengraph
+    public function opengraphs()
+    {
+        return $this->belongsToMany(Opengraph::class, 'opengraph_tag');
+    }
+
     // CRUD
     public function StoreTag($data = null)
     {
@@ -53,10 +67,20 @@ class Tag extends Model
             $data['slug'] = Str::slug($data['slug']);
         }
 
-        return $this->create([
+        $tag = $this->create([
             'name' => $data['name'],
             'slug' => $data['slug'],
         ]);
+
+        if ($data['meta'] != null || $data['meta'] != '') {
+            $tag->metas()->attach($data['meta']);
+        }
+
+        if ($data['opengraph'] != null || $data['opengraph'] != '') {
+            $tag->opengraphs()->attach($data['opengraph']);
+        }
+
+        return $tag;
     }
 
     public function GetTagById($id)
@@ -72,12 +96,26 @@ class Tag extends Model
             $new_tagdata['slug'] = Str::slug($new_tagdata['slug']);
         }
         $tagdata = $this->GetTagById($id);
+
+        if ($new_tagdata['meta'] != null || $new_tagdata['meta'] != '') {
+            $tagdata->metas()->sync($new_tagdata['meta']);
+        }
+
+        if ($new_tagdata['opengraph'] != null || $new_tagdata['opengraph'] != '') {
+            $tagdata->opengraphs()->sync($new_tagdata['opengraph']);
+        }
+
         $tagdata->update($new_tagdata);
+
+        return $tagdata;
     }
 
     public function DeleteTag($id)
     {
-        return $this->query()->find($id)->forceDelete();
+        $delete_tag = $this->GetTagById($id);
+        $delete_tag->metas()->detach();
+        $delete_tag->opengraphs()->detach();
+        return $this->find($delete_tag->id)->forceDelete();
     }
 
 }

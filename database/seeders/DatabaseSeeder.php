@@ -31,8 +31,11 @@ class DatabaseSeeder extends Seeder
             PostMetaSeeder::class,
             PostOpengraphSeeder::class,
             PostCanonicalSeeder::class,
+            CategoryMetaSeeder::class,
+            CategoryOpengraphSeeder::class,
+            TagMetaSeeder::class,
+            TagOpengraphSeeder::class,
             MessageSeeder::class,
-
         ]);
     }
 }

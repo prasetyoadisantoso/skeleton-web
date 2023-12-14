@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Meta;
 use App\Models\Opengraph;
+use App\Models\Post;
 
 class SEO
 {
@@ -13,9 +14,11 @@ class SEO
     public function __construct(
         Meta $meta,
         Opengraph $opengraph,
+        Post $posts,
     ) {
         $this->meta = $meta;
         $this->opengraph = $opengraph;
+        $this->posts = $posts;
     }
 
 
@@ -34,19 +37,26 @@ class SEO
         ];
     }
 
-    // Blog
+    // Frontend Blog
     public function MetaBlog()
     {
-        return [
-            'meta' => $this->meta->query()->where('name', 'Blog')->get()
-        ];
+        return $this->meta->query()->where('name', 'Blog')->get();
     }
 
     public function OpengraphBlog() {;
 
-        return [
-            'opengraph' => $this->opengraph->query()->where('name', 'Blog')->get()
-        ];
+        return $this->opengraph->query()->where('name', 'Blog')->get();
+    }
+
+    // Frontend Posts
+    public function MetaPost($slug) {
+        $post = $this->posts->where('slug', $slug)->first();
+        return $post->metas()->get();
+    }
+
+    public function OpengraphPost($slug) {
+        $post = $this->posts->where('slug', $slug)->first();
+        return $post->opengraphs()->get();
     }
 
     // Contact

@@ -37,6 +37,10 @@ return [
         'slug_placeholder' => 'Insert slug...',
         'parent' => 'Select Parent :',
         'parent_placeholder' => '- Select Category Parent -',
+        'meta' => 'SEO Meta :',
+        'select_meta' => '- Select Meta -',
+        'opengraph' => 'SEO Open Graph :',
+        'select_opengraph' => '- Select Open Graph -',
     ],
 
     'messages' => [

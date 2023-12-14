@@ -37,6 +37,18 @@ class Meta extends Model
         return $this->belongsToMany(Post::class, 'meta_post');
     }
 
+    // Relations to Category
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'meta_category');
+    }
+
+    // Relations to Tag
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'opengraph_tag');
+    }
+
     // CRUD Meta
     public function GetMetaById($id)
     {

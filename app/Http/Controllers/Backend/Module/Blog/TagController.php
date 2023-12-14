@@ -13,10 +13,12 @@ use App\Services\Translations;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
+use App\Models\Meta;
+use App\Models\Opengraph;
 
 class TagController extends Controller
 {
-    protected $global_view, $global_variable, $translation, $dataTables, $responseFormatter, $fileManagement, $tag;
+    protected $global_view, $global_variable, $translation, $dataTables, $responseFormatter, $fileManagement, $tag, $meta, $opengraph;
 
     public function __construct(
         GlobalView $global_view,
@@ -26,6 +28,8 @@ class TagController extends Controller
         ResponseFormatter $responseFormatter,
         FileManagement $fileManagement,
         Tag $tag,
+        Meta $meta,
+        Opengraph $opengraph,
     ) {
         $this->middleware(['auth', 'verified', 'xss']);
         $this->middleware(['permission:blog-sidebar']);
@@ -42,6 +46,8 @@ class TagController extends Controller
         $this->responseFormatter = $responseFormatter;
         $this->fileManagement = $fileManagement;
         $this->tag = $tag;
+        $this->meta = $meta;
+        $this->opengraph = $opengraph;
     }
 
     protected function boot()
@@ -116,8 +122,14 @@ class TagController extends Controller
     public function create()
     {
         $this->boot();
+        $meta_select = $this->meta->query()->get();
+        $opengraph_select = $this->opengraph->query()->get();
         return view('template.default.backend.module.blog.tag.form', array_merge(
             $this->global_variable->PageType('create'),
+            [
+                'meta_select' => $meta_select,
+                'opengraph_select' => $opengraph_select,
+            ]
         ));
     }
 
@@ -134,7 +146,7 @@ class TagController extends Controller
             activity()->causedBy(Auth::user())->performedOn(new Tag)->log($request->validator->messages());
         }
         $request->validated();
-        $tagdata = $request->only(['name', 'slug']);
+        $tagdata = $request->only(['name', 'slug', 'meta', 'opengraph']);
 
         DB::beginTransaction();
         try {
@@ -151,7 +163,7 @@ class TagController extends Controller
                 'title' => $this->translation->notification['success'],
                 'content' => $this->translation->tag['messages']['store_success'],
             ]);
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
             DB::rollBack();
             $message = $th->getMessage();
             report($message);
@@ -192,10 +204,18 @@ class TagController extends Controller
     {
         $this->boot();
         $tagdata = $this->tag->GetTagById($id);
+        $meta = $tagdata->metas()->first();
+        $opengraph = $tagdata->opengraphs()->first();
+        $meta_select = $this->meta->query()->get();
+        $opengraph_select = $this->opengraph->query()->get();
         return view('template.default.backend.module.blog.tag.form', array_merge(
             $this->global_variable->PageType('edit'),
             [
                 'tag' => $tagdata,
+                'meta' => $meta,
+                'opengraph' => $opengraph,
+                'meta_select' => $meta_select,
+                'opengraph_select' => $opengraph_select,
             ]
         ));
     }
@@ -215,7 +235,7 @@ class TagController extends Controller
         }
 
         $request->validated();
-        $tagdata = $request->only(['name', 'slug']);
+        $tagdata = $request->only(['name', 'slug', 'meta', 'opengraph']);
 
         DB::beginTransaction();
         try {
@@ -231,7 +251,7 @@ class TagController extends Controller
                 'title' => $this->translation->notification['success'],
                 'content' => $this->translation->meta['messages']['update_success'],
             ]);
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
             DB::rollBack();
             $message = $th->getMessage();
             report($message);
@@ -278,7 +298,7 @@ class TagController extends Controller
 
             ///  Return response
             return response()->json(['status' => $status]);
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
             DB::rollback();
             $message = $th->getMessage();
             report($message);

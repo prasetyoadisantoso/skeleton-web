@@ -29,6 +29,24 @@ class MetaSeeder extends Seeder
                 "description" => '{"en":"Sample blog for Skeleton Web","id":"Contoh blog dari Skeleton Web"}',
             ],
             [
+                'id' => 'f2532093-edd0-4683-81d6-aa68edfdea5b',
+                "name" => "Blog - Category",
+                "robot" => "index, follow",
+                "description" => '{"en":"Sample category of blog for Skeleton Web","id":"Contoh kategori blog dari Skeleton Web"}',
+            ],
+            [
+                'id' => '6777397c-b7bd-4ed3-9952-4200818df477',
+                "name" => "Blog - Tag",
+                "robot" => "index, follow",
+                "description" => '{"en":"Sample meta of blog for Skeleton Web - Tag","id":"Contoh meta blog dari Skeleton Web - Tag"}',
+            ],
+            [
+                'id' => '7142afc1-ae27-4224-a100-27bd16ecc3c9',
+                "name" => "Blog - Tag",
+                "robot" => "index, follow",
+                "description" => '{"en":"Sample tag of blog for Skeleton Web","id":"Contoh tag blog dari Skeleton Web"}',
+            ],
+            [
                 "id" => "131e6888-e3a8-46cb-b4aa-5a5bc8c892c6",
                 "name" => "Contact",
                 "robot" => "index, follow",

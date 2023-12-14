@@ -38,71 +38,113 @@
             <div class="container-fluid">
                 @if ($type == 'create')
                 <form action="{{route('category.store')}}" method="POST" id="category-store-form">
-                @endif
+                    @endif
 
-                @if ($type == 'edit')
-                <form action="{{route('category.update', $category->id)}}" method="POST" id="category-update-form">
-                @method('PUT')
-                @endif
+                    @if ($type == 'edit')
+                    <form action="{{route('category.update', $category->id)}}" method="POST" id="category-update-form">
+                        @method('PUT')
+                        @endif
 
-                    @csrf
-                    <div class="form-group mx-3 my-3">
-                        <label for="inputName" class="">{{$form['name']}}</label>
-                        <div class="mb-3">
-                            <input name="name" type="text" class="form-control" id="name"
-                                placeholder="{{$form['name_placeholder']}}" value="{{$type == "edit" &&
-                                isset($category) ? $category->name : ''}}" required>
-                            <div class="error-name"></div>
-                        </div>
-                        <label for="inputSlug" class="">{{$form['slug']}}</label>
-                        <div class="mb-3">
-                            <input name="slug" type="text" class="form-control" id="slug"
-                                placeholder="{{$form['slug_placeholder']}}" value="{{$type == "edit" &&
-                                isset($category) ? $category->slug : ''}}">
-                            <div class="error-slug"></div>
-                        </div>
-                        <label for="inputParent" class="">{{$form['parent']}} </label>
-                        <div class="mb-3">
-                            <select name="parent" type="text" id="parent" class="form-select" aria-label="Default select example">
-                                <option value="">{{$form['parent_placeholder']}}</option>
+                        @csrf
+                        <div class="form-group mx-3 my-3">
+                            <label for="inputName" class="">{{$form['name']}}</label>
+                            <div class="mb-3">
+                                <input name="name" type="text" class="form-control" id="name"
+                                    placeholder="{{$form['name_placeholder']}}" value="{{$type == "edit" &&
+                                    isset($category) ? $category->name : ''}}" required>
+                                <div class="error-name"></div>
+                            </div>
+                            <label for="inputSlug" class="">{{$form['slug']}}</label>
+                            <div class="mb-3">
+                                <input name="slug" type="text" class="form-control" id="slug"
+                                    placeholder="{{$form['slug_placeholder']}}" value="{{$type == "edit" &&
+                                    isset($category) ? $category->slug : ''}}">
+                                <div class="error-slug"></div>
+                            </div>
+                            <label for="inputParent" class="">{{$form['parent']}} </label>
+                            <div class="mb-3">
+                                <select name="parent" type="text" id="parent" class="form-select"
+                                    aria-label="Default select example">
+                                    <option value="">{{$form['parent_placeholder']}}</option>
 
-                                @foreach ($category_select as $select)
+                                    @foreach ($category_select as $select)
 
+                                    @if ($type == 'create')
+                                    <option value="{{$select->id}}" style="text-transform: capitalize;">
+                                        {{$select->name}}</option>
+                                    @endif
+
+                                    @if ($type == 'edit')
+                                    <option {{ isset($category_parent) && $select->name == $category_parent->name ?
+                                        'selected' : '' }}
+                                        value="{{$select->id}}" style="text-transform:
+                                        capitalize;">{{$select->name}}
+                                    </option>
+                                    @endif
+
+                                    @endforeach
+                                </select>
+                                <div class="error-parent"></div>
+                            </div>
+                            <hr class="my-5">
+                            <div class="mb-3">
+                                <label for="formFileLg" class="form-label">{{$form['meta']}}</label>
+                                <select class="form-select" aria-label="Default select example" name="meta">
+                                    @if ($type == 'create')
+                                    <option value="">{{$form['select_meta']}}</option>
+                                    @foreach ($meta_select as $meta)
+                                    <option value="{{$meta->id}}">{{$meta->name}}</option>
+                                    @endforeach
+                                    @endif
+
+                                    @if ($type == 'edit')
+                                    <option value="">{{$form['select_meta']}}</option>
+                                    @foreach ($meta_select as $item)
+                                    <option value="{{$item->id}}" {{isset($meta->name) && $meta->name ==
+                                        $item->name ? "selected" : ""}}>{{$item->name}}</option>
+                                    @endforeach
+                                    @endif
+
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="formFileLg" class="form-label">{{$form['opengraph']}}</label>
+                                <select class="form-select" aria-label="Default select example" name="opengraph">
+                                    @if ($type == 'create')
+                                    <option value="">{{$form['select_opengraph']}}</option>
+                                    @foreach ($opengraph_select as $opengraph)
+                                    <option value="{{$opengraph->id}}">{{$opengraph->name}}</option>
+                                    @endforeach
+                                    @endif
+
+                                    @if ($type == 'edit')
+                                    <option value="">{{$form['select_opengraph']}}</option>
+                                    @foreach ($opengraph_select as $item)
+                                    <option value="{{$item->id}}" {{isset($opengraph->name) && $opengraph->name
+                                        == $item->name ? "selected" : ""}}>{{$item->name}}</option>
+                                    @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <div class="mb-3">
                                 @if ($type == 'create')
-                                <option value="{{$select->id}}" style="text-transform: capitalize;">
-                                    {{$select->name}}</option>
+                                @can ("category-store")
+                                <button id="category-store-submit" type="submit" class="btn btn-success w-100">
+                                    {{$button['store']}}<i class="fas fa-save ms-2"></i>
+                                </button>
+                                @endcan
                                 @endif
 
                                 @if ($type == 'edit')
-                                <option {{ isset($category_parent) && $select->name == $category_parent->name ? 'selected' : '' }}
-                                    value="{{$select->id}}" style="text-transform:
-                                    capitalize;">{{$select->name}}
-                                </option>
+                                @can ("category-update")
+                                <button id="category-update-submit" type="submit" class="btn btn-success w-100">
+                                    {{$button['update']}}<i class="fas fa-save ms-2"></i>
+                                </button>
+                                @endcan
                                 @endif
-
-                                @endforeach
-                            </select>
-                            <div class="error-parent"></div>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            @if ($type == 'create')
-                            @can ("category-store")
-                            <button id="category-store-submit" type="submit" class="btn btn-success w-100">
-                                {{$button['store']}}<i class="fas fa-save ms-2"></i>
-                            </button>
-                            @endcan
-                            @endif
-
-                            @if ($type == 'edit')
-                            @can ("category-update")
-                            <button id="category-update-submit" type="submit" class="btn btn-success w-100">
-                                {{$button['update']}}<i class="fas fa-save ms-2"></i>
-                            </button>
-                            @endcan
-                            @endif
-                        </div>
-                    </div>
-                </form>
+                    </form>
             </div>
             <!-- End Create Category -->
         </div>
