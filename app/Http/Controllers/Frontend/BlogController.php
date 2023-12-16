@@ -56,6 +56,7 @@ class BlogController extends Controller
         $this->boot();
         $meta = $seo->MetaBlog();
         $opengraph = $seo->OpengraphBlog();
+        $canonical = $seo->CanonicalBlog();
 
         $posts = $this->post->query()->latest()->paginate(5);
         $categories = $this->category->query()->get();
@@ -66,6 +67,7 @@ class BlogController extends Controller
             'tags' => $tags,
             'meta' => $meta,
             'opengraph' => $opengraph,
+            'canonical' => $canonical,
         ]));
     }
 
@@ -87,14 +89,19 @@ class BlogController extends Controller
             return redirect()->back();
         }
 
+        $meta = $seo->MetaSearchPost();
+        $opengraph = $seo->OpengraphSearchPost();
+
         return view('template.default.frontend.page.blog', array_merge([
             'posts' => $posts,
             'categories' => $categories,
             'tags' => $tags,
+            'meta' => $meta,
+            'opengraph' => $opengraph,
         ]));
     }
 
-    public function category($category)
+    public function category($category,  SEO $seo)
     {
         $this->boot();
         $posts = $this->post->query()->whereHas('categories', function ($query) use ($category) {
@@ -102,15 +109,19 @@ class BlogController extends Controller
         })->paginate(5);
         $categories = $this->category->query()->get();
         $tags = $this->tag->query()->get();
+        $meta = $seo->MetaCategoryPost($category);
+        $opengraph = $seo->OpengraphCategoryPost($category);
 
         return view('template.default.frontend.page.blog', array_merge([
             'posts' => $posts,
             'categories' => $categories,
             'tags' => $tags,
+            'meta' => $meta,
+            'opengraph' => $opengraph,
         ]));
     }
 
-    public function tag($tag)
+    public function tag($tag, SEO $seo)
     {
         $this->boot();
         $posts = $this->post->query()->whereHas('tags', function ($query) use ($tag) {
@@ -118,11 +129,15 @@ class BlogController extends Controller
         })->paginate(5);
         $categories = $this->category->query()->get();
         $tags = $this->tag->query()->get();
+        $meta = $seo->MetaTagPost($tag);
+        $opengraph = $seo->OpengraphTagPost($tag);
 
         return view('template.default.frontend.page.blog', array_merge([
             'posts' => $posts,
             'categories' => $categories,
             'tags' => $tags,
+            'meta' => $meta,
+            'opengraph' => $opengraph,
         ]));
     }
 
@@ -134,6 +149,7 @@ class BlogController extends Controller
         $tags = $this->tag->query()->get();
         $meta = $seo->MetaPost($post);
         $opengraph = $seo->OpengraphPost($post);
+        $canonical = $seo->CanonicalPost($post);
 
         return view('template.default.frontend.page.post', array_merge([
             'posts' => $posts,
@@ -141,6 +157,7 @@ class BlogController extends Controller
             'tags' => $tags,
             'meta' => $meta,
             'opengraph' => $opengraph,
+            'canonical' => $canonical,
         ]));
     }
 }

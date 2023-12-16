@@ -230,7 +230,7 @@ class CanonicalController extends Controller
 
             activity()->causedBy(Auth::user())->performedOn(new Canonical)->log($message);
 
-            return redirect()->route('role.create')->with([
+            return redirect()->route('canonical.index')->with([
                 'error' => 'error',
                 "title" => $this->translation->notification['error'],
                 "content" => $message,

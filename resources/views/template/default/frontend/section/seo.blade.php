@@ -1,9 +1,15 @@
+{{-- Canonical --}}
+@if (isset($canonical) && $canonical != null)
+@foreach ($canonical as $item)
+<link rel="canonical" href="{{$item['url']}}" />
+@endforeach
+@endif
+
 {{-- Meta Tag --}}
 @foreach ($meta as $item)
 <meta name="description" content="{{$item['description']}}">
 <meta name="robots" content="{{$item['robot']}}">
 @endforeach
-
 
 @foreach ($opengraph as $item)
 {{-- OpenGraph --}}

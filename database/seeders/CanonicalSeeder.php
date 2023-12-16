@@ -18,13 +18,18 @@ class CanonicalSeeder extends Seeder
         DB::table('canonicals')->insert([
             [
                 'id' => '37039e16-12bf-435f-938f-24c6b167d16b',
-                'name' => 'Index',
-                'url' => 'https://example.com/home',
+                'name' => 'Home',
+                'url' => 'https://skeleton-web.prasetyoadisantoso.com/',
             ],
             [
                 'id' => '252a4bee-48f4-4977-8806-52db10cdbc7f',
-                'name' => 'No Follow',
-                'url' => 'https://example.com/nofollow',
+                'name' => 'Blog',
+                'url' => 'https://skeleton-web.prasetyoadisantoso.com/blog',
+            ],
+            [
+                'id' => '082c03cb-517f-482e-93ba-f9918d7b033c',
+                'name' => 'Contact',
+                'url' => 'https://skeleton-web.prasetyoadisantoso.com/contact',
             ],
         ]);
 

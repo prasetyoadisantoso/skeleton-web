@@ -42,6 +42,7 @@ class HomeController extends Controller
             // SEO
             $this->seo->MetaHome(),
             $this->seo->OpengraphHome(),
+            $this->seo->CanonicalHome(),
 
         ]);
     }
