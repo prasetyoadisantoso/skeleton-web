@@ -45,6 +45,18 @@ class Category extends Model
         return $this->belongsToMany(Post::class, 'category_post');
     }
 
+    // Relation to Metas
+    public function metas()
+    {
+        return $this->belongsToMany(Meta::class, 'meta_category');
+    }
+
+    // Relation to Opengraph
+    public function opengraphs()
+    {
+        return $this->belongsToMany(Opengraph::class, 'opengraph_category');
+    }
+
     // Multilevel Categories
     public function subcategory()
     {
@@ -76,11 +88,21 @@ class Category extends Model
             $data['parent'] = $data['parent'];
         }
 
-        return $this->create([
+        $category = $this->create([
             'name' => $data['name'],
             'slug' => $data['slug'],
             'parent_id' => $data['parent'],
         ]);
+
+        if ($data['meta'] != null || $data['meta'] != '') {
+            $category->metas()->attach($data['meta']);
+        }
+
+        if ($data['opengraph'] != null || $data['opengraph'] != '') {
+            $category->opengraphs()->attach($data['opengraph']);
+        }
+
+        return $category;
     }
 
     public function GetCategoryById($id)
@@ -102,11 +124,25 @@ class Category extends Model
             $new_categorydata['parent_id'] = $new_categorydata['parent'];
         }
         $categorydata = $this->GetCategoryById($id);
+
+        if ($new_categorydata['meta'] != null || $new_categorydata['meta'] != '') {
+            $categorydata->metas()->sync($new_categorydata['meta']);
+        }
+
+        if ($new_categorydata['opengraph'] != null || $new_categorydata['opengraph'] != '') {
+            $categorydata->opengraphs()->sync($new_categorydata['opengraph']);
+        }
+
         $categorydata->update($new_categorydata);
+
+        return $categorydata;
     }
 
     public function DeleteCategory($id)
     {
-        return $this->query()->find($id)->forceDelete();
+        $delete_category = $this->GetCategoryById($id);
+        $delete_category->metas()->detach();
+        $delete_category->opengraphs()->detach();
+        return $this->find($delete_category->id)->forceDelete();
     }
 }

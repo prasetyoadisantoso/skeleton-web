@@ -1,25 +1,24 @@
 <?php
 
 use App\Http\Controllers\Authentication\AuthController;
+use App\Http\Controllers\Backend\Module\Blog\CategoryController;
+use App\Http\Controllers\Backend\Module\Blog\PostController;
+use App\Http\Controllers\Backend\Module\Blog\TagController;
+use App\Http\Controllers\Backend\Module\Email\MessageController;
+use App\Http\Controllers\Backend\Module\Main\MainController;
+use App\Http\Controllers\Backend\Module\SEO\CanonicalController;
+use App\Http\Controllers\Backend\Module\SEO\MetaController;
+use App\Http\Controllers\Backend\Module\SEO\OpengraphController;
+use App\Http\Controllers\Backend\Module\Settings\GeneralController;
+use App\Http\Controllers\Backend\Module\Settings\SocialMediaController;
+use App\Http\Controllers\Backend\Module\System\ActivityController;
+use App\Http\Controllers\Backend\Module\System\MaintenanceController;
+use App\Http\Controllers\Backend\Module\Users\PermissionController;
+use App\Http\Controllers\Backend\Module\Users\RoleController;
+use App\Http\Controllers\Backend\Module\Users\UserController;
 use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\Backend\ActivityController;
-use App\Http\Controllers\Backend\CanonicalController;
-use App\Http\Controllers\Backend\CategoryController;
-use App\Http\Controllers\Backend\GeneralController;
-use App\Http\Controllers\Backend\MainController;
-use App\Http\Controllers\Backend\MaintenanceController;
-use App\Http\Controllers\Backend\MessageController;
-use App\Http\Controllers\Backend\MetaController;
-use App\Http\Controllers\Backend\PermissionController;
-use App\Http\Controllers\Backend\PostController;
-use App\Http\Controllers\Backend\RoleController;
-use App\Http\Controllers\Backend\SocialMediaController;
-use App\Http\Controllers\Backend\TagController;
-use App\Http\Controllers\Backend\UserController;
-use App\Http\Controllers\Backend\OpengraphController;
-use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -54,7 +53,7 @@ Route::group([
     Route::get('blog/post/{slug}', [BlogController::class, 'post'])->name('site.blog.post');
 
     // Contact Page
-    Route::get('contact', [ContactController::class,'index'])->name('site.contact');
+    Route::get('contact', [ContactController::class, 'index'])->name('site.contact');
     Route::post('contact/message', [ContactController::class, 'message'])->name('site.contact.message');
 
     // Authentication
@@ -126,6 +125,7 @@ Route::group([
         Route::get('activity/empty', [ActivityController::class, 'empty'])->name('activity.empty');
         Route::get('activity_datatable', [ActivityController::class, 'index_dt'])->name('activity.datatable');
         Route::get('maintenance', [MaintenanceController::class, 'index'])->name('maintenance.index');
+        Route::get('maintenance/generate/sitemap', [MaintenanceController::class, 'generate_sitemap'])->name('maintenance.generate.sitemap');
         Route::get('maintenance/event/clear', [MaintenanceController::class, 'event_clear'])->name('maintenance.event.clear');
         Route::get('maintenance/view/clear', [MaintenanceController::class, 'view_clear'])->name('maintenance.view.clear');
         Route::get('maintenance/cache/clear', [MaintenanceController::class, 'cache_clear'])->name('maintenance.cache.clear');
@@ -133,30 +133,15 @@ Route::group([
         Route::get('maintenance/route/clear', [MaintenanceController::class, 'route_clear'])->name('maintenance.route.clear');
         Route::get('maintenance/compile/clear', [MaintenanceController::class, 'compile_clear'])->name('maintenance.compile.clear');
         Route::get('maintenance/optimize/clear', [MaintenanceController::class, 'optimize_clear'])->name('maintenance.optimize.clear');
-        // Route::get('maintenance/factory_reset', [MaintenanceController::class, 'factory_reset'])->name('maintenance.factory.reset');
     });
 
 });
 
-/**
- * Testing Mode
- */
-Route::group([
-    'prefix' => 'testing',
-], function () {
-    # Place testing code here
-
-    Route::get('create-form', [TestController::class, 'create'])->name('test.create');
-    Route::post('create-form/store', [TestController::class, 'store'])->name('test.store');
-
-    // Email template testing
-    Route::get('/send-verification', function () {
-        return new App\Mail\SendVerification("1111");
-    });
-
+Route::fallback(function(){
+    return view('errors.404');
 });
 
-Route::get('factory-reset', function(){
+Route::get('factory-reset', function () {
     Artisan::call('factory-reset');
     return redirect()->route('site.index');
 })->name('maintenance.factory.reset')->middleware('auth', 'verified');

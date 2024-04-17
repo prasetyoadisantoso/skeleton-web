@@ -18,8 +18,8 @@ class PostMetaSeeder extends Seeder
         // Canonical of Post
         DB::table('meta_post')->insert([
             [
-                'post_id' => '7b72ae68-4785-4844-868e-7fc0c0517b8c',
-                'meta_id' => 'a98dbeb0-0acd-4571-93ef-121983fddf6a',
+                'post_id' => '491c6ec8-b8da-491e-8a4e-49db507933bh',
+                'meta_id' => '205ef213-12f2-4b20-a0c3-a109328a0a7',
             ]
         ]);
     }

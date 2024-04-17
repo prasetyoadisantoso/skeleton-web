@@ -1,4 +1,4 @@
-<img src="https://skeleton-web.prasetyoadisantoso.com/storage/assets/Image/Logo/vP5VJLwcXgiADAB.png" width="50" height="50"><br />
+<img src="https://raw.githubusercontent.com/prasetyoadisantoso/skeleton-web/release/public/Test/Images/logo.png" width="50" height="50"><br />
 
 # Laravel Skeleton Web
 Simple Skeleton to Build Web App

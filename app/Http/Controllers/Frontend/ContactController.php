@@ -53,6 +53,7 @@ class ContactController extends Controller
             // SEO
             $this->seo->MetaContact(),
             $this->seo->OpengraphContact(),
+            $this->seo->CanonicalContact(),
         ]);
     }
 

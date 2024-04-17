@@ -16,10 +16,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Artisan command to make view
-        if ($this->app->environment() !== 'production') {
-            $this->app->register(\Sven\ArtisanView\ServiceProvider::class);
-        }
 
     }
 

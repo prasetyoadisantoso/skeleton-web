@@ -34,6 +34,10 @@ return [
         'name_placeholder' => 'Masukkan nama tag...',
         'slug' => 'Slug :',
         'slug_placeholder' => 'Masukkan slug tag...',
+        'meta' => 'SEO Meta :',
+        'select_meta' => '- Pilih Meta -',
+        'opengraph' => 'SEO Open Graph :',
+        'select_opengraph' => '- Pilih Open Graph -',
     ],
 
     'messages' => [

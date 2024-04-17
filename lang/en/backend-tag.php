@@ -34,6 +34,10 @@ return [
         'name_placeholder' => 'Insert tag name...',
         'slug' => 'Slug :',
         'slug_placeholder' => 'Insert slug...',
+        'meta' => 'SEO Meta :',
+        'select_meta' => '- Select Meta -',
+        'opengraph' => 'SEO Open Graph :',
+        'select_opengraph' => '- Select Open Graph -',
     ],
 
     'messages' => [

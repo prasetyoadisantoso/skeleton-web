@@ -15,5 +15,6 @@ return [
         'read_more' => 'Read More',
         'reset' => 'Reset',
         'send' => 'Send',
+        'generate' => 'Generate',
     ],
 ];

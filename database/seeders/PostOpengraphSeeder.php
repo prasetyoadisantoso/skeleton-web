@@ -18,7 +18,7 @@ class PostOpengraphSeeder extends Seeder
         // Canonical of Post
         DB::table('opengraph_post')->insert([
             [
-                'post_id' => '7b72ae68-4785-4844-868e-7fc0c0517b8c',
+                'post_id' => '491c6ec8-b8da-491e-8a4e-49db507933bh',
                 'opengraph_id' => '991ac6ae-82a1-4bc9-900b-e219d0b166e0',
             ]
         ]);
