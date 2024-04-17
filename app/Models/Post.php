@@ -39,7 +39,7 @@ class Post extends Model
         'id',
     ];
 
-    protected $dates = ['published_at'];
+    protected $casts = ['published_at' => 'datetime'];
 
     public static function boot()
     {

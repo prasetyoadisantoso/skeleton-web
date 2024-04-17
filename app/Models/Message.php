@@ -18,7 +18,7 @@ class Message extends Model
         'name', 'email', 'phone', 'message', 'read_at'
     ];
 
-    protected $dates = ['read_at'];
+    protected $casts = ['read_at' => 'datetime'];
 
     public static function boot()
     {
