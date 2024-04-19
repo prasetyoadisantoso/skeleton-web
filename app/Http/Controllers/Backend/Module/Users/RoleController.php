@@ -8,7 +8,7 @@ use App\Services\FileManagement;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
 use App\Services\ResponseFormatter;
-use App\Services\Translations;
+use App\Services\BackendTranslations;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -23,7 +23,7 @@ class RoleController extends Controller
         GlobalView $global_view,
         GlobalVariable $global_variable,
         DataTables $dataTables,
-        Translations $translation,
+        BackendTranslations $translation,
         ResponseFormatter $responseFormatter,
         FileManagement $fileManagement,
         Role $role,

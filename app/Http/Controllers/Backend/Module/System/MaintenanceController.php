@@ -7,7 +7,7 @@ use App\Services\FileManagement;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
 use App\Services\ResponseFormatter;
-use App\Services\Translations;
+use App\Services\BackendTranslations;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Sitemap\SitemapGenerator;
@@ -22,7 +22,7 @@ class MaintenanceController extends Controller
         FileManagement $fileManagement,
         GlobalVariable $global_variable,
         GlobalView $global_view,
-        Translations $translation,
+        BackendTranslations $translation,
     ) {
         $this->middleware(['auth', 'verified', 'xss'])->except(['factory_reset']);
         $this->middleware(['permission:system-sidebar']);

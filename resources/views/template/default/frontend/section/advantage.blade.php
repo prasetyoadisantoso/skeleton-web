@@ -6,8 +6,8 @@
                     id="framework-img">
             </div>
             <div class="col-md-6 my-md-0 mb-4 mt-4">
-                <h2>{{__('home.framework.title')}}</h2>
-                <h5>{{__('home.framework.description')}}</h5>
+                <h2>{{$home_translation['framework']['title']}}</h2>
+                <h5>{{$home_translation['framework']['description']}}</h5>
             </div>
         </div>
     </div>

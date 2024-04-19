@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
 use App\Services\ResponseFormatter;
-use App\Services\Translations;
+use App\Services\BackendTranslations;
 use App\Services\Upload;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -25,7 +25,7 @@ class UserController extends Controller
         ResponseFormatter $responseFormatter,
         GlobalVariable $global_variable,
         GlobalView $global_view,
-        Translations $translation,
+        BackendTranslations $translation,
         DataTables $dataTables,
         Upload $upload,
         User $user,

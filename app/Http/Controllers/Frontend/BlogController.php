@@ -9,7 +9,7 @@ use App\Models\Tag;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
 use App\Services\SEO;
-use App\Services\Translations;
+use App\Services\FrontendTranslations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +20,7 @@ class BlogController extends Controller
     public function __construct(
         GlobalView $global_view,
         GlobalVariable $global_variable,
-        Translations $translation,
+        FrontendTranslations $translation,
         Category $category,
         Post $post,
         Tag $tag,
@@ -42,8 +42,10 @@ class BlogController extends Controller
             $this->global_variable->GoogleTagId(),
 
             // Translations
-            $this->translation->button,
-            $this->translation->blog,
+            $this->translation->header_translation,
+            $this->translation->blog_translation,
+            $this->translation->button_translation,
+            $this->translation->footer_translation,
 
             [
                 'method' => Route::current()->methods(),

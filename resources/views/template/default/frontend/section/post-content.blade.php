@@ -12,7 +12,6 @@
             <div class="col-md-4">
                 @component('template.default.frontend.component.category-tag', [
                 'categories' => $categories,
-                'category' => $category,
                 'tags' => $tags
                 ])
                 @endcomponent

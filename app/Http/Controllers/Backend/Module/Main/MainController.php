@@ -5,13 +5,17 @@ namespace App\Http\Controllers\Backend\Module\Main;
 use App\Http\Controllers\Controller;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
-use App\Services\Translations;
+use App\Services\BackendTranslations;
 
 class MainController extends Controller
 {
-    protected $global_variable, $global_view, $translation;
+    protected $global_variable, $global_view, $translation, $backend_translation;
 
-    public function __construct(GlobalVariable $global_variable, GlobalView $global_view, Translations $translation)
+    public function __construct(
+        GlobalVariable $global_variable,
+        GlobalView $global_view,
+        BackendTranslations $translation,
+        )
     {
         $this->middleware(['auth', 'verified']);
         $this->middleware(['permission:main-sidebar']);
@@ -30,6 +34,8 @@ class MainController extends Controller
             $this->global_variable->SystemName(),
             $this->global_variable->SiteLogo(),
             $this->global_variable->MessageNotification(),
+
+            // Translation
             $this->translation->header,
             $this->translation->sidebar,
             $this->translation->main,

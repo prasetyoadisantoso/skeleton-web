@@ -1,5 +1,5 @@
 <!-- Start Sidebar -->
-<div class="bg-dark" id="sidebar">
+<div class="bg-crimson" id="sidebar">
 
     <!-- Start Sidebar Heading -->
     <div class="sidebar-heading my-1">
@@ -31,8 +31,6 @@
         @include('template.default.backend.module.sidebar.users')
 
         @include('template.default.backend.module.sidebar.system')
-
-        <hr style="border-bottom: 0.1vh solid gray; width: 100%;" class="my-0">
 
     </div>
     <!-- End Menu List -->

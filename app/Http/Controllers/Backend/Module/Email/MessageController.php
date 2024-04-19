@@ -7,7 +7,7 @@ use App\Models\Message;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
 use App\Services\ResponseFormatter;
-use App\Services\Translations;
+use App\Services\BackendTranslations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -21,7 +21,7 @@ class MessageController extends Controller
     public function __construct(
         GlobalView $global_view,
         GlobalVariable $global_variable,
-        Translations $translation,
+        BackendTranslations $translation,
         DataTables $dataTables,
         Message $message,
         ResponseFormatter $responseFormatter,

@@ -25,7 +25,7 @@
         <div class="d-flex justify-content-between align-items-center">
             <div class="container text-center">
                 <a href="{{route('site.blog')}}" class="text-decoration-none text-gray"><i
-                        class="fa-solid fa-angles-left"></i>&nbsp;{{$back_to_post_list}}</a>
+                        class="fa-solid fa-angles-left"></i>&nbsp;{{$blog_translation['back_to_post_list']}}</a>
             </div>
         </div>
     </div>

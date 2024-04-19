@@ -9,6 +9,9 @@ use App\Models\Opengraph;
 use App\Models\Post;
 use App\Models\Tag;
 
+use \AllowDynamicProperties;
+#[AllowDynamicProperties]
+
 class SEO
 {
 

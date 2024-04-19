@@ -8,7 +8,7 @@ use App\Services\FileManagement;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
 use App\Services\ResponseFormatter;
-use App\Services\Translations;
+use App\Services\BackendTranslations;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\DataTables;
@@ -23,7 +23,7 @@ class PermissionController extends Controller
         FileManagement $fileManagement,
         GlobalVariable $global_variable,
         GlobalView $global_view,
-        Translations $translation,
+        BackendTranslations $translation,
         DataTables $dataTables,
         Permission $permission,
     ) {

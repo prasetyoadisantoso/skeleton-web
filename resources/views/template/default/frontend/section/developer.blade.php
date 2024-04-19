@@ -1,6 +1,6 @@
 <div class="page page_5" id="page_5">
     <div class="container text-center" id="developer">
-        <h2 class="mb-4 title">Developer</h2>
+        <h2 class="mb-4 title">The Developer</h2>
         <div class="row">
             <div class="col-12">
                 <div class="developer-item mx-auto mb-3 mb-lg-0">

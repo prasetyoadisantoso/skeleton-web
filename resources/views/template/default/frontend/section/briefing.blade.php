@@ -1,14 +1,11 @@
 <div class="page page_1" id="page_1">
     <div class="home-1">
         <div class="row" id="home-row">
-
             <!-- Description -->
             <div class="col-md-6">
                 <div class="container mb-5 descriptions">
                     <div class="description text-dark rounded text-center text-md-start">
-                        <h1>{{__('home.home.title_1')}}</h1>
-                        <h1>{{__('home.home.title_2')}}</h1>
-                        <h1>{{__('home.home.title_3')}}</h1>
+                        <h1>{!!$home_translation['briefing']['heading']!!}</h1>
                         <h1><i class="fa-brands fa-laravel me-3" style="color: #F9322C;"></i>&<i
                                 class="ms-3 fa-brands fa-bootstrap" style="color: #6610F2;"></i></h1>
                     </div>

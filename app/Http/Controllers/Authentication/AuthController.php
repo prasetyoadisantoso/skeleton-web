@@ -13,7 +13,7 @@ use App\Services\Generator;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
 use App\Services\ResponseFormatter;
-use App\Services\Translations;
+use App\Services\AuthTranslations;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -29,7 +29,7 @@ class AuthController extends Controller
         User $user,
         Token $token,
         Email $email,
-        Translations $translation,
+        AuthTranslations $translation,
         FileManagement $fileManagement,
         ResponseFormatter $responseFormatter,
         GlobalView $global_view,
@@ -62,7 +62,8 @@ class AuthController extends Controller
             $translation_login = $this->translation->authLogin;
             $translation_messages = $this->translation->authMessages;
             $translation_validation = $this->translation->authValidation;
-            return view('template.default.authentication.page.login', array_merge($translation_login, $translation_messages, $translation_validation));
+            $translation_notification = $this->translation->notification;
+            return view('template.default.authentication.page.login', array_merge($translation_login, $translation_messages, $translation_validation, $translation_notification));
         } else {
             return redirect()->route('dashboard.main');
         }

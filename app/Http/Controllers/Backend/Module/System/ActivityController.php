@@ -8,7 +8,7 @@ use App\Services\FileManagement;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
 use App\Services\ResponseFormatter;
-use App\Services\Translations;
+use App\Services\BackendTranslations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Models\Activity;
@@ -22,7 +22,7 @@ class ActivityController extends Controller
         GlobalView $global_view,
         GlobalVariable $global_variable,
         FileManagement $fileManagement,
-        Translations $translation,
+        BackendTranslations $translation,
         DataTables $dataTables,
         ResponseFormatter $responseFormatter,
         Activity $activity,

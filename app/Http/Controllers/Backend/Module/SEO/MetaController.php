@@ -8,7 +8,7 @@ use App\Services\FileManagement;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
 use App\Services\ResponseFormatter;
-use App\Services\Translations;
+use App\Services\BackendTranslations;
 use Yajra\DataTables\DataTables;
 Use App\Models\Meta;
 use Illuminate\Support\Facades\DB;
@@ -21,7 +21,7 @@ class MetaController extends Controller
     public function __construct(
         GlobalView $global_view,
         GlobalVariable $global_variable,
-        Translations $translation,
+        BackendTranslations $translation,
         DataTables $dataTables,
         ResponseFormatter $responseFormatter,
         FileManagement $fileManagement,

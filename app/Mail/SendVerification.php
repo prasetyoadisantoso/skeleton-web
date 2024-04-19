@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Services\Translations;
+use App\Services\AuthTranslations;
 
 class SendVerification extends Mailable
 {
@@ -32,7 +32,7 @@ class SendVerification extends Mailable
      */
     public function build()
     {
-        $translation = new Translations;
+        $translation = new AuthTranslations;
 
         return $this->markdown('mails.verification')->subject("Verification Email")->with(array_merge([
             'token' => $this->token

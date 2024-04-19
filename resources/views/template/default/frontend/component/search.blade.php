@@ -3,7 +3,7 @@
         @honeypot
         @csrf
         <div class="searchBar">
-            <input id="searchQueryInput" type="text" name="search" placeholder="{{$search}}"
+            <input id="searchQueryInput" type="text" name="search" placeholder="{{$blog_translation['search']}}"
                 value="{{old('search')}}" />
             <button id="searchQuerySubmit" type="submit" name="searchQuerySubmit">
                 <svg style="width:24px;height:24px" viewBox="0 0 24 24">

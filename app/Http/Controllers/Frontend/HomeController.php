@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Services\GlobalView;
 use App\Services\GlobalVariable;
-use App\Services\Translations;
+use App\Services\FrontendTranslations;
 use App\Services\SEO;
 
 class HomeController extends Controller
@@ -15,7 +15,7 @@ class HomeController extends Controller
     public function __construct(
         GlobalView $global_view,
         GlobalVariable $global_variable,
-        Translations $translation,
+        FrontendTranslations $translation,
         SEO $seo,
     )
     {
@@ -37,7 +37,10 @@ class HomeController extends Controller
             $this->global_variable->SocialMedia(),
 
             // Translations
-            $this->translation->home,
+            $this->translation->header_translation,
+            $this->translation->home_translation,
+            $this->translation->footer_translation,
+
 
             // SEO
             $this->seo->MetaHome(),

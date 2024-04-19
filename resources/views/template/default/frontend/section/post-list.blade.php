@@ -13,7 +13,7 @@
                 <div class="text-truncation text-secondary">
                     {!!Str::limit($post->content, 180)!!}
                 </div>
-                <a href="{{route('site.blog.post', $post->slug)}}" class="btn btn-danger bg-crimson px-5 rounded-pill">{{$button['read_more']}}</a>
+                <a href="{{route('site.blog.post', $post->slug)}}" class="btn btn-danger bg-crimson px-5 rounded-pill">{{$button_translation['read_more']}}</a>
             </div>
         </div>
     </div>
@@ -24,11 +24,11 @@
     <div class="d-flex justify-content-between align-items-center">
         <div class="container">
             <a href="{{$posts->previousPageUrl()}}" class="text-decoration-none text-gray"><i
-                    class="fa-solid fa-angles-left"></i>&nbsp;{{$latest}}</a>
+                    class="fa-solid fa-angles-left"></i>&nbsp;{{$blog_translation['latest']}}</a>
         </div>
         <div class="container">
             <a href="{{$posts->nextPageUrl()}}"
-                class="text-decoration-none text-gray">{{$oldest}}&nbsp;<i
+                class="text-decoration-none text-gray">{{$blog_translation['oldest']}}&nbsp;<i
                     class="fa-solid fa-angles-right"></i></a>
         </div>
     </div>

@@ -7,11 +7,11 @@
     <!-- Start Blog List Page -->
     <div class="container-fluid h-100">
         <div class="container my-md-5 text-center">
-            <h1 class="fw-bold">{{$title}}</h1>
+            <h1 class="fw-bold">{{$blog_translation['title']}}</h1>
         </div>
 
         {{-- Search Component --}}
-        @component('template.default.frontend.component.search', [$search])
+        @component('template.default.frontend.component.search', [$blog_translation['search']])
         @endcomponent
 
         <div class="container">
@@ -24,7 +24,6 @@
                 <div class="col-md-4">
                     @component('template.default.frontend.component.category-tag', [
                         'categories' => $categories,
-                        'category' => $category,
                         'tags' => $tags
                     ])
                     @endcomponent

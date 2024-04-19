@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\SocialMedia;
 use App\Services\GlobalView;
 use App\Services\GlobalVariable;
-use App\Services\Translations;
+use App\Services\FrontendTranslations;
 use App\Services\Email;
 use App\Models\Message;
 use Illuminate\Support\Facades\DB;
@@ -23,7 +23,7 @@ class ContactController extends Controller
         GlobalView $global_view,
         GlobalVariable $global_variable,
         SocialMedia $social_media,
-        Translations $translation,
+        FrontendTranslations $translation,
         Email $email,
         Message $message,
         SEO $seo,
@@ -47,8 +47,10 @@ class ContactController extends Controller
             $this->global_variable->GoogleTagId(),
 
             // Translations
-            $this->translation->contact,
-            $this->translation->button,
+            $this->translation->header_translation,
+            $this->translation->contact_translation,
+            $this->translation->button_translation,
+            $this->translation->footer_translation,
 
             // SEO
             $this->seo->MetaContact(),

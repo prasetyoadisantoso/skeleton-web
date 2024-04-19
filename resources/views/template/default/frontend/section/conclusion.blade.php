@@ -6,8 +6,8 @@
                     id="development-img">
             </div>
             <div class="col-md-6 my-md-0 mb-4 mt-4">
-                <h3>{{__('home.development.title')}}</h3>
-                <h5>{{__('home.development.description')}}</h5>
+                <h3>{{$home_translation['development']['title']}}</h3>
+                <h5>{{$home_translation['development']['title']}}</h5>
             </div>
         </div>
     </div>

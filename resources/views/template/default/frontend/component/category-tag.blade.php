@@ -1,6 +1,6 @@
 <div class="category-list">
     <div class="container text-center mt-5 mt-md-0">
-        <h3 class="fw-bold text-gray">{{$category}}</h3>
+        <h3 class="fw-bold text-gray">{{$blog_translation['category']}}</h3>
     </div>
     <div class="container text-center">
         <ul class="list-group">
@@ -11,7 +11,7 @@
         </ul>
     </div>
     <div class="container text-center mt-5">
-        <h3 class="fw-bold text-gray">{{$tag}}</h3>
+        <h3 class="fw-bold text-gray">{{$blog_translation['tag']}}</h3>
     </div>
     <div class="container text-center">
         <ul class="list-group">

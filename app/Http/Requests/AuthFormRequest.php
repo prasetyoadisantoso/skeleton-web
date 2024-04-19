@@ -30,68 +30,6 @@ class AuthFormRequest extends FormRequest
         $route = Route::currentRouteName();
 
         switch ($route) {
-            case 'test.client.register':
-                return [
-                    'name' => 'required|max:50',
-                    'email' => 'required|email|unique:users,email',
-                    'image' => 'nullable',
-                    'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                    'phone' => "phone:ID",
-                    'password' => 'required|same:password_confirmation',
-                ];
-
-                break;
-
-            case 'test.client.verify':
-                return [
-                    'token' => 'required',
-                ];
-
-                break;
-
-            case 'test.client.resend':
-                return [
-                    'email' => 'required|email',
-                ];
-
-            case 'test.client.resend.reset':
-                return [
-                    'email' => 'required|email',
-                ];
-
-            case 'test.client.check.reset':
-                return [
-                    'token' => 'required',
-                ];
-                break;
-
-            case 'test.client.reset':
-                return [
-                    'password' => 'required|same:password_confirmation',
-                ];
-                break;
-
-            case 'test.reset.form':
-                if (is_null($this->header('token'))) {
-                    throw new Exception("Token is null");
-                }
-                return [
-                ];
-                break;
-
-            case 'test.client.login':
-                return [
-                    "email" => "required|email",
-                    "password" => "required",
-                ];
-                break;
-
-            case 'test.admin.login':
-                return [
-                    "email" => "required|email",
-                    "password" => "required",
-                ];
-                break;
 
             case 'register':
                 return [
