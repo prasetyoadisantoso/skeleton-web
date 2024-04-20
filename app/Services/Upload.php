@@ -4,7 +4,8 @@ namespace App\Services;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class Upload
 {
@@ -17,9 +18,7 @@ class Upload
         $image_raw = Storage::putFileAs('public/'.$imagePath, $filename, $names);
 
         // Compress With Intervention
-        Image::make(Storage::path($image_raw))->resize(1000, null, function ($constraint) {
-            $constraint->aspectRatio();
-        })->save();
+        $image = $this->CompressionImage($image_raw, 1000);
 
         // Return Image Name
         $image = $imagePath.'/'.$names;
@@ -35,10 +34,7 @@ class Upload
         $imagePath = 'assets/Image/Logo';
         $image_raw = Storage::putFileAs('public/'.$imagePath, $filename, $names);
 
-        // Compress With Intervention
-        Image::make(Storage::path($image_raw))->resize(800, null, function ($constraint) {
-            $constraint->aspectRatio();
-        })->save();
+        $image = $this->CompressionImage($image_raw, 800);
 
         // Return Image Name
         $image = $imagePath.'/'.$names;
@@ -54,10 +50,7 @@ class Upload
         $imagePath = 'assets/Image/Favicon';
         $image_raw = Storage::putFileAs('public/'.$imagePath, $filename, $names);
 
-        // Compress With Intervention
-        Image::make(Storage::path($image_raw))->resize(100, null, function ($constraint) {
-            $constraint->aspectRatio();
-        })->save();
+        $image = $this->CompressionImage($image_raw, 100);
 
         // Return Image Name
         $image = $imagePath.'/'.$names;
@@ -73,10 +66,7 @@ class Upload
         $imagePath = 'assets/Image/Post/Feature';
         $image_raw = Storage::putFileAs('public/'.$imagePath, $filename, $names);
 
-        // Compress With Intervention
-        Image::make(Storage::path($image_raw))->resize(800, null, function ($constraint) {
-            $constraint->aspectRatio();
-        })->save();
+        $image = $this->CompressionImage($image_raw, 1000);
 
         // Return Image Name
         $image = $imagePath.'/'.$names;
@@ -92,10 +82,7 @@ class Upload
         $imagePath = 'assets/Image/Post/Content';
         $image_raw = Storage::putFileAs('public/'.$imagePath, $filename, $names);
 
-        // Compress With Intervention
-        Image::make(Storage::path($image_raw))->resize(800, null, function ($constraint) {
-            $constraint->aspectRatio();
-        })->save();
+        $image = $this->CompressionImage($image_raw, 1000);
 
         // Return Image Name
         $image = $imagePath.'/'.$names;
@@ -111,14 +98,19 @@ class Upload
         $imagePath = 'assets/Image/SEO/Opengraph';
         $image_raw = Storage::putFileAs('public/'.$imagePath, $filename, $names);
 
-        // Compress With Intervention
-        Image::make(Storage::path($image_raw))->resize(800, null, function ($constraint) {
-            $constraint->aspectRatio();
-        })->save();
+        $image = $this->CompressionImage($image_raw, 800);
 
         // Return Image Name
         $image = $imagePath.'/'.$names;
 
         return $image;
+    }
+
+    public function CompressionImage($image_raw, $size) {
+        // Compress With Intervention
+        $image_manager = new ImageManager(new Driver());
+        $image = $image_manager->read(Storage::path($image_raw));
+        $image->scale(width:$size);
+        $image->save();
     }
 }
