@@ -2,10 +2,11 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\ImageManager;
+use Illuminate\Support\Str;
 use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
+use Exception;
 
 class Upload
 {
@@ -106,11 +107,207 @@ class Upload
         return $image;
     }
 
-    public function CompressionImage($image_raw, $size) {
+    public function CompressionImage($image_raw, $size)
+    {
         // Compress With Intervention
         $image_manager = new ImageManager(new Driver());
         $image = $image_manager->read(Storage::path($image_raw));
-        $image->scale(width:$size);
+        $image->scale(width: $size);
         $image->save();
+    }
+
+    public function UploadFileMediaLibrary($file)
+    {
+
+        $filetype = $file->getClientOriginalExtension();
+        $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+
+        switch ($filetype) {
+
+            // JPG
+            case 'jpg':
+                $mediafilepath = 'assets/Media/Type/jpg';
+                $originalFilename = $filename.'.'.$filetype;
+                $newFilename = $originalFilename;
+                $count = 0;
+
+                // Check if the file already exists
+                while (Storage::exists('public/'.$mediafilepath.'/'.$newFilename)) {
+                    $count++;
+                    $newFilename = $filename.'-'.$count.'.'.$filetype;
+                }
+
+                // If the filename needs to be changed, update it
+                if ($newFilename !== $originalFilename) {
+                    $medianame = $newFilename;
+                } else {
+                    $medianame = $originalFilename;
+                }
+
+                // Upload the file with the new or original filename
+                $mediapath = Storage::putFileAs('public/'.$mediafilepath, $file, $medianame);
+
+                return [
+                    'media_name' => $medianame,
+                    'media_path' => $mediafilepath . '/' . $medianame,
+                ];
+                break;
+
+                // JPEG
+            case 'jpeg':
+                $mediafilepath = 'assets/Media/Type/jpeg';
+                $originalFilename = $filename.'.'.$filetype;
+                $newFilename = $originalFilename;
+                $count = 0;
+
+                // Check if the file already exists
+                while (Storage::exists('public/'.$mediafilepath.'/'.$newFilename)) {
+                    $count++;
+                    $newFilename = $filename.'-'.$count.'.'.$filetype;
+                }
+
+                // If the filename needs to be changed, update it
+                if ($newFilename !== $originalFilename) {
+                    $medianame = $newFilename;
+                } else {
+                    $medianame = $originalFilename;
+                }
+
+                // Upload the file with the new or original filename
+                $mediapath = Storage::putFileAs('public/'.$mediafilepath, $file, $medianame);
+
+
+                return [
+                    'media_name' => $medianame,
+                    'media_path' => $mediafilepath . '/' . $medianame,
+                ];
+                break;
+
+                // PNG
+            case 'png':
+
+                $mediafilepath = 'assets/Media/Type/png';
+                $originalFilename = $filename.'.'.$filetype;
+                $newFilename = $originalFilename;
+                $count = 0;
+
+                // Check if the file already exists
+                while (Storage::exists('public/'.$mediafilepath.'/'.$newFilename)) {
+                    $count++;
+                    $newFilename = $filename.'-'.$count.'.'.$filetype;
+                }
+
+                // If the filename needs to be changed, update it
+                if ($newFilename !== $originalFilename) {
+                    $medianame = $newFilename;
+                } else {
+                    $medianame = $originalFilename;
+                }
+
+                // Upload the file with the new or original filename
+                $mediapath = Storage::putFileAs('public/'.$mediafilepath, $file, $medianame);
+
+                return [
+                    'media_name' => $medianame,
+                    'media_path' => $mediafilepath . '/' . $medianame,
+                ];
+
+                break;
+
+                // MP3
+            case 'mp3':
+                $mediafilepath = 'assets/Media/Type/mp3';
+                $originalFilename = $filename.'.'.$filetype;
+                $newFilename = $originalFilename;
+                $count = 0;
+
+                // Check if the file already exists
+                while (Storage::exists('public/'.$mediafilepath.'/'.$newFilename)) {
+                    $count++;
+                    $newFilename = $filename.'-'.$count.'.'.$filetype;
+                }
+
+                // If the filename needs to be changed, update it
+                if ($newFilename !== $originalFilename) {
+                    $medianame = $newFilename;
+                } else {
+                    $medianame = $originalFilename;
+                }
+
+                // Upload the file with the new or original filename
+                $mediapath = Storage::putFileAs('public/'.$mediafilepath, $file, $medianame);
+
+                return [
+                    'media_name' => $medianame,
+                    'media_path' => $mediafilepath . '/' . $medianame,
+                ];
+                break;
+
+                // mp4
+            case 'mp4':
+                $mediafilepath = 'assets/Media/Type/mp4';
+                $originalFilename = $filename.'.'.$filetype;
+                $newFilename = $originalFilename;
+                $count = 0;
+
+                // Check if the file already exists
+                while (Storage::exists('public/'.$mediafilepath.'/'.$newFilename)) {
+                    $count++;
+                    $newFilename = $filename.'-'.$count.'.'.$filetype;
+                }
+
+                // If the filename needs to be changed, update it
+                if ($newFilename !== $originalFilename) {
+                    $medianame = $newFilename;
+                } else {
+                    $medianame = $originalFilename;
+                }
+
+                // Upload the file with the new or original filename
+                $mediapath = Storage::putFileAs('public/'.$mediafilepath, $file, $medianame);
+
+                return [
+                    'media_name' => $medianame,
+                    'media_path' => $mediafilepath . '/' . $medianame,
+                ];
+                break;
+
+                // PDF
+            case 'pdf':
+
+                $mediafilepath = 'assets/Media/Type/pdf';
+                $originalFilename = $filename.'.'.$filetype;
+                $newFilename = $originalFilename;
+                $count = 0;
+
+                // Check if the file already exists
+                while (Storage::exists('public/'.$mediafilepath.'/'.$newFilename)) {
+                    $count++;
+                    $newFilename = $filename.'-'.$count.'.'.$filetype;
+                }
+
+                // If the filename needs to be changed, update it
+                if ($newFilename !== $originalFilename) {
+                    $medianame = $newFilename;
+                } else {
+                    $medianame = $originalFilename;
+                }
+
+                // Upload the file with the new or original filename
+                $mediapath = Storage::putFileAs('public/'.$mediafilepath, $file, $medianame);
+
+                return [
+                    'media_name' => $medianame,
+                    'media_path' => $mediafilepath . '/' . $medianame,
+                ];
+                break;
+
+            default:
+
+                throw new Exception("Media file not found", 1);
+
+                break;
+        }
+
     }
 }
