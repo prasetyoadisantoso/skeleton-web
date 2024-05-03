@@ -55,7 +55,7 @@ class MediaLibrary extends Model
         return $data;
     }
 
-    public function UpdateMediaLibrary($data = null, $id) {
+    public function UpdateMediaLibrary($id, $data = null) {
 
         $medialibrary = $this->GetMediaLibraryById($id);
 

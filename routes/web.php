@@ -4,6 +4,7 @@ use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Backend\Module\Blog\CategoryController;
 use App\Http\Controllers\Backend\Module\Blog\PostController;
 use App\Http\Controllers\Backend\Module\Blog\TagController;
+use App\Http\Controllers\Backend\Module\MediaLibrary\MediaLibraryController;
 use App\Http\Controllers\Backend\Module\Email\MessageController;
 use App\Http\Controllers\Backend\Module\Main\MainController;
 use App\Http\Controllers\Backend\Module\SEO\CanonicalController;
@@ -19,7 +20,6 @@ use App\Http\Controllers\Backend\Module\Users\UserController;
 use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\Testing\MediaLibraryContoller;
 use App\Http\Controllers\Testing\Pagination;
 use App\Models\MediaLibrary;
 use Illuminate\Support\Facades\Artisan;
@@ -131,6 +131,13 @@ Route::group(
             Route::get('main', [MainController::class, 'index'])->name(
                 'dashboard.main'
             );
+
+            // Media Library
+            Route::resource('media-library', MediaLibraryController::class);
+            Route::get('medialibrary_datatable', [
+                MediaLibraryController::class,
+                'index_dt',
+            ])->name('media-library.datatable');
 
             // Blog
             Route::resource('post', PostController::class);
@@ -287,8 +294,6 @@ Route::group(
                 // Testing Pagination from API
                 Route::get('get-post', [Pagination::class, 'get_post']);
 
-                // Media Library
-                Route::resource('media-library', MediaLibraryContoller::class);
             }
         );
     }

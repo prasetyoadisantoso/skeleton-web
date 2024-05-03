@@ -20,6 +20,8 @@
 
         @include('template.default.backend.module.sidebar.main')
 
+        @include('template.default.backend.module.sidebar.medialibrary')
+
         @include('template.default.backend.module.sidebar.blog')
 
         @include('template.default.backend.module.sidebar.SEO')

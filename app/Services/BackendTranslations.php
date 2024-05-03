@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use \AllowDynamicProperties;
-// #[AllowDynamicProperties]
+#[AllowDynamicProperties]
 
 class BackendTranslations
 {
@@ -32,6 +32,9 @@ class BackendTranslations
 
         // Post Dashboard
         $this->post = __('backend/post');
+
+        // Media Library Dashboard
+        $this->medialibrary = __('backend/medialibrary');
 
         // Category Dashboard
         $this->category = __('backend/category');

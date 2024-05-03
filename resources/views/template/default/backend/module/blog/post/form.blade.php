@@ -138,7 +138,8 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="formFileLg" class="form-label">{{$form['opengraph']}}</label>
-                                        <select class="form-select" aria-label="Default select example" name="opengraph">
+                                        <select class="form-select" aria-label="Default select example"
+                                            name="opengraph">
                                             @if ($type == 'create')
                                             <option value="">{{$form['select_opengraph']}}</option>
                                             @foreach ($opengraph_select as $opengraph)
@@ -225,6 +226,11 @@
 
 </div>
 <!-- End Home -->
+
+<div class="container">
+<pre>{{$errors}}</pre>
+</div>
+
 @endsection
 
 @push('post-form-js')

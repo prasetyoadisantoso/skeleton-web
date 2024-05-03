@@ -4,6 +4,10 @@ return [
     // Dashboard
     'dashboard' => 'Dasbor',
 
+    // Media Library
+    'medialibrary' => 'Pustaka Media',
+    'media_management' => 'Manajemen Media',
+
     // Blog
     'blog' => 'Blog',
     'posts' => 'Postingan',

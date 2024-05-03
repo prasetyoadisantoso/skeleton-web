@@ -4,6 +4,10 @@ return [
     // Dashboard
     'dashboard' => 'Dashboard',
 
+    // Media Library
+    'medialibrary' => 'Media Library',
+    'media_management' => 'Media Management',
+
     // Blog
     'blog' => 'Blog',
     'posts' => 'Post',

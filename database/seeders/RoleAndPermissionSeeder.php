@@ -60,6 +60,18 @@ class RoleAndPermissionSeeder extends Seeder
             'tag-destroy',
 
             /* -------------------------------------------------------------------------- */
+            /*                                Media Library                               */
+            /* -------------------------------------------------------------------------- */
+            // Media Library
+            'medialibrary-index',
+            'medialibrary-create',
+            'medialibrary-store',
+            'medialibrary-show',
+            'medialibrary-edit',
+            'medialibrary-update',
+            'medialibrary-destroy',
+
+            /* -------------------------------------------------------------------------- */
             /*                               User Management                              */
             /* -------------------------------------------------------------------------- */
 
@@ -172,6 +184,7 @@ class RoleAndPermissionSeeder extends Seeder
             /* -------------------------------------------------------------------------- */
             'main-sidebar',
             'blog-sidebar',
+            'medialibrary-sidebar',
             'setting-sidebar',
             'seo-sidebar',
             'email-sidebar',
@@ -229,6 +242,15 @@ class RoleAndPermissionSeeder extends Seeder
             'tag-edit',
             'tag-update',
             'tag-destroy',
+
+            // Media Library
+            'medialibrary-index',
+            'medialibrary-create',
+            'medialibrary-store',
+            'medialibrary-show',
+            'medialibrary-edit',
+            'medialibrary-update',
+            'medialibrary-destroy',
 
             /* Email */
             'message-index',
@@ -322,6 +344,7 @@ class RoleAndPermissionSeeder extends Seeder
             'user-sidebar',
             'system-sidebar',
             'email-sidebar',
+            'medialibrary-sidebar',
 
         ]);
 
@@ -365,6 +388,18 @@ class RoleAndPermissionSeeder extends Seeder
             'category-edit',
             'category-update',
             'category-destroy',
+
+            /* -------------------------- Media Library Access -------------------------- */
+            'medialibrary-sidebar',
+
+            // Media Library
+            'medialibrary-index',
+            'medialibrary-create',
+            'medialibrary-store',
+            'medialibrary-show',
+            'medialibrary-edit',
+            'medialibrary-update',
+            'medialibrary-destroy',
 
             /* ------------------------------ Email Access ------------------------------ */
             'email-sidebar',
