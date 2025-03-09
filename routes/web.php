@@ -316,6 +316,10 @@ Route::group(
         'prefix' => 'command',
     ],
     function () {
+        Route::get('factory-reset', function () {
+            Artisan::call('factory-reset');
+        });
+
         Route::get('storage-delete', function () {
             Storage::deleteDirectory('public');
             Storage::makeDirectory('public');
