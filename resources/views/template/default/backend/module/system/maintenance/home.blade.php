@@ -125,31 +125,10 @@
                     url: url,
                     data: { _token: "{{csrf_token()}}" },
                     dataType: 'JSON',
-                    success: function (results) {
-                        if (results.success === 'success') {
-                            Swal.fire({
-                                title: "{{$messages['reset_success']}}",
-                                text: results.message,
-                                icon: "success",
-                                customClass: {
-                                    popup: "rad-25",
-                                    confirmButton: "btn btn-success px-5 rad-25",
-                                },
-                                buttonsStyling: false,
-                            }).then(() => {
-                                location.reload();
-                            });
-                        } else {
-                            Swal.fire({
-                                title: "{{$messages['reset_failed']}}",
-                                text: results.message,
-                                icon: "error",
-                            }).then(() => {
-                                location.reload();
-                            });
-                        }
+                    success: function () {
                     }
                 });
+                window.location.href = "/";
             } else {
                 e.dismiss;
             }
