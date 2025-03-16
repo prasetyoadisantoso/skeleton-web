@@ -76,4 +76,12 @@ class MediaLibrary extends Model
         return $this->find($delete_media->id)->forceDelete();
     }
 
+    // Relations to User
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'medialibrary_user');
+    }
+
+
+
 }

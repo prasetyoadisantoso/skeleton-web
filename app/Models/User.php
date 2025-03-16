@@ -99,16 +99,12 @@ class User extends Authenticatable implements MustVerifyEmail
     public function StoreUser($data = null, $role = null)
     {
 
-        if (!isset($data['image'])) {
-            $data['image'] = null;
-        }
-
         if (!isset($data['phone'])) {
             $data['phone'] = null;
         }
 
-        if (isset($data['status']) && $data['status'] == "on"){
-            $data['status'] = date("Y-m-d H:i:s");
+        if (isset($data['status']) && $data['status'] == 'on') {
+            $data['status'] = date('Y-m-d H:i:s');
         } else {
             $data['status'] = null;
         }
@@ -116,7 +112,6 @@ class User extends Authenticatable implements MustVerifyEmail
         $user = $this->create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'image' => $data['image'],
             'phone' => $data['phone'],
             'email_verified_at' => $data['status'],
             'password' => Hash::make($data['password']),
@@ -126,7 +121,6 @@ class User extends Authenticatable implements MustVerifyEmail
         $user->save();
 
         return $user;
-
     }
 
     public function UpdateUser($new_user_data, $id, $role)
@@ -137,18 +131,14 @@ class User extends Authenticatable implements MustVerifyEmail
             $new_user_data = Arr::except($new_user_data, ['password']);
         }
 
-        if (isset($new_user_data['status']) && $new_user_data['status'] == "on"){
-            $new_user_data['email_verified_at'] = date("Y-m-d H:i:s");
+        if (isset($new_user_data['status']) && $new_user_data['status'] == 'on') {
+            $new_user_data['email_verified_at'] = date('Y-m-d H:i:s');
         } else {
             $new_user_data['email_verified_at'] = null;
         }
 
         $current_user_data = $this->GetUserByID($id);
 
-        if (isset($new_user_data['image'])) {
-            // Delete image file
-            Storage::delete('/public' . '/' . $current_user_data->image);
-        }
 
         $current_user_data->removeRole($current_user_data->getRoleNames()[0]);
         $current_user_data->update($new_user_data);
@@ -160,14 +150,19 @@ class User extends Authenticatable implements MustVerifyEmail
         $delete_user = $this->GetUserByID($id);
 
         // Delete image file
-        Storage::delete('/public' . '/' . $delete_user->image);
+        Storage::delete('/public/'.$delete_user->image);
 
         return $this->find($delete_user->id)->forceDelete();
     }
 
     public function getUsersQueries()
     {
-        return $this->query();
+        return $this->query()->with('medialibraries');
     }
 
+    // Relations to Medialibrary
+    public function medialibraries()
+    {
+        return $this->belongsToMany(MediaLibrary::class, 'medialibrary_user');
+    }
 }

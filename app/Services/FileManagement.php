@@ -2,9 +2,8 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Storage;
-
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class FileManagement
 {
@@ -21,18 +20,18 @@ class FileManagement
      */
     public function GetPathProfileImage($role = null)
     {
-        if($role == 'superadmin'){
+        if ($role == 'superadmin') {
             $image = public_path('Test/Images/superadmin.png');
-        } else if ($role == 'admin'){
+        } elseif ($role == 'administrator') {
             $image = public_path('Test/Images/admin.png');
-        } else if ($role == 'customer'){
+        } elseif ($role == 'customer') {
             $image = public_path('Test/Images/customer.png');
-        } else if ($role == 'editor'){
+        } elseif ($role == 'editor') {
             $image = public_path('Test/Images/editor.png');
-        } else if ($role == 'guest'){
+        } elseif ($role == 'guest') {
             $image = public_path('Test/Images/guest.png');
         } else {
-            $image = public_path('Test/Images/profile.png');
+            $image = public_path('Test/Images/guest.png');
         }
 
         $file = new UploadedFile($image, 'profile.png', 'image/png', null, true);
@@ -41,32 +40,41 @@ class FileManagement
     }
 
     /**
-     *  Upload Logo for development purpose
+     *  Upload Logo for development purpose.
      */
     public function GetPathLogoImage()
     {
         $image = public_path('Test/Images/logo.png');
         $file = new UploadedFile($image, 'profile.png', 'image/png', null, true);
+
         return $file;
     }
 
     /**
-     *  Upload Favicon for development purpose
+     *  Upload Favicon for development purpose.
      */
     public function GetPathFaviconImage()
     {
         $image = public_path('Test/Images/favicon.png');
         $file = new UploadedFile($image, 'profile.png', 'image/png', null, true);
+
         return $file;
     }
 
     /**
-     *  Upload Feature Image for development purpose
+     *  Upload Feature Image for development purpose.
      */
     public function GetPathFeatureImage()
     {
         $image = public_path('Test/Images/feature-image.png');
         $file = new UploadedFile($image, 'profile.png', 'image/png', null, true);
+
         return $file;
+    }
+
+    // ...
+    public function GetImageObject($path)
+    {
+        return new File(public_path($path));
     }
 }

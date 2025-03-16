@@ -14,7 +14,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-
             UserSeeder::class,
             RoleAndPermissionSeeder::class,
             ModelRoleSeeder::class,
@@ -36,6 +35,7 @@ class DatabaseSeeder extends Seeder
             TagMetaSeeder::class,
             TagOpengraphSeeder::class,
             MessageSeeder::class,
+            MediaLibraryUserSeeder::class,
         ]);
     }
 }

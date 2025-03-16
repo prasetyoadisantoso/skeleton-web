@@ -5,21 +5,25 @@ namespace App\Http\Controllers\Backend\Module\MediaLibrary;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\MediaLibraryFormRequest;
 use App\Models\MediaLibrary;
-use App\Services\Upload;
-use Exception;
-use Illuminate\Support\Facades\Auth;
+use App\Services\BackendTranslations;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
-use Yajra\DataTables\DataTables;
-use App\Services\BackendTranslations;
+use App\Services\Upload;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Yajra\DataTables\DataTables;
+use App\Models\User;
 
 class MediaLibraryController extends Controller
 {
     protected $upload;
 
-    protected $medialibrary, $global_variable, $global_view, $dataTables, $translation;
+    protected $medialibrary;
+    protected $global_variable;
+    protected $global_view;
+    protected $dataTables;
+    protected $translation;
 
     public function __construct(
         Upload $upload,
@@ -29,7 +33,6 @@ class MediaLibraryController extends Controller
         DataTables $dataTables,
         BackendTranslations $translation,
     ) {
-
         $this->middleware(['auth', 'verified']);
         $this->middleware(['xss'])->only(['store', 'update']);
         $this->middleware(['xss-sanitize'])->only(['store', 'update']);
@@ -52,7 +55,6 @@ class MediaLibraryController extends Controller
     protected function boot()
     {
         return $this->global_view->RenderView([
-
             // Global Variable
             $this->global_variable->TitlePage($this->translation->medialibrary['title']),
             $this->global_variable->SystemLanguage(),
@@ -88,8 +90,9 @@ class MediaLibraryController extends Controller
     {
         $this->boot();
         $data = $this->medialibrary->get();
+
         return view('template.default.backend.module.medialibrary.home', array_merge($this->global_variable->PageType('index'), [
-            'data' => $data
+            'data' => $data,
         ]));
     }
 
@@ -106,6 +109,7 @@ class MediaLibraryController extends Controller
                 return $data->id;
             })
             ->removeColumn('id')->addIndexColumn()->make('true');
+
         return $res;
     }
 
@@ -125,29 +129,27 @@ class MediaLibraryController extends Controller
 
         // Error Validation Message to Activity Log
         if (isset($request->validator) && $request->validator->fails()) {
-            activity()->causedBy(Auth::user())->performedOn(new MediaLibrary)->log($request->validator->messages());
+            activity()->causedBy(Auth::user())->performedOn(new MediaLibrary())->log($request->validator->messages());
         }
 
         DB::beginTransaction();
         try {
-
             // Upload function
             if ($request->file('media-files') != null) {
                 $media_file = $this->upload->UploadFileMediaLibrary($data['media-files']);
                 $data['media-files'] = $media_file['media_path'];
 
-                if (isset($data['title']) && $data['title'] != "") {
+                if (isset($data['title']) && $data['title'] != '') {
                     $data['title'] = $data['title'];
                 } else {
                     $data['title'] = $media_file['media_name'];
                 }
-
             } else {
                 $error = 'Media file not found';
             }
 
             if (isset($error)) {
-                throw new Exception($error, 1);
+                throw new \Exception($error, 1);
             }
 
             // Store Data
@@ -155,24 +157,24 @@ class MediaLibraryController extends Controller
 
             DB::commit();
             activity()->causedBy(Auth::user())->performedOn(new MediaLibrary())->log($this->translation->medialibrary['messages']['store_success']);
+
             return redirect()->route('media-library.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
                 'content' => $this->translation->medialibrary['messages']['store_success'],
             ]);
-
         } catch (\Throwable $th) {
             DB::rollback();
             $message = $th->getMessage();
             report($message);
             activity()->causedBy(Auth::user())->performedOn(new MediaLibrary())->log($message);
+
             return redirect()->route('media-library.create')->with([
                 'error' => 'error',
-                "title" => $this->translation->notification['error'],
-                "content" => $message,
+                'title' => $this->translation->notification['error'],
+                'content' => $message,
             ]);
         }
-
     }
 
     public function show()
@@ -198,21 +200,20 @@ class MediaLibraryController extends Controller
 
     public function update(MediaLibraryFormRequest $request, $id)
     {
-
         $request->validated();
         $data = $request->only(['title', 'information', 'description']);
 
         // Error Validation Message to Activity Log
         if (isset($request->validator) && $request->validator->fails()) {
-            activity()->causedBy(Auth::user())->performedOn(new MediaLibrary)->log($request->validator->messages());
+            activity()->causedBy(Auth::user())->performedOn(new MediaLibrary())->log($request->validator->messages());
         }
 
         DB::beginTransaction();
         try {
-
             $this->medialibrary->UpdateMediaLibrary($id, $data);
             DB::commit();
             activity()->causedBy(Auth::user())->performedOn(new MediaLibrary())->log($this->translation->medialibrary['messages']['update_success']);
+
             return redirect()->route('media-library.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
@@ -223,18 +224,17 @@ class MediaLibraryController extends Controller
             $message = $th->getMessage();
             report($message);
             activity()->causedBy(Auth::user())->performedOn(new MediaLibrary())->log($message);
+
             return redirect()->route('media-library.edit')->with([
                 'error' => 'error',
-                "title" => $this->translation->notification['error'],
-                "content" => $message,
+                'title' => $this->translation->notification['error'],
+                'content' => $message,
             ]);
         }
-
     }
 
     public function destroy($id)
     {
-
         DB::beginTransaction();
         try {
             $delete = $this->medialibrary->DeleteMediaLibrary($id);
@@ -247,7 +247,7 @@ class MediaLibraryController extends Controller
                 $status = 'error';
             }
 
-            activity()->causedBy(Auth::user())->performedOn(new MediaLibrary)->log($this->translation->post['messages']['delete_success']);
+            activity()->causedBy(Auth::user())->performedOn(new MediaLibrary())->log($this->translation->post['messages']['delete_success']);
 
             //  Return response
             return response()->json(['status' => $status]);
@@ -256,12 +256,112 @@ class MediaLibraryController extends Controller
             $message = $th->getMessage();
             report($message);
 
-            activity()->causedBy(Auth::user())->performedOn(new MediaLibrary)->log($message);
+            activity()->causedBy(Auth::user())->performedOn(new MediaLibrary())->log($message);
+
             return redirect()->back()->with([
                 'error' => 'error',
-                "title" => $this->translation->notification['error'],
-                "content" => $message,
+                'title' => $this->translation->notification['error'],
+                'content' => $message,
             ]);
+        }
+    }
+
+    public function storeImageUser($request, $user)
+    {
+        $data['media-files'] = $request;
+
+        DB::beginTransaction();
+        try {
+            // Upload function
+            if ($data != null) {
+                $media_file = $this->upload->UploadUserImageToMediaLibrary($data['media-files']);
+                $data['media-files'] = $media_file['media_path'];
+
+                if (isset($data['title']) && $data['title'] != '') {
+                    $data['title'] = $data['title'];
+                } else {
+                    $data['title'] = $media_file['media_name'];
+                }
+
+                if (isset($data['information']) && $data['information'] != '') {
+                    $data['information'] = $data['information'];
+                } else {
+                    $data['information'] = '';
+                }
+
+                if (isset($data['description']) && $data['description'] != '') {
+                    $data['description'] = $data['description'];
+                } else {
+                    $data['description'] = '';
+                }
+            } else {
+                $error = 'Media file not found';
+            }
+
+            if (isset($error)) {
+                throw new \Exception($error, 1);
+            }
+
+            // Store Data
+            $mediaLibrary = $this->medialibrary->StoreMediaLibrary($data);
+
+            // Attach User to media library
+            $user->medialibraries()->attach($mediaLibrary->id);
+
+            DB::commit();
+            activity()->causedBy(Auth::user())->performedOn(new MediaLibrary())->log($this->translation->medialibrary['messages']['store_success']);
+        } catch (\Throwable $th) {
+            DB::rollback();
+            $message = $th->getMessage();
+            report($message);
+            activity()->causedBy(Auth::user())->performedOn(new MediaLibrary())->log($message);
+        }
+    }
+
+    public function updateImageUser($request, $user_id)
+    {
+        $data['media-files'] = $request;
+
+        DB::beginTransaction();
+        try {
+            $user = User::find($user_id);
+            if (!$user) {
+                throw new \Exception('User not found');
+            }
+
+            if ($data != null) {
+                // Upload function
+                $media_file = $this->upload->UploadUserImageToMediaLibrary($data['media-files']);
+
+                // Check if user already has image in media library
+                $existing_media = $user->medialibraries()->first();
+                if ($existing_media) {
+                    // Delete old file
+                    Storage::delete('public/'.$existing_media->media_files);
+                    // Detach old file from user
+                    $user->medialibraries()->detach($existing_media->id);
+                    // Delete old media library record
+                    $existing_media->delete();
+                }
+
+                // Create new media library record
+                $mediaLibrary = MediaLibrary::create([
+                    'title' => $media_file['media_name'],
+                    'information' => '',
+                    'description' => '',
+                    'media_files' => $media_file['media_path'],
+                ]);
+
+                // Attach user to media library
+                $user->medialibraries()->attach($mediaLibrary->id);
+            }
+            DB::commit();
+            activity()->causedBy(Auth::user())->performedOn(new MediaLibrary())->log($this->translation->medialibrary['messages']['update_success']);
+        } catch (\Throwable $th) {
+            DB::rollback();
+            $message = $th->getMessage();
+            report($message);
+            activity()->causedBy(Auth::user())->performedOn(new MediaLibrary())->log($message);
         }
     }
 }

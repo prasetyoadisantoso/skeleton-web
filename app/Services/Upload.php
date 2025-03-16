@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
-use Exception;
 
 class Upload
 {
@@ -109,21 +108,25 @@ class Upload
 
     public function CompressionImage($image_raw, $size)
     {
-        // Compress With Intervention
-        $image_manager = new ImageManager(new Driver());
-        $image = $image_manager->read(Storage::path($image_raw));
-        $image->scale(width: $size);
-        $image->save();
+        try {
+            // Compress With Intervention
+            $image_manager = new ImageManager(new Driver());
+            $image = $image_manager->read(Storage::path($image_raw));
+            $image->scale(width: $size);
+            $image->save();
+        } catch (\Exception $e) {
+            // Handle the error (log, throw a custom exception, etc.)
+            report($e); // This will send the error to your logs
+            throw new \Exception('Error compressing image: '.$e->getMessage());
+        }
     }
 
     public function UploadFileMediaLibrary($file)
     {
-
         $filetype = $file->getClientOriginalExtension();
         $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
         switch ($filetype) {
-
             // JPG
             case 'jpg':
                 $mediafilepath = 'assets/Media/Type/jpg';
@@ -133,7 +136,7 @@ class Upload
 
                 // Check if the file already exists
                 while (Storage::exists('public/'.$mediafilepath.'/'.$newFilename)) {
-                    $count++;
+                    ++$count;
                     $newFilename = $filename.'-'.$count.'.'.$filetype;
                 }
 
@@ -149,7 +152,7 @@ class Upload
 
                 return [
                     'media_name' => $medianame,
-                    'media_path' => $mediafilepath . '/' . $medianame,
+                    'media_path' => $mediafilepath.'/'.$medianame,
                 ];
                 break;
 
@@ -162,7 +165,7 @@ class Upload
 
                 // Check if the file already exists
                 while (Storage::exists('public/'.$mediafilepath.'/'.$newFilename)) {
-                    $count++;
+                    ++$count;
                     $newFilename = $filename.'-'.$count.'.'.$filetype;
                 }
 
@@ -176,16 +179,14 @@ class Upload
                 // Upload the file with the new or original filename
                 $mediapath = Storage::putFileAs('public/'.$mediafilepath, $file, $medianame);
 
-
                 return [
                     'media_name' => $medianame,
-                    'media_path' => $mediafilepath . '/' . $medianame,
+                    'media_path' => $mediafilepath.'/'.$medianame,
                 ];
                 break;
 
                 // PNG
             case 'png':
-
                 $mediafilepath = 'assets/Media/Type/png';
                 $originalFilename = $filename.'.'.$filetype;
                 $newFilename = $originalFilename;
@@ -193,7 +194,7 @@ class Upload
 
                 // Check if the file already exists
                 while (Storage::exists('public/'.$mediafilepath.'/'.$newFilename)) {
-                    $count++;
+                    ++$count;
                     $newFilename = $filename.'-'.$count.'.'.$filetype;
                 }
 
@@ -209,7 +210,7 @@ class Upload
 
                 return [
                     'media_name' => $medianame,
-                    'media_path' => $mediafilepath . '/' . $medianame,
+                    'media_path' => $mediafilepath.'/'.$medianame,
                 ];
 
                 break;
@@ -223,7 +224,7 @@ class Upload
 
                 // Check if the file already exists
                 while (Storage::exists('public/'.$mediafilepath.'/'.$newFilename)) {
-                    $count++;
+                    ++$count;
                     $newFilename = $filename.'-'.$count.'.'.$filetype;
                 }
 
@@ -239,7 +240,7 @@ class Upload
 
                 return [
                     'media_name' => $medianame,
-                    'media_path' => $mediafilepath . '/' . $medianame,
+                    'media_path' => $mediafilepath.'/'.$medianame,
                 ];
                 break;
 
@@ -252,7 +253,7 @@ class Upload
 
                 // Check if the file already exists
                 while (Storage::exists('public/'.$mediafilepath.'/'.$newFilename)) {
-                    $count++;
+                    ++$count;
                     $newFilename = $filename.'-'.$count.'.'.$filetype;
                 }
 
@@ -268,13 +269,12 @@ class Upload
 
                 return [
                     'media_name' => $medianame,
-                    'media_path' => $mediafilepath . '/' . $medianame,
+                    'media_path' => $mediafilepath.'/'.$medianame,
                 ];
                 break;
 
                 // PDF
             case 'pdf':
-
                 $mediafilepath = 'assets/Media/Type/pdf';
                 $originalFilename = $filename.'.'.$filetype;
                 $newFilename = $originalFilename;
@@ -282,7 +282,7 @@ class Upload
 
                 // Check if the file already exists
                 while (Storage::exists('public/'.$mediafilepath.'/'.$newFilename)) {
-                    $count++;
+                    ++$count;
                     $newFilename = $filename.'-'.$count.'.'.$filetype;
                 }
 
@@ -298,16 +298,47 @@ class Upload
 
                 return [
                     'media_name' => $medianame,
-                    'media_path' => $mediafilepath . '/' . $medianame,
+                    'media_path' => $mediafilepath.'/'.$medianame,
                 ];
                 break;
 
             default:
-
-                throw new Exception("Media file not found", 1);
-
+                throw new \Exception('Media file not found', 1);
                 break;
         }
+    }
 
+    public function UploadUserImageToMediaLibrary($file)
+    {
+        $allowedFileTypes = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+        $fileType = strtolower($file->getClientOriginalExtension());
+        $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+
+        // Check if the file type is allowed
+        if (!in_array($fileType, $allowedFileTypes)) {
+            throw new \Exception('Invalid file type. Allowed types are: '.implode(', ', $allowedFileTypes), 1);
+        }
+
+        $mediaFilePath = 'assets/Media/Type/Image';
+
+        // Generate a unique filename
+        $originalFilename = $filename.'.'.$fileType;
+        $newFilename = $originalFilename;
+        $count = 0;
+
+        while (Storage::exists('public/'.$mediaFilePath.'/'.$newFilename)) {
+            ++$count;
+            $newFilename = $filename.'-'.$count.'.'.$fileType;
+        }
+
+        // Upload the file with the new or original filename
+        $mediaPath = Storage::putFileAs('public/'.$mediaFilePath, $file, $newFilename);
+
+        $this->CompressionImage($mediaPath, 1000);
+
+        return [
+            'media_name' => $newFilename,
+            'media_path' => $mediaFilePath.'/'.$newFilename,
+        ];
     }
 }

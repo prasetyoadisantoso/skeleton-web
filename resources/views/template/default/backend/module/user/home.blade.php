@@ -170,9 +170,10 @@
             url: link,
             cache: false,
             success: function (result) {
+                console.log(result)
                 $("#modal-detail-user").modal('show');
-                if ( result.data['user'].image !== null) {
-                    $('#user-image').html("<img src='/storage/" + result.data['user'].image + "' class='img-fluid w-25'>");
+                if ( result.data['image'] !== null) {
+                    $('#user-image').html("<img src='/storage/" + result.data['image'] + "' class='img-fluid w-25'>");
                 } else {
                     $('#user-image').html("{{$messages['image_not_available']}}");
                 }

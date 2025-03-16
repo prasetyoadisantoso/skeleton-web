@@ -2,24 +2,34 @@
 
 namespace App\Http\Controllers\Backend\Module\Users;
 
+use App\Http\Controllers\Backend\Module\MediaLibrary\MediaLibraryController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserFormRequest;
+use App\Models\MediaLibrary;
 use App\Models\User;
+use App\Services\BackendTranslations;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
 use App\Services\ResponseFormatter;
-use App\Services\BackendTranslations;
 use App\Services\Upload;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
-use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-
-    protected $global_view, $global_variable, $user, $upload, $dataTables, $translation, $role, $responseFormatter;
+    protected $global_view;
+    protected $global_variable;
+    protected $user;
+    protected $upload;
+    protected $dataTables;
+    protected $translation;
+    protected $role;
+    protected $responseFormatter;
+    protected $mediaLibraryController;
 
     public function __construct(
         ResponseFormatter $responseFormatter,
@@ -30,6 +40,7 @@ class UserController extends Controller
         Upload $upload,
         User $user,
         Role $role,
+        MediaLibraryController $mediaLibraryController,
     ) {
         $this->middleware(['auth', 'verified', 'xss']);
         $this->middleware(['permission:user-sidebar']);
@@ -50,17 +61,16 @@ class UserController extends Controller
         $this->user = $user;
         $this->dataTables = $dataTables;
         $this->role = $role;
+        $this->mediaLibraryController = $mediaLibraryController;
     }
 
     /**
-     * Boot Service
-     *
+     * Boot Service.
      */
     protected function boot()
     {
         // Render to View
         $this->global_view->RenderView([
-
             // Global Variable
             $this->global_variable->TitlePage('Users'),
             $this->global_variable->SystemLanguage(),
@@ -79,13 +89,13 @@ class UserController extends Controller
             // Module
             $this->global_variable->ModuleType([
                 'user-home',
-                'user-form'
+                'user-form',
             ]),
 
             // Script
             $this->global_variable->ScriptType([
                 'user-home-js',
-                'user-form-js'
+                'user-form-js',
             ]),
         ]);
     }
@@ -93,6 +103,7 @@ class UserController extends Controller
     public function index()
     {
         $this->boot();
+
         return view('template.default.backend.module.user.home', array_merge(
             $this->global_variable->PageType('index')
         ));
@@ -102,7 +113,15 @@ class UserController extends Controller
     {
         $result = $this->dataTables->of($this->user->getUsersQueries())
             ->addColumn('image', function ($user) {
-                return Storage::url($user->image);
+                $imageUrl = '';
+                if ($user->medialibraries->isNotEmpty()) {
+                    $mediaLibrary = $user->medialibraries->first(); // Assuming one image per user
+                    if ($mediaLibrary->media_files) {
+                        $imageUrl = Storage::url($mediaLibrary->media_files);
+                    }
+                }
+
+                return $imageUrl;
             })
             ->addColumn('role', function ($user) {
                 return $user->getRoleNames()->map(function ($item) {
@@ -120,6 +139,7 @@ class UserController extends Controller
     public function create()
     {
         $this->boot();
+
         return view('template.default.backend.module.user.form', array_merge(
             $this->global_variable->PageType('create'),
             [
@@ -132,20 +152,22 @@ class UserController extends Controller
     {
         // Error Validation Message to Activity Log
         if (isset($request->validator) && $request->validator->fails()) {
-            activity()->causedBy(Auth::user())->performedOn(new User)->log($request->validator->messages());
+            activity()->causedBy(Auth::user())->performedOn(new User())->log($request->validator->messages());
         }
 
         $request->validated();
         $validated_data = $request->only(['name', 'email', 'password', 'image', 'phone', 'status', 'role']);
+        $user_data = Arr::except($validated_data, ['image']);
 
         DB::beginTransaction();
         try {
+            $user = $this->user->StoreUser($user_data, $user_data['role']);
             if ($request->file('image')) {
-                $image = $this->upload->UploadImageUserToStorage($validated_data['image']);
-                $validated_data['image'] = $image;
+                // Use Media Library to store image
+                $this->mediaLibraryController->storeImageUser($validated_data['image'], $user);
             }
-            $this->user->StoreUser($validated_data, $validated_data['role']);
-            activity()->causedBy(Auth::user())->performedOn(new User)->log($this->translation->users['messages']['store_success']);
+
+            activity()->causedBy(Auth::user())->performedOn(new User())->log($this->translation->users['messages']['store_success']);
             DB::commit();
 
             return redirect()->route('user.index')->with([
@@ -161,11 +183,12 @@ class UserController extends Controller
             if (str_contains($th->getMessage(), 'Duplicate entry')) {
                 $message = 'Duplicate entry';
             }
-            activity()->causedBy(Auth::user())->performedOn(new User)->log($message);
+            activity()->causedBy(Auth::user())->performedOn(new User())->log($message);
+
             return redirect()->route('user.create')->with([
                 'error' => 'error',
-                "title" => $this->translation->notification['error'],
-                "content" => $message,
+                'title' => $this->translation->notification['error'],
+                'content' => $message,
             ]);
         }
     }
@@ -179,7 +202,15 @@ class UserController extends Controller
             $is_verified = $this->translation->select['antonim']['no'];
         }
         $role = $user->getRoleNames();
-        return $this->responseFormatter->successResponse(["user" => $user, "role" => $role, "is_verified" => $is_verified], 'Get user detail by id');
+        // Check if the user has a related MediaLibrary record
+        if ($user->medialibraries()->exists()) {
+            $image = $user->medialibraries->first()->media_files;
+        } else {
+            // Set a default image path if no image is found
+            $image = null;
+        }
+
+        return $this->responseFormatter->successResponse(['user' => $user, 'image' => $image,  'role' => $role, 'is_verified' => $is_verified], 'Get user detail by id');
     }
 
     public function edit($id)
@@ -192,13 +223,23 @@ class UserController extends Controller
         } else {
             $is_verified = $this->translation->select['antonim']['no'];
         }
+
+        // Check if the user has a related MediaLibrary record
+        if ($user->medialibraries()->exists()) {
+            $image = $user->medialibraries->first()->media_files;
+        } else {
+            // Set a default image path if no image is found
+            $image = null;
+        }
+
         return view('template.default.backend.module.user.form', array_merge(
             $this->global_variable->PageType('edit'),
             [
-                "user" => $user,
-                "role" => $role,
+                'user' => $user,
+                'role' => $role,
+                'image' => $image,
                 'role_list' => $this->role->all(),
-                "is_verified" => $is_verified,
+                'is_verified' => $is_verified,
             ]
         ));
     }
@@ -207,7 +248,7 @@ class UserController extends Controller
     {
         // Error Validation Message to Activity Log
         if (isset($request->validator) && $request->validator->fails()) {
-            activity()->causedBy(Auth::user())->performedOn(new User)->log($request->validator->messages());
+            activity()->causedBy(Auth::user())->performedOn(new User())->log($request->validator->messages());
         }
 
         $request->validated();
@@ -216,12 +257,15 @@ class UserController extends Controller
         DB::beginTransaction();
         try {
             if ($request->file('image')) {
-                $image = $this->upload->UploadImageUserToStorage($new_user_data['image']);
-                $new_user_data['image'] = $image;
+                // Use Media Library to store image
+                $this->mediaLibraryController->updateImageUser($new_user_data['image'], $id);
             }
-            $this->user->UpdateUser($new_user_data, $id, $new_user_data['role']);
+
+            $user_data = Arr::except($new_user_data, ['image']);
+            $this->user->UpdateUser($user_data, $id, $new_user_data['role']);
             DB::commit();
-            activity()->causedBy(Auth::user())->performedOn(new User)->log($this->translation->users['messages']['update_success']);
+            activity()->causedBy(Auth::user())->performedOn(new User())->log($this->translation->users['messages']['update_success']);
+
             return redirect()->route('user.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
@@ -236,12 +280,12 @@ class UserController extends Controller
                 $message = 'Duplicate entry';
             }
 
-            activity()->causedBy(Auth::user())->performedOn(new User)->log($message);
+            activity()->causedBy(Auth::user())->performedOn(new User())->log($message);
 
             return redirect()->back()->with([
                 'error' => 'error',
-                "title" => $this->translation->notification['error'],
-                "content" => $message,
+                'title' => $this->translation->notification['error'],
+                'content' => $message,
             ]);
         }
     }
@@ -250,6 +294,23 @@ class UserController extends Controller
     {
         DB::beginTransaction();
         try {
+            // Get the User
+            $user = $this->user->GetUserByID($id);
+
+            // Check if user has associated MediaLibrary records
+            if ($user->medialibraries()->exists()) {
+                // Get existing media
+                $existing_media = $user->medialibraries()->first();
+
+                // Delete the file from storage
+                Storage::delete('public/'.$existing_media->media_files);
+
+                // Detach the media from the user
+                $user->medialibraries()->detach($existing_media->id);
+
+                // Delete the MediaLibrary record
+                $existing_media->delete();
+            }
             $delete = $this->user->DeleteUser($id);
             DB::commit();
 
@@ -260,7 +321,7 @@ class UserController extends Controller
                 $status = 'error';
             }
 
-            activity()->causedBy(Auth::user())->performedOn(new User)->log($this->translation->users['messages']['delete_success']);
+            activity()->causedBy(Auth::user())->performedOn(new User())->log($this->translation->users['messages']['delete_success']);
 
             //  Return response
             return response()->json(['status' => $status]);
@@ -269,11 +330,12 @@ class UserController extends Controller
             $message = $th->getMessage();
             report($message);
 
-            activity()->causedBy(Auth::user())->performedOn(new User)->log($message);
+            activity()->causedBy(Auth::user())->performedOn(new User())->log($message);
+
             return redirect()->back()->with([
                 'error' => 'error',
-                "title" => $this->translation->notification['error'],
-                "content" => $message,
+                'title' => $this->translation->notification['error'],
+                'content' => $message,
             ]);
         }
     }

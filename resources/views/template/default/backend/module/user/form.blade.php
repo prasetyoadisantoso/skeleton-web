@@ -55,7 +55,7 @@
                                 <div class="container py-5">
                                     <div class="text-center mb-3">
                                         <img class="img-fluid rounded-circle"
-                                            src="{{ $type == 'edit' && $user->image != null ? Storage::url($user->image) :  asset('template/default/assets/img/profile.png')}}"
+                                            src="{{ $type == 'edit' && $image != null ? Storage::url($image) :  asset('template/default/assets/img/placeholder.png')}}"
                                             alt="User profile picture" id="profileImage" style="width: 200px;">
                                         <i class="fa fa-camera upload-button"></i>
                                         <input type="file" name="image" onchange="readImage(this);" id="imageUpload"

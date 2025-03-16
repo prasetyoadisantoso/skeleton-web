@@ -20,7 +20,6 @@ return new class() extends Migration {
             $table->timestamp('deleted_at')->nullable();
             $table->string('remember_me')->nullable();
             $table->string('password');
-            $table->string('image')->nullable();
             $table->string('phone')->nullable();
             $table->rememberToken();
             $table->timestamps();
