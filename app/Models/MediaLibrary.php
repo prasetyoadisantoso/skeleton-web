@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Translatable\HasTranslations;
 use Webpatser\Uuid\Uuid;
-use Illuminate\Support\Facades\Storage;
 
 class MediaLibrary extends Model
 {
-    use HasFactory, HasTranslations;
+    use HasFactory;
+    use HasTranslations;
 
     public $incrementing = false;
 
@@ -44,7 +45,6 @@ class MediaLibrary extends Model
 
     public function StoreMediaLibrary($data = null)
     {
-
         $data = $this->create([
             'title' => $data['title'],
             'information' => $data['information'],
@@ -55,8 +55,8 @@ class MediaLibrary extends Model
         return $data;
     }
 
-    public function UpdateMediaLibrary($id, $data = null) {
-
+    public function UpdateMediaLibrary($id, $data = null)
+    {
         $medialibrary = $this->GetMediaLibraryById($id);
 
         $medialibrary->title = $data['title'];
@@ -68,10 +68,11 @@ class MediaLibrary extends Model
         return $medialibrary;
     }
 
-    public function DeleteMediaLibrary($id) {
+    public function DeleteMediaLibrary($id)
+    {
         $delete_media = $this->GetMediaLibraryById($id);
 
-        Storage::delete('/public' . '/' . $delete_media->media_files);
+        Storage::delete('/public/'.$delete_media->media_files);
 
         return $this->find($delete_media->id)->forceDelete();
     }
@@ -82,6 +83,9 @@ class MediaLibrary extends Model
         return $this->belongsToMany(User::class, 'medialibrary_user');
     }
 
-
-
+    // Relation to Post
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class, 'medialibrary_post');
+    }
 }

@@ -2,10 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Canonical;
-use App\Models\Category;
-use App\Models\Meta;
-use App\Models\Tag;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -15,7 +11,8 @@ use Webpatser\Uuid\Uuid;
 
 class Post extends Model
 {
-    use HasFactory, HasTranslations;
+    use HasFactory;
+    use HasTranslations;
 
     public $incrementing = false;
 
@@ -23,7 +20,6 @@ class Post extends Model
 
     protected $fillable = [
         'title',
-        'feature_image',
         'slug',
         'content',
         'published_at',
@@ -91,10 +87,21 @@ class Post extends Model
         return $this->query()->find($id);
     }
 
+    public function getPostsQueries()
+    {
+        return $this->query()->with('medialibraries');
+    }
+
+    // Relation to MediaLibrary
+    public function mediaLibraries()
+    {
+        return $this->belongsToMany(MediaLibrary::class, 'medialibrary_post');
+    }
+
     public function StorePost($data = null)
     {
         if (array_key_exists('published', $data)) {
-            if ($data['published'] == "on") {
+            if ($data['published'] == 'on') {
                 $data['published'] = date('Y-m-d H:i:s');
             } else {
                 $data['published'] = null;
@@ -122,6 +129,11 @@ class Post extends Model
             'author_id' => $data['author_id'],
         ]);
 
+        // Attach MediaLibrary
+        if (isset($data['media_library']) && is_array($data['media_library'])) {
+            $post->mediaLibraries()->attach($data['media_library']);
+        }
+
         if ($data['category'] != null || $data['category'] != '') {
             $post->categories()->attach($data['category']);
         }
@@ -148,7 +160,7 @@ class Post extends Model
     public function UpdatePost($data = null, $id = null)
     {
         if (array_key_exists('published', $data)) {
-            if ($data['published'] == "on") {
+            if ($data['published'] == 'on') {
                 $data['published_at'] = date('Y-m-d H:i:s');
             } else {
                 $data['published_at'] = null;
@@ -167,7 +179,7 @@ class Post extends Model
 
         if (isset($feature['feature_image'])) {
             // Delete image file
-            Storage::delete('/public' . '/' . $current_post->feature_image);
+            Storage::delete('/public/'.$current_post->feature_image);
         }
 
         if ($data['category'] != null || $data['category'] != '') {
@@ -207,9 +219,8 @@ class Post extends Model
         $delete_post->opengraphs()->detach();
 
         // Delete image file
-        Storage::delete('/public' . '/' . $delete_post->image);
+        Storage::delete('/public/'.$delete_post->image);
 
         return $this->find($delete_post->id)->forceDelete();
     }
-
 }

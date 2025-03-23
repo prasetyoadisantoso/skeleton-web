@@ -6,25 +6,40 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PostFormRequest;
 use App\Models\Canonical;
 use App\Models\Category;
+use App\Models\MediaLibrary;
 use App\Models\Meta;
 use App\Models\Opengraph;
 use App\Models\Post;
 use App\Models\Tag;
+use App\Services\BackendTranslations;
 use App\Services\FileManagement;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
 use App\Services\ResponseFormatter;
-use App\Services\BackendTranslations;
 use App\Services\Upload;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Yajra\DataTables\DataTables;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Yajra\DataTables\DataTables;
 
 class PostController extends Controller
 {
-    protected $global_view, $global_variable, $translation, $dataTables, $responseFormatter, $fileManagement, $post, $category, $tag, $meta, $opengraph, $canonical, $upload;
+    protected $global_view;
+    protected $global_variable;
+    protected $translation;
+    protected $dataTables;
+    protected $responseFormatter;
+    protected $fileManagement;
+    protected $post;
+    protected $category;
+    protected $tag;
+    protected $meta;
+    protected $opengraph;
+    protected $canonical;
+    protected $upload;
+    protected $medialibrary;
 
     public function __construct(
         GlobalView $global_view,
@@ -40,10 +55,11 @@ class PostController extends Controller
         Meta $meta,
         Opengraph $opengraph,
         Canonical $canonical,
+        MediaLibrary $medialibrary,
     ) {
         $this->middleware(['auth', 'verified']);
         $this->middleware(['xss'])->except(['store', 'update']);
-        $this->middleware(['xss-sanitize'])->only(['store', 'update']);
+        // $this->middleware(['xss-sanitize'])->only(['store', 'update']);
         $this->middleware(['permission:blog-sidebar']);
         $this->middleware(['permission:post-index'])->only(['index', 'index_dt']);
         $this->middleware(['permission:post-create'])->only('create');
@@ -64,13 +80,12 @@ class PostController extends Controller
         $this->canonical = $canonical;
         $this->upload = $upload;
         $this->opengraph = $opengraph;
-
+        $this->medialibrary = $medialibrary;
     }
 
     protected function boot()
     {
         return $this->global_view->RenderView([
-
             // Global Variable
             $this->global_variable->TitlePage($this->translation->post['title']),
             $this->global_variable->SystemLanguage(),
@@ -110,6 +125,7 @@ class PostController extends Controller
     public function index()
     {
         $this->boot();
+
         return view('template.default.backend.module.blog.post.home', array_merge(
             $this->global_variable->PageType('index'),
         ));
@@ -117,27 +133,35 @@ class PostController extends Controller
 
     public function index_dt()
     {
-        $res = $this->dataTables->of($this->post->query()->orderBy('published_at', 'DESC'))
+        $res = $this->dataTables->of($this->post->getPostsQueries()->orderBy('published_at', 'DESC'))
             ->addColumn('title', function ($post) {
                 return $post->title;
             })
             ->addColumn('image', function ($post) {
-                return Storage::url($post->feature_image);
+                $imageUrl = '';
+                if ($post->medialibraries->isNotEmpty()) {
+                    $mediaLibrary = $post->medialibraries->first(); // Assuming one image per user
+                    if ($mediaLibrary->media_files) {
+                        $imageUrl = Storage::url($mediaLibrary->media_files);
+                    }
+                }
+
+                return $imageUrl;
             })
             ->addColumn('publish', function ($post) {
-                if($post->published_at == null || $post->published_at == '' || $post->published_at == 'null'){
-                    return "";
+                if ($post->published_at == null || $post->published_at == '' || $post->published_at == 'null') {
+                    return '';
                 }
 
-                if($post->published_at != null) {
+                if ($post->published_at != null) {
                     return $post->published_at->format('M d, Y');
                 }
-
             })
             ->addColumn('action', function ($post) {
                 return $post->id;
             })
             ->removeColumn('id')->addIndexColumn()->make('true');
+
         return $res;
     }
 
@@ -154,6 +178,7 @@ class PostController extends Controller
         $meta_select = $this->meta->query()->get();
         $opengraph_select = $this->opengraph->query()->get();
         $canonical_select = $this->canonical->query()->get();
+
         return view('template.default.backend.module.blog.post.form', array_merge(
             $this->global_variable->PageType('create'),
             [
@@ -169,33 +194,87 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(PostFormRequest $request)
     {
-
         // Error Validation Message to Activity Log
         if (isset($request->validator) && $request->validator->fails()) {
-            activity()->causedBy(Auth::user())->performedOn(new Post)->log($request->validator->messages());
+            activity()->causedBy(Auth::user())->performedOn(new Post())->log($request->validator->messages());
         }
 
         $request->validated();
-        $post_data = $request->only(['title', 'slug', 'content', 'category', 'tag', 'meta', 'canonical', 'opengraph','feature_image', 'published']);
+        $post_data = $request->only(['title', 'slug', 'content', 'category', 'tag', 'meta', 'canonical', 'opengraph', 'feature_image', 'published']);
         $post_data['author_id'] = Auth::user()->id;
+        $media_library_ids = []; // Inisialisasi array untuk menyimpan ID MediaLibrary
 
+        // Upload Feature Image
         if ($request->file('feature_image')) {
-            $feature_image = $this->upload->UploadFeatureImageToStorage($post_data['feature_image']);
-            $post_data['feature_image'] = $feature_image;
+            $feature = $this->upload->UploadPostFeatureImageToMediaLibrary($request->file('feature_image'));
+
+            // Simpan ke Media Library
+            $media_data = [
+                'title' => $request->file('feature_image')->getClientOriginalName(),
+                'media-files' => $feature['media_path'],
+                'information' => '',
+                'description' => '',
+            ];
+            $media = $this->medialibrary->StoreMediaLibrary($media_data);
+
+            // Tambahkan ID MediaLibrary ke array
+            $media_library_ids[] = $media->id;
+
+            $post_data['feature_image'] = $feature['media_path'];
         }
+
+        // Handle Images in Content (Summernote)
+        if (!empty($request->input('content'))) {
+            $dom = new \DOMDocument();
+            @$dom->loadHtml($request->input('content'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $images = $dom->getElementsByTagName('img');
+
+            foreach ($images as $k => $img) {
+                $data = $img->getAttribute('src');
+
+                // Gambar baru diunggah
+                if (strpos($data, 'data:image') !== false) {
+                    list($type, $data) = explode(';', $data);
+                    list(, $data) = explode(',', $data);
+                    $fileData = base64_decode($data);
+                    $image_name = time().$k.'.png'; // Generate unique name
+
+                    // Simpan ke Media Library
+                    $media = $this->upload->UploadPostContentImageToMediaLibrary($fileData, $image_name);
+
+                    $media_data = [
+                        'title' => $image_name,
+                        'media-files' => $media['media_path'],
+                        'information' => '',
+                        'description' => '',
+                    ];
+                    $medialibrary = $this->medialibrary->StoreMediaLibrary($media_data);
+                    $media_library_ids[] = $medialibrary->id;
+
+                    $img->removeAttribute('src');
+                    $img->setAttribute('src', Storage::url($media['media_path']));
+                }
+            }
+            $post_data['content'] = $dom->saveHTML();
+        }
+
+        // Masukkan array ID MediaLibrary ke dalam data post
+        $post_data['media_library'] = $media_library_ids;
+        $verified_data = Arr::except($post_data, ['feature_image']);
 
         DB::beginTransaction();
         try {
-
-            $this->post->StorePost($post_data);
+            $this->post->StorePost($verified_data);
 
             DB::commit();
-            activity()->causedBy(Auth::user())->performedOn(new Post)->log($this->translation->post['messages']['store_success']);
+            activity()->causedBy(Auth::user())->performedOn(new Post())->log($this->translation->post['messages']['store_success']);
+
             return redirect()->route('post.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
@@ -209,11 +288,12 @@ class PostController extends Controller
             if (str_contains($th->getMessage(), 'Duplicate entry')) {
                 $message = 'Duplicate entry';
             }
-            activity()->causedBy(Auth::user())->performedOn(new Post)->log($message);
+            activity()->causedBy(Auth::user())->performedOn(new Post())->log($message);
+
             return redirect()->route('post.create')->with([
                 'error' => 'error',
-                "title" => $this->translation->notification['error'],
-                "content" => $message,
+                'title' => $this->translation->notification['error'],
+                'content' => $message,
             ]);
         }
     }
@@ -221,17 +301,22 @@ class PostController extends Controller
     public function upload(Request $request)
     {
         $this->validate($request, [
-            'file' => 'required'
+            'file' => 'required',
         ]);
-        $file = $request->file;
-        $image = $this->upload->UploadPostImageToStorage($file);
-        return Storage::url($image);
+
+        // $file = $request->file('file');
+        // Upload the file to media library
+        // $uploadedMedia = $this->upload->UploadPostContentImageToMediaLibrary($file);
+
+        // Return URL gambar yang diunggah
+        // return Storage::url($uploadedMedia['media_path']);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -249,45 +334,55 @@ class PostController extends Controller
         $opengraph_select = $this->opengraph->query()->get();
         $canonical_select = $this->canonical->query()->get();
         $author = $post->author()->first();
-        if($post->published_at == null || $post->published_at == '' || $post->published_at == 'null'){
-            $published = "No";
+        if ($post->published_at == null || $post->published_at == '' || $post->published_at == 'null') {
+            $published = 'No';
         }
 
-        if($post->published_at != null) {
-            $published = "Yes";
+        if ($post->published_at != null) {
+            $published = 'Yes';
         }
 
         foreach ($tag as $value) {
             $tag_selection[] = $value->id;
         }
 
-        if(!isset($tag_selection)){
+        if (!isset($tag_selection)) {
             $tag_selection = [];
         }
 
+        // Check if the user has a related MediaLibrary record
+        if ($post->medialibraries()->exists()) {
+            $image = $post->medialibraries->first()->media_files;
+        } else {
+            // Set a default image path if no image is found
+            $image = null;
+        }
+
         return $this->responseFormatter->successResponse([
-                'post' => $post,
-                'content' => $post->content,
-                'category' => $category,
-                'tag' => $tag,
-                'meta' => $meta,
-                'canonical' => $canonical,
-                'opengraph' => $opengraph,
-                'category_select' => $category_select,
-                'tag_select' => $tag_select,
-                'tag_selection' => $tag_selection,
-                'meta_select' => $meta_select,
-                'opengraph_select' => $opengraph_select,
-                'canonical_select' => $canonical_select,
-                'author' => $author,
-                'published' => $published,
+            'post' => $post,
+            'image' => $image,
+            'content' => $post->content,
+            'category' => $category,
+            'tag' => $tag,
+            'meta' => $meta,
+            'canonical' => $canonical,
+            'opengraph' => $opengraph,
+            'category_select' => $category_select,
+            'tag_select' => $tag_select,
+            'tag_selection' => $tag_selection,
+            'meta_select' => $meta_select,
+            'opengraph_select' => $opengraph_select,
+            'canonical_select' => $canonical_select,
+            'author' => $author,
+            'published' => $published,
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -310,14 +405,23 @@ class PostController extends Controller
             $tag_selection[] = $value->id;
         }
 
-        if(!isset($tag_selection)){
+        if (!isset($tag_selection)) {
             $tag_selection = [];
+        }
+
+        // Check if the user has a related MediaLibrary record
+        if ($post->medialibraries()->exists()) {
+            $image = $post->medialibraries->first()->media_files;
+        } else {
+            // Set a default image path if no image is found
+            $image = null;
         }
 
         return view('template.default.backend.module.blog.post.form', array_merge(
             $this->global_variable->PageType('edit'),
             [
                 'post' => $post,
+                'image' => $image,
                 'category' => $category,
                 'tag' => $tag->unique(),
                 'meta' => $meta,
@@ -332,14 +436,14 @@ class PostController extends Controller
                 'canonical_select' => $canonical_select,
             ]
         ));
-
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param Request $request
+     * @param int     $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(PostFormRequest $request, $id)
@@ -349,20 +453,81 @@ class PostController extends Controller
 
         // Error Validation Message to Activity Log
         if (isset($request->validator) && $request->validator->fails()) {
-            activity()->causedBy(Auth::user())->performedOn(new Post)->log($request->validator->messages());
+            activity()->causedBy(Auth::user())->performedOn(new Post())->log($request->validator->messages());
         }
+
+        $media_library_ids = [];
+        $post = $this->post->GetPostById($id);
+
+        // Upload Feature Image
+        if ($request->file('feature_image')) {
+            // Detach gambar lama jika ada
+            $post->mediaLibraries()->detach();
+
+            $feature = $this->upload->UploadPostFeatureImageToMediaLibrary($request->file('feature_image'));
+
+            // Simpan ke Media Library
+            $media_data = [
+                'title' => $request->file('feature_image')->getClientOriginalName(),
+                'media-files' => $feature['media_path'],
+                'information' => '',
+                'description' => '',
+            ];
+            $media = $this->medialibrary->StoreMediaLibrary($media_data);
+
+            // Tambahkan ID MediaLibrary ke array
+            $media_library_ids[] = $media->id;
+
+            $post_data['feature_image'] = $feature['media_path'];
+        }
+
+        // Handle Images in Content (Summernote)
+        if (!empty($request->input('content'))) {
+            $dom = new \DOMDocument();
+            @$dom->loadHtml($request->input('content'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $images = $dom->getElementsByTagName('img');
+
+            foreach ($images as $k => $img) {
+                $data = $img->getAttribute('src');
+
+                // Gambar baru diunggah
+                if (strpos($data, 'data:image') !== false) {
+                    list($type, $data) = explode(';', $data);
+                    list(, $data) = explode(',', $data);
+                    $fileData = base64_decode($data);
+                    $image_name = time().$k.'.png'; // Generate unique name
+
+                    // Simpan ke Media Library
+                    $media = $this->upload->UploadPostContentImageToMediaLibrary($fileData, $image_name);
+
+                    $media_data = [
+                        'title' => $image_name,
+                        'media-files' => $media['media_path'],
+                        'information' => '',
+                        'description' => '',
+                    ];
+                    $medialibrary = $this->medialibrary->StoreMediaLibrary($media_data);
+                    $media_library_ids[] = $medialibrary->id;
+
+                    $img->removeAttribute('src');
+                    $img->setAttribute('src', Storage::url($media['media_path']));
+                }
+            }
+            $post_data['content'] = $dom->saveHTML();
+        }
+
+        // Masukkan array ID MediaLibrary ke dalam data post
+        $post_data['media_library'] = $media_library_ids;
+        $verified_data = Arr::except($post_data, ['feature_image']);
 
         DB::beginTransaction();
 
         try {
-            if ($request->file('feature_image')) {
-                $feature_image = $this->upload->UploadFeatureImageToStorage($post_data['feature_image']);
-                $post_data['feature_image'] = $feature_image;
-            }
-
-            $this->post->UpdatePost($post_data, $id);
+            $post->mediaLibraries()->attach($media_library_ids);
+            $this->post->UpdatePost($verified_data, $id);
             DB::commit();
-            activity()->causedBy(Auth::user())->performedOn(new Post)->log($this->translation->post['messages']['update_success']);
+            activity()->causedBy(Auth::user())->performedOn(new Post())->log($this->translation->post['messages']['update_success']);
+
             return redirect()->route('post.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
@@ -376,11 +541,12 @@ class PostController extends Controller
             if (str_contains($th->getMessage(), 'Duplicate entry')) {
                 $message = 'Duplicate entry';
             }
-            activity()->causedBy(Auth::user())->performedOn(new Post)->log($message);
+            activity()->causedBy(Auth::user())->performedOn(new Post())->log($message);
+
             return redirect()->back()->with([
                 'error' => 'error',
-                "title" => $this->translation->notification['error'],
-                "content" => $message,
+                'title' => $this->translation->notification['error'],
+                'content' => $message,
             ]);
         }
     }
@@ -388,13 +554,24 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         DB::beginTransaction();
         try {
+
+            $post = $this->post->GetPostByID($id); // Ambil data postingan
+
+            // Detach all media libraries and delete the associated files
+            foreach ($post->mediaLibraries as $media) {
+                Storage::delete('public/'.$media->media_files); // Hapus file dari storage
+                $post->mediaLibraries()->detach($media->id); // Detach relasi
+                $media->delete(); // Hapus dari tabel medialibraries
+            }
+
             $delete = $this->post->DeletePost($id);
             DB::commit();
 
@@ -405,7 +582,7 @@ class PostController extends Controller
                 $status = 'error';
             }
 
-            activity()->causedBy(Auth::user())->performedOn(new Post)->log($this->translation->post['messages']['delete_success']);
+            activity()->causedBy(Auth::user())->performedOn(new Post())->log($this->translation->post['messages']['delete_success']);
 
             //  Return response
             return response()->json(['status' => $status]);
@@ -414,11 +591,12 @@ class PostController extends Controller
             $message = $th->getMessage();
             report($message);
 
-            activity()->causedBy(Auth::user())->performedOn(new Post)->log($message);
+            activity()->causedBy(Auth::user())->performedOn(new Post())->log($message);
+
             return redirect()->back()->with([
                 'error' => 'error',
-                "title" => $this->translation->notification['error'],
-                "content" => $message,
+                'title' => $this->translation->notification['error'],
+                'content' => $message,
             ]);
         }
     }

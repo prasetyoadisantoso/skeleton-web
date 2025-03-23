@@ -282,9 +282,10 @@
                     $('#post-canonical').html('...');
                 }
 
+                console.log(result.data['image']);
 
-                if ( result.data['post'].feature_image !== null) {
-                    $('#post-feature-image').html("<img src='/storage/" + result.data['post'].feature_image + "' class='img-fluid w-50'>");
+                if ( result.data['image'] !== null) {
+                    $('#post-feature-image').html("<img src='/storage/" + result.data['image'] + "' class='img-fluid w-50'>");
                 } else {
                     $('#post-feature-image').html("{{$messages['image_not_available']}}");
                 }

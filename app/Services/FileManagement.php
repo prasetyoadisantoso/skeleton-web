@@ -67,7 +67,7 @@ class FileManagement
     public function GetPathFeatureImage()
     {
         $image = public_path('Test/Images/feature-image.png');
-        $file = new UploadedFile($image, 'profile.png', 'image/png', null, true);
+        $file = new UploadedFile($image, 'feature-image.png', 'image/png', null, true);
 
         return $file;
     }

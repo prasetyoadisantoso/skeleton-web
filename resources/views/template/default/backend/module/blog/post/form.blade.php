@@ -186,8 +186,8 @@
                                     </div>
                                     <div class="mb-3">
                                         <img class="img-fluid"
-                                            src="{{$type == 'edit' && $post->feature_image != null ? Storage::url($post->feature_image) :asset('template/default/assets/img/dummy.png')}}"
-                                            alt="User profile picture" id="profileImage">
+                                            src="{{$type == 'edit' && $image != null ? Storage::url($image) :asset('template/default/assets/img/dummy.png')}}"
+                                            alt="User profile picture" id="featureImage">
                                     </div>
                                 </div>
                             </div>
@@ -295,37 +295,10 @@
     $(document).ready(function () {
         $('#content').summernote({
             height: 550,
-            callbacks: {
-                onImageUpload: function(files, editor, welEditable) {
-                    sendFile(files[0], editor, welEditable);
-                },
-                onChange: function(contents, $editable) {
-                    $('#content').val(contents);
-                }
+            onChange: function(contents, $editable) {
+                $('#content').val(contents);
             }
         });
-
-        function sendFile(file, editor, welEditable) {
-                var  data = new FormData();
-                data.append("file", file);
-                var url = '{{route("post.upload.image")}}';
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('input[name="_token"]').attr('value')
-                    },
-                    data: data,
-                    type: "POST",
-                    url: url,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function(url) {
-                        alert('Success');
-                        var image = $('<img>').attr('src', url);
-                        $('#content').summernote("insertNode", image[0]);
-                    }
-                });
-            }
     });
 </script>
 
@@ -337,7 +310,7 @@
             reader.onload = function (e) {
                 let my_input = input.id;
                 let i = my_input.substr(-1)
-                $('#profileImage')
+                $('#featureImage')
                     .attr('src', e.target.result)
             };
             reader.readAsDataURL(input.files[0]);

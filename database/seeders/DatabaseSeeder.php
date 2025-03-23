@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
             TagOpengraphSeeder::class,
             MessageSeeder::class,
             MediaLibraryUserSeeder::class,
+            MediaLibraryPostSeeder::class,
         ]);
     }
 }

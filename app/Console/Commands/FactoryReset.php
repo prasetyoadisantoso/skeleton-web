@@ -31,7 +31,7 @@ class FactoryReset extends Command
     {
         Storage::deleteDirectory('public');
         Storage::makeDirectory('public');
-        Artisan::call('migrate:reset');
+        Artisan::call('db:wipe');
         Artisan::call('migrate:fresh --seed');
         Artisan::call('storage:link --force');
         Artisan::call('config:cache');

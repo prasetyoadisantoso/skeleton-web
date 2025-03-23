@@ -341,4 +341,67 @@ class Upload
             'media_path' => $mediaFilePath.'/'.$newFilename,
         ];
     }
+
+    public function UploadPostContentImageToMediaLibrary($fileData, $filename)
+    {
+        $allowedFileTypes = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+        // Check the file type based on the filename
+        $fileType = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+        // Check if the file type is allowed
+        if (!in_array($fileType, $allowedFileTypes)) {
+            throw new \Exception('Invalid file type. Allowed types are: '.implode(', ', $allowedFileTypes), 1);
+        }
+
+        $mediaFilePath = 'assets/Media/Type/Image';
+        $newFilename = $filename;
+        $count = 0;
+
+        // Check if the file already exists
+        while (Storage::exists('public/'.$mediaFilePath.'/'.$newFilename)) {
+            ++$count;
+            $newFilename = pathinfo($filename, PATHINFO_FILENAME).'-'.$count.'.'.$fileType;
+        }
+
+        Storage::disk('public')->put($mediaFilePath.'/'.$newFilename, $fileData);
+
+        return [
+            'media_name' => $newFilename,
+            'media_path' => $mediaFilePath.'/'.$newFilename,
+        ];
+    }
+
+    public function UploadPostFeatureImageToMediaLibrary($file)
+    {
+        $allowedFileTypes = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+        $fileType = strtolower($file->getClientOriginalExtension());
+        $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+
+        // Check if the file type is allowed
+        if (!in_array($fileType, $allowedFileTypes)) {
+            throw new \Exception('Invalid file type. Allowed types are: '.implode(', ', $allowedFileTypes), 1);
+        }
+
+        $mediaFilePath = 'assets/Media/Type/Image';
+
+        // Generate a unique filename
+        $originalFilename = $filename.'.'.$fileType;
+        $newFilename = $originalFilename;
+        $count = 0;
+
+        while (Storage::exists('public/'.$mediaFilePath.'/'.$newFilename)) {
+            ++$count;
+            $newFilename = $filename.'-'.$count.'.'.$fileType;
+        }
+
+        // Upload the file with the new or original filename
+        $mediaPath = Storage::putFileAs('public/'.$mediaFilePath, $file, $newFilename);
+
+        $this->CompressionImage($mediaPath, 1000);
+
+        return [
+            'media_name' => $newFilename,
+            'media_path' => $mediaFilePath.'/'.$newFilename,
+        ];
+    }
 }
