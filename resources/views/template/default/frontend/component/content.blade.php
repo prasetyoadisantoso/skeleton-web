@@ -12,7 +12,7 @@
 
     {{-- Feature Image --}}
     <div class="container mt-5">
-        <img src="{{Storage::url($posts->feature_image)}}" alt="" class="img-fluid">
+        <img src="{{Storage::url($posts->medialibraries->first()->media_files)}}" alt="" class="img-fluid">
     </div>
 
     {{-- Content --}}

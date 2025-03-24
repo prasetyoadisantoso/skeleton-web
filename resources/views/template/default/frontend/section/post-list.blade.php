@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="container">
-                <img src="{{Storage::url($post->feature_image)}}" class="img-fluid" alt="">
+                <img src="{{Storage::url($post->medialibraries->first()->media_files)}}" class="img-fluid" alt="">
             </div>
         </div>
         <div class="col-md-6">

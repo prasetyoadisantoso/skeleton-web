@@ -88,4 +88,16 @@ class MediaLibrary extends Model
     {
         return $this->belongsToMany(Post::class, 'medialibrary_post');
     }
+
+    // Relation to General for Logo
+    public function logoGeneral()
+    {
+        return $this->hasOne(General::class, 'site_logo_id');
+    }
+
+    // Relation to General for Favicon
+    public function faviconGeneral()
+    {
+        return $this->hasOne(General::class, 'site_favicon_id');
+    }
 }

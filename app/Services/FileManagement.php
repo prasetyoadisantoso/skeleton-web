@@ -45,7 +45,7 @@ class FileManagement
     public function GetPathLogoImage()
     {
         $image = public_path('Test/Images/logo.png');
-        $file = new UploadedFile($image, 'profile.png', 'image/png', null, true);
+        $file = new UploadedFile($image, 'logo.png', 'image/png', null, true);
 
         return $file;
     }
@@ -56,7 +56,7 @@ class FileManagement
     public function GetPathFaviconImage()
     {
         $image = public_path('Test/Images/favicon.png');
-        $file = new UploadedFile($image, 'profile.png', 'image/png', null, true);
+        $file = new UploadedFile($image, 'favicon.png', 'image/png', null, true);
 
         return $file;
     }

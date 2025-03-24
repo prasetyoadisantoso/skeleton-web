@@ -89,7 +89,7 @@
                                     <div class="col-md-6">
                                         <div class="text-center mb-3">
                                             <img class="img-fluid rounded-circle"
-                                                src="{{Storage::url($data->site_logo)}}"
+                                                src="{{ $data->siteLogo ? Storage::url($data->siteLogo->media_files) : 'https://via.placeholder.com/128' }}"
                                                 alt="Logo picture" id="logoImage" style="width: 128px;">
                                             <i class="fa fa-camera upload-button"></i>
                                             <input type="file" name="site_logo" onchange="readImage1(this);"
@@ -100,7 +100,7 @@
                                     <div class="col-md-6">
                                         <div class="text-center mb-3">
                                             <img class="img-fluid rounded-circle"
-                                                src="{{Storage::url($data->site_favicon)}}"
+                                                src="{{ $data->siteFavicon ? Storage::url($data->siteFavicon->media_files) : 'https://via.placeholder.com/128' }}"
                                                 alt="Favicon picture" id="faviconImage" style="width: 128px;">
                                             <i class="fa fa-camera upload-button"></i>
                                             <input type="file" name="site_favicon" onchange="readImage2(this);"
