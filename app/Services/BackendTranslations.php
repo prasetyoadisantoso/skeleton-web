@@ -53,7 +53,7 @@ class BackendTranslations
 
         // General Dashboard
         $this->general = __('backend/general');
-        $this->social_media = __('backend-social-media');
+        $this->social_media = __('backend/social-media');
 
         // Email Dashboard
         $this->message = __('backend/message');
