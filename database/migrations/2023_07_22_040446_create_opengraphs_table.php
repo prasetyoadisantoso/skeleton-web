@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -15,13 +14,12 @@ return new class extends Migration
     {
         Schema::create('opengraphs', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('name');
-            $table->string('title');
-            $table->string('description');
-            $table->string('url');
-            $table->string('site_name');
-            $table->string('image')->nullable();
-            $table->string('type');
+            $table->string('og_title');
+            $table->text('og_description')->nullable();
+            $table->string('og_type')->default('article');
+            $table->string('og_url')->nullable();
+            $table->uuid('og_image_id')->nullable();
+            $table->foreign('og_image_id')->references('id')->on('media_libraries')->onDelete('set null');
             $table->timestamps();
         });
     }

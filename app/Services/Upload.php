@@ -3,44 +3,11 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 
 class Upload
 {
-    public function UploadPostImageToStorage($filename = null)
-    {
-        // Processing Image & Upload
-        $get_extension = $filename->getClientOriginalExtension();
-        $names = Str::random(15).'.'.$get_extension;
-        $imagePath = 'assets/Image/Post/Content';
-        $image_raw = Storage::putFileAs('public/'.$imagePath, $filename, $names);
-
-        $image = $this->CompressionImage($image_raw, 1000);
-
-        // Return Image Name
-        $image = $imagePath.'/'.$names;
-
-        return $image;
-    }
-
-    public function UploadOpengraphImageToStorage($filename = null)
-    {
-        // Processing Image & Upload
-        $get_extension = $filename->getClientOriginalExtension();
-        $names = Str::random(15).'.'.$get_extension;
-        $imagePath = 'assets/Image/SEO/Opengraph';
-        $image_raw = Storage::putFileAs('public/'.$imagePath, $filename, $names);
-
-        $image = $this->CompressionImage($image_raw, 800);
-
-        // Return Image Name
-        $image = $imagePath.'/'.$names;
-
-        return $image;
-    }
-
     public function CompressionImage($image_raw, $size)
     {
         try {
@@ -64,7 +31,7 @@ class Upload
         switch ($filetype) {
             // JPG
             case 'jpg':
-                $mediafilepath = 'assets/Media/Type/jpg';
+                $mediafilepath = 'assets/Media/Type/Image';
                 $originalFilename = $filename.'.'.$filetype;
                 $newFilename = $originalFilename;
                 $count = 0;
@@ -93,7 +60,7 @@ class Upload
 
                 // JPEG
             case 'jpeg':
-                $mediafilepath = 'assets/Media/Type/jpeg';
+                $mediafilepath = 'assets/Media/Type/Image';
                 $originalFilename = $filename.'.'.$filetype;
                 $newFilename = $originalFilename;
                 $count = 0;
@@ -122,7 +89,7 @@ class Upload
 
                 // PNG
             case 'png':
-                $mediafilepath = 'assets/Media/Type/png';
+                $mediafilepath = 'assets/Media/Type/Image';
                 $originalFilename = $filename.'.'.$filetype;
                 $newFilename = $originalFilename;
                 $count = 0;
@@ -152,7 +119,7 @@ class Upload
 
                 // MP3
             case 'mp3':
-                $mediafilepath = 'assets/Media/Type/mp3';
+                $mediafilepath = 'assets/Media/Type/Music';
                 $originalFilename = $filename.'.'.$filetype;
                 $newFilename = $originalFilename;
                 $count = 0;
@@ -181,7 +148,7 @@ class Upload
 
                 // mp4
             case 'mp4':
-                $mediafilepath = 'assets/Media/Type/mp4';
+                $mediafilepath = 'assets/Media/Type/Video';
                 $originalFilename = $filename.'.'.$filetype;
                 $newFilename = $originalFilename;
                 $count = 0;
@@ -210,7 +177,7 @@ class Upload
 
                 // PDF
             case 'pdf':
-                $mediafilepath = 'assets/Media/Type/pdf';
+                $mediafilepath = 'assets/Media/Type/Document';
                 $originalFilename = $filename.'.'.$filetype;
                 $newFilename = $originalFilename;
                 $count = 0;
@@ -403,6 +370,41 @@ class Upload
 
         // Kompresi favicon (ukuran kecil, sesuaikan sesuai kebutuhan)
         $this->CompressionImage($mediaPath, 800); // Kompres ke lebar 800px
+
+        return [
+            'media_name' => $newFilename,
+            'media_path' => $mediaFilePath.'/'.$newFilename,
+        ];
+    }
+
+    public function UploadOpengraphImageToMediaLibrary($file)
+    {
+        $allowedFileTypes = ['jpg', 'jpeg', 'png', 'webp', 'ico']; // Tambahkan 'ico' untuk favicon
+        $fileType = strtolower($file->getClientOriginalExtension());
+        $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+
+        // Check if the file type is allowed
+        if (!in_array($fileType, $allowedFileTypes)) {
+            throw new \Exception('Invalid file type. Allowed types are: '.implode(', ', $allowedFileTypes), 1);
+        }
+
+        $mediaFilePath = 'assets/Media/Type/Image'; // Direktori khusus untuk favicon
+
+        // Generate a unique filename
+        $originalFilename = $filename.'.'.$fileType;
+        $newFilename = $originalFilename;
+        $count = 0;
+
+        while (Storage::exists('public/'.$mediaFilePath.'/'.$newFilename)) {
+            ++$count;
+            $newFilename = $filename.'-'.$count.'.'.$fileType;
+        }
+
+        // Upload the file with the new or original filename
+        $mediaPath = Storage::putFileAs('public/'.$mediaFilePath, $file, $newFilename);
+
+        // Kompresi favicon (ukuran kecil, sesuaikan sesuai kebutuhan)
+        $this->CompressionImage($mediaPath, 600); // Kompres ke lebar 800px
 
         return [
             'media_name' => $newFilename,

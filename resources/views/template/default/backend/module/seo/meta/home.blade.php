@@ -35,18 +35,18 @@
                 <thead>
                     <tr>
                         <th>{{$datatable['table']['number']}}</th>
-                        <th>{{$datatable['table']['name']}}</th>
-                        <th>{{$datatable['table']['robot']}}</th>
+                        <th>{{$datatable['table']['title']}}</th>
                         <th>{{$datatable['table']['description']}}</th>
+                        <th>{{$datatable['table']['keywords']}}</th>
                         <th>{{$datatable['table']['action']}}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>{{$datatable['table']['number']}}</td>
-                        <td>{{$datatable['table']['name']}}</td>
-                        <td>{{$datatable['table']['robot']}}</td>
+                        <td>{{$datatable['table']['title']}}</td>
                         <td>{{$datatable['table']['description']}}</td>
+                        <td>{{$datatable['table']['keywords']}}</td>
                         <td>{{$datatable['table']['action']}}</td>
                     </tr>
                 </tbody>
@@ -72,9 +72,9 @@
         lengthMenu: [ 5, 10, 25 ],
         columns: [
             { data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: true },
-            { data: 'name', name: 'name', searchable: true, orderable: true },
-            { data: 'robot', name: 'robot', searchable: true, orderable: true },
+            { data: 'title', name: 'title', searchable: true, orderable: true },
             { data: 'description', name: 'description', searchable: true, orderable: true },
+            { data: 'keywords', name: 'keywords', searchable: true, orderable: true },
             {
                 data: 'action', name: 'action', orderable: false, searchable: false, render: function (data, type, full, meta) {
                     var id = data;

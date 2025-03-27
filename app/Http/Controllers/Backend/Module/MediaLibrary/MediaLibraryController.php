@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Backend\Module\MediaLibrary;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Backend\MediaLibraryFormRequest;
+use App\Http\Requests\MediaLibraryFormRequest;
 use App\Models\MediaLibrary;
+use App\Models\User;
 use App\Services\BackendTranslations;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
@@ -13,7 +14,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
-use App\Models\User;
 
 class MediaLibraryController extends Controller
 {

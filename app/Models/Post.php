@@ -81,6 +81,18 @@ class Post extends Model
         return $this->belongsTo(User::class, 'author_id');
     }
 
+    // Relation to Schemas
+    public function schemadatas()
+    {
+        return $this->belongsToMany(Schemadata::class,  'schemadata_post');
+    }
+
+    // Relation to MediaLibrary
+    public function mediaLibraries()
+    {
+        return $this->belongsToMany(MediaLibrary::class, 'medialibrary_post');
+    }
+
     // CRUD Post\
     public function GetPostById($id = null)
     {
@@ -90,12 +102,6 @@ class Post extends Model
     public function getPostsQueries()
     {
         return $this->query()->with('medialibraries');
-    }
-
-    // Relation to MediaLibrary
-    public function mediaLibraries()
-    {
-        return $this->belongsToMany(MediaLibrary::class, 'medialibrary_post');
     }
 
     public function StorePost($data = null)
@@ -154,6 +160,11 @@ class Post extends Model
             $post->canonicals()->attach($data['canonical']);
         }
 
+        // Attach Schema
+        if (isset($data['schema']) && $data['schema'] != '') {
+            $post->schemadatas()->attach($data['schema']);
+        }
+
         return $post;
     }
 
@@ -202,6 +213,11 @@ class Post extends Model
 
         if ($data['canonical'] != null || $data['canonical'] != '') {
             $current_post->canonicals()->sync($data['canonical']);
+        }
+
+        // Sync Schema
+        if (isset($data['schema']) && is_array($data['schema'])) {
+            $current_post->schemadatas()->sync($data['schema']);
         }
 
         $current_post->update($data);

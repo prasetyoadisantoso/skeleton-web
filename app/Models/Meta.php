@@ -4,43 +4,29 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Translatable\HasTranslations;
 use Webpatser\Uuid\Uuid;
 
 class Meta extends Model
 {
-    use HasFactory, HasTranslations;
+    use HasFactory;
+    use HasTranslations;
 
     public $primaryKey = 'id';
 
     public $incrementing = false;
 
+    protected $fillable = [
+        'title',
+        'description',
+        'keywords',
+    ];
+
     public $translatable = [
-      'description'
-    ];
-
-    public $fillable = [
-        'name', 'robot', 'description'
-    ];
-
-    protected $locked_id = [
-        // Home
-        '3ba81b32-6faa-4d56-8f7b-deb3ee778202',
-
-        // Block
-        'a98dbeb0-0acd-4571-93ef-121983fddf6a',
-
-        // Blog Search
-        'e5ef928b-b0ce-4b2d-9ab3-952744019547',
-
-        // Blog Category
-        'f2532093-edd0-4683-81d6-aa68edfdea5b',
-
-        // Blog Tag
-        '6777397c-b7bd-4ed3-9952-4200818df477',
-
-        // Contact
-        '131e6888-e3a8-46cb-b4aa-5a5bc8c892c6'
+        'title',
+        'description',
+        'keywords',
     ];
 
     public static function boot()
@@ -52,9 +38,9 @@ class Meta extends Model
     }
 
     // Relations to Post
-    public function posts()
+    public function posts(): BelongsToMany
     {
-        return $this->belongsToMany(Post::class, 'meta_post');
+        return $this->belongsToMany(Post::class, 'meta_post', 'meta_id', 'post_id');
     }
 
     // Relations to Category
@@ -78,33 +64,26 @@ class Meta extends Model
     public function StoreMeta($data = null)
     {
         return $this->create([
-            'name' => $data['name'],
-            'robot' => $data['robot'],
+            'title' => $data['title'],
             'description' => $data['description'],
+            'keywords' => $data['keyword'],
         ]);
     }
 
     public function UpdateMeta($new_metadata, $id)
     {
         $metadata = $this->GetMetaById($id);
-        if ($metadata->id === 'e5ef928b-b0ce-4b2d-9ab3-952744019547') {
-            throw new \Exception("Cannot update or delete a locked record.");
-        } else {
-            $metadata->update($new_metadata);
-        }
+        $metadata->update($new_metadata);
     }
 
     public function DeleteMeta($id)
     {
         $data = $this->GetMetaById($id);
-        if (in_array($data->id, $this->locked_id)) {
-            return false;
-        } else {
-            $data->tags()->detach();
-            $data->posts()->detach();
-            $data->categories()->detach();
-            return $data->forceDelete();
-        }
-    }
 
+        $data->tags()->detach();
+        $data->posts()->detach();
+        $data->categories()->detach();
+
+        return $data->forceDelete();
+    }
 }

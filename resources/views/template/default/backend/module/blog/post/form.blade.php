@@ -19,7 +19,7 @@
 <!-- End Breadcrumb -->
 
 <!-- Start Home -->
-<div class="container py-3 w-100">
+<div class="container py-3 mw-100 mx-0">
 
     <!-- Start app -->
     <div class="card" id="category-create">
@@ -122,15 +122,15 @@
                                             @if ($type == 'create')
                                             <option value="">{{$form['select_meta']}}</option>
                                             @foreach ($meta_select as $meta)
-                                            <option value="{{$meta->id}}">{{$meta->name}}</option>
+                                            <option value="{{$meta->id}}">{{$meta->title}}</option>
                                             @endforeach
                                             @endif
 
                                             @if ($type == 'edit')
                                             <option value="">{{$form['select_meta']}}</option>
                                             @foreach ($meta_select as $item)
-                                            <option value="{{$item->id}}" {{isset($meta->name) && $meta->name ==
-                                                $item->name ? "selected" : ""}}>{{$item->name}}</option>
+                                            <option value="{{$item->id}}" {{isset($meta->title) && $meta->name ==
+                                                $item->title ? "selected" : ""}}>{{$item->title}}</option>
                                             @endforeach
                                             @endif
 
@@ -143,15 +143,15 @@
                                             @if ($type == 'create')
                                             <option value="">{{$form['select_opengraph']}}</option>
                                             @foreach ($opengraph_select as $opengraph)
-                                            <option value="{{$opengraph->id}}">{{$opengraph->name}}</option>
+                                            <option value="{{$opengraph->id}}">{{$opengraph->og_title}}</option>
                                             @endforeach
                                             @endif
 
                                             @if ($type == 'edit')
                                             <option value="">{{$form['select_opengraph']}}</option>
                                             @foreach ($opengraph_select as $item)
-                                            <option value="{{$item->id}}" {{isset($opengraph->name) && $opengraph->name
-                                                == $item->name ? "selected" : ""}}>{{$item->name}}</option>
+                                            <option value="{{$item->id}}" {{isset($opengraph->title) && $opengraph->name
+                                                == $item->og_title ? "selected" : ""}}>{{$item->og_title}}</option>
                                             @endforeach
                                             @endif
                                         </select>
@@ -172,6 +172,27 @@
                                             @foreach ($canonical_select as $item)
                                             <option value="{{$item->id}}" {{isset($canonical->name) && $canonical->name
                                                 == $item->name ? "selected" : ""}}>{{$item->name}}</option>
+                                            @endforeach
+                                            @endif
+
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="formFileLg" class="form-label">{{$form['schema'] ?? 'Schema'}}</label>
+                                        <select class="form-select" aria-label="Default select example"
+                                            name="schema">
+                                            @if ($type == 'create')
+                                            <option value="">{{$form['select_schema'] ?? '- select schema -'}}</option>
+                                            @foreach ($schema_select as $schema)
+                                            <option value="{{$schema->id}}">{{$schema->schema_name}}</option>
+                                            @endforeach
+                                            @endif
+
+                                            @if ($type == 'edit')
+                                            <option value="">{{$form['select_schema'] ?? 'Select Schema'}}</option>
+                                            @foreach ($schema_select as $item)
+                                            <option value="{{$schema->id}}" {{isset($schema->schema_name) && $schema->schema_name
+                                                == $item->schema_name ? "selected" : ""}}>{{$item->schema_name}}</option>
                                             @endforeach
                                             @endif
 

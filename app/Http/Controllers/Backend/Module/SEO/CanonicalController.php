@@ -5,18 +5,24 @@ namespace App\Http\Controllers\Backend\Module\SEO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CanonicalFormRequest;
 use App\Models\Canonical;
+use App\Services\BackendTranslations;
 use App\Services\FileManagement;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
 use App\Services\ResponseFormatter;
-use App\Services\BackendTranslations;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
-use Illuminate\Support\Facades\Auth;
 
 class CanonicalController extends Controller
 {
-    protected $global_view, $global_variable, $translation, $dataTables, $responseFormatter, $fileManagement, $canonical;
+    protected $global_view;
+    protected $global_variable;
+    protected $translation;
+    protected $dataTables;
+    protected $responseFormatter;
+    protected $fileManagement;
+    protected $canonical;
 
     public function __construct(
         GlobalView $global_view,
@@ -26,8 +32,7 @@ class CanonicalController extends Controller
         ResponseFormatter $responseFormatter,
         FileManagement $fileManagement,
         Canonical $canonical,
-    )
-    {
+    ) {
         $this->middleware(['auth', 'verified', 'xss']);
         $this->middleware(['permission:seo-sidebar']);
         $this->middleware(['permission:canonical-index'])->only(['index', 'index_dt']);
@@ -73,7 +78,6 @@ class CanonicalController extends Controller
                 'canonical-home-js',
                 'canonical-form-js',
             ]),
-
         ]);
     }
 
@@ -85,6 +89,7 @@ class CanonicalController extends Controller
     public function index()
     {
         $this->boot();
+
         return view('template.default.backend.module.seo.canonical.home', array_merge(
             $this->global_variable->PageType('index'),
         ));
@@ -113,6 +118,7 @@ class CanonicalController extends Controller
     public function create()
     {
         $this->boot();
+
         return view('template.default.backend.module.seo.canonical.form', array_merge(
             $this->global_variable->PageType('create'),
         ));
@@ -121,24 +127,26 @@ class CanonicalController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(CanonicalFormRequest $request)
     {
         // Error Validation Message to Activity Log
         if (isset($request->validator) && $request->validator->fails()) {
-            activity()->causedBy(Auth::user())->performedOn(new Canonical)->log($request->validator->messages());
+            activity()->causedBy(Auth::user())->performedOn(new Canonical())->log($request->validator->messages());
         }
 
         $request->validated();
-        $canonical_data = $request->only(['name', 'url']);
+        $canonical_data = $request->only(['url']);
 
         DB::beginTransaction();
         try {
             $this->canonical->StoreCanonical($canonical_data);
             DB::commit();
-            activity()->causedBy(Auth::user())->performedOn(new Canonical)->log($this->translation->canonical['messages']['store_success']);
+            activity()->causedBy(Auth::user())->performedOn(new Canonical())->log($this->translation->canonical['messages']['store_success']);
+
             return redirect()->route('canonical.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
@@ -153,12 +161,12 @@ class CanonicalController extends Controller
                 $message = 'Duplicate entry';
             }
 
-            activity()->causedBy(Auth::user())->performedOn(new Canonical)->log($message);
+            activity()->causedBy(Auth::user())->performedOn(new Canonical())->log($message);
 
             return redirect()->route('canonical.create')->with([
                 'error' => 'error',
-                "title" => $this->translation->notification['error'],
-                "content" => $message,
+                'title' => $this->translation->notification['error'],
+                'content' => $message,
             ]);
         }
     }
@@ -166,24 +174,26 @@ class CanonicalController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $this->boot();
         $data = $this->canonical->GetCanonicalById($id);
+
         return view('template.default.backend.module.seo.canonical.form', array_merge(
             $this->global_variable->PageType('edit'),
             [
@@ -195,25 +205,27 @@ class CanonicalController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(CanonicalFormRequest $request, $id)
     {
         // Error Validation Message to Activity Log
         if (isset($request->validator) && $request->validator->fails()) {
-            activity()->causedBy(Auth::user())->performedOn(new Canonical)->log($request->validator->messages());
+            activity()->causedBy(Auth::user())->performedOn(new Canonical())->log($request->validator->messages());
         }
 
         $request->validated();
-        $canonical = $request->only(['name', 'url']);
+        $canonical = $request->only(['url']);
 
         DB::beginTransaction();
         try {
             $this->canonical->UpdateCanonical($canonical, $id);
             DB::commit();
-            activity()->causedBy(Auth::user())->performedOn(new Canonical)->log($this->translation->canonical['messages']['update_success']);
+            activity()->causedBy(Auth::user())->performedOn(new Canonical())->log($this->translation->canonical['messages']['update_success']);
+
             return redirect()->route('canonical.index')->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
@@ -228,12 +240,12 @@ class CanonicalController extends Controller
                 $message = 'Duplicate entry';
             }
 
-            activity()->causedBy(Auth::user())->performedOn(new Canonical)->log($message);
+            activity()->causedBy(Auth::user())->performedOn(new Canonical())->log($message);
 
             return redirect()->route('canonical.index')->with([
                 'error' => 'error',
-                "title" => $this->translation->notification['error'],
-                "content" => $message,
+                'title' => $this->translation->notification['error'],
+                'content' => $message,
             ]);
         }
     }
@@ -241,7 +253,8 @@ class CanonicalController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -258,21 +271,21 @@ class CanonicalController extends Controller
                 $status = 'error';
             }
 
-            activity()->causedBy(Auth::user())->performedOn(new Canonical)->log($this->translation->canonical['messages']['delete_success']);
+            activity()->causedBy(Auth::user())->performedOn(new Canonical())->log($this->translation->canonical['messages']['delete_success']);
 
-            ///  Return response
+            // /  Return response
             return response()->json(['status' => $status]);
         } catch (\Throwable$th) {
             DB::rollback();
             $message = $th->getMessage();
             report($message);
-            activity()->causedBy(Auth::user())->performedOn(new Canonical)->log($message);
+            activity()->causedBy(Auth::user())->performedOn(new Canonical())->log($message);
+
             return redirect()->back()->with([
                 'error' => 'error',
-                "title" => $this->translation->notification['error'],
-                "content" => $message
+                'title' => $this->translation->notification['error'],
+                'content' => $message,
             ]);
-
         }
     }
 }

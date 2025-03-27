@@ -4,7 +4,7 @@
     <a href="#blog-dropdown-menu" data-bs-toggle="collapse" aria-expanded="false"
         class="btn-ripple rotation-1 text-white">
         <div class="d-flex align-items-center main-list" id="rotation-blog">
-            <span class="flex-grow-1 font-md"><i class="fa-solid fa-blog me-3"></i>{{$blog}}</span>
+            <span class="flex-grow-1 font-md"><i class="fa-solid fa-blog me-3"></i>{{$sidebar['blog']}}</span>
             <i id="icon" class="hide-fa fas fa-chevron-down font-sm rotate-1"></i>
         </div>
     </a>
@@ -12,21 +12,21 @@
         @can('post-index')
         <li class="sub-list font-sm">
             <a href="{{route('post.index')}}" class="text-white">
-                <span><i class="fa-solid fa-circle-dot me-3"></i>{{$posts}}</span>
+                <span><i class="fa-solid fa-circle-dot me-3"></i>{{$sidebar['posts']}}</span>
             </a>
         </li>
         @endcan
         @can('category-index')
         <li class="sub-list font-sm">
             <a href="{{route('category.index')}}" class="text-white">
-                <span><i class="fa-solid fa-circle-dot me-3"></i>{{$categories}}</span>
+                <span><i class="fa-solid fa-circle-dot me-3"></i>{{$sidebar['categories']}}</span>
             </a>
         </li>
         @endcan
         @can('tag-index')
         <li class="sub-list font-sm">
             <a href="{{route('tag.index')}}" class="text-white">
-                <span><i class="fa-solid fa-circle-dot me-3"></i>{{$tags}}</span>
+                <span><i class="fa-solid fa-circle-dot me-3"></i>{{$sidebar['tags']}}</span>
             </a>
         </li>
         @endcan

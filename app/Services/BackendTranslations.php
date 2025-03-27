@@ -2,18 +2,16 @@
 
 namespace App\Services;
 
-use \AllowDynamicProperties;
-#[AllowDynamicProperties]
-
+#[\AllowDynamicProperties]
 class BackendTranslations
 {
     public function __construct()
     {
         /* -------------------------------------------------------------------------- */
-        /*                                   Backend                                  */
+        /*                                   Backend */
         /* -------------------------------------------------------------------------- */
         // Header
-        $this->header= __('backend/header');
+        $this->header = __('backend/header');
 
         // Sidebar
         $this->sidebar = __('backend/sidebar');
@@ -62,6 +60,7 @@ class BackendTranslations
         $this->meta = __('backend/meta');
         $this->canonical = __('backend/canonical');
         $this->opengraph = __('backend/opengraph');
+        $this->schema = __('backend/schema');
 
         // System Dashboard
         $this->activity = __('backend/activity');

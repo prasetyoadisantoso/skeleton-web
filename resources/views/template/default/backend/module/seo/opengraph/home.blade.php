@@ -34,24 +34,22 @@
             <table id="opengraph_datatable" class="table table-bordered w-100">
                 <thead>
                     <tr>
-                        <th>{{$datatable['table']['number']}}</th>
-                        <th>{{$datatable['table']['name']}}</th>
-                        <th>{{$datatable['table']['title']}}</th>
-                        <th>{{$datatable['table']['description']}}</th>
-                        <th>{{$datatable['table']['url']}}</th>
-                        <th>{{$datatable['table']['site_name']}}</th>
-                        <th>{{$datatable['table']['action']}}</th>
+                        <td>{{$datatable['table']['number']}}</td>
+                        <td>{{$datatable['table']['title']}}</td>
+                        <td>{{$datatable['table']['description']}}</td>
+                        <td>{{$datatable['table']['type']}}</td>
+                        <td>{{$datatable['table']['url']}}</td>
+                        <td>{{$datatable['table']['action']}}</td>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <th>{{$datatable['table']['number']}}</th>
-                        <th>{{$datatable['table']['name']}}</th>
-                        <th>{{$datatable['table']['title']}}</th>
-                        <th>{{$datatable['table']['description']}}</th>
-                        <th>{{$datatable['table']['url']}}</th>
-                        <th>{{$datatable['table']['site_name']}}</th>
-                        <th>{{$datatable['table']['action']}}</th>
+                        <td>{{$datatable['table']['number']}}</td>
+                        <td>{{$datatable['table']['title']}}</td>
+                        <td>{{$datatable['table']['description']}}</td>
+                        <td>{{$datatable['table']['type']}}</td>
+                        <td>{{$datatable['table']['url']}}</td>
+                        <td>{{$datatable['table']['action']}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -76,11 +74,10 @@
         lengthMenu: [ 5, 10, 25 ],
         columns: [
             { data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: true },
-            { data: 'name', name: 'name', searchable: true, orderable: true },
             { data: 'title', name: 'title', searchable: true, orderable: true },
             { data: 'description', name: 'description', searchable: true, orderable: true },
+            { data: 'type', name: 'type', searchable: true, orderable: true },
             { data: 'url', name: 'url', searchable: true, orderable: true },
-            { data: 'site_name', name: 'site_name', searchable: true, orderable: true },
             {
                 data: 'action', name: 'action', orderable: false, searchable: false, render: function (data, type, full, meta) {
                     var id = data;

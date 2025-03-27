@@ -7,27 +7,22 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('metas', function (Blueprint $table) {
+        Schema::create('site_verifications', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('title');
-            $table->text('description')->nullable();
-            $table->text('keywords')->nullable();
+            $table->string('service');
+            $table->string('verification_code');
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('metas');
+        Schema::dropIfExists('site_verifications');
     }
 };

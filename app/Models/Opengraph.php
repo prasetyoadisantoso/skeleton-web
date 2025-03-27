@@ -10,38 +10,24 @@ use Webpatser\Uuid\Uuid;
 
 class Opengraph extends Model
 {
-    use HasFactory, HasTranslations;
+    use HasFactory;
+    use HasTranslations;
 
     public $primaryKey = 'id';
 
     public $incrementing = false;
 
+    protected $fillable = [
+        'og_title',
+        'og_description',
+        'og_type',
+        'og_url',
+        'og_image_id',
+    ];
+
     public $translatable = [
-        'description',
-    ];
-
-    public $fillable = [
-        'name', 'title', 'description', 'url', 'site_name', 'image', 'type',
-    ];
-
-    protected $locked_id = [
-        // Home
-        '3e8edd87f-3b67-4191-98ba-c0455f9c7705',
-
-        // Blog
-        '53708182-01c8-4b0d-b39d-0494873b2e99',
-
-        // Blog Search
-        '309e0945-87e8-4b04-8154-e1d3f1409949',
-
-        // Blog Category
-        'e84b1cdf-3277-4739-9f7d-1dc489a3aaf7',
-
-        // Blog Tag
-        'bb73bcd6-18ad-42ec-9417-89c0f1bf08c0',
-
-        // Contact
-        '5a765094-a557-4f46-afa0-09ef37ca0b47'
+        'og_title',
+        'og_description',
     ];
 
     public static function boot()
@@ -70,6 +56,11 @@ class Opengraph extends Model
         return $this->belongsToMany(Tag::class, 'opengraph_tag');
     }
 
+    public function mediaLibraries()
+    {
+        return $this->belongsTo(MediaLibrary::class, 'og_image_id');
+    }
+
     public function GetOpengraphById($id)
     {
         return $this->query()->find($id);
@@ -77,18 +68,12 @@ class Opengraph extends Model
 
     public function StoreOpengraph($data = null)
     {
-        if (!isset($data['image'])) {
-            $data['image'] = null;
-        }
-
         return $this->create([
-            'name' => $data['name'],
-            'title' => $data['title'],
-            'description' => $data['description'],
-            'url' => $data['url'],
-            'site_name' => $data['site_name'],
-            'image' => $data['image'],
-            'type' => $data['type'],
+            'og_title' => $data['og_title'],
+            'og_description' => $data['og_description'],
+            'og_type' => $data['og_type'],
+            'og_url' => $data['og_url'],
+            'og_image_id' => $data['og_image_id'],
         ]);
     }
 
@@ -97,12 +82,11 @@ class Opengraph extends Model
         $opengraph = $this->GetOpengraphById($id);
 
         if (in_array($opengraph->id, $this->locked_id)) {
-            throw new \Exception("Cannot update or delete a locked record.");
+            throw new \Exception('Cannot update or delete a locked record.');
         } else {
-
             if (isset($new_opengraph['image'])) {
                 // Delete image file
-                Storage::delete('/public' . '/' . $opengraph->image);
+                Storage::delete('/public/'.$opengraph->image);
             }
 
             $opengraph->update($new_opengraph);
@@ -113,16 +97,10 @@ class Opengraph extends Model
     {
         $opengraph = $this->GetOpengraphById($id);
 
+        $opengraph->tags()->detach();
+        $opengraph->posts()->detach();
+        $opengraph->categories()->detach();
 
-        if (in_array($opengraph->id, $this->locked_id)) {
-            return false;
-        } else {
-            Storage::delete('/public' . '/' . $opengraph->image);
-            $opengraph->tags()->detach();
-            $opengraph->posts()->detach();
-            $opengraph->categories()->detach();
-            return $opengraph->forceDelete();
-        }
+        return $opengraph->forceDelete();
     }
-
 }

@@ -4,12 +4,13 @@ use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Backend\Module\Blog\CategoryController;
 use App\Http\Controllers\Backend\Module\Blog\PostController;
 use App\Http\Controllers\Backend\Module\Blog\TagController;
-use App\Http\Controllers\Backend\Module\MediaLibrary\MediaLibraryController;
 use App\Http\Controllers\Backend\Module\Email\MessageController;
 use App\Http\Controllers\Backend\Module\Main\MainController;
+use App\Http\Controllers\Backend\Module\MediaLibrary\MediaLibraryController;
 use App\Http\Controllers\Backend\Module\SEO\CanonicalController;
 use App\Http\Controllers\Backend\Module\SEO\MetaController;
 use App\Http\Controllers\Backend\Module\SEO\OpengraphController;
+use App\Http\Controllers\Backend\Module\SEO\SchemaController;
 use App\Http\Controllers\Backend\Module\Settings\GeneralController;
 use App\Http\Controllers\Backend\Module\Settings\SocialMediaController;
 use App\Http\Controllers\Backend\Module\System\ActivityController;
@@ -20,8 +21,7 @@ use App\Http\Controllers\Backend\Module\Users\UserController;
 use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\Testing\Pagination;
-use App\Models\MediaLibrary;
+use App\Http\Controllers\Testing\TestController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -37,7 +37,7 @@ use Illuminate\Support\Facades\Storage;
 |
  */
 
-/**
+/*
  * Development - Production Mode
  */
 Route::group(
@@ -122,6 +122,7 @@ Route::group(
             Route::get('logout', function () {
                 Session::flush();
                 Auth::logout();
+
                 return redirect(url('/'));
             })->name('logout');
         });
@@ -145,10 +146,6 @@ Route::group(
                 PostController::class,
                 'index_dt',
             ])->name('post.datatable');
-            Route::post('post_upload_image', [
-                PostController::class,
-                'upload',
-            ])->name('post.upload.image');
             Route::resource('category', CategoryController::class);
             Route::get('category_datatable', [
                 CategoryController::class,
@@ -213,6 +210,8 @@ Route::group(
                 OpengraphController::class,
                 'index_dt',
             ])->name('opengraph.datatable');
+            Route::resource('schema', SchemaController::class);
+            Route::get('schema_datatable', [SchemaController::class, 'index_dt'])->name('schema.datatable');
 
             // User & Permissions
             Route::resource('user', UserController::class);
@@ -284,18 +283,6 @@ Route::group(
                 'optimize_clear',
             ])->name('maintenance.optimize.clear');
         });
-
-        // Testing
-        Route::group(
-            [
-                'prefix' => 'testing',
-            ],
-            function () {
-                // Testing Pagination from API
-                Route::get('get-post', [Pagination::class, 'get_post']);
-
-            }
-        );
     }
 );
 
@@ -305,6 +292,7 @@ Route::fallback(function () {
 
 Route::get('factory-reset', function () {
     Artisan::call('factory-reset');
+
     return redirect()->route('site.index');
 })
     ->name('maintenance.factory.reset')
@@ -340,5 +328,19 @@ Route::group(
         Route::get('config-cache', function () {
             Artisan::call('config:cache');
         });
+    }
+);
+
+// Request Testing
+Route::group(
+    [
+        'prefix' => LaravelLocalization::setlocale(),
+    ],
+    function () {
+        Route::get('test/create', function () {
+            return view('testing.test');
+        });
+
+        Route::get('test/{id}/edit', [TestController::class, 'edit']);
     }
 );

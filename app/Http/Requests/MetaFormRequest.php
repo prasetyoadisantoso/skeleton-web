@@ -31,8 +31,7 @@ class MetaFormRequest extends FormRequest
         switch ($route) {
             case 'meta.store':
                 return [
-                    'name' => 'required|string|unique:metas|max:20',
-                    'robot' => 'required|string',
+                    'title' => 'required|string|unique:metas',
                     'description' => 'required|string',
                     'keyword' => 'required|string',
                 ];
@@ -40,8 +39,7 @@ class MetaFormRequest extends FormRequest
 
             case 'meta.update':
                 return [
-                    'name' => 'required|string|max:20',
-                    'robot' => 'required|string',
+                    'title' => 'required|string',
                     'description' => 'required|string',
                     'keyword' => 'required|string',
                 ];

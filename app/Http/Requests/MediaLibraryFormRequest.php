@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Requests\Backend;
+namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Contracts\Validation\Validator;
 
 class MediaLibraryFormRequest extends FormRequest
 {
-    public $validator = null;
+    public $validator;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,9 +23,8 @@ class MediaLibraryFormRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules()
     {
-
         $route = Route::currentRouteName();
 
         switch ($route) {
@@ -33,7 +33,7 @@ class MediaLibraryFormRequest extends FormRequest
                     'title' => 'nullable|string',
                     'information' => 'nullable|string',
                     'description' => 'nullable|string',
-                    'media-files' => 'required|file|mimes:jpg,jpeg,png,mp3,mp4,pdf|max:50000'
+                    'media-files' => 'required|file|mimes:jpg,jpeg,png,mp3,mp4,pdf|max:50000',
                 ];
                 break;
 
@@ -46,7 +46,7 @@ class MediaLibraryFormRequest extends FormRequest
                 break;
 
             default:
-                # code...
+                // code...
                 break;
         }
     }

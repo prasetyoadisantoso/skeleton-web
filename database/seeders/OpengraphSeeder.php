@@ -3,9 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use App\Services\Upload;
-use App\Services\FileManagement;
+use App\Models\Opengraph;
+use Webpatser\Uuid\Uuid;
 
 class OpengraphSeeder extends Seeder
 {
@@ -16,95 +15,54 @@ class OpengraphSeeder extends Seeder
      */
     public function run()
     {
-        $fileManagement = new FileManagement;
-        $upload = new Upload;
-
-        $opengraphimage = $upload->UploadOpengraphImageToStorage($fileManagement->GetPathFeatureImage());
-
-        DB::table('opengraphs')->insert([
-
-            /* -------------------------------------------------------------------------- */
-            /*                                    Main                                    */
-            /* -------------------------------------------------------------------------- */
+        // Contoh data yang akan di-seed (multi-bahasa)
+        $opengraphData = [
             [
-                'id' => 'e8edd87f-3b67-4191-98ba-c0455f9c7705',
-                "name" => "Home",
-                "title" => "Skeleton Web",
-                "url" => "/",
-                "site_name" => "Skeleton Web",
-                'image' => $opengraphimage,
-                "description" => '{"id":"Kerangka web yang ringan dan mudah digunakan yang dapat digunakan untuk membuat berbagai jenis situs web.","en":"A lightweight and easy-to-use web framework that can be used to create various types of websites."}',
-                "type" => "website",
+                'og_title' => [
+                    'en' => 'Example Open Graph Title 1',
+                    'id' => 'Contoh Judul Open Graph 1',
+                ],
+                'og_description' => [
+                    'en' => 'Example Open Graph Description 1. This is a short description of the content.',
+                    'id' => 'Contoh Deskripsi Open Graph 1. Ini adalah deskripsi singkat tentang konten.',
+                ],
+                'og_type' => 'article',
+                'og_url' => 'https://example.com/article-1',
             ],
-
             [
-                'id' => '53708182-01c8-4b0d-b39d-0494873b2e99',
-                "name" => "Blog",
-                "title" => "Skeleton Web - Blog",
-                "url" => "/blog",
-                "site_name" => "Skeleton Web - Blog",
-                'image' => $opengraphimage,
-                "description" => '{"en":"Sample blog for Skeleton Web","id":"Contoh blog dari Skeleton Web"}',
-                "type" => "website",
+                'og_title' => [
+                    'en' => 'Example Open Graph Title 2',
+                    'id' => 'Contoh Judul Open Graph 2',
+                ],
+                'og_description' => [
+                    'en' => 'Example Open Graph Description 2. This description is slightly longer.',
+                    'id' => 'Contoh Deskripsi Open Graph 2. Deskripsi ini sedikit lebih panjang.',
+                ],
+                'og_type' => 'website',
+                'og_url' => 'https://example.com',
             ],
-
             [
-                'id' => 'e84b1cdf-3277-4739-9f7d-1dc489a3aaf7',
-                "name" => "Category",
-                "title" => "Skeleton Web - Category",
-                "url" => "/blog/category",
-                "site_name" => "Skeleton Web - Category",
-                'image' => $opengraphimage,
-                "description" => '{"en":"Sample opengraph for Skeleton Web - Category","id":"Contoh opengraph dari Skeleton Web - Kategori"}',
-                "type" => "website",
+                'og_title' => [
+                    'en' => 'Example Open Graph Title 3',
+                    'id' => 'Contoh Judul Open Graph 3',
+                ],
+                'og_description' => [
+                    'en' => 'Example Open Graph Description 3.',
+                    'id' => 'Contoh Deskripsi Open Graph 3.',
+                ],
+                'og_type' => 'book',
+                'og_url' => null, // Contoh URL null
             ],
+        ];
 
-            [
-                'id' => 'bb73bcd6-18ad-42ec-9417-89c0f1bf08c0',
-                "name" => "Tag",
-                "title" => "Skeleton Web - Tag",
-                "url" => "/blog/tag",
-                "site_name" => "Skeleton Web - Category",
-                'image' => $opengraphimage,
-                "description" => '{"en":"Sample opengraph for Skeleton Web - Tag","id":"Contoh opengraph dari Skeleton Web - Tag"}',
-                "type" => "website",
-            ],
-
-            [
-                'id' => '309e0945-87e8-4b04-8154-e1d3f1409949',
-                "name" => "Search",
-                "title" => "Skeleton Web - Search",
-                "url" => "/blog/post",
-                "site_name" => "Skeleton Web - Search",
-                'image' => $opengraphimage,
-                "description" => '{"en":"Sample opengraph for Skeleton Web - Search","id":"Contoh opengraph dari Skeleton Web - Search"}',
-                "type" => "website",
-            ],
-
-            [
-                'id' => '5a765094-a557-4f46-afa0-09ef37ca0b47',
-                "name" => "Contact",
-                "title" => "Contact",
-                "url" => "/contact",
-                "site_name" => "Skeleton Web",
-                'image' => $opengraphimage,
-                "description" => '{"en":"Sample contact message for Skeleton Web","id":"Contoh pesan kontak dari skeleton web"}',
-                "type" => "website",
-            ],
-
-            /* -------------------------------------------------------------------------- */
-            /*                                    Post                                    */
-            /* -------------------------------------------------------------------------- */
-            [
-                'id' => '991ac6ae-82a1-4bc9-900b-e219d0b166e0',
-                "name" => "Latest Post",
-                "title" => "Latest Post",
-                "url" => "/blog/post/latest-post",
-                "site_name" => "Skeleton Web - Latest Post",
-                'image' => $opengraphimage,
-                "description" => '{"en":"Sample article for Skeleton Web","id":"Contoh artikel dari skeleton web"}',
-                "type" => "article",
-            ],
-        ]);
+        foreach ($opengraphData as $data) {
+            $opengraph = new Opengraph();
+            $opengraph->id = Uuid::generate(4)->string;
+            $opengraph->og_title = $data['og_title'];
+            $opengraph->og_description = $data['og_description'];
+            $opengraph->og_type = $data['og_type'];
+            $opengraph->og_url = $data['og_url'];
+            $opengraph->save();
+        }
     }
 }

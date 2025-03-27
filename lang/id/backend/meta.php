@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'title' => "Meta",
+    'title' => 'Meta',
     'breadcrumb' => [
         'title' => 'Pengaturan Meta',
         'home' => 'Beranda',
@@ -16,16 +16,17 @@ return [
         ],
         'table' => [
             'number' => 'No',
+            'title' => 'Judul',
             'name' => 'Nama',
             'robot' => 'Robots',
             'description' => 'Deskripsi',
-            'keyword' => 'Keyword',
+            'keywords' => 'Keywords',
             'action' => 'Aksi',
         ],
         'search' => 'Pencarian: ',
         'previous' => 'Sebelumnya',
         'next' => 'Selanjutnya',
-        'info' => "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+        'info' => 'Menampilkan _START_ sampai _END_ dari _TOTAL_ entri',
         'length_menu' => 'Tampilkan _MENU_ entri',
     ],
 
@@ -34,6 +35,8 @@ return [
         'edit_title' => 'Edit Meta',
         'name' => 'Nama :',
         'name_placeholder' => 'Masukkan nama meta...',
+        'title' => 'Judul :',
+        'title_placeholder' => 'Masukkan judul meta...',
         'robot' => 'Robots :',
         'robot_placeholder' => 'Masukkan teks robot...',
         'description' => 'Deskripsi :',
@@ -54,6 +57,7 @@ return [
 
     'validation' => [
         'name_required' => 'Nama wajib diisi',
+        'title_required' => 'Judul wajib diisi',
         'robot_required' => 'Teks robots wajib diisi',
         'description_required' => 'Deskripsi wajib diisi',
         'keyword_required' => 'Keyword wajib diisi',

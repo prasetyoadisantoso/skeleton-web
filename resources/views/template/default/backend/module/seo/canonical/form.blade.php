@@ -47,13 +47,13 @@
                     @csrf
                     <div class="form-group mx-3 my-3">
                         <label for="inputName" class="">{{$form['name']}}</label>
-                        <div class="mb-3">
-                            <input name="name" type="text" class="form-control" id="name"
-                                placeholder="{{$form['name_placeholder']}}" value="{{$type == "edit" &&
-                                isset($canonical) ? $canonical->name : ''}}" required>
-                            <div class="error-name"></div>
-                        </div>
                         <label for="inputUrl" class="">{{$form['url']}}</label>
+                        <div class="mb-3">
+                            <input name="name" type="text" class="form-control" id="url"
+                                placeholder="{{$form['url_placeholder']}}" value="{{$type == "edit" &&
+                                isset($canonical) ? $canonical->name : ''}}" required>
+                            <div class="error-url"></div>
+                        </div>
                         <div class="mb-3">
                             <input name="url" type="text" class="form-control" id="url"
                                 placeholder="{{$form['url_placeholder']}}" value="{{$type == "edit" &&
@@ -96,7 +96,7 @@
     let current_id = document.querySelector("form").id;
     $("#" + current_id).validate({
         rules: {
-            name: {
+           name: {
                 required: true
             },
             url: {
@@ -104,12 +104,11 @@
             },
         },
         messages: {
-            name: "<small style='color: red;'>{{$validation['name_required']}}</small>",
             url: "<small style='color: red;'>{{$validation['url_required']}}</small>",
         },
         errorPlacement: function (error, element) {
             if (element.attr("name") == "name") {
-                error.appendTo(".error-name");
+                error.appendTo(".error-url");
             }
             if (element.attr("name") == "url") {
                 error.appendTo(".error-url");

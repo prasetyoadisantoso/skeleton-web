@@ -4,15 +4,15 @@
 
 <!-- Start Breadcrumb -->
 <nav class="bg-light py-3 px-2 px-md-5 shadow-sm d-flex justify-content-between" aria-label="breadcrumb">
-    <h5 class="my-0"><i class="fa-solid fa-globe me-3"></i>{{$breadcrumb['title']}}</h5>
+    <h5 class="my-0"><i class="fa-solid fa-signs-post me-3"></i>{{$breadcrumb['title'] ?? 'Schemas'}}</h5>
     <ol class="breadcrumb my-0">
-        <li class="breadcrumb-item"><a href="{{route($url)}}"
-                class="text-decoration-none text-dark">{{$breadcrumb['home']}}</a>
+        <li class="breadcrumb-item"><a href="{{route('schema.index')}}"
+                class="text-decoration-none text-dark">{{$breadcrumb['home'] ?? 'Dashboard'}}</a>
         </li>
         <li class="breadcrumb-item active text-muted" aria-current="page">
-            {{$type == 'index' ? $breadcrumb['index'] : ''}}
-            {{$type == 'create' ? $breadcrumb['create'] : ''}}
-            {{$type == 'edit' ? $breadcrumb['edit'] : ''}}
+            {{$type == 'index' ? ($breadcrumb['index'] ?? '') : ''}}
+            {{$type == 'create' ? ($breadcrumb['create'] ?? '') : ''}}
+            {{$type == 'edit' ? ($breadcrumb['edit'] ?? '') : ''}}
         </li>
     </ol>
 </nav>
@@ -37,88 +37,76 @@
             <!-- Start Create Meta -->
             <div class="container-fluid">
                 @if ($type == 'create')
-                <form action="{{route('opengraph.store')}}" method="POST" id="opengraph-store-form"  enctype="multipart/form-data">
-                @endif
+                <form action="{{route('opengraph.store')}}" method="POST" id="opengraph-store-form"
+                    enctype="multipart/form-data">
+                    @endif
 
-                @if ($type == 'edit')
-                <form action="{{route('opengraph.update', $opengraph->id)}}" method="POST" id="opengraph-update-form"  enctype="multipart/form-data">
-                @method('PUT')
-                @endif
+                    @if ($type == 'edit')
+                    <form action="{{route('opengraph.update', $opengraph->id)}}" method="POST"
+                        id="opengraph-update-form" enctype="multipart/form-data">
+                        @method('PUT')
+                        @endif
 
-                    @csrf
-                    <div class="form-group mx-3 my-3">
-                        <label for="inputName" class="">{{$form['name']}}</label>
-                        <div class="mb-3">
-                            <input name="name" type="text" class="form-control" id="name"
-                                placeholder="{{$form['name_placeholder']}}" value="{{$type == "edit" &&
-                                isset($opengraph) ? $opengraph->name : ''}}" required>
-                            <div class="error-name"></div>
-                        </div>
-                        <label for="inputTitle" class="">{{$form['title']}}</label>
-                        <div class="mb-3">
-                            <input name="title" type="text" class="form-control" id="title"
-                                placeholder="{{$form['title_placeholder']}}" value="{{$type == "edit" &&
-                                isset($opengraph) ? $opengraph->title : ''}}" required>
-                            <div class="error-title"></div>
-                        </div>
-                        <label for="inputDescription" class="">{{$form['description']}}</label>
-                        <div class="mb-3">
-                            <textarea class="form-control" placeholder="{{$form['description_placeholder']}}"
-                                id="description" style="height: 100px" name="description">{{$type == "edit" &&
-                                isset($opengraph) ? $opengraph->description : ''}}</textarea>
-                            <div class="error-description"></div>
-                        </div>
-                        <label for="inputUrl" class="">{{$form['url']}}</label>
-                        <div class="mb-3">
-                            <input name="url" type="text" class="form-control" id="url"
-                                placeholder="{{$form['url_placeholder']}}" value="{{$type == "edit" &&
-                                isset($opengraph) ? $opengraph->url : ''}}" required>
-                            <div class="error-url"></div>
-                        </div>
-                        <label for="inputSiteName" class="">{{$form['site_name']}}</label>
-                        <div class="mb-3">
-                            <input name="site_name" type="text" class="form-control" id="site_name"
-                                placeholder="{{$form['site_name_placeholder']}}" value="{{$type == "edit" &&
-                                isset($opengraph) ? $opengraph->site_name : ''}}" required>
-                            <div class="error-site-name"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="formFileLg" class="form-label">{{$form['image']}}</label>
-                            <input class="form-control" id="image" name="image"
-                                type="file" id="image" onchange="readImage(this);">
-                            <div class="error-image"></div>
-                        </div>
-                        <div class="mb-3">
-                            <img class="img-fluid" src="{{$type == 'edit' && $opengraph->image != null ? Storage::url($opengraph->image) :asset('template/default/assets/img/dummy.png')}}"
-                                alt="User profile picture" id="opengraphimage">
-                        </div>
-                        <div class="mb-3">
-                            <label for="inputUrl" class="">{{$form['type']}}</label>
-                            <input name="type" type="text" class="form-control" id="type"
-                                placeholder="{{$form['type_placeholder']}}" value="{{$type == "edit" &&
-                                isset($opengraph) ? $opengraph->type : ''}}" required>
-                            <div class="error-type"></div>
-                        </div>
+                        @csrf
+                        <div class="form-group mx-3 my-3">
+                            <label for="inputTitle" class="">{{$form['title']}}</label>
+                            <div class="mb-3">
+                                <input name="og_title" type="text" class="form-control" id="title"
+                                    placeholder="{{$form['title_placeholder']}}" value="{{$type == "edit" &&
+                                    isset($opengraph) ? $opengraph->og_title : ''}}" required>
+                                <div class="error-title"></div>
+                            </div>
+                            <label for="inputDescription" class="">{{$form['description']}}</label>
+                            <div class="mb-3">
+                                <textarea class="form-control" placeholder="{{$form['description_placeholder']}}"
+                                    id="description" style="height: 100px" name="og_description">{{$type == "edit" &&
+                                isset($opengraph) ? $opengraph->og_description : ''}}</textarea>
+                                <div class="error-description"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="inputUrl" class="">{{$form['type']}}</label>
+                                <input name="og_type" type="text" class="form-control" id="type"
+                                    placeholder="{{$form['type_placeholder']}}" value="{{$type == "edit" &&
+                                    isset($opengraph) ? $opengraph->og_type : ''}}" required>
+                                <div class="error-type"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="inputUrl" class="">{{$form['url']}}</label>
+                                <input name="og_url" type="text" class="form-control" id="url"
+                                    placeholder="{{$form['url_placeholder']}}" value="{{$type == "edit" &&
+                                    isset($opengraph) ? $opengraph->og_url : ''}}" required>
+                                <div class="error-url"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="formFileLg" class="form-label">{{$form['image']}}</label>
+                                <input class="form-control" id="image" name="og_image" type="file" id="image"
+                                    onchange="readImage(this);">
+                                <div class="error-image"></div>
+                            </div>
+                            <div class="mb-3">
+                                <img class="img-fluid"
+                                    src="{{$type == 'edit' && $opengraph->mediaLibraries ? Storage::url($opengraph->mediaLibraries->media_files) :asset('template/default/assets/img/dummy.png')}}"
+                                    alt="User profile picture" id="opengraphimage">
+                            </div>
+                            <div class="mb-3">
+                                @if ($type == 'create')
+                                @can ("opengraph-store")
+                                <button id="opengraph-store-submit" type="submit" class="btn btn-success w-100">
+                                    {{$button['store']}}<i class="fas fa-save ms-2"></i>
+                                </button>
+                                @endcan
+                                @endif
 
-                        <div class="mb-3">
-                            @if ($type == 'create')
-                            @can ("opengraph-store")
-                            <button id="opengraph-store-submit" type="submit" class="btn btn-success w-100">
-                                {{$button['store']}}<i class="fas fa-save ms-2"></i>
-                            </button>
-                            @endcan
-                            @endif
-
-                            @if ($type == 'edit')
-                            @can ("opengraph-update")
-                            <button id="opengraph-update-submit" type="submit" class="btn btn-success w-100">
-                                {{$button['update']}}<i class="fas fa-save ms-2"></i>
-                            </button>
-                            @endcan
-                            @endif
+                                @if ($type == 'edit')
+                                @can ("opengraph-update")
+                                <button id="opengraph-update-submit" type="submit" class="btn btn-success w-100">
+                                    {{$button['update']}}<i class="fas fa-save ms-2"></i>
+                                </button>
+                                @endcan
+                                @endif
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
             </div>
             <!-- End Create Meta -->
         </div>

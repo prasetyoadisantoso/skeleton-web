@@ -2,13 +2,13 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Contracts\Validation\Validator;
 
 class CanonicalFormRequest extends FormRequest
 {
-    public $validator = null;
+    public $validator;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -32,23 +32,20 @@ class CanonicalFormRequest extends FormRequest
         switch ($route) {
             case 'canonical.store':
                 return [
-                    'name' => 'required|unique:canonicals|string|max:50',
-                    'url' => 'required|url|max:50',
+                    'url' => 'required|url|unique:canonicals|max:50',
                 ];
                 break;
 
             case 'canonical.update':
                 return [
-                    'name' => 'required|string|max:50',
-                    'url' => 'required|url|max:50',
+                    'url' => 'required|url|unique:canonicals|max:50',
                 ];
                 break;
 
             default:
-                # code...
+                // code...
                 break;
         }
-
     }
 
     protected function failedValidation(Validator $validator)

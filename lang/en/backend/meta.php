@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'title' => "Meta",
+    'title' => 'Meta',
     'breadcrumb' => [
         'title' => 'Meta Setting',
         'home' => 'Home',
@@ -16,16 +16,17 @@ return [
         ],
         'table' => [
             'number' => 'No',
+            'title' => 'Title',
             'name' => 'Name',
             'robot' => 'Robots',
             'description' => 'Description',
-            'keyword' => 'Keyword',
+            'keywords' => 'Keywords',
             'action' => 'Action',
         ],
         'search' => 'Search: ',
         'previous' => 'Previous',
         'next' => 'Next',
-        'info' => "Showing _START_ to _END_ of _TOTAL_ entries",
+        'info' => 'Showing _START_ to _END_ of _TOTAL_ entries',
         'length_menu' => 'Show _MENU_ entries',
     ],
 
@@ -33,7 +34,9 @@ return [
         'create_title' => 'Create Meta',
         'edit_title' => 'Edit Meta',
         'name' => 'Name :',
-        'name_placeholder' => 'Insert meta name...',
+        'name_placeholder' => 'Insert meta title...',
+        'title' => 'Name :',
+        'title_placeholder' => 'Insert meta title...',
         'robot' => 'Robots :',
         'robot_placeholder' => 'Insert robots text...',
         'description' => 'Description :',
@@ -54,6 +57,7 @@ return [
 
     'validation' => [
         'name_required' => 'Meta name is required',
+        'title_required' => 'Title name is required',
         'robot_required' => 'Meta robots is required',
         'description_required' => 'Meta description is required',
         'keyword_required' => 'Meta keyword is required',

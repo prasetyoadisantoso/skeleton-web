@@ -49,17 +49,10 @@
                     <div class="form-group mx-3 my-3">
                         <label for="inputName" class="">{{$form['name']}}</label>
                         <div class="mb-3">
-                            <input name="name" type="text" class="form-control" id="name"
-                                placeholder="{{$form['name_placeholder']}}" value="{{$type == "edit" &&
-                                isset($meta) ? $meta->name : ''}}" required>
+                            <input name="title" type="text" class="form-control" id="title"
+                                placeholder="{{$form['title_placeholder']}}" value="{{$type == "edit" &&
+                                isset($meta) ? $meta->title : ''}}" required>
                             <div class="error-name"></div>
-                        </div>
-                        <label for="inputRobot" class="">{{$form['robot']}}</label>
-                        <div class="mb-3">
-                            <input name="robot" type="text" class="form-control" id="robot"
-                                placeholder="{{$form['robot_placeholder']}}" value="{{$type == "edit" &&
-                                isset($meta) ? $meta->robot : ''}}" required>
-                            <div class="error-robot"></div>
                         </div>
                         <label for="inputDescription" class="">{{$form['description']}}</label>
                         <div class="mb-3">
@@ -72,7 +65,7 @@
                         <div class="mb-3">
                             <textarea class="form-control" placeholder="{{$form['keyword_placeholder']}}" id="keyword"
                                 style="height: 100px" name="keyword">{{$type == "edit" &&
-                                isset($meta) ? $meta->keyword : ''}}</textarea>
+                                isset($meta) ? $meta->keywords : ''}}</textarea>
                             <div class="error-keyword"></div>
                         </div>
                         <div class="mb-3">
@@ -111,10 +104,7 @@
     let current_id = document.querySelector("form").id;
     $("#" + current_id).validate({
         rules: {
-            name: {
-                required: true
-            },
-            robot: {
+            title: {
                 required: true
             },
             description: {
@@ -125,17 +115,13 @@
             },
         },
         messages: {
-            name: "<small style='color: red;'>{{$validation['name_required']}}</small>",
-            robot: "<small style='color: red;'>{{$validation['robot_required']}}</small>",
+            name: "<small style='color: red;'>{{$validation['title_required']}}</small>",
             description: "<small style='color: red;'>{{$validation['description_required']}}</small>",
             keyword: "<small style='color: red;'>{{$validation['keyword_required']}}</small>",
         },
         errorPlacement: function (error, element) {
-            if (element.attr("name") == "name") {
-                error.appendTo(".error-name");
-            }
-            if (element.attr("name") == "robot") {
-                error.appendTo(".error-robot");
+            if (element.attr("name") == "title") {
+                error.appendTo(".error-title");
             }
             if (element.attr("name") == "description") {
                 error.appendTo(".error-description");

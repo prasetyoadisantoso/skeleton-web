@@ -4,7 +4,7 @@
     <a href="#setting-dropdown-menu" data-bs-toggle="collapse" aria-expanded="false"
         class="btn-ripple rotation-1 text-white">
         <div class="d-flex align-items-center main-list" id="rotation-settings">
-            <span class="flex-grow-1 font-md"><i class="fa-solid fa-wrench me-3"></i>{{$settings}}</span>
+            <span class="flex-grow-1 font-md"><i class="fa-solid fa-wrench me-3"></i>{{$sidebar['settings']}}</span>
             <i id="icon" class="hide-fa fas fa-chevron-down font-sm rotate-1"></i>
         </div>
     </a>
@@ -12,14 +12,14 @@
         @can('general-index')
         <li class="sub-list font-sm">
             <a href="{{route('general.index')}}" class="text-white">
-                <span><i class="fa-solid fa-circle-dot me-3"></i>{{$general}}</span>
+                <span><i class="fa-solid fa-circle-dot me-3"></i>{{$sidebar['general']}}</span>
             </a>
         </li>
         @endcan
         @can('socialmedia-index')
         <li class="sub-list font-sm">
             <a href="{{route('social_media.index')}}" class="text-white">
-                <span><i class="fa-solid fa-circle-dot me-3"></i>{{$socialmedia}}</span>
+                <span><i class="fa-solid fa-circle-dot me-3"></i>{{$sidebar['socialmedia']}}</span>
             </a>
         </li>
         @endcan

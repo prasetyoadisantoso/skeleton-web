@@ -15,18 +15,8 @@ class Canonical extends Model
     public $incrementing = false;
 
     public $fillable = [
-        'name', 'url'
-    ];
-
-    protected $locked_id = [
-        // Home
-        '37039e16-12bf-435f-938f-24c6b167d16b',
-
-        // Blog
-        '252a4bee-48f4-4977-8806-52db10cdbc7f',
-
-        // Contact
-        '082c03cb-517f-482e-93ba-f9918d7b033c'
+        'name',
+        'url',
     ];
 
     public static function boot()
@@ -61,24 +51,16 @@ class Canonical extends Model
     {
         $canonical = $this->GetCanonicalById($id);
 
-        if (in_array($canonical->id, $this->locked_id)) {
-            throw new \Exception("Cannot update or delete a locked record.");
-        } else {
-            $canonical->update($new_canonical);
-            return $canonical;
-        }
+        $canonical->update($new_canonical);
+
+        return $canonical;
     }
 
     public function DeleteCanonical($id)
     {
         $canonical = $this->GetCanonicalById($id);
-        if (in_array($canonical->id, $this->locked_id)) {
-            return false;
-        } else {
-            $canonical->tags()->detach();
-            $canonical->posts()->detach();
-            $canonical->categories()->detach();
-            return $canonical->forceDelete();
-        }
+        $canonical->posts()->detach();
+
+        return $canonical->forceDelete();
     }
 }

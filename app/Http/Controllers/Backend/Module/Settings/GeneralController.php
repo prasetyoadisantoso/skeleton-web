@@ -96,7 +96,6 @@ class GeneralController extends Controller
         return view('template.default.backend.module.settings.general.home', array_merge(
             ['data' => $data]
         ));
-        // return $this->fileManagement->Logging($this->responseFormatter->successResponse($data));
     }
 
     /**

@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
+use App\Models\Schemadata;
 
 class PostController extends Controller
 {
@@ -40,6 +41,7 @@ class PostController extends Controller
     protected $canonical;
     protected $upload;
     protected $medialibrary;
+    protected $schema;
 
     public function __construct(
         GlobalView $global_view,
@@ -56,6 +58,7 @@ class PostController extends Controller
         Opengraph $opengraph,
         Canonical $canonical,
         MediaLibrary $medialibrary,
+        Schemadata $schema,
     ) {
         $this->middleware(['auth', 'verified']);
         $this->middleware(['xss'])->except(['store', 'update']);
@@ -81,6 +84,7 @@ class PostController extends Controller
         $this->upload = $upload;
         $this->opengraph = $opengraph;
         $this->medialibrary = $medialibrary;
+        $this->schema = $schema;
     }
 
     protected function boot()
@@ -178,6 +182,7 @@ class PostController extends Controller
         $meta_select = $this->meta->query()->get();
         $opengraph_select = $this->opengraph->query()->get();
         $canonical_select = $this->canonical->query()->get();
+        $schema_select = $this->schema->query()->get();
 
         return view('template.default.backend.module.blog.post.form', array_merge(
             $this->global_variable->PageType('create'),
@@ -187,6 +192,7 @@ class PostController extends Controller
                 'meta_select' => $meta_select,
                 'opengraph_select' => $opengraph_select,
                 'canonical_select' => $canonical_select,
+                'schema_select' => $schema_select,
             ]
         ));
     }
@@ -206,7 +212,8 @@ class PostController extends Controller
         }
 
         $request->validated();
-        $post_data = $request->only(['title', 'slug', 'content', 'category', 'tag', 'meta', 'canonical', 'opengraph', 'feature_image', 'published']);
+        $post_data = $request->only(['title', 'slug', 'content', 'category', 'tag', 'meta', 'canonical', 'opengraph', 'schema', 'feature_image', 'published']);
+
         $post_data['author_id'] = Auth::user()->id;
         $media_library_ids = []; // Inisialisasi array untuk menyimpan ID MediaLibrary
 
@@ -268,9 +275,11 @@ class PostController extends Controller
         $post_data['media_library'] = $media_library_ids;
         $verified_data = Arr::except($post_data, ['feature_image']);
 
+        $this->post->StorePost($verified_data);
+
+
         DB::beginTransaction();
         try {
-            $this->post->StorePost($verified_data);
 
             DB::commit();
             activity()->causedBy(Auth::user())->performedOn(new Post())->log($this->translation->post['messages']['store_success']);
@@ -298,20 +307,6 @@ class PostController extends Controller
         }
     }
 
-    public function upload(Request $request)
-    {
-        $this->validate($request, [
-            'file' => 'required',
-        ]);
-
-        // $file = $request->file('file');
-        // Upload the file to media library
-        // $uploadedMedia = $this->upload->UploadPostContentImageToMediaLibrary($file);
-
-        // Return URL gambar yang diunggah
-        // return Storage::url($uploadedMedia['media_path']);
-    }
-
     /**
      * Display the specified resource.
      *
@@ -327,12 +322,14 @@ class PostController extends Controller
         $meta = $post->metas()->first();
         $opengraph = $post->opengraphs()->first();
         $canonical = $post->canonicals()->first();
+        $schema = $post->schemadatas()->first();
 
         $category_select = $this->category->query()->get();
         $tag_select = $this->tag->query()->get();
         $meta_select = $this->meta->query()->get();
         $opengraph_select = $this->opengraph->query()->get();
         $canonical_select = $this->canonical->query()->get();
+        $schema_select = $this->schema->query()->get();
         $author = $post->author()->first();
         if ($post->published_at == null || $post->published_at == '' || $post->published_at == 'null') {
             $published = 'No';
@@ -367,12 +364,7 @@ class PostController extends Controller
             'meta' => $meta,
             'canonical' => $canonical,
             'opengraph' => $opengraph,
-            'category_select' => $category_select,
-            'tag_select' => $tag_select,
-            'tag_selection' => $tag_selection,
-            'meta_select' => $meta_select,
-            'opengraph_select' => $opengraph_select,
-            'canonical_select' => $canonical_select,
+            'schema' => $schema,
             'author' => $author,
             'published' => $published,
         ]);

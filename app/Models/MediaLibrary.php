@@ -100,4 +100,12 @@ class MediaLibrary extends Model
     {
         return $this->hasOne(General::class, 'site_favicon_id');
     }
+
+    /**
+     * Get the opengraphs for the media library.
+     */
+    public function opengraphs()
+    {
+        return $this->hasMany(Opengraph::class, 'og_image_id');
+    }
 }

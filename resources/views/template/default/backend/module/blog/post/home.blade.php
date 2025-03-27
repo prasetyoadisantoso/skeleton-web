@@ -103,6 +103,10 @@
                                 <div id="post-canonical"></div>
                             </div>
                             <div class="mb-3">
+                                <label for="" class="fw-bold form-label">{{$detail['schema'] ?? 'Schema'}}</label>
+                                <div id="post-schema"></div>
+                            </div>
+                            <div class="mb-3">
                                 <label for="" class="fw-bold form-label">{{$detail['feature_image']}}</label>
                                 <div id="post-feature-image"></div>
                             </div>
@@ -248,6 +252,7 @@
             url: link,
             cache: false,
             success: function (result) {
+                console.log(result);
                 let tags = '';
                 $("#modal-detail-post").modal('show');
                 $('#post-title').html(result.data['post'].title.{{LaravelLocalization::getCurrentLocale()}});
@@ -265,13 +270,13 @@
                 $('#post-tag').html(tags);
 
                 if( result.data['meta'] !== null || result.data['meta'] === '' ){
-                    $('#post-meta').html(result.data['meta'].name);
+                    $('#post-meta').html(result.data['meta'].title.{{LaravelLocalization::getCurrentLocale()}});
                 } else {
                     $('#post-meta').html('...');
                 }
 
                 if( result.data['opengraph'] !== null || result.data['opengraph'] === '' ){
-                    $('#post-opengraph').html(result.data['opengraph'].name);
+                    $('#post-opengraph').html(result.data['opengraph'].og_title.{{LaravelLocalization::getCurrentLocale()}});
                 } else {
                     $('#post-opengraph').html('...');
                 }
@@ -282,7 +287,11 @@
                     $('#post-canonical').html('...');
                 }
 
-                console.log(result.data['image']);
+                if( result.data['schema'] !== null || result.data['schema'] === '' ){
+                    $('#post-schema').html(result.data['schema'].schema_name);
+                } else {
+                    $('#post-schema').html('...');
+                }
 
                 if ( result.data['image'] !== null) {
                     $('#post-feature-image').html("<img src='/storage/" + result.data['image'] + "' class='img-fluid w-50'>");

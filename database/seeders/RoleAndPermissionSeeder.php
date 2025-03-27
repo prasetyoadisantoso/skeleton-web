@@ -17,19 +17,18 @@ class RoleAndPermissionSeeder extends Seeder
     {
         /**
          * List Permissions
-         * Main - Blog - User - Settings - SEO - System Management - Sidebar
+         * Main - Blog - User - Settings - SEO - System Management - Sidebar.
          */
         $user_access = [
-
             /* -------------------------------------------------------------------------- */
-            /*                                   Module                                   */
+            /*                                   Module */
             /* -------------------------------------------------------------------------- */
 
             // Main
             'main-index',
 
             /* -------------------------------------------------------------------------- */
-            /*                                    Blog                                    */
+            /*                                    Blog */
             /* -------------------------------------------------------------------------- */
 
             // Post
@@ -60,7 +59,7 @@ class RoleAndPermissionSeeder extends Seeder
             'tag-destroy',
 
             /* -------------------------------------------------------------------------- */
-            /*                                Media Library                               */
+            /*                                Media Library */
             /* -------------------------------------------------------------------------- */
             // Media Library
             'medialibrary-index',
@@ -72,7 +71,7 @@ class RoleAndPermissionSeeder extends Seeder
             'medialibrary-destroy',
 
             /* -------------------------------------------------------------------------- */
-            /*                               User Management                              */
+            /*                               User Management */
             /* -------------------------------------------------------------------------- */
 
             // User
@@ -103,7 +102,7 @@ class RoleAndPermissionSeeder extends Seeder
             'permission-destroy',
 
             /* -------------------------------------------------------------------------- */
-            /*                                  Settings                                  */
+            /*                                  Settings */
             /* -------------------------------------------------------------------------- */
 
             // General
@@ -120,7 +119,7 @@ class RoleAndPermissionSeeder extends Seeder
             'socialmedia-destroy',
 
             /* -------------------------------------------------------------------------- */
-            /*                                    Email                                   */
+            /*                                    Email */
             /* -------------------------------------------------------------------------- */
 
             // Message
@@ -133,7 +132,7 @@ class RoleAndPermissionSeeder extends Seeder
             'message-destroy',
 
             /* -------------------------------------------------------------------------- */
-            /*                                     SEO                                    */
+            /*                                     SEO */
             /* -------------------------------------------------------------------------- */
 
             // Meta
@@ -163,8 +162,17 @@ class RoleAndPermissionSeeder extends Seeder
             'opengraph-update',
             'opengraph-destroy',
 
+            // Schema
+            'schema-index',
+            'schema-create',
+            'schema-store',
+            'schema-show',
+            'schema-edit',
+            'schema-update',
+            'schema-destroy',
+
             /* -------------------------------------------------------------------------- */
-            /*                              System Management                             */
+            /*                              System Management */
             /* -------------------------------------------------------------------------- */
 
             // Activity
@@ -180,7 +188,7 @@ class RoleAndPermissionSeeder extends Seeder
             'maintenance-index',
 
             /* -------------------------------------------------------------------------- */
-            /*                                   Sidebar                                  */
+            /*                                   Sidebar */
             /* -------------------------------------------------------------------------- */
             'main-sidebar',
             'blog-sidebar',
@@ -191,11 +199,9 @@ class RoleAndPermissionSeeder extends Seeder
             'user-sidebar',
             'system-sidebar',
             'notification-access',
-
         ];
 
-
-        /**
+        /*
          * Give Permissions to UsersRole
          * Users - Roles - Permissions
          */
@@ -211,7 +217,6 @@ class RoleAndPermissionSeeder extends Seeder
         $guest = Role::create(['name' => 'guest']);
 
         $superadmin->givePermissionTo([
-
             /* --------------------------- Notification Access -------------------------- */
             'notification-access',
 
@@ -315,7 +320,6 @@ class RoleAndPermissionSeeder extends Seeder
             'canonical-update',
             'canonical-destroy',
 
-            // Opengraph
             'opengraph-index',
             'opengraph-create',
             'opengraph-store',
@@ -323,6 +327,14 @@ class RoleAndPermissionSeeder extends Seeder
             'opengraph-edit',
             'opengraph-update',
             'opengraph-destroy',
+
+            'schema-index',
+            'schema-create',
+            'schema-store',
+            'schema-show',
+            'schema-edit',
+            'schema-update',
+            'schema-destroy',
 
             /* System */
             'activity-index',
@@ -345,11 +357,9 @@ class RoleAndPermissionSeeder extends Seeder
             'system-sidebar',
             'email-sidebar',
             'medialibrary-sidebar',
-
         ]);
 
         $administrator->givePermissionTo([
-
             /* --------------------------- Notification Access -------------------------- */
             'notification-access',
 
@@ -443,7 +453,6 @@ class RoleAndPermissionSeeder extends Seeder
             'opengraph-update',
             'opengraph-destroy',
 
-
             /* ----------------------------- Setting Access ----------------------------- */
             'setting-sidebar',
 
@@ -459,11 +468,9 @@ class RoleAndPermissionSeeder extends Seeder
             'socialmedia-edit',
             'socialmedia-update',
             'socialmedia-destroy',
-
         ]);
 
         $editor->givePermissionTo([
-
             /* ------------------------------- Main Access ------------------------------ */
             'main-sidebar',
             'main-index',
@@ -527,20 +534,15 @@ class RoleAndPermissionSeeder extends Seeder
             'opengraph-edit',
             'opengraph-update',
             'opengraph-destroy',
-
         ]);
 
         $customer->givePermissionTo([
-
             /* Sidebar */
             'main-index',
-            'main-sidebar'
-
+            'main-sidebar',
         ]);
 
         $guest->givePermissionTo([
-
         ]);
-
     }
 }

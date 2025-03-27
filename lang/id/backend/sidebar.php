@@ -1,43 +1,46 @@
 <?php
 
 return [
-    // Dashboard
-    'dashboard' => 'Dasbor',
+    'sidebar' => [
+        // Dashboard
+        'dashboard' => 'Dasbor',
 
-    // Media Library
-    'medialibrary' => 'Pustaka Media',
-    'media_management' => 'Manajemen Media',
+        // Media Library
+        'medialibrary' => 'Pustaka Media',
+        'media_management' => 'Manajemen Media',
 
-    // Blog
-    'blog' => 'Blog',
-    'posts' => 'Postingan',
-    'categories' => 'Kategori',
-    'tags' => 'Tag',
+        // Blog
+        'blog' => 'Blog',
+        'posts' => 'Postingan',
+        'categories' => 'Kategori',
+        'tags' => 'Tag',
 
-    // Users & Permissions
-    'users_and_permissions' => 'Pengguna & Izin',
-    'users' => 'Pengguna',
-    'roles' => 'Peranan',
-    'permissions' => 'Izin',
+        // Users & Permissions
+        'users_and_permissions' => 'Pengguna & Izin',
+        'users' => 'Pengguna',
+        'roles' => 'Peranan',
+        'permissions' => 'Izin',
 
-    // Settings
-    'settings' => 'Pengaturan',
-    'general' => 'Umum',
-    'socialmedia' => 'Media Sosial',
-    'google' => 'Google',
+        // Settings
+        'settings' => 'Pengaturan',
+        'general' => 'Umum',
+        'socialmedia' => 'Media Sosial',
+        'google' => 'Google',
 
-    // Email
-    'email' => 'Email',
-    'message' => 'Pesan',
+        // Email
+        'email' => 'Email',
+        'message' => 'Pesan',
 
-    // SEO
-    'seo' => 'SEO',
-    'metas' => 'Meta',
-    'canonicals' => 'Canonical',
-    'opengraph' => 'Open Graph',
+        // SEO
+        'seo' => 'SEO',
+        'metas' => 'Meta',
+        'canonicals' => 'Canonical',
+        'opengraph' => 'Open Graph',
+        'schema' => 'Schema',
 
-    // System
-    'system' => 'Sistem',
-    'activities' => 'Aktivitas',
-    'maintenance' => 'Perawatan',
+        // System
+        'system' => 'Sistem',
+        'activities' => 'Aktivitas',
+        'maintenance' => 'Perawatan',
+    ],
 ];

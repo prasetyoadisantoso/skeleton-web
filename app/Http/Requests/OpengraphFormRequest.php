@@ -2,13 +2,13 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Contracts\Validation\Validator;
 
 class OpengraphFormRequest extends FormRequest
 {
-    public $validator = null;
+    public $validator;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -31,31 +31,28 @@ class OpengraphFormRequest extends FormRequest
         switch ($route) {
             case 'opengraph.store':
                 return [
-                    'name' => 'required|string|unique:opengraphs|max:50',
-                    'title' => 'required|string',
-                    'description' => 'required|string',
-                    'url' => 'required|string',
-                    'site_name' => 'required|string',
-                    'image' => 'nullable',
-                    'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                    'type' => 'required|string',
+                    'og_title' => 'required|string|unique:opengraphs|max:50',
+                    'og_description' => 'required|string',
+                    'og_type' => 'required|string',
+                    'og_url' => 'required|string',
+                    'og_image' => 'nullable',
+                    'og_image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 ];
                 break;
 
             case 'opengraph.update':
                 return [
-                    'name' => 'required|string|max:50',
-                    'title' => 'required|string',
-                    'description' => 'required|string',
-                    'url' => 'required|string',
-                    'site_name' => 'required|string',
-                    'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                    'type' => 'required|string',
+                    'og_title' => 'required|string|max:50',
+                    'og_description' => 'required|string',
+                    'og_type' => 'required|string',
+                    'og_url' => 'required|string',
+                    'og_image' => 'nullable',
+                    'og_image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 ];
                 break;
 
             default:
-                # code...
+                // code...
                 break;
         }
     }

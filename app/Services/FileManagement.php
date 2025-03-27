@@ -72,6 +72,17 @@ class FileManagement
         return $file;
     }
 
+    /**
+     *  Upload Opengraph Image for development purpose.
+     */
+    public function GetPathOpengraphImage()
+    {
+        $image = public_path('Test/Images/opengraph.png');
+        $file = new UploadedFile($image, 'opengraph-image.png', 'image/png', null, true);
+
+        return $file;
+    }
+
     // ...
     public function GetImageObject($path)
     {
