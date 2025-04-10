@@ -28,6 +28,10 @@ class BackendTranslations
         // Main Dashboard
         $this->main = __('backend/main');
 
+        // Navigation
+        $this->header_menu = __('backend/headermenu');
+        $this->footer_menu = __('backend/footermenu');
+
         // Post Dashboard
         $this->post = __('backend/post');
 

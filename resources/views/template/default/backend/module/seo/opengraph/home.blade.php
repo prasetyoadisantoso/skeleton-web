@@ -143,7 +143,7 @@
                                 },
                                 buttonsStyling: false,
                             }).then(() => {
-                                location.reload();
+                                $('#opengraph_datatable').DataTable().ajax.reload();
                             });
                         } else {
                             Swal.fire({
@@ -151,7 +151,7 @@
                                 text: results.message,
                                 icon: "error",
                             }).then(() => {
-                                location.reload();
+                                $('#opengraph_datatable').DataTable().ajax.reload();
                             });
                         }
                     }

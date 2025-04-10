@@ -50,7 +50,7 @@ class AuthController extends Controller
     protected function boot()
     {
         $this->global_view->RenderView([
-            $this->global_variable->SiteLogo(),
+            $this->global_variable->SitesLogo(),
         ]);
     }
 

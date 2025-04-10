@@ -28,6 +28,27 @@ class RoleAndPermissionSeeder extends Seeder
             'main-index',
 
             /* -------------------------------------------------------------------------- */
+            /*                                 Navigation */
+            /* -------------------------------------------------------------------------- */
+            // Header Menu (Tambahkan ini)
+            'headermenu-index',
+            'headermenu-create',
+            'headermenu-store',
+            'headermenu-show', // Meskipun tidak ada method show eksplisit, baik untuk konsistensi
+            'headermenu-edit',
+            'headermenu-update',
+            'headermenu-destroy',
+
+            // Header Menu (Tambahkan ini)
+            'footermenu-index',
+            'footermenu-create',
+            'footermenu-store',
+            'footermenu-show', // Meskipun tidak ada method show eksplisit, baik untuk konsistensi
+            'footermenu-edit',
+            'footermenu-update',
+            'footermenu-destroy',
+
+            /* -------------------------------------------------------------------------- */
             /*                                    Blog */
             /* -------------------------------------------------------------------------- */
 
@@ -191,6 +212,7 @@ class RoleAndPermissionSeeder extends Seeder
             /*                                   Sidebar */
             /* -------------------------------------------------------------------------- */
             'main-sidebar',
+            'navigation-sidebar', // Tambahkan ini untuk grup navigasi
             'blog-sidebar',
             'medialibrary-sidebar',
             'setting-sidebar',
@@ -222,6 +244,23 @@ class RoleAndPermissionSeeder extends Seeder
 
             /* Main */
             'main-index',
+
+            /* Navigation (Tambahkan ini) */
+            'headermenu-index',
+            'headermenu-create',
+            'headermenu-store',
+            'headermenu-show',
+            'headermenu-edit',
+            'headermenu-update',
+            'headermenu-destroy',
+
+            'footermenu-index',
+            'footermenu-create',
+            'footermenu-store',
+            'footermenu-show',
+            'footermenu-edit',
+            'footermenu-update',
+            'footermenu-destroy',
 
             /* Blog */
             'post-index',
@@ -349,6 +388,7 @@ class RoleAndPermissionSeeder extends Seeder
 
             /* Sidebar */
             'main-sidebar',
+            'navigation-sidebar',
             'blog-sidebar',
             'setting-sidebar',
             'email-sidebar',

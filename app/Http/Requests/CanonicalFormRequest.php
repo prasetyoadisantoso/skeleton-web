@@ -38,7 +38,7 @@ class CanonicalFormRequest extends FormRequest
 
             case 'canonical.update':
                 return [
-                    'url' => 'required|url|unique:canonicals|max:50',
+                    'url' => 'required|url|max:50',
                 ];
                 break;
 

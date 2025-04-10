@@ -3,19 +3,22 @@
 namespace App\Http\Controllers\Backend\Module\System;
 
 use App\Http\Controllers\Controller;
+use App\Services\BackendTranslations;
 use App\Services\FileManagement;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
 use App\Services\ResponseFormatter;
-use App\Services\BackendTranslations;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Sitemap\SitemapGenerator;
 
 class MaintenanceController extends Controller
 {
-
-    protected $global_view, $global_variable, $translation, $responseFormatter, $fileManagement;
+    protected $global_view;
+    protected $global_variable;
+    protected $translation;
+    protected $responseFormatter;
+    protected $fileManagement;
 
     public function __construct(
         ResponseFormatter $responseFormatter,
@@ -39,20 +42,14 @@ class MaintenanceController extends Controller
     {
         // Render to View
         $this->global_view->RenderView([
-
             // Global Variable
             $this->global_variable->TitlePage($this->translation->maintenance['title']),
             $this->global_variable->SystemLanguage(),
             $this->global_variable->AuthUserName(),
             $this->global_variable->SystemName(),
-            $this->global_variable->SiteLogo(),
             $this->global_variable->MessageNotification(),
 
             // Translations
-            $this->translation->header,
-            $this->translation->sidebar,
-            $this->translation->button,
-            $this->translation->notification,
             $this->translation->maintenance,
 
             // Module
@@ -70,6 +67,7 @@ class MaintenanceController extends Controller
     public function index()
     {
         $this->boot();
+
         return view('template.default.backend.module.system.maintenance.home', array_merge(
             $this->global_variable->PageType('index'
             )));
@@ -80,6 +78,7 @@ class MaintenanceController extends Controller
         try {
             SitemapGenerator::create(config('app.url'))->getSitemap()->writeToDisk('public', 'sitemap.xml');
             activity()->causedBy(Auth::user())->log($this->translation->maintenance['messages']['generate_success']);
+
             return redirect()->back()->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
@@ -89,10 +88,11 @@ class MaintenanceController extends Controller
             $message = $th->getMessage();
             report($message);
             activity()->causedBy(Auth::user())->log($message);
+
             return redirect()->back()->with([
                 'error' => 'error',
-                "title" => $this->translation->notification['error'],
-                "content" => $message,
+                'title' => $this->translation->notification['error'],
+                'content' => $message,
             ]);
         }
     }
@@ -102,6 +102,7 @@ class MaintenanceController extends Controller
         try {
             Artisan::call('event:clear');
             activity()->causedBy(Auth::user())->log($this->translation->maintenance['messages']['action_success']);
+
             return redirect()->back()->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
@@ -111,10 +112,11 @@ class MaintenanceController extends Controller
             $message = $th->getMessage();
             report($message);
             activity()->causedBy(Auth::user())->log($message);
+
             return redirect()->back()->with([
                 'error' => 'error',
-                "title" => $this->translation->notification['error'],
-                "content" => $message,
+                'title' => $this->translation->notification['error'],
+                'content' => $message,
             ]);
         }
     }
@@ -124,6 +126,7 @@ class MaintenanceController extends Controller
         try {
             Artisan::call('view:clear');
             activity()->causedBy(Auth::user())->log($this->translation->maintenance['messages']['action_success']);
+
             return redirect()->back()->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
@@ -133,10 +136,11 @@ class MaintenanceController extends Controller
             $message = $th->getMessage();
             report($message);
             activity()->causedBy(Auth::user())->log($message);
+
             return redirect()->back()->with([
                 'error' => 'error',
-                "title" => $this->translation->notification['error'],
-                "content" => $message,
+                'title' => $this->translation->notification['error'],
+                'content' => $message,
             ]);
         }
     }
@@ -146,6 +150,7 @@ class MaintenanceController extends Controller
         try {
             Artisan::call('cache:clear');
             activity()->causedBy(Auth::user())->log($this->translation->maintenance['messages']['action_success']);
+
             return redirect()->back()->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
@@ -155,10 +160,11 @@ class MaintenanceController extends Controller
             $message = $th->getMessage();
             report($message);
             activity()->causedBy(Auth::user())->log($message);
+
             return redirect()->back()->with([
                 'error' => 'error',
-                "title" => $this->translation->notification['error'],
-                "content" => $message,
+                'title' => $this->translation->notification['error'],
+                'content' => $message,
             ]);
         }
     }
@@ -168,6 +174,7 @@ class MaintenanceController extends Controller
         try {
             Artisan::call('config:clear');
             activity()->causedBy(Auth::user())->log($this->translation->maintenance['messages']['action_success']);
+
             return redirect()->back()->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
@@ -177,10 +184,11 @@ class MaintenanceController extends Controller
             $message = $th->getMessage();
             report($message);
             activity()->causedBy(Auth::user())->log($message);
+
             return redirect()->back()->with([
                 'error' => 'error',
-                "title" => $this->translation->notification['error'],
-                "content" => $message,
+                'title' => $this->translation->notification['error'],
+                'content' => $message,
             ]);
         }
     }
@@ -190,6 +198,7 @@ class MaintenanceController extends Controller
         try {
             Artisan::call('route:clear');
             activity()->causedBy(Auth::user())->log($this->translation->maintenance['messages']['action_success']);
+
             return redirect()->back()->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
@@ -199,10 +208,11 @@ class MaintenanceController extends Controller
             $message = $th->getMessage();
             report($message);
             activity()->causedBy(Auth::user())->log($message);
+
             return redirect()->back()->with([
                 'error' => 'error',
-                "title" => $this->translation->notification['error'],
-                "content" => $message,
+                'title' => $this->translation->notification['error'],
+                'content' => $message,
             ]);
         }
     }
@@ -212,6 +222,7 @@ class MaintenanceController extends Controller
         try {
             Artisan::call('clear-compiled');
             activity()->causedBy(Auth::user())->log($this->translation->maintenance['messages']['action_success']);
+
             return redirect()->back()->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
@@ -221,10 +232,11 @@ class MaintenanceController extends Controller
             $message = $th->getMessage();
             report($message);
             activity()->causedBy(Auth::user())->log($message);
+
             return redirect()->back()->with([
                 'error' => 'error',
-                "title" => $this->translation->notification['error'],
-                "content" => $message,
+                'title' => $this->translation->notification['error'],
+                'content' => $message,
             ]);
         }
     }
@@ -234,6 +246,7 @@ class MaintenanceController extends Controller
         try {
             Artisan::call('optimize:clear');
             activity()->causedBy(Auth::user())->log($this->translation->maintenance['messages']['action_success']);
+
             return redirect()->back()->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
@@ -243,10 +256,11 @@ class MaintenanceController extends Controller
             $message = $th->getMessage();
             report($message);
             activity()->causedBy(Auth::user())->log($message);
+
             return redirect()->back()->with([
                 'error' => 'error',
-                "title" => $this->translation->notification['error'],
-                "content" => $message,
+                'title' => $this->translation->notification['error'],
+                'content' => $message,
             ]);
         }
     }
@@ -256,6 +270,7 @@ class MaintenanceController extends Controller
         try {
             Artisan::call('factory-reset');
             activity()->causedBy(Auth::user())->log($this->translation->maintenance['messages']['action_success']);
+
             return redirect()->back()->with([
                 'success' => 'success',
                 'title' => $this->translation->notification['success'],
@@ -265,10 +280,11 @@ class MaintenanceController extends Controller
             $message = $th->getMessage();
             report($message);
             activity()->causedBy(Auth::user())->log($message);
+
             return redirect()->back()->with([
                 'error' => 'error',
-                "title" => $this->translation->notification['error'],
-                "content" => $message,
+                'title' => $this->translation->notification['error'],
+                'content' => $message,
             ]);
         }
     }

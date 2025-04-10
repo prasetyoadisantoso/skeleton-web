@@ -107,10 +107,6 @@
 </div>
 <!-- End Home -->
 
-<div class="container">
-    <pre>{{$errors}}</pre>
-</div>
-
 @endsection
 
 @push('schema-form-js')

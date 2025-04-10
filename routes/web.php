@@ -7,6 +7,8 @@ use App\Http\Controllers\Backend\Module\Blog\TagController;
 use App\Http\Controllers\Backend\Module\Email\MessageController;
 use App\Http\Controllers\Backend\Module\Main\MainController;
 use App\Http\Controllers\Backend\Module\MediaLibrary\MediaLibraryController;
+use App\Http\Controllers\Backend\Module\Navigation\FooterMenuController;
+use App\Http\Controllers\Backend\Module\Navigation\HeaderMenuController;
 use App\Http\Controllers\Backend\Module\SEO\CanonicalController;
 use App\Http\Controllers\Backend\Module\SEO\MetaController;
 use App\Http\Controllers\Backend\Module\SEO\OpengraphController;
@@ -25,6 +27,7 @@ use App\Http\Controllers\Testing\TestController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,9 +40,6 @@ use Illuminate\Support\Facades\Storage;
 |
  */
 
-/*
- * Development - Production Mode
- */
 Route::group(
     [
         'prefix' => LaravelLocalization::setlocale(),
@@ -76,19 +76,19 @@ Route::group(
 
         // Authentication
         Route::prefix('authentication')->group(function () {
-            Route::get('login/page', [
+            Route::get('login', [
                 AuthController::class,
                 'login_page',
             ])->name('login.page');
-            Route::get('register/page', [
+            Route::get('register', [
                 AuthController::class,
                 'register_page',
             ])->name('register.page');
-            Route::get('forgot_password/page', [
+            Route::get('forgot_password', [
                 AuthController::class,
                 'forgot_password_page',
             ])->name('forgot.password.page');
-            Route::get('reset_password/page/{token}', [
+            Route::get('reset_password/{token}', [
                 AuthController::class,
                 'reset_password_page',
             ])->name('reset.password.page');
@@ -96,7 +96,7 @@ Route::group(
                 AuthController::class,
                 'register_client',
             ])->name('register');
-            Route::get('resend_verification/page', [
+            Route::get('resend_verification', [
                 AuthController::class,
                 'resend_verification_page',
             ])->name('resend.verification.page');
@@ -132,6 +132,20 @@ Route::group(
             Route::get('main', [MainController::class, 'index'])->name(
                 'dashboard.main'
             );
+
+            // Navigation
+            /* ------------------------------- Header Menu ------------------------------ */
+            Route::resource('headermenu', HeaderMenuController::class);
+            Route::get('headermenu_datatable', [
+                HeaderMenuController::class,
+                'index_dt',
+            ])->name('headermenu.datatable');
+
+            Route::resource('footermenu', FooterMenuController::class);
+            Route::get('footermenu_datatable', [
+                FooterMenuController::class,
+                'index_dt',
+            ])->name('footermenu.datatable');
 
             // Media Library
             Route::resource('media-library', MediaLibraryController::class);
@@ -337,10 +351,7 @@ Route::group(
         'prefix' => LaravelLocalization::setlocale(),
     ],
     function () {
-        Route::get('test/create', function () {
-            return view('testing.test');
-        });
-
-        Route::get('test/{id}/edit', [TestController::class, 'edit']);
+        Route::get('test', [TestController::class, 'index']);
+        Route::get('sidebar', [TestController::class, 'sidebar']);
     }
 );

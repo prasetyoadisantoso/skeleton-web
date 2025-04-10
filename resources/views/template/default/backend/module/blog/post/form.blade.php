@@ -189,9 +189,9 @@
                                             @endif
 
                                             @if ($type == 'edit')
-                                            <option value="">{{$form['select_schema'] ?? 'Select Schema'}}</option>
+                                            <option value="">{{$form['select_schema'] ?? '- Select Schema -'}}</option>
                                             @foreach ($schema_select as $item)
-                                            <option value="{{$schema->id}}" {{isset($schema->schema_name) && $schema->schema_name
+                                            <option value="{{$item->id}}" {{isset($schema->schema_name) && $schema->schema_name
                                                 == $item->schema_name ? "selected" : ""}}>{{$item->schema_name}}</option>
                                             @endforeach
                                             @endif
@@ -247,10 +247,6 @@
 
 </div>
 <!-- End Home -->
-
-<div class="container">
-<pre>{{$errors}}</pre>
-</div>
 
 @endsection
 

@@ -4,20 +4,25 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MessageFormRequest;
-use Illuminate\Http\Request;
-use App\Models\SocialMedia;
-use App\Services\GlobalView;
-use App\Services\GlobalVariable;
-use App\Services\FrontendTranslations;
-use App\Services\Email;
 use App\Models\Message;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
+use App\Models\SocialMedia;
+use App\Services\Email;
+use App\Services\FrontendTranslations;
+use App\Services\GlobalVariable;
+use App\Services\GlobalView;
 use App\Services\SEO;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ContactController extends Controller
 {
-    protected $global_view, $global_variable, $translation, $social_media, $email, $seo;
+    protected $global_view;
+    protected $global_variable;
+    protected $translation;
+    protected $social_media;
+    protected $email;
+    protected $seo;
 
     public function __construct(
         GlobalView $global_view,
@@ -27,8 +32,7 @@ class ContactController extends Controller
         Email $email,
         Message $message,
         SEO $seo,
-    )
-    {
+    ) {
         $this->middleware(['xss', 'xss-sanitize', 'honeypot'])->only(['message']);
         $this->global_view = $global_view;
         $this->global_variable = $global_variable;
@@ -42,8 +46,6 @@ class ContactController extends Controller
     protected function boot()
     {
         $this->global_view->RenderView([
-            $this->global_variable->SiteLogo(),
-            $this->global_variable->SiteFavicon(),
             $this->global_variable->GoogleTagId(),
 
             // Translations
@@ -67,6 +69,7 @@ class ContactController extends Controller
     public function index()
     {
         $this->boot();
+
         return view('template.default.frontend.page.contact', array_merge([
         ]));
     }
@@ -85,7 +88,7 @@ class ContactController extends Controller
             activity()->causedBy(Auth::user())->log($this->translation->contact['messages']['message_sent']);
 
             $this->message->StoreMessage($contact);
-            activity()->causedBy(Auth::user())->performedOn(new Message)->log($this->translation->contact['messages']['store_success']);
+            activity()->causedBy(Auth::user())->performedOn(new Message())->log($this->translation->contact['messages']['store_success']);
 
             DB::commit();
 
@@ -96,12 +99,12 @@ class ContactController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
             $message = $th->getMessage();
-            activity()->causedBy(Auth::user())->performedOn(new Message)->log($message);
+            activity()->causedBy(Auth::user())->performedOn(new Message())->log($message);
             report($th->getMessage());
 
             return redirect()->route('site.contact')->with([
                 'error' => 'error',
-                'message' => $this->translation->contact['messages']['message_not_sent']
+                'message' => $this->translation->contact['messages']['message_not_sent'],
             ]);
         }
     }
@@ -113,62 +116,58 @@ class ContactController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
     }
 }

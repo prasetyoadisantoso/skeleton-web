@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'title' => "Open Graph",
+    'title' => 'Open Graph',
     'breadcrumb' => [
         'title' => 'Pengaturan Open Graph',
         'home' => 'Beranda',
@@ -29,7 +29,7 @@ return [
         'search' => 'Cari: ',
         'previous' => 'Sebelumnya',
         'next' => 'Selanjutnya',
-        'info' => "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+        'info' => 'Menampilkan _START_ sampai _END_ dari _TOTAL_ entri',
         'length_menu' => 'Tampilkan _MENU_ entri',
     ],
 
@@ -44,7 +44,7 @@ return [
         'type_placeholder' => 'Masukkan tipe konten...',
         'url' => 'Alamat URL :',
         'url_placeholder' => 'Masukkan alamat URL...',
-        'image' => 'Image: ',
+        'image' => 'Gambar: ',
         'image_placeholder' => 'Pilih gambar...',
     ],
 
@@ -59,9 +59,12 @@ return [
     ],
 
     'validation' => [
+        'name_required' => 'Nama Open Graph wajib diisi',
         'title_required' => 'Judul wajib diisi',
         'description_required' => 'Deskripsi wajib diisi',
-        'url_required' => 'Alamat url wajib diisi',
-        'type' => 'Tipe konten wajib diisi',
+        'url_required' => 'URL wajib diisi',
+        'site_name_required' => 'Nama situs wajib diisi',
+        'type_required' => 'Tipe wajib diisi',
+        'image_required' => 'Gambar wajib diisi',
     ],
 ];

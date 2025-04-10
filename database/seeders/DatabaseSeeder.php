@@ -39,6 +39,8 @@ class DatabaseSeeder extends Seeder
             MediaLibraryUserSeeder::class,
             MediaLibraryPostSeeder::class,
             MediaLibraryOpengraphSeeder::class,
+            HeaderMenusTableSeeder::class,
+            FooterMenusTableSeeder::class,
         ]);
     }
 }

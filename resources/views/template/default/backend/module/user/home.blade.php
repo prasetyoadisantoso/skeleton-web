@@ -224,7 +224,7 @@
                                     },
                                     buttonsStyling: false,
                                 }).then(() => {
-                                    location.reload();
+                                    $('#user_datatable').DataTable().ajax.reload();
                                 });
                             } else {
                                 Swal.fire({
@@ -232,7 +232,7 @@
                                     text: results.message,
                                     icon: "error",
                                 }).then(() => {
-                                    location.reload();
+                                    $('#user_datatable').DataTable().ajax.reload();
                                 });
                             }
                         }

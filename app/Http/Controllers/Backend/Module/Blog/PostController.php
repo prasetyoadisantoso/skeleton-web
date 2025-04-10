@@ -10,6 +10,7 @@ use App\Models\MediaLibrary;
 use App\Models\Meta;
 use App\Models\Opengraph;
 use App\Models\Post;
+use App\Models\Schemadata;
 use App\Models\Tag;
 use App\Services\BackendTranslations;
 use App\Services\FileManagement;
@@ -23,13 +24,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
-use App\Models\Schemadata;
 
 class PostController extends Controller
 {
     protected $global_view;
     protected $global_variable;
-    protected $translation;
+    protected $translations;
     protected $dataTables;
     protected $responseFormatter;
     protected $fileManagement;
@@ -98,11 +98,7 @@ class PostController extends Controller
             $this->global_variable->MessageNotification(),
 
             // Translations
-            $this->translation->header,
-            $this->translation->sidebar,
-            $this->translation->button,
             $this->translation->post,
-            $this->translation->notification,
 
             // Module
             $this->global_variable->ModuleType([
@@ -277,10 +273,8 @@ class PostController extends Controller
 
         $this->post->StorePost($verified_data);
 
-
         DB::beginTransaction();
         try {
-
             DB::commit();
             activity()->causedBy(Auth::user())->performedOn(new Post())->log($this->translation->post['messages']['store_success']);
 
@@ -367,6 +361,7 @@ class PostController extends Controller
             'schema' => $schema,
             'author' => $author,
             'published' => $published,
+            'category_select' => $category_select
         ]);
     }
 
@@ -386,12 +381,14 @@ class PostController extends Controller
         $meta = $post->metas()->first();
         $canonical = $post->canonicals()->first();
         $opengraph = $post->opengraphs()->first();
+        $schema = $post->schemadatas()->first();
 
         $category_select = $this->category->query()->get();
         $tag_select = $this->tag->query()->get();
         $meta_select = $this->meta->query()->get();
         $opengraph_select = $this->opengraph->query()->get();
         $canonical_select = $this->canonical->query()->get();
+        $schema_select = $this->schema->query()->get();
 
         foreach ($tag as $value) {
             $tag_selection[] = $value->id;
@@ -419,6 +416,7 @@ class PostController extends Controller
                 'meta' => $meta,
                 'opengraph' => $opengraph,
                 'canonical' => $canonical,
+                'schema' => $schema,
 
                 'category_select' => $category_select,
                 'tag_select' => $tag_select,
@@ -426,6 +424,7 @@ class PostController extends Controller
                 'meta_select' => $meta_select,
                 'opengraph_select' => $opengraph_select,
                 'canonical_select' => $canonical_select,
+                'schema_select' => $schema_select,
             ]
         ));
     }
@@ -554,7 +553,6 @@ class PostController extends Controller
     {
         DB::beginTransaction();
         try {
-
             $post = $this->post->GetPostByID($id); // Ambil data postingan
 
             // Detach all media libraries and delete the associated files

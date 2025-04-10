@@ -5,6 +5,11 @@ return [
         // Dashboard
         'dashboard' => 'Dashboard',
 
+        // Navigation
+        'navigation' => 'Navigation',
+        'headermenu' => 'Header Menu',
+        'footermenu' => 'Footer Menu',
+
         // Media Library
         'medialibrary' => 'Media Library',
         'media_management' => 'Media Management',

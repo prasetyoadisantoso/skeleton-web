@@ -46,15 +46,15 @@
 
                     @csrf
                     <div class="form-group mx-3 my-3">
-                        <label for="inputName" class="">{{$form['name']}}</label>
-                        <label for="inputUrl" class="">{{$form['url']}}</label>
                         <div class="mb-3">
-                            <input name="name" type="text" class="form-control" id="url"
-                                placeholder="{{$form['url_placeholder']}}" value="{{$type == "edit" &&
+                            <label for="inputName" class="">{{$form['name']}}</label>
+                            <input name="name" type="text" class="form-control" id="name"
+                                placeholder="{{$form['name_placeholder']}}" value="{{$type == "edit" &&
                                 isset($canonical) ? $canonical->name : ''}}" required>
                             <div class="error-url"></div>
                         </div>
                         <div class="mb-3">
+                            <label for="inputUrl" class="">{{$form['url']}}</label>
                             <input name="url" type="text" class="form-control" id="url"
                                 placeholder="{{$form['url_placeholder']}}" value="{{$type == "edit" &&
                                 isset($canonical) ? $canonical->url : ''}}" required>

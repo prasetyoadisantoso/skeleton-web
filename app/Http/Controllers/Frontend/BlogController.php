@@ -6,16 +6,22 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
+use App\Services\FrontendTranslations;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
 use App\Services\SEO;
-use App\Services\FrontendTranslations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 class BlogController extends Controller
 {
-    protected $global_view, $global_variable, $translation, $post, $category, $tag, $seo;
+    protected $global_view;
+    protected $global_variable;
+    protected $translation;
+    protected $post;
+    protected $category;
+    protected $tag;
+    protected $seo;
 
     public function __construct(
         GlobalView $global_view,
@@ -37,8 +43,6 @@ class BlogController extends Controller
     protected function boot()
     {
         $this->global_view->RenderView([
-            $this->global_variable->SiteLogo(),
-            $this->global_variable->SiteFavicon(),
             $this->global_variable->GoogleTagId(),
 
             // Translations
@@ -63,6 +67,7 @@ class BlogController extends Controller
         $posts = $this->post->query()->latest()->paginate(5);
         $categories = $this->category->query()->get();
         $tags = $this->tag->query()->get();
+
         return view('template.default.frontend.page.blog', array_merge([
             'posts' => $posts,
             'categories' => $categories,
@@ -83,11 +88,12 @@ class BlogController extends Controller
 
             $input = $request->only(['search']);
 
-            $posts = $this->post->query()->where('content', 'like', "%" . $input['search'] . "%")->orWhere('title', 'like', "%" . $input['search'] . "%")->paginate(5);
+            $posts = $this->post->query()->where('content', 'like', '%'.$input['search'].'%')->orWhere('title', 'like', '%'.$input['search'].'%')->paginate(5);
             $categories = $this->category->query()->get();
             $tags = $this->tag->query()->get();
         } catch (\Throwable $th) {
             report($th->getMessage());
+
             return redirect()->back();
         }
 
@@ -103,7 +109,7 @@ class BlogController extends Controller
         ]));
     }
 
-    public function category($category,  SEO $seo)
+    public function category($category, SEO $seo)
     {
         $this->boot();
         $posts = $this->post->query()->whereHas('categories', function ($query) use ($category) {

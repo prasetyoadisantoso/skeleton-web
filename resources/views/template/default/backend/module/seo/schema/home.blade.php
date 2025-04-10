@@ -201,7 +201,7 @@
                                 },
                                 buttonsStyling: false,
                             }).then(() => {
-                                location.reload();
+                                $('#schema_datatable').DataTable().ajax.reload();
                             });
                         } else {
                             Swal.fire({
@@ -209,7 +209,7 @@
                                 text: results.message,
                                 icon: "error",
                             }).then(() => {
-                                location.reload();
+                                $('#schema_datatable').DataTable().ajax.reload();
                             });
                         }
                     }

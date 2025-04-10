@@ -149,7 +149,7 @@
                                 },
                                 buttonsStyling: false,
                             }).then(() => {
-                                location.reload();
+                                $('#category_datatable').DataTable().ajax.reload();
                             });
                         } else {
                             Swal.fire({
@@ -157,7 +157,7 @@
                                 text: results.message,
                                 icon: "error",
                             }).then(() => {
-                                location.reload();
+                                $('#category_datatable').DataTable().ajax.reload();
                             });
                         }
                     }

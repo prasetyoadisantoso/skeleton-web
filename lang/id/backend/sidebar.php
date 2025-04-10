@@ -5,6 +5,11 @@ return [
         // Dashboard
         'dashboard' => 'Dasbor',
 
+        // Navigation
+        'navigation' => 'Navigasi',
+        'headermenu' => 'Header Menu',
+        'footermenu' => 'Footer Menu',
+
         // Media Library
         'medialibrary' => 'Pustaka Media',
         'media_management' => 'Manajemen Media',

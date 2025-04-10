@@ -35,7 +35,7 @@
 
     {{-- Google Tag ID --}}
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{$google_tag}}"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id="></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -47,17 +47,17 @@
 
 <body>
 
-    <header>
+    <header class="container-fluid">
         @include('template.default.frontend.section.header')
     </header>
 
-    <main>
+    <main class="container-fluid">
         @yield('home')
         @yield('blog')
         @yield('contact')
     </main>
 
-    <footer class=" text-center text-lg-start mt-5">
+    <footer class="container-fluid text-center text-lg-start mt-5">
         @include('template.default.frontend.section.footer')
     </footer>
 
@@ -65,8 +65,6 @@
     <script src="{{asset('template/default/assets/js/jquery-3.6.1.min.js')}}"></script>
     <!-- Bootstrap JS -->
     <script src="{{asset('template/default/assets/js/bootstrap.bundle.min.js')}}"></script>
-    <!-- Tween JS -->
-    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
     <!-- Customer JS     -->
     <script src="{{asset('template/default/assets/js/main.js')}}"></script>
 

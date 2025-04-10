@@ -50,31 +50,30 @@ class GlobalVariable
         ];
     }
 
-    public function SiteLogo()
-    {
-        $general = $this->general->query()->first();
-        $siteLogo = $general->siteLogo; // Access the relationship
+    // public function SiteLogo()
+    // {
+    //     $general = $this->general->query()->first();
+    //     $siteLogo = $general->siteLogo; // Access the relationship
 
-        return [
-            'site_logo' => $siteLogo ? Storage::url($siteLogo->media_files) : null, // Use optional chaining
-        ];
-    }
+    //     return [
+    //         'site_logo' => $siteLogo ? Storage::url($siteLogo->media_files) : null, // Use optional chaining
+    //     ];
+    // }
 
-    public function SiteFavicon()
-    {
-        $general = $this->general->query()->first();
-        $siteFavicon = $general->siteFavicon; // Access the relationship
+    // public function SiteFavicon()
+    // {
+    //     $general = $this->general->query()->first();
+    //     $siteFavicon = $general->siteFavicon; // Access the relationship
 
-        return [
-            'site_favicon' => $siteFavicon ? Storage::url($siteFavicon->media_files) : null, // Use optional chaining
-        ];
-    }
+    //     return [
+    //         'site_favicon' => $siteFavicon ? Storage::url($siteFavicon->media_files) : null, // Use optional chaining
+    //     ];
+    // }
 
     public static function SitesLogo()
     {
         $general = General::first(); // Use General::first() instead of new General()
         $siteLogo = $general->siteLogo;
-
         return [
             'site_logo' => $siteLogo ? Storage::url($siteLogo->media_files) : null,
         ];

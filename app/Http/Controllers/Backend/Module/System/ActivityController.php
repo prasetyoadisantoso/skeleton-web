@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Backend\Module\System;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\BackendTranslations;
 use App\Services\FileManagement;
 use App\Services\GlobalVariable;
 use App\Services\GlobalView;
 use App\Services\ResponseFormatter;
-use App\Services\BackendTranslations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Models\Activity;
@@ -16,7 +16,14 @@ use Yajra\DataTables\DataTables;
 
 class ActivityController extends Controller
 {
-    protected $global_view, $global_variable, $translation, $dataTables, $responseFormatter, $fileManagement, $activity, $user;
+    protected $global_view;
+    protected $global_variable;
+    protected $translation;
+    protected $dataTables;
+    protected $responseFormatter;
+    protected $fileManagement;
+    protected $activity;
+    protected $user;
 
     public function __construct(
         GlobalView $global_view,
@@ -53,7 +60,6 @@ class ActivityController extends Controller
             $this->global_variable->SystemLanguage(),
             $this->global_variable->AuthUserName(),
             $this->global_variable->SystemName(),
-            $this->global_variable->SiteLogo(),
             $this->global_variable->MessageNotification(),
 
             // Translations
@@ -74,7 +80,6 @@ class ActivityController extends Controller
                 'activity-home-js',
                 'activity-form-js',
             ]),
-
         ]);
     }
 
@@ -86,6 +91,7 @@ class ActivityController extends Controller
     public function index()
     {
         $this->boot();
+
         return view('template.default.backend.module.system.activity.home', array_merge(
             $this->global_variable->PageType('index')
         ));
@@ -99,6 +105,7 @@ class ActivityController extends Controller
             })
             ->addColumn('user', function ($activity) {
                 $user = $this->user->GetUserByID($activity->causer_id);
+
                 return $user;
             })
             ->addColumn('activity', function ($activity) {
@@ -123,58 +130,55 @@ class ActivityController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -191,25 +195,24 @@ class ActivityController extends Controller
                 $status = 'error';
             }
 
-            ///  Return response
+            // /  Return response
             return response()->json(['status' => $status]);
         } catch (\Throwable$th) {
             DB::rollback();
             $message = $th->getMessage();
             report($message);
+
             return redirect()->back()->with([
                 'error' => 'error',
-                "title" => $this->translation->notification['error'],
-                "content" => $message,
+                'title' => $this->translation->notification['error'],
+                'content' => $message,
             ]);
-
         }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function empty()
@@ -218,16 +221,18 @@ class ActivityController extends Controller
         try {
             DB::table('activity_log')->delete();
             DB::commit();
-            ///  Return response
+
+            // /  Return response
             return response()->json(['status' => 'success']);
         } catch (\Throwable$th) {
             DB::rollback();
             $message = $th->getMessage();
             report($message);
+
             return redirect()->back()->with([
                 'error' => 'error',
-                "title" => $this->translation->notification['error'],
-                "content" => $message,
+                'title' => $this->translation->notification['error'],
+                'content' => $message,
             ]);
         }
     }

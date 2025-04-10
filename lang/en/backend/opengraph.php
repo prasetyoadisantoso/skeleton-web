@@ -65,5 +65,6 @@ return [
         'url_required' => 'URL is required',
         'site_name_required' => 'Site name is required',
         'type_required' => 'Type is required',
+        'image_required' => 'Image is required',
     ],
 ];

@@ -63,11 +63,7 @@ class SchemaController extends Controller
             $this->global_variable->MessageNotification(),
 
             // Translations
-            $this->translation->header,
-            $this->translation->sidebar,
-            $this->translation->button,
             $this->translation->schema, // Add schema translations
-            $this->translation->notification,
 
             // Module
             $this->global_variable->ModuleType([
