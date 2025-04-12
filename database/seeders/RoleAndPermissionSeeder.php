@@ -49,6 +49,17 @@ class RoleAndPermissionSeeder extends Seeder
             'footermenu-destroy',
 
             /* -------------------------------------------------------------------------- */
+            /*                                   Content */
+            /* -------------------------------------------------------------------------- */
+            // Content Image
+            'contentimage-index',
+            'contentimage-create',
+            'contentimage-store',
+            'contentimage-edit',
+            'contentimage-update',
+            'contentimage-destroy',
+
+            /* -------------------------------------------------------------------------- */
             /*                                    Blog */
             /* -------------------------------------------------------------------------- */
 
@@ -213,6 +224,7 @@ class RoleAndPermissionSeeder extends Seeder
             /* -------------------------------------------------------------------------- */
             'main-sidebar',
             'navigation-sidebar', // Tambahkan ini untuk grup navigasi
+            'content-sidebar',
             'blog-sidebar',
             'medialibrary-sidebar',
             'setting-sidebar',
@@ -261,6 +273,14 @@ class RoleAndPermissionSeeder extends Seeder
             'footermenu-edit',
             'footermenu-update',
             'footermenu-destroy',
+
+            // Content
+            'contentimage-index',
+            'contentimage-create',
+            'contentimage-store',
+            'contentimage-edit',
+            'contentimage-update',
+            'contentimage-destroy',
 
             /* Blog */
             'post-index',
@@ -389,6 +409,7 @@ class RoleAndPermissionSeeder extends Seeder
             /* Sidebar */
             'main-sidebar',
             'navigation-sidebar',
+            'content-sidebar',
             'blog-sidebar',
             'setting-sidebar',
             'email-sidebar',

@@ -42,6 +42,7 @@ class PostController extends Controller
     protected $upload;
     protected $medialibrary;
     protected $schema;
+    protected $translation;
 
     public function __construct(
         GlobalView $global_view,

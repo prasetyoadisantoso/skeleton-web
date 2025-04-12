@@ -10,6 +10,10 @@ return [
         'headermenu' => 'Header Menu',
         'footermenu' => 'Footer Menu',
 
+        // Content
+        'content' => 'Content',
+        'content_image' => 'Content Image',
+
         // Media Library
         'medialibrary' => 'Media Library',
         'media_management' => 'Media Management',

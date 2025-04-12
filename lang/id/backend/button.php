@@ -1,4 +1,5 @@
 <?php
+
 return [
     'button' => [
         'store' => 'Simpan',
@@ -16,5 +17,8 @@ return [
         'reset' => 'Setel Ulang',
         'send' => 'Kirim',
         'generate' => 'Generate',
+        'delete_selected' => 'Hapus yang Dipilih',
+        'ok' => 'OK',
+        'confirm_delete' => 'Ya, hapus!', // Atau sesuaikan dengan tombol konfirmasi lain
     ],
 ];

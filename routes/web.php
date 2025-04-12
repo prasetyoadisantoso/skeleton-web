@@ -4,6 +4,7 @@ use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Backend\Module\Blog\CategoryController;
 use App\Http\Controllers\Backend\Module\Blog\PostController;
 use App\Http\Controllers\Backend\Module\Blog\TagController;
+use App\Http\Controllers\Backend\Module\ContentImage\ContentImageController;
 use App\Http\Controllers\Backend\Module\Email\MessageController;
 use App\Http\Controllers\Backend\Module\Main\MainController;
 use App\Http\Controllers\Backend\Module\MediaLibrary\MediaLibraryController;
@@ -140,12 +141,22 @@ Route::group(
                 HeaderMenuController::class,
                 'index_dt',
             ])->name('headermenu.datatable');
-
+            /* ------------------------------- Footer Menu ------------------------------ */
             Route::resource('footermenu', FooterMenuController::class);
             Route::get('footermenu_datatable', [
                 FooterMenuController::class,
                 'index_dt',
             ])->name('footermenu.datatable');
+
+            // Content Image (BARU)
+            Route::post('content-image/bulk-delete', [ContentImageController::class, 'bulkDestroy'])
+            ->name('content-image.bulk-destroy');
+
+            Route::resource('content-image', ContentImageController::class);
+            Route::get('contentimage_datatable', [
+                ContentImageController::class,
+                'index_dt',
+            ])->name('content-image.datatable'); // Sesuaikan nama route
 
             // Media Library
             Route::resource('media-library', MediaLibraryController::class);

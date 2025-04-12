@@ -10,6 +10,10 @@ return [
         'headermenu' => 'Header Menu',
         'footermenu' => 'Footer Menu',
 
+        // Content
+        'content' => 'Konten',
+        'content_image' => 'Gambar Konten',
+
         // Media Library
         'medialibrary' => 'Pustaka Media',
         'media_management' => 'Manajemen Media',

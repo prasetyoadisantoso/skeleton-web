@@ -22,6 +22,8 @@
 
         @include('template.default.backend.module.sidebar.navigation')
 
+        @include('template.default.backend.module.sidebar.content')
+
         @include('template.default.backend.module.sidebar.medialibrary')
 
         @include('template.default.backend.module.sidebar.blog')

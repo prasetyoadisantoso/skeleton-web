@@ -157,7 +157,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getUsersQueries()
     {
-        return $this->query()->with('medialibraries');
+        return $this->query()->with('medialibraries', 'roles');
     }
 
     // Relations to Medialibrary
