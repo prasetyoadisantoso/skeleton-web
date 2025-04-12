@@ -13,6 +13,8 @@ return [
         // Content
         'content' => 'Content',
         'content_image' => 'Content Image',
+        'content_text' => 'Content Text',
+
 
         // Media Library
         'medialibrary' => 'Media Library',

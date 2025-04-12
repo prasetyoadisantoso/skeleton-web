@@ -13,6 +13,7 @@ return [
         // Content
         'content' => 'Konten',
         'content_image' => 'Gambar Konten',
+        'content_text' => 'Teks Konten',
 
         // Media Library
         'medialibrary' => 'Pustaka Media',

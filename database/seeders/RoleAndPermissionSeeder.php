@@ -59,6 +59,14 @@ class RoleAndPermissionSeeder extends Seeder
             'contentimage-update',
             'contentimage-destroy',
 
+            // Content Text
+            'contenttext-index', // <-- BARU
+            'contenttext-create', // <-- BARU
+            'contenttext-store', // <-- BARU
+            'contenttext-edit', // <-- BARU
+            'contenttext-update', // <-- BARU
+            'contenttext-destroy', // <-- BARU
+
             /* -------------------------------------------------------------------------- */
             /*                                    Blog */
             /* -------------------------------------------------------------------------- */
@@ -281,6 +289,13 @@ class RoleAndPermissionSeeder extends Seeder
             'contentimage-edit',
             'contentimage-update',
             'contentimage-destroy',
+
+            'contenttext-index', // <-- BARU
+            'contenttext-create', // <-- BARU
+            'contenttext-store', // <-- BARU
+            'contenttext-edit', // <-- BARU
+            'contenttext-update', // <-- BARU
+            'contenttext-destroy', // <-- BARU
 
             /* Blog */
             'post-index',

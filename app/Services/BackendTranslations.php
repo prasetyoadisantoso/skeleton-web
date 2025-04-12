@@ -32,6 +32,7 @@ class BackendTranslations
         $this->header_menu = __('backend/headermenu');
         $this->footer_menu = __('backend/footermenu');
         $this->contentimage = __('backend/contentimage');
+        $this->contenttext = __('backend/contenttext');
 
         // Post Dashboard
         $this->post = __('backend/post');

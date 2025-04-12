@@ -1,5 +1,5 @@
 <!-- Start Sidebar -->
-<div class="bg-crimson" id="sidebar">
+<div class="bg-dark" id="sidebar">
 
     <!-- Start Sidebar Heading -->
     <div class="sidebar-heading my-1">

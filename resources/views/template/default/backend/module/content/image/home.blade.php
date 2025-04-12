@@ -95,7 +95,7 @@
         paging: true,
         // Menyamakan pageLength & lengthMenu dengan medialibrary
         pageLength: 5,
-        lengthMenu: [ 5, 10, 25 ],
+        lengthMenu: [ 5, 10, 25, 50, 100],
         columns: [
             {
                 // 1. Kolom Checkbox

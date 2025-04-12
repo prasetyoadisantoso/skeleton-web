@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
             MediaLibraryOpengraphSeeder::class,
             HeaderMenusTableSeeder::class,
             FooterMenusTableSeeder::class,
+            ContentSeeder::class,
         ]);
     }
 }

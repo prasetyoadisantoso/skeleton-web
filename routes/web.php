@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\Module\Blog\CategoryController;
 use App\Http\Controllers\Backend\Module\Blog\PostController;
 use App\Http\Controllers\Backend\Module\Blog\TagController;
 use App\Http\Controllers\Backend\Module\ContentImage\ContentImageController;
+use App\Http\Controllers\Backend\Module\ContentText\ContentTextController;
 use App\Http\Controllers\Backend\Module\Email\MessageController;
 use App\Http\Controllers\Backend\Module\Main\MainController;
 use App\Http\Controllers\Backend\Module\MediaLibrary\MediaLibraryController;
@@ -135,13 +136,11 @@ Route::group(
             );
 
             // Navigation
-            /* ------------------------------- Header Menu ------------------------------ */
             Route::resource('headermenu', HeaderMenuController::class);
             Route::get('headermenu_datatable', [
                 HeaderMenuController::class,
                 'index_dt',
             ])->name('headermenu.datatable');
-            /* ------------------------------- Footer Menu ------------------------------ */
             Route::resource('footermenu', FooterMenuController::class);
             Route::get('footermenu_datatable', [
                 FooterMenuController::class,
@@ -157,6 +156,17 @@ Route::group(
                 ContentImageController::class,
                 'index_dt',
             ])->name('content-image.datatable'); // Sesuaikan nama route
+
+            // Content Text (BARU)
+            Route::post('content-text/bulk-delete', [ContentTextController::class, 'bulkDestroy'])
+            ->name('content-text.bulk-destroy')
+            ->middleware(['permission:contenttext-destroy']); // Ganti permission
+
+            Route::resource('content-text', ContentTextController::class);
+            Route::get('contenttext_datatable', [
+                ContentTextController::class,
+                'index_dt',
+            ])->name('content-text.datatable'); // Ganti nama route
 
             // Media Library
             Route::resource('media-library', MediaLibraryController::class);
