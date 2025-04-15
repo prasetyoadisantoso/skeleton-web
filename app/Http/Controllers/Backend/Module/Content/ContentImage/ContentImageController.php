@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Backend\Module\ContentImage;
+namespace App\Http\Controllers\Backend\Module\Content\ContentImage;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContentImageFormRequest; // Akan dibuat nanti
@@ -61,7 +61,6 @@ class ContentImageController extends Controller
 
     protected function boot()
     {
-
         // Share global variables and translations to the view
         return $this->global_view->RenderView([
             // Global Variable
@@ -376,7 +375,8 @@ class ContentImageController extends Controller
     /**
      * Remove multiple specified resources from storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function bulkDestroy(ContentImageFormRequest $request) // <-- Ganti type hint
@@ -402,32 +402,32 @@ class ContentImageController extends Controller
                 activity()
                     ->causedBy(Auth::user())
                     ->performedOn(new ContentImage()) // Target umum
-                    ->log(($this->translation->contentimage['messages']['bulk_delete_success'] ?? 'Bulk delete success') . ' (' . $deletedCount . ' items)'); // Gunakan fallback jika translation tidak ada
+                    ->log(($this->translation->contentimage['messages']['bulk_delete_success'] ?? 'Bulk delete success').' ('.$deletedCount.' items)'); // Gunakan fallback jika translation tidak ada
 
                 return response()->json([
                     'status' => 'success',
-                    'message' => ($this->translation->contentimage['messages']['bulk_delete_success'] ?? '{count} items deleted successfully.') . ' (' . $deletedCount . ' items)' // Gunakan fallback
+                    'message' => ($this->translation->contentimage['messages']['bulk_delete_success'] ?? '{count} items deleted successfully.').' ('.$deletedCount.' items)', // Gunakan fallback
                 ]);
             } else {
                 // Jika tidak ada yang terhapus (mungkin ID tidak valid setelah validasi UUID)
                 DB::rollBack(); // Rollback jika tidak ada yang terhapus
+
                 return response()->json([
                     'status' => 'error',
-                    'message' => $this->translation->contentimage['messages']['none_deleted'] ?? 'No matching items found or deleted.' // Gunakan fallback
+                    'message' => $this->translation->contentimage['messages']['none_deleted'] ?? 'No matching items found or deleted.', // Gunakan fallback
                 ], 404); // Not Found atau Bad Request
             }
-
         } catch (\Throwable $th) {
             DB::rollback();
-            Log::error('Bulk Content Image Delete Error: ' . $th->getMessage() . ' Trace: ' . $th->getTraceAsString());
+            Log::error('Bulk Content Image Delete Error: '.$th->getMessage().' Trace: '.$th->getTraceAsString());
             activity()
                 ->causedBy(Auth::user())
                 ->performedOn(new ContentImage())
-                ->log('Bulk delete failed: ' . $th->getMessage());
+                ->log('Bulk delete failed: '.$th->getMessage());
 
             return response()->json([
                 'status' => 'error',
-                'message' => ($this->translation->contentimage['messages']['bulk_delete_failed'] ?? 'Failed to delete items.') . ': ' . $th->getMessage() // Gunakan fallback
+                'message' => ($this->translation->contentimage['messages']['bulk_delete_failed'] ?? 'Failed to delete items.').': '.$th->getMessage(), // Gunakan fallback
             ], 500); // Internal Server Error
         }
     }

@@ -4,8 +4,9 @@ use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Backend\Module\Blog\CategoryController;
 use App\Http\Controllers\Backend\Module\Blog\PostController;
 use App\Http\Controllers\Backend\Module\Blog\TagController;
-use App\Http\Controllers\Backend\Module\ContentImage\ContentImageController;
-use App\Http\Controllers\Backend\Module\ContentText\ContentTextController;
+use App\Http\Controllers\Backend\Module\Template\Component\ComponentController;
+use App\Http\Controllers\Backend\Module\Content\ContentImage\ContentImageController;
+use App\Http\Controllers\Backend\Module\Content\ContentText\ContentTextController;
 use App\Http\Controllers\Backend\Module\Email\MessageController;
 use App\Http\Controllers\Backend\Module\Main\MainController;
 use App\Http\Controllers\Backend\Module\MediaLibrary\MediaLibraryController;
@@ -146,6 +147,15 @@ Route::group(
                 FooterMenuController::class,
                 'index_dt',
             ])->name('footermenu.datatable');
+
+            // Component (CRUD Dasar)
+            Route::post('component/bulk-delete', [ComponentController::class, 'bulkDestroy'])
+                ->name('component.bulk-destroy');
+            Route::resource('component', ComponentController::class); // Ini mencakup index, create, store, edit, update, destroy
+            Route::get('component_datatable', [
+                ComponentController::class,
+                'index_dt',
+            ])->name('component.datatable');
 
             // Content Image (BARU)
             Route::post('content-image/bulk-delete', [ContentImageController::class, 'bulkDestroy'])

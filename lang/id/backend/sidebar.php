@@ -10,6 +10,11 @@ return [
         'headermenu' => 'Header Menu',
         'footermenu' => 'Footer Menu',
 
+        // Template
+        'template' => 'Template', // Baru
+        'component' => 'Komponen', // Sudah ada
+        'page' => 'Halaman', // Baru
+
         // Content
         'content' => 'Konten',
         'content_image' => 'Gambar Konten',

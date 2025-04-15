@@ -10,11 +10,15 @@ return [
         'headermenu' => 'Header Menu',
         'footermenu' => 'Footer Menu',
 
+        // Template
+        'template' => 'Template', // New
+        'component' => 'Components', // Existing
+        'page' => 'Page', // New
+
         // Content
         'content' => 'Content',
         'content_image' => 'Content Image',
         'content_text' => 'Content Text',
-
 
         // Media Library
         'medialibrary' => 'Media Library',

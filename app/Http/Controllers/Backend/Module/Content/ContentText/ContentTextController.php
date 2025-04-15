@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Backend\Module\ContentText;
+namespace App\Http\Controllers\Backend\Module\Content\ContentText;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContentTextFormRequest; // Akan dibuat nanti

@@ -22,7 +22,6 @@ class ContentText extends Model
 
     protected $translatable = ['content'];
 
-
     /**
      * Boot function from Laravel.
      */
@@ -34,12 +33,23 @@ class ContentText extends Model
         });
     }
 
+     /**
+     * The Components that this ContentImage belongs to.
+     */
+    public function components()
+    {
+        // Definisikan relasi ke Component melalui pivot table
+        return $this->belongsToMany(Component::class, 'component_content_text')
+                    ->withPivot('order'); // Sertakan order jika perlu diakses dari sisi ContentImage
+    }
+
     // --- Optional CRUD Helper Methods ---
 
     /**
      * Get ContentText by ID.
      *
      * @param string|null $id
+     *
      * @return ContentText|null
      */
     public function getContentTextById($id = null)
@@ -61,6 +71,7 @@ class ContentText extends Model
      * Store a new ContentText.
      *
      * @param array|null $data
+     *
      * @return ContentText
      */
     public function storeContentText($data = null)
@@ -71,8 +82,9 @@ class ContentText extends Model
     /**
      * Update an existing ContentText.
      *
-     * @param string $id
+     * @param string     $id
      * @param array|null $data
+     *
      * @return ContentText|null
      */
     public function updateContentText($id, $data = null)
@@ -81,6 +93,7 @@ class ContentText extends Model
         if ($contentText) {
             $contentText->update($data);
         }
+
         return $contentText;
     }
 
@@ -88,6 +101,7 @@ class ContentText extends Model
      * Delete a ContentText.
      *
      * @param string $id
+     *
      * @return bool
      */
     public function deleteContentText($id)
@@ -96,6 +110,8 @@ class ContentText extends Model
         if ($contentText) {
             return $contentText->delete();
         }
+
         return false;
     }
+
 }

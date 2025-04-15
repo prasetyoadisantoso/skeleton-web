@@ -53,6 +53,7 @@
     <script src="{{asset('template/default/assets/select2/dist/js/select2.full.min.js')}}"></script>
     <script src="{{asset('template/default/assets/js/dashboard.js')}}"></script>
     <script src="{{asset('template/default/assets/datatables/datatables.min.js')}}"></script>
+    <script src="{{ asset('template/default/assets/sortable/Sortable.min.js') }}"></script>
 
     {{-- Script Type --}}
     @foreach ($script as $item)

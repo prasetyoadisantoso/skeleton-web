@@ -67,7 +67,7 @@ class BootServiceProvider extends ServiceProvider
             view()->share(GlobalVariable::SitesLogo());
             view()->share(GlobalVariable::SitesFavicon());
         } catch (\Throwable $th) {
-            return redirect()->route('dashboard.main');
+            return redirect(url('/'));
         }
     }
 

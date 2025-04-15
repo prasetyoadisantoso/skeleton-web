@@ -20,6 +20,8 @@
 
         @include('template.default.backend.module.sidebar.main')
 
+        @include('template.default.backend.module.sidebar.component')
+
         @include('template.default.backend.module.sidebar.navigation')
 
         @include('template.default.backend.module.sidebar.content')

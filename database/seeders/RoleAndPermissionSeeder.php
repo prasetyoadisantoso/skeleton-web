@@ -28,6 +28,17 @@ class RoleAndPermissionSeeder extends Seeder
             'main-index',
 
             /* -------------------------------------------------------------------------- */
+            /*                                  Component */
+            /* -------------------------------------------------------------------------- */
+            'component-index',
+            'component-create',
+            'component-store',
+            'component-show', // Meskipun mungkin tidak digunakan, untuk konsistensi
+            'component-edit',
+            'component-update',
+            'component-destroy',
+
+            /* -------------------------------------------------------------------------- */
             /*                                 Navigation */
             /* -------------------------------------------------------------------------- */
             // Header Menu (Tambahkan ini)
@@ -233,6 +244,7 @@ class RoleAndPermissionSeeder extends Seeder
             'main-sidebar',
             'navigation-sidebar', // Tambahkan ini untuk grup navigasi
             'content-sidebar',
+            'template-sidebar',
             'blog-sidebar',
             'medialibrary-sidebar',
             'setting-sidebar',
@@ -264,6 +276,15 @@ class RoleAndPermissionSeeder extends Seeder
 
             /* Main */
             'main-index',
+
+            /* Component */
+            'component-index',
+            'component-create',
+            'component-store',
+            'component-show',
+            'component-edit',
+            'component-update',
+            'component-destroy',
 
             /* Navigation (Tambahkan ini) */
             'headermenu-index',
@@ -423,6 +444,7 @@ class RoleAndPermissionSeeder extends Seeder
 
             /* Sidebar */
             'main-sidebar',
+            'template-sidebar',
             'navigation-sidebar',
             'content-sidebar',
             'blog-sidebar',

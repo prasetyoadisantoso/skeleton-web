@@ -47,6 +47,16 @@ class ContentImage extends Model
         return $this->belongsTo(MediaLibrary::class, 'media_library_id');
     }
 
+    /**
+     * The Components that this ContentImage belongs to.
+     */
+    public function components()
+    {
+        // Definisikan relasi ke Component melalui pivot table
+        return $this->belongsToMany(Component::class, 'component_content_image')
+                    ->withPivot('order'); // Sertakan order jika perlu diakses dari sisi ContentImage
+    }
+
     // --- Optional CRUD Helper Methods ---
 
     /**
