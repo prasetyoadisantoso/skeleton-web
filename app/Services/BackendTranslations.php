@@ -5,8 +5,6 @@ namespace App\Services;
 #[\AllowDynamicProperties]
 class BackendTranslations
 {
-
-
     public function __construct()
     {
         /* -------------------------------------------------------------------------- */
@@ -36,6 +34,7 @@ class BackendTranslations
 
         // Template
         $this->component = __('backend/component');
+        $this->section = __('backend/section');
 
         // Content
         $this->contentimage = __('backend/contentimage');

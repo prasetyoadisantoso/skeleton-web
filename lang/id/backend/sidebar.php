@@ -13,6 +13,7 @@ return [
         // Template
         'template' => 'Template', // Baru
         'component' => 'Komponen', // Sudah ada
+        'section' => 'Section',
         'page' => 'Halaman', // Baru
 
         // Content

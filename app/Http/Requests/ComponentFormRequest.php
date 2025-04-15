@@ -2,17 +2,17 @@
 
 namespace App\Http\Requests;
 
+use App\Models\ContentImage;
+use App\Models\ContentText;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Arr;
-use App\Models\ContentText;
-use App\Models\ContentImage;
 
 class ComponentFormRequest extends FormRequest
 {
-    public $validator = null;
+    public $validator;
 
     public function authorize(): bool
     {
@@ -46,14 +46,18 @@ class ComponentFormRequest extends FormRequest
                 'nullable',
                 'array',
                 function ($attribute, $value, $fail) {
-                    if (!is_array($value)) return; // Sudah dicek rule 'array'
+                    if (!is_array($value)) {
+                        return;
+                    } // Sudah dicek rule 'array'
                     $ids = [];
                     foreach ($value as $index => $item) {
                         if (!is_array($item) || !Arr::has($item, ['id', 'order'])) {
-                            $fail("Each item in {$attribute} must have 'id' and 'order' keys at index {$index}."); return;
+                            $fail("Each item in {$attribute} must have 'id' and 'order' keys at index {$index}.");
+
+                            return;
                         }
                         if (!is_string($item['id']) || !preg_match('/^[a-f\d]{8}(-[a-f\d]{4}){4}[a-f\d]{8}$/i', $item['id'])) {
-                             $fail("The image id '{$item['id']}' at index {$index} in {$attribute} is not a valid UUID.");
+                            $fail("The image id '{$item['id']}' at index {$index} in {$attribute} is not a valid UUID.");
                         }
                         if (!is_int($item['order']) || $item['order'] < 0) {
                             $fail("The order '{$item['order']}' at index {$index} in {$attribute} must be a non-negative integer.");
@@ -64,10 +68,10 @@ class ComponentFormRequest extends FormRequest
                         $ids[] = $item['id'];
                     }
                     if (!empty($ids)) {
-                        $existingIds = \App\Models\ContentImage::whereIn('id', $ids)->pluck('id')->all();
+                        $existingIds = ContentImage::whereIn('id', $ids)->pluck('id')->all();
                         $nonExistingIds = array_diff($ids, $existingIds);
                         if (!empty($nonExistingIds)) {
-                             $fail('The following content image IDs in '.$attribute.' do not exist: '.implode(', ', $nonExistingIds));
+                            $fail('The following content image IDs in '.$attribute.' do not exist: '.implode(', ', $nonExistingIds));
                         }
                     }
                 },
@@ -78,14 +82,18 @@ class ComponentFormRequest extends FormRequest
                 'nullable',
                 'array',
                 function ($attribute, $value, $fail) {
-                    if (!is_array($value)) return; // Sudah dicek rule 'array'
+                    if (!is_array($value)) {
+                        return;
+                    } // Sudah dicek rule 'array'
                     $ids = [];
                     foreach ($value as $index => $item) {
                         if (!is_array($item) || !Arr::has($item, ['id', 'order'])) {
-                            $fail("Each item in {$attribute} must have 'id' and 'order' keys at index {$index}."); return;
+                            $fail("Each item in {$attribute} must have 'id' and 'order' keys at index {$index}.");
+
+                            return;
                         }
                         if (!is_string($item['id']) || !preg_match('/^[a-f\d]{8}(-[a-f\d]{4}){4}[a-f\d]{8}$/i', $item['id'])) {
-                             $fail("The text id '{$item['id']}' at index {$index} in {$attribute} is not a valid UUID.");
+                            $fail("The text id '{$item['id']}' at index {$index} in {$attribute} is not a valid UUID.");
                         }
                         if (!is_int($item['order']) || $item['order'] < 0) {
                             $fail("The order '{$item['order']}' at index {$index} in {$attribute} must be a non-negative integer.");
@@ -96,10 +104,10 @@ class ComponentFormRequest extends FormRequest
                         $ids[] = $item['id'];
                     }
                     if (!empty($ids)) {
-                        $existingIds = \App\Models\ContentText::whereIn('id', $ids)->pluck('id')->all(); // <-- Model ContentText
+                        $existingIds = ContentText::whereIn('id', $ids)->pluck('id')->all(); // <-- Model ContentText
                         $nonExistingIds = array_diff($ids, $existingIds);
                         if (!empty($nonExistingIds)) {
-                             $fail('The following content text IDs in '.$attribute.' do not exist: '.implode(', ', $nonExistingIds));
+                            $fail('The following content text IDs in '.$attribute.' do not exist: '.implode(', ', $nonExistingIds));
                         }
                     }
                 },
@@ -116,7 +124,7 @@ class ComponentFormRequest extends FormRequest
             case 'component.update':
                 return $baseRules;
             case 'component.bulk-destroy':
-                 return [
+                return [
                     'ids' => 'required|array',
                     'ids.*' => ['required', 'uuid', Rule::exists('components', 'id')],
                 ];

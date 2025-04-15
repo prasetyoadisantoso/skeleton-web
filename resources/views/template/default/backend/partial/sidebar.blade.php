@@ -8,7 +8,9 @@
                 <img src="{{$site_logo}}" alt="Laravel Logo" class="logo">
             </div>
             <div class="brand-title py-1">
-                <a href="{{url('/')}}" class="text-decoration-none text-white"><h6 class="font-weight-bold ms-2">{{$system_name}}</h6></a>
+                <a href="{{url('/')}}" class="text-decoration-none text-white">
+                    <h6 class="font-weight-bold ms-2">{{$system_name}}</h6>
+                </a>
             </div>
         </div>
     </div>
@@ -20,7 +22,7 @@
 
         @include('template.default.backend.module.sidebar.main')
 
-        @include('template.default.backend.module.sidebar.component')
+        @include('template.default.backend.module.sidebar.template')
 
         @include('template.default.backend.module.sidebar.navigation')
 

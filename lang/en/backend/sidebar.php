@@ -13,6 +13,7 @@ return [
         // Template
         'template' => 'Template', // New
         'component' => 'Components', // Existing
+        'section' => 'Sections',
         'page' => 'Page', // New
 
         // Content

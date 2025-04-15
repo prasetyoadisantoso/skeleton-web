@@ -124,7 +124,7 @@ class ComponentController extends Controller
                 return [
                     'text' => $statusText,
                     'class' => $badgeClass,
-                    'active' => $isActive // Opsional: kirim status boolean jika diperlukan di JS
+                    'active' => $isActive, // Opsional: kirim status boolean jika diperlukan di JS
                 ];
             })
             ->addColumn('action', function ($data) {
@@ -233,7 +233,6 @@ class ComponentController extends Controller
             return ['id' => $txt->id, 'order' => $txt->pivot->order];
         })->values()->toJson();
 
-
         // Kirim data ke view
         return view('template.default.backend.module.template.component.form',
             array_merge(
@@ -251,7 +250,6 @@ class ComponentController extends Controller
             )
         );
     }
-
 
     public function update(ComponentFormRequest $request, Component $component)
     {

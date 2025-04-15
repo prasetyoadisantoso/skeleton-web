@@ -31,7 +31,8 @@
 
     <!-- Select2 -->
     <link rel="stylesheet" href="{{asset('template/default/assets/select2/dist/css/select2.min.css')}}">
-    <link rel="stylesheet" href="{{asset('template/default/assets/select2/theme/bs5/select2-bootstrap-5-theme.min.css')}}">
+    <link rel="stylesheet"
+        href="{{asset('template/default/assets/select2/theme/bs5/select2-bootstrap-5-theme.min.css')}}">
 
 </head>
 

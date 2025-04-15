@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
-use Spatie\Translatable\HasTranslations;
-use Webpatser\Uuid\Uuid; // <-- Tambahkan jika belum ada
+use Spatie\Translatable\HasTranslations; // <-- Tambahkan jika belum ada
+use Webpatser\Uuid\Uuid;
 
 class Component extends Model
 {
@@ -34,6 +34,15 @@ class Component extends Model
         static::creating(function ($model) {
             $model->{$model->getKeyName()} = (string) Uuid::generate(4);
         });
+    }
+
+    /**
+     * The sections that belong to the component.
+     */
+    public function sections()
+    {
+        return $this->belongsToMany(Section::class, 'component_section') // Tentukan nama tabel pivot
+                    ->withPivot('order');
     }
 
     // --- RELATIONS ---
@@ -110,7 +119,6 @@ class Component extends Model
     {
         $component = $this->find($id);
         if ($component) {
-
             // Ambil data relasi
             $imageOrderInput = Arr::get($data, 'content_images_order', []);
             $textOrderInput = Arr::get($data, 'content_texts_order', []);

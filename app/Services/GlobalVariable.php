@@ -74,6 +74,7 @@ class GlobalVariable
     {
         $general = General::first(); // Use General::first() instead of new General()
         $siteLogo = $general->siteLogo;
+
         return [
             'site_logo' => $siteLogo ? Storage::url($siteLogo->media_files) : null,
         ];

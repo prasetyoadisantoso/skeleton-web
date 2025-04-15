@@ -43,6 +43,7 @@ class DatabaseSeeder extends Seeder
             FooterMenusTableSeeder::class,
             ContentSeeder::class,
             ComponentSeeder::class,
+            SectionSeeder::class,
         ]);
     }
 }

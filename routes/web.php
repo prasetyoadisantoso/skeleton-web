@@ -4,7 +4,6 @@ use App\Http\Controllers\Authentication\AuthController;
 use App\Http\Controllers\Backend\Module\Blog\CategoryController;
 use App\Http\Controllers\Backend\Module\Blog\PostController;
 use App\Http\Controllers\Backend\Module\Blog\TagController;
-use App\Http\Controllers\Backend\Module\Template\Component\ComponentController;
 use App\Http\Controllers\Backend\Module\Content\ContentImage\ContentImageController;
 use App\Http\Controllers\Backend\Module\Content\ContentText\ContentTextController;
 use App\Http\Controllers\Backend\Module\Email\MessageController;
@@ -20,6 +19,8 @@ use App\Http\Controllers\Backend\Module\Settings\GeneralController;
 use App\Http\Controllers\Backend\Module\Settings\SocialMediaController;
 use App\Http\Controllers\Backend\Module\System\ActivityController;
 use App\Http\Controllers\Backend\Module\System\MaintenanceController;
+use App\Http\Controllers\Backend\Module\Template\Component\ComponentController;
+use App\Http\Controllers\Backend\Module\Template\Section\SectionController;
 use App\Http\Controllers\Backend\Module\Users\PermissionController;
 use App\Http\Controllers\Backend\Module\Users\RoleController;
 use App\Http\Controllers\Backend\Module\Users\UserController;
@@ -156,6 +157,15 @@ Route::group(
                 ComponentController::class,
                 'index_dt',
             ])->name('component.datatable');
+
+            // Section (BARU - Mengikuti pola Component)
+            Route::post('section/bulk-delete', [SectionController::class, 'bulkDestroy']) // Route untuk bulk delete
+                ->name('section.bulk-destroy');
+            Route::resource('section', SectionController::class); // Route resource (index, create, store, show, edit, update, destroy)
+            Route::get('section_datatable', [ // Route untuk DataTables
+                SectionController::class,
+                'index_dt', // Menggunakan index_dt sesuai controller
+            ])->name('section.datatable');
 
             // Content Image (BARU)
             Route::post('content-image/bulk-delete', [ContentImageController::class, 'bulkDestroy'])

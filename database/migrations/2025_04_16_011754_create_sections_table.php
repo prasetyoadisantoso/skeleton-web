@@ -10,20 +10,13 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('components', function (Blueprint $table) {
+        Schema::create('sections', function (Blueprint $table) {
             // Menggunakan UUID sebagai primary key
             $table->uuid('id')->primary();
-
-            // Kolom untuk nama komponen, wajib diisi
-            $table->string('name');
-
-            // Kolom untuk deskripsi, bisa kosong (nullable)
+            $table->string('name')->unique();
             $table->text('description')->nullable();
-
-            // Kolom untuk status aktif/tidak aktif, defaultnya true (aktif)
+            $table->string('layout_type');
             $table->boolean('is_active')->default(true);
-
-            // Kolom standar created_at dan updated_at
             $table->timestamps();
         });
     }
@@ -33,7 +26,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        // Hapus tabel 'components' jika migration di-rollback
-        Schema::dropIfExists('components');
+        Schema::dropIfExists('sections');
     }
 };
