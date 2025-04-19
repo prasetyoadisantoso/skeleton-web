@@ -28,7 +28,7 @@ class RoleAndPermissionSeeder extends Seeder
             'main-index',
 
             /* -------------------------------------------------------------------------- */
-            /*                                  Template                                  */
+            /*                                  Template */
             /* -------------------------------------------------------------------------- */
             // Component
             'component-index',
@@ -48,6 +48,14 @@ class RoleAndPermissionSeeder extends Seeder
             'section-update',
             'section-destroy',
 
+            // Layout (BARU)
+            'layout-index',
+            'layout-create',
+            'layout-store',
+            'layout-show',
+            'layout-edit',
+            'layout-update',
+            'layout-destroy',
 
             /* -------------------------------------------------------------------------- */
             /*                                 Navigation */
@@ -306,6 +314,14 @@ class RoleAndPermissionSeeder extends Seeder
             'section-update', // <-- BARU
             'section-destroy', // <-- BARU
 
+            // Layout (BARU)
+            'layout-index',
+            'layout-create',
+            'layout-store',
+            'layout-show',
+            'layout-edit',
+            'layout-update',
+            'layout-destroy',
 
             /* Navigation (Tambahkan ini) */
             'headermenu-index',

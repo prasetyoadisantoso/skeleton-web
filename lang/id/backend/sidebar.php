@@ -15,6 +15,7 @@ return [
         'component' => 'Komponen', // Sudah ada
         'section' => 'Section',
         'page' => 'Halaman', // Baru
+        'layout' => 'Layout',
 
         // Content
         'content' => 'Konten',

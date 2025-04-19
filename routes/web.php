@@ -20,6 +20,7 @@ use App\Http\Controllers\Backend\Module\Settings\SocialMediaController;
 use App\Http\Controllers\Backend\Module\System\ActivityController;
 use App\Http\Controllers\Backend\Module\System\MaintenanceController;
 use App\Http\Controllers\Backend\Module\Template\Component\ComponentController;
+use App\Http\Controllers\Backend\Module\Template\Layout\LayoutController;
 use App\Http\Controllers\Backend\Module\Template\Section\SectionController;
 use App\Http\Controllers\Backend\Module\Users\PermissionController;
 use App\Http\Controllers\Backend\Module\Users\RoleController;
@@ -148,6 +149,11 @@ Route::group(
                 FooterMenuController::class,
                 'index_dt',
             ])->name('footermenu.datatable');
+
+            // Layout
+            Route::resource('layout', LayoutController::class);
+            Route::post('layout/bulk-destroy', [LayoutController::class, 'bulkDestroy'])->name('layout.bulk-destroy');
+            Route::get('layout_datatable', [LayoutController::class, 'index_dt'])->name('layout.datatable');
 
             // Component (CRUD Dasar)
             Route::post('component/bulk-delete', [ComponentController::class, 'bulkDestroy'])

@@ -15,6 +15,7 @@ return [
         'component' => 'Components', // Existing
         'section' => 'Sections',
         'page' => 'Page', // New
+        'layout' => 'Layout',
 
         // Content
         'content' => 'Content',

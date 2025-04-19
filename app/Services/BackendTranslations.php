@@ -35,6 +35,7 @@ class BackendTranslations
         // Template
         $this->component = __('backend/component');
         $this->section = __('backend/section');
+        $this->layout = __('backend/layout');
 
         // Content
         $this->contentimage = __('backend/contentimage');

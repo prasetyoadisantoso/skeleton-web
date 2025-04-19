@@ -44,6 +44,7 @@ class DatabaseSeeder extends Seeder
             ContentSeeder::class,
             ComponentSeeder::class,
             SectionSeeder::class,
+            LayoutSeeder::class,
         ]);
     }
 }

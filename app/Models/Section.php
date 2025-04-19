@@ -63,6 +63,13 @@ class Section extends Model
         });
     }
 
+    public function layouts()
+    {
+        return $this->belongsToMany(Layout::class, 'layout_section', 'section_id', 'layout_id')
+            ->withPivot('location', 'order')
+            ->orderBy('layout_section.order');
+    }
+
     /**
      * The components that belong to the section.
      * Mendefinisikan relasi Many-to-Many ke Component.

@@ -36,6 +36,15 @@
         </li>
         @endcan
 
+        {{-- Submenu Layout --}}
+        @can('layout-index') {{-- Atau permission yang lebih spesifik jika ada --}}
+        <li class="sub-list font-sm">
+            <a href="{{ route('layout.index') }}" class="text-white">
+                <span><i class="fa-solid fa-circle-dot me-3"></i>{{$sidebar['layout'] ?? 'Layouts'}}</span>
+            </a>
+        </li>
+        @endcan
+
 
         {{-- Submenu Page --}}
         @can('page-index') {{-- Permission untuk Page (buat jika belum ada) --}}
