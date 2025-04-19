@@ -5,6 +5,37 @@ namespace App\Services;
 #[\AllowDynamicProperties]
 class BackendTranslations
 {
+    public $header;
+    public $sidebar;
+    public $button;
+    public $notification;
+    public $select;
+    public $main;
+    public $header_menu;
+    public $footer_menu;
+    public $component;
+    public $section;
+    public $layout;
+    public $page;
+    public $contentimage;
+    public $contenttext;
+    public $post;
+    public $medialibrary;
+    public $category;
+    public $tag;
+    public $users;
+    public $permissions;
+    public $roles;
+    public $general;
+    public $social_media;
+    public $message;
+    public $meta;
+    public $canonical;
+    public $opengraph;
+    public $schema;
+    public $activity;
+    public $maintenance;
+
     public function __construct()
     {
         /* -------------------------------------------------------------------------- */
@@ -36,6 +67,7 @@ class BackendTranslations
         $this->component = __('backend/component');
         $this->section = __('backend/section');
         $this->layout = __('backend/layout');
+        $this->page = __('backend/page');
 
         // Content
         $this->contentimage = __('backend/contentimage');

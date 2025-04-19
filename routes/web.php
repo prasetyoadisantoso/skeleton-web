@@ -21,6 +21,7 @@ use App\Http\Controllers\Backend\Module\System\ActivityController;
 use App\Http\Controllers\Backend\Module\System\MaintenanceController;
 use App\Http\Controllers\Backend\Module\Template\Component\ComponentController;
 use App\Http\Controllers\Backend\Module\Template\Layout\LayoutController;
+use App\Http\Controllers\Backend\Module\Template\PageController;
 use App\Http\Controllers\Backend\Module\Template\Section\SectionController;
 use App\Http\Controllers\Backend\Module\Users\PermissionController;
 use App\Http\Controllers\Backend\Module\Users\RoleController;
@@ -137,6 +138,13 @@ Route::group(
             Route::get('main', [MainController::class, 'index'])->name(
                 'dashboard.main'
             );
+
+            // Page Routes
+            Route::resource('page', PageController::class);
+            Route::get('page_datatable', [
+                PageController::class,
+                'index_dt',
+            ])->name('page.datatable');
 
             // Navigation
             Route::resource('headermenu', HeaderMenuController::class);

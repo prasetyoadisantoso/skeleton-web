@@ -47,12 +47,10 @@
 
 
         {{-- Submenu Page --}}
-        @can('page-index') {{-- Permission untuk Page (buat jika belum ada) --}}
-        <li class="sub-list font-sm"> {{-- Tambahkan class active-sub jika perlu styling khusus --}}
-            <a href="{{route('page.index')}}" class="text-white"> {{-- Ganti dengan route page.index (buat jika belum
-                ada) --}}
-                <span><i class="fa-solid fa-circle-dot me-3"></i>{{$sidebar['page'] ?? 'Page'}}</span> {{-- Ganti key
-                translasi (buat jika belum ada) --}}
+        @can('page-index')
+        <li class="sub-list font-sm">
+            <a href="{{route('page.index')}}" class="text-white">
+                <span><i class="fa-solid fa-circle-dot me-3"></i>{{$sidebar['page'] ?? 'Page'}}</span>
             </a>
         </li>
         @endcan

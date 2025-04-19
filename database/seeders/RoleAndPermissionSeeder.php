@@ -57,6 +57,15 @@ class RoleAndPermissionSeeder extends Seeder
             'layout-update',
             'layout-destroy',
 
+            // Page (BARU)
+            'page-index',
+            'page-create',
+            'page-store',
+            'page-show',
+            'page-edit',
+            'page-update',
+            'page-destroy',
+
             /* -------------------------------------------------------------------------- */
             /*                                 Navigation */
             /* -------------------------------------------------------------------------- */
@@ -289,210 +298,7 @@ class RoleAndPermissionSeeder extends Seeder
         $customer = Role::create(['name' => 'customer']);
         $guest = Role::create(['name' => 'guest']);
 
-        $superadmin->givePermissionTo([
-            /* --------------------------- Notification Access -------------------------- */
-            'notification-access',
-
-            /* Main */
-            'main-index',
-
-            /* Component */
-            'component-index',
-            'component-create',
-            'component-store',
-            'component-show',
-            'component-edit',
-            'component-update',
-            'component-destroy',
-
-            // Section
-            'section-index', // <-- BARU
-            'section-create', // <-- BARU
-            'section-store', // <-- BARU
-            'section-show', // <-- BARU
-            'section-edit', // <-- BARU
-            'section-update', // <-- BARU
-            'section-destroy', // <-- BARU
-
-            // Layout (BARU)
-            'layout-index',
-            'layout-create',
-            'layout-store',
-            'layout-show',
-            'layout-edit',
-            'layout-update',
-            'layout-destroy',
-
-            /* Navigation (Tambahkan ini) */
-            'headermenu-index',
-            'headermenu-create',
-            'headermenu-store',
-            'headermenu-show',
-            'headermenu-edit',
-            'headermenu-update',
-            'headermenu-destroy',
-
-            'footermenu-index',
-            'footermenu-create',
-            'footermenu-store',
-            'footermenu-show',
-            'footermenu-edit',
-            'footermenu-update',
-            'footermenu-destroy',
-
-            // Content
-            'contentimage-index',
-            'contentimage-create',
-            'contentimage-store',
-            'contentimage-edit',
-            'contentimage-update',
-            'contentimage-destroy',
-
-            'contenttext-index', // <-- BARU
-            'contenttext-create', // <-- BARU
-            'contenttext-store', // <-- BARU
-            'contenttext-edit', // <-- BARU
-            'contenttext-update', // <-- BARU
-            'contenttext-destroy', // <-- BARU
-
-            /* Blog */
-            'post-index',
-            'post-create',
-            'post-store',
-            'post-show',
-            'post-edit',
-            'post-update',
-            'post-destroy',
-
-            'category-index',
-            'category-create',
-            'category-store',
-            'category-show',
-            'category-edit',
-            'category-update',
-            'category-destroy',
-
-            'tag-index',
-            'tag-create',
-            'tag-store',
-            'tag-show',
-            'tag-edit',
-            'tag-update',
-            'tag-destroy',
-
-            // Media Library
-            'medialibrary-index',
-            'medialibrary-create',
-            'medialibrary-store',
-            'medialibrary-show',
-            'medialibrary-edit',
-            'medialibrary-update',
-            'medialibrary-destroy',
-
-            /* Email */
-            'message-index',
-            'message-create',
-            'message-store',
-            'message-show',
-            'message-edit',
-            'message-update',
-            'message-destroy',
-
-            /* User */
-            'user-index',
-            'user-create',
-            'user-store',
-            'user-show',
-            'user-edit',
-            'user-update',
-            'user-destroy',
-
-            'role-index',
-            'role-create',
-            'role-store',
-            'role-show',
-            'role-edit',
-            'role-update',
-            'role-destroy',
-
-            'permission-index',
-            'permission-create',
-            'permission-store',
-            'permission-show',
-            'permission-edit',
-            'permission-update',
-            'permission-destroy',
-
-            /* Settings */
-            'general-index',
-            'general-update',
-
-            'socialmedia-index',
-            'socialmedia-create',
-            'socialmedia-store',
-            'socialmedia-show',
-            'socialmedia-edit',
-            'socialmedia-update',
-            'socialmedia-destroy',
-
-            /* SEO */
-            'meta-index',
-            'meta-create',
-            'meta-store',
-            'meta-show',
-            'meta-edit',
-            'meta-update',
-            'meta-destroy',
-
-            'canonical-index',
-            'canonical-create',
-            'canonical-store',
-            'canonical-show',
-            'canonical-edit',
-            'canonical-update',
-            'canonical-destroy',
-
-            'opengraph-index',
-            'opengraph-create',
-            'opengraph-store',
-            'opengraph-show',
-            'opengraph-edit',
-            'opengraph-update',
-            'opengraph-destroy',
-
-            'schema-index',
-            'schema-create',
-            'schema-store',
-            'schema-show',
-            'schema-edit',
-            'schema-update',
-            'schema-destroy',
-
-            /* System */
-            'activity-index',
-            'activity-create',
-            'activity-store',
-            'activity-show',
-            'activity-edit',
-            'activity-update',
-            'activity-destroy',
-
-            'maintenance-index',
-
-            /* Sidebar */
-            'main-sidebar',
-            'template-sidebar',
-            'navigation-sidebar',
-            'content-sidebar',
-            'blog-sidebar',
-            'setting-sidebar',
-            'email-sidebar',
-            'seo-sidebar',
-            'user-sidebar',
-            'system-sidebar',
-            'email-sidebar',
-            'medialibrary-sidebar',
-        ]);
+        $superadmin->givePermissionTo($user_access);
 
         $administrator->givePermissionTo([
             /* --------------------------- Notification Access -------------------------- */
